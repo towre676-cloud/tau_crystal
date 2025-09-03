@@ -1,0 +1,28 @@
+﻿name: monograph-assurance
+on:
+  push:
+  pull_request:
+
+jobs:
+  assure:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Lean (elan)
+        shell: pwsh
+        run: |
+          iwr -useb https://raw.githubusercontent.com/leanprover/elan/master/elan-init.ps1 | iex
+          echo "$env:USERPROFILE\.elan\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          & "$env:USERPROFILE\.elan\bin\elan.exe" toolchain install leanprover/lean4:v4.22.0
+          & "$env:USERPROFILE\.elan\bin\elan.exe" default leanprover/lean4:v4.22.0
+
+      - name: Show versions
+        shell: pwsh
+        run: |
+          & "$env:USERPROFILE\.elan\bin\lean.exe" --version
+          & "$env:USERPROFILE\.elan\bin\lake.exe" --version
+
+      - name: Run assurance
+        shell: pwsh
+        run: powershell -ExecutionPolicy Bypass -File .\assure.ps1
