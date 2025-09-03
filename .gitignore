@@ -1,0 +1,29 @@
+# Lake/Lean build artifacts
+.lake/
+*.olean
+*.ilean
+*.c
+*.o
+*.obj
+*.dll
+*.dylib
+*.dynlib
+*.exe
+
+# Local runs, logs, and manifests
+manifest*.json
+*.log
+assure_last.log
+assure.last.log
+s1.out
+s2.out
+lake-manifest.json
+m075.json
+out.json
+
+# Editor & backups
+.vscode/
+*.bak
+*.off
+*~
+.DS_Store

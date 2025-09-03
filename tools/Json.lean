@@ -1,0 +1,24 @@
+﻿import Std
+namespace Tools
+namespace Json
+def escape (s : String) : String :=
+  let bslash := "\\"
+  let q := "\""
+  s.foldl (fun acc c =>
+    acc ++
+    match c with
+    | '\"' => bslash ++ q
+    | '\\' => bslash ++ bslash
+    | '\n' => "\\n"
+    | '\r' => "\\r"
+    | '\t' => "\\t"
+    | _    => String.singleton c) ""
+def arrNat (xs : List Nat) : String :=
+  "[" ++ String.intercalate ", " (xs.map (fun n => toString n)) ++ "]"
+def arrStr (xs : List String) : String :=
+  "[" ++ String.intercalate ", " (xs.map (fun s => "\"" ++ escape s ++ "\"")) ++ "]"
+def arrFloat (xs : List Float) : String :=
+  "[" ++ String.intercalate ", " (xs.map (fun f => toString f)) ++ "]"
+end Json
+end Tools
+

@@ -1,0 +1,18 @@
+﻿import Std
+namespace Tools
+namespace QCRO
+
+structure CoverSig where
+  nerveEdges : Nat
+  nerveFaces : Nat
+deriving Repr
+
+def emit (obs : Int) (qs : List Float) (sig : CoverSig) : IO PUnit := do
+  let phi (q : Float) : Float :=
+    1.0 + q * Float.ofNat sig.nerveEdges + (q*q) * Float.ofNat sig.nerveFaces
+  for q in qs do
+    IO.println s!"qCRO: q={q}, value={(phi q) * Float.ofInt obs}"
+
+end QCRO
+end Tools
+
