@@ -27,3 +27,6 @@ out.json
 *.off
 *~
 .DS_Store
+
+# ledger logs
+logs/
