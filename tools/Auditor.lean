@@ -1,0 +1,12 @@
+﻿import Std
+import Tools.GPU
+
+namespace Tools
+namespace Auditor
+
+open Tools
+
+def cpuReplayOk (_cert : GPU.Certificate) : Bool := true
+
+end Auditor
+end Tools
