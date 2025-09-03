@@ -9,6 +9,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Install Lean (elan)
         shell: pwsh
         run: |
@@ -18,6 +19,7 @@ jobs:
           & "$env:USERPROFILE\.elan\bin\elan.exe" default leanprover/lean4:v4.22.0
           & "$env:USERPROFILE\.elan\bin\lean.exe" --version
           & "$env:USERPROFILE\.elan\bin\lake.exe" --version
+
       - name: Cache Lake build
         uses: actions/cache@v4
         with:
@@ -27,6 +29,7 @@ jobs:
           key: ${{ runner.os }}-lake-${{ hashFiles('lakefile.lean', 'lakefile.toml') }}
           restore-keys: |
             ${{ runner.os }}-lake-
+
       - name: Run assurance harness
         shell: pwsh
         run: powershell -ExecutionPolicy Bypass -File .\assure.ps1
