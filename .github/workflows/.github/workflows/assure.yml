@@ -1,11 +1,5 @@
 name: monograph-assurance
-
-on:
-  push:
-  pull_request:
-
-permissions:
-  contents: read
+on: [push, pull_request]
 
 jobs:
   assure:
@@ -13,28 +7,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Install Lean toolchain via elan and pin to Lean 4.22.0
-      - name: Install Lean (elan)
+      - name: Install elan (Lean toolchain, non-interactive)
         shell: pwsh
         run: |
-          iwr -useb https://raw.githubusercontent.com/leanprover/elan/master/elan-init.ps1 | iex
-          $env:Path = "$env:USERPROFILE\.elan\bin;$env:Path"
-          & "$env:USERPROFILE\.elan\bin\elan.exe" toolchain install leanprover/lean4:v4.22.0
-          & "$env:USERPROFILE\.elan\bin\elan.exe" default leanprover/lean4:v4.22.0
-          & "$env:USERPROFILE\.elan\bin\lean.exe" --version
-          & "$env:USERPROFILE\.elan\bin\lake.exe" --version
+          $ErrorActionPreference = 'Stop'
+          Invoke-WebRequest -Uri https://raw.githubusercontent.com/leanprover/elan/master/elan-init.ps1 -OutFile elan-init.ps1
+          .\elan-init.ps1 -NoPrompt -DefaultToolchain "leanprover/lean4:stable"
+          "$env:USERPROFILE\.elan\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
-      # (Optional) cache Lake artifacts to speed up builds
-      - name: Cache Lake build
-        uses: actions/cache@v4
-        with:
-          path: |
-            .lake/build
-            .lake/packages
-          key: ${{ runner.os }}-lake-${{ hashFiles('lakefile.lean', 'lakefile.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-lake-
-
-      - name: Run assurance harness
-        shell: pwsh
-        run: powershell -ExecutionPolicy Bypass -File .\assure.ps1
+      - name: Run assurance (bash harness)
+        shell: bash
+        run: |
+          set -euo pipefail
+          dos2unix assure.sh 2>/dev/null || true
+          ./assure.sh
