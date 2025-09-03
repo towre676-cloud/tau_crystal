@@ -9,11 +9,12 @@ permissions:
 jobs:
   assure:
     runs-on: windows-latest
+    env:
+      TAUCRYSTAL_SIG_KEY: ${{ secrets.TAUCRYSTAL_SIG_KEY }}
     steps:
       - uses: actions/checkout@v4
 
-      # Install Lean (elan) NON-INTERACTIVE
-      - name: Install Lean (elan)
+      - name: Install Lean (elan) non-interactive
         shell: bash
         run: |
           set -euxo pipefail
@@ -29,7 +30,6 @@ jobs:
           lean --version
           lake --version
 
-      # Optional cache to speed builds
       - name: Cache Lake build
         uses: actions/cache@v4
         with:
@@ -43,3 +43,15 @@ jobs:
       - name: Run assurance harness
         shell: pwsh
         run: powershell -ExecutionPolicy Bypass -File .\assure.ps1
+
+      - name: Upload signed manifests
+        uses: actions/upload-artifact@v4
+        with:
+          name: manifests
+          path: |
+            manifest_assure1.json
+            manifest_assure1.json.sha256
+            manifest_assure1.json.hmac
+            manifest_assure2.json
+            manifest_assure2.json.sha256
+            manifest_assure2.json.hmac
