@@ -16,10 +16,13 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install numpy
-        run: python -m pip install --upgrade pip && pip install numpy
+      - name: Install deps
+        run: python -m pip install --upgrade pip && pip install numpy pynacl
 
       - name: Run bash ledger
+        env:
+          # OPTIONAL: set this secret in repo settings for real Ed25519 signatures
+          ED25519_SK_B64: ${{ secrets.ED25519_SK_B64 }}
         run: bash -x scripts/run_ledger_from_bash.sh
 
       - name: Upload manifest
@@ -27,3 +30,17 @@ jobs:
         with:
           name: manifest
           path: manifest.json
+
+      - name: Show summary
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          m = json.loads(pathlib.Path("manifest.json").read_text())
+          print("### Manifest SHA256")
+          print(f"`{m['manifest_sha256']}`")
+          print("### Pivot digest")
+          print(f"`{m['rank']['pivot_digest_hex']}`")
+          if "signature" in m:
+            print("### Signature")
+            print(f"{m['signature']['scheme']}")
+          PY
