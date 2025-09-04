@@ -2,51 +2,27 @@ name: assure
 on:
   push:
   pull_request:
-
 jobs:
-  run-assure:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Cache elan toolchains
-        uses: actions/cache@v4
-        with:
-          path: ~/.elan
-          key: elan-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}
-          restore-keys: elan-${{ runner.os }}-
-
       - name: Install elan (Lean toolchain)
         run: |
-          curl -L https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o elan-init.sh
-          bash elan-init.sh -y
-          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
-          "$HOME/.elan/bin/elan" default "$(cat lean-toolchain)"
-          "$HOME/.elan/bin/lean" --version
-          "$HOME/.elan/bin/lake" --version || true
-
-      - name: Make scripts executable
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+      - name: Show tool versions
         run: |
-          chmod +x assure.sh || true
-          test -e tools/verify_linear.sh && chmod +x tools/verify_linear.sh || true
-          test -e tools/verify_linear_reps.sh && chmod +x tools/verify_linear_reps.sh || true
-
-      - name: Assurance harness
-        run: ./assure.sh
-
-      - name: Linear-in-size probe
-        if: ${{ hashFiles('tools/verify_linear.sh') != '' }}
-        run: ./tools/verify_linear.sh | tee linear_size.csv
-
-      - name: Linear-in-reps probe
-        if: ${{ hashFiles('tools/verify_linear_reps.sh') != '' }}
-        run: ./tools/verify_linear_reps.sh | tee linear_reps.csv
-
-      - name: Upload probe CSVs
-        if: ${{ always() }}
+          lean --version
+          lake --version
+      - name: Build
+        run: lake build
+      - name: Emit receipt
+        run: bash scripts/assure.sh
+      - name: Upload manifest
         uses: actions/upload-artifact@v4
         with:
-          name: linearity-probes
+          name: tau-crystal-manifest
           path: |
-            linear_size.csv
-            linear_reps.csv
+            out/manifest.json
+            out/fusion.stdout.txt
