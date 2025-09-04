@@ -1,13 +1,12 @@
 import Lake
 open Lake DSL
 
-package tau_crystal where
+package tau_crystal
 
-  "https://github.com/leanprover-community/batteries" @ "v4.22.0"
+-- Build the TauCrystal library (only what’s under TauCrystal/)
+lean_lib TauCrystal where
+  globs := #[.submodules `TauCrystal]
 
-lean_lib tau_crystal_lib where
-  roots := #[`TauCrystal]
-
-@[default_target]
-lean_exe tau_crystal where
-  root := `Main2
+-- Keep the tiny fusion tool
+lean_exe fusion where
+  root := `FusionMain
