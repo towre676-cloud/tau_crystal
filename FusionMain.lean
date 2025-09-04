@@ -8,6 +8,11 @@ import TauCrystal.Edition
 
 open Std
 
+def atD {α} (xs : List α) (i : Nat) (d : α) : α :=
+  match xs.get? i with
+  | some a => a
+  | none   => d
+
 structure Manifest where
   edition       : String
   hash          : String
@@ -43,16 +48,17 @@ def main : IO Unit := do
   let (_rob, sig) := TauCrystal.Robust.stabilize roi 2.5
   let shards : List TauCrystal.Stratify.Stratum :=
     if TauCrystal.Edition.goldFeaturesEnabled then
-      [{id:=0, size:=120000},{id:=1, size:=120000},{id:=2, size:=100000}]
+      [{id := 0, size := 120000}, {id := 1, size := 120000}, {id := 2, size := 100000}]
     else
-      [{id:=0, size:=50000},{id:=1, size:=50000},{id:=2, size:=40000}]
+      [{id := 0, size := 50000}, {id := 1, size := 50000}, {id := 2, size := 40000}]
   let cm := TauCrystal.Stratify.estimateCost shards 1.0 0.05
-  -- Čech obstruction from ROI sections over a tiny cover
+  -- Čech obstruction
   let cover : TauCrystal.Sheaf.Cover := [(0,"U0"),(1,"U1"),(2,"U2")]
-  let insts := [{TauCrystal.EconRisk.Instrument.mk 0 "U0"}, {TauCrystal.EconRisk.Instrument.mk 1 "U1"}, {TauCrystal.EconRisk.Instrument.mk 2 "U2"}]
-  let lsecs := TauCrystal.EconRisk.roiPresheaf insts (fun i => roi.getD i.id 0.0)
+  let insts : List TauCrystal.EconRisk.Instrument :=
+    [{ id := 0, name := "U0" }, { id := 1, name := "U1" }, { id := 2, name := "U2" }]
+  let lsecs := TauCrystal.EconRisk.roiPresheaf insts (fun i => atD roi i.id 0.0)
   let cech := TauCrystal.Sheaf.assemble cover lsecs 1.0
-  let obs := TauCrystal.Sheaf.obstructionL1 cech
+  let obs  := TauCrystal.Sheaf.obstructionL1 cech
   -- deterministic key
   let key := TauCrystal.Sheaf.fnv1a64 (toString ps ++ toString risk ++ toString bars ++ toString sig ++ toString obs)
   let mani : Manifest := {
