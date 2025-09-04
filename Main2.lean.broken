@@ -1,0 +1,5 @@
+﻿import Batteries
+import TauCrystal
+
+def main (argv : List String) : IO UInt32 :=
+  TauCrystal.run argv
