@@ -1,0 +1,11 @@
+import Lake
+open Lake DSL
+
+package «tau_crystal» where
+
+lean_lib Core
+lean_lib Tools
+
+@[default_target]
+lean_exe tau_crystal where
+  root := `Main2

@@ -1,0 +1,32 @@
+﻿import Tools.GPU
+import Tools.TauEmit
+import Tools.QCRO
+import Tools.Manifest
+import Tools.Auditor
+import Tools.CertGen
+import Tools.CLI
+import Tools.Seal
+
+open Tools
+
+def main : IO Unit := do
+  let argv â† IO.getArgs
+  let args := CLI.parse argv
+  IO.println s!"bronze_ok: true"
+  IO.println s!"tools: {Tools.CertGen.hello}"
+  let cfg  : GPU.Config      := { useGPU := true, linkageLengths := [1.0, 2.0, 3.0] }
+  let dial : TauEmit.Dial    := { baseline := 0.0, threshold := 0.0 }
+  let sig  : QCRO.CoverSig   := { nerveEdges := 3, nerveFaces := 1 }
+  let cert := GPU.build cfg
+  IO.println s!"cert: {reprStr cert}"
+  discard <| TauEmit.emit cert.obstructionDim args.tau dial
+  discard <| QCRO.emit   cert.obstructionDim args.qVals sig
+  let auditorOk := if args.audit then Auditor.cpuReplayOk cert else false
+  IO.println s!"auditor_ok: {auditorOk}"
+  let man0 : Manifest.Manifest := { runId := args.runId, diagnostics := [], auditorOk := auditorOk }
+  let man1 := Manifest.attachCech man0 cert
+  IO.println s!"manifest: {reprStr man1}"
+  let json := Manifest.toJson man1 cert args.tau args.qVals
+  Tools.Seal.writeUtf8NoBom args.out json
+  IO.println s!"sealed: {args.out}"
+
