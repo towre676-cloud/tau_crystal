@@ -4,6 +4,7 @@ The project certifies not merely outputs but execution paths. Every build binds 
 
 ![CI: assure.yml](https://github.com/towre676-cloud/tau_crystal/actions/workflows/assure.yml/badge.svg?branch=main)
 ![CI: ci.yml](https://github.com/towre676-cloud/tau_crystal/actions/workflows/ci.yml/badge.svg?branch=main)
+![CI: codeql.yml](https://github.com/towre676-cloud/tau_crystal/actions/workflows/codeql.yml/badge.svg?branch=main)
 ![CI: ledger-tau.yml](https://github.com/towre676-cloud/tau_crystal/actions/workflows/ledger-tau.yml/badge.svg?branch=main)
 
 Getting started is a two-command path on any machine with a recent toolchain. First, install elan (which supplies Lean and Lake) and confirm the versions; second, build the library and invoke a single assurance script that emits a canonical manifest. The same commands run in CI and on your desktop so the attestation story is uniform.
@@ -19,3 +20,6 @@ lake --version
 lake build
 ./scripts/assure.sh
 ```
+
+---
+Read the monograph: [docs/MONOGRAPH.md](docs/MONOGRAPH.md)
