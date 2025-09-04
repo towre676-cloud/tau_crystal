@@ -33,3 +33,4 @@ logs/
 .lake/
 lake-manifest.json
 out/
+.github/protect-main.json
