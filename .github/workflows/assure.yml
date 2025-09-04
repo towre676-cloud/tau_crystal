@@ -11,7 +11,7 @@ jobs:
         run: |
           curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
-      - name: Show tool versions
+      - name: Show versions
         run: |
           lean --version
           lake --version
