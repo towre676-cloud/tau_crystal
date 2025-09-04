@@ -1,5 +1,4 @@
 import Std
-import TauCrystal
 import TauCrystal.Sheaf
 import TauCrystal.EconRisk
 import TauCrystal.Topology
@@ -8,7 +7,6 @@ import TauCrystal.Stratify
 import TauCrystal.Edition
 
 open Std
-open TauCrystal
 
 structure Manifest where
   edition       : String
@@ -35,41 +33,36 @@ def demoROI : List Float :=
 
 def main : IO Unit := do
   let roi := demoROI
-  let ps  := Sheaf.pulse roi
-  let risk := EconRisk.certifyRisk roi
-  let bars := Topology.bars roi 0.0
-  let ref  := Topology.bars ((List.range roi.length).map (fun _ => 0.0)) 0.0
-  let life := Topology.lifetime bars
-  let mass := Topology.mass bars
-  let bn   := Topology.bottleneck bars ref
-  let (rob, sig) := Robust.stabilize roi 2.5
-  let shards : List Stratify.Stratum :=
+  let ps  := TauCrystal.Sheaf.pulse roi
+  let risk := TauCrystal.EconRisk.certifyRisk roi
+  let bars := TauCrystal.Topology.bars roi 0.0
+  let ref  := TauCrystal.Topology.bars ((List.range roi.length).map (fun _ => 0.0)) 0.0
+  let life := TauCrystal.Topology.lifetime bars
+  let mass := TauCrystal.Topology.mass bars
+  let bn   := TauCrystal.Topology.bottleneck bars ref
+  let (_rob, sig) := TauCrystal.Robust.stabilize roi 2.5
+  let shards : List TauCrystal.Stratify.Stratum :=
     if TauCrystal.Edition.goldFeaturesEnabled then
       [{id:=0, size:=120000},{id:=1, size:=120000},{id:=2, size:=100000}]
     else
       [{id:=0, size:=50000},{id:=1, size:=50000},{id:=2, size:=40000}]
-  let cm := Stratify.estimateCost shards 1.0 0.05
-  -- Build a tiny cover and compute Čech obstruction from ROI-as-sections
-  let cover : Sheaf.Cover := [(0,"U0"),(1,"U1"),(2,"U2")]
-  let insts := [{EconRisk.Instrument.mk 0 "U0"},
-                {EconRisk.Instrument.mk 1 "U1"},
-                {EconRisk.Instrument.mk 2 "U2"}]
-  let lsecs := EconRisk.roiPresheaf insts (fun i =>
-                  let idx := i.id
-                  let x := roi.getD idx 0.0
-                  x)
-  let cech := Sheaf.assemble cover lsecs 1.0
-  let obs := Sheaf.obstructionL1 cech
-  -- Deterministic internal key
-  let key := Sheaf.fnv1a64 (toString ps ++ toString risk ++ toString bars ++ toString sig ++ toString obs)
+  let cm := TauCrystal.Stratify.estimateCost shards 1.0 0.05
+  -- Čech obstruction from ROI sections over a tiny cover
+  let cover : TauCrystal.Sheaf.Cover := [(0,"U0"),(1,"U1"),(2,"U2")]
+  let insts := [{TauCrystal.EconRisk.Instrument.mk 0 "U0"}, {TauCrystal.EconRisk.Instrument.mk 1 "U1"}, {TauCrystal.EconRisk.Instrument.mk 2 "U2"}]
+  let lsecs := TauCrystal.EconRisk.roiPresheaf insts (fun i => roi.getD i.id 0.0)
+  let cech := TauCrystal.Sheaf.assemble cover lsecs 1.0
+  let obs := TauCrystal.Sheaf.obstructionL1 cech
+  -- deterministic key
+  let key := TauCrystal.Sheaf.fnv1a64 (toString ps ++ toString risk ++ toString bars ++ toString sig ++ toString obs)
   let mani : Manifest := {
     edition       := TauCrystal.Edition.name,
     hash          := key,
-    pulses        := Sheaf.pulsesJson ps,
-    risk          := EconRisk.riskJson risk,
-    bars          := Topology.barsJson bars,
-    robust        := Robust.robustJson sig,
-    strata        := Stratify.strataJson shards,
+    pulses        := TauCrystal.Sheaf.pulsesJson ps,
+    risk          := TauCrystal.EconRisk.riskJson risk,
+    bars          := TauCrystal.Topology.barsJson bars,
+    robust        := TauCrystal.Robust.robustJson sig,
+    strata        := TauCrystal.Stratify.strataJson shards,
     lifetime      := life,
     mass          := mass,
     bottleneck    := bn,
