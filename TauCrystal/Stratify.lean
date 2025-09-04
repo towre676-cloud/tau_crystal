@@ -1,5 +1,7 @@
 import Std
+
 namespace TauCrystal.Stratify
+
 open Std
 
 structure Stratum where
@@ -11,12 +13,12 @@ def colimitSize (ss : List Stratum) : Nat :=
   ss.foldl (fun acc s => acc + s.size) 0
 
 structure CostModel where
-  a    : Float
-  b    : Float
+  a : Float
+  b : Float
   cost : Float
 deriving Repr, Inhabited
 
-def estimateCost (ss : List Stratum) (a : Float := 1.0) (b : Float := 0.05) : CostModel :=
+def estimateCost (ss : List Stratum) (a b : Float := (1.0, 0.05)) : CostModel :=
   let n := Float.ofNat (colimitSize ss)
   let m := Float.ofNat ss.length
   { a := a, b := b, cost := a * n + b * m }

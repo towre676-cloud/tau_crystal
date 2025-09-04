@@ -1,9 +1,8 @@
 import Std
-namespace TauCrystal.Topology
-open Std
 
-def fmax (a b : Float) : Float :=
-  if a < b then b else a
+namespace TauCrystal.Topology
+
+open Std
 
 structure Bar where
   birth  : Nat
@@ -12,20 +11,17 @@ structure Bar where
 deriving Repr, Inhabited
 
 def bars (xs : List Float) (θ : Float := 0.0) : List Bar :=
-  let rec go (i : Nat) (openp : Bool) (b : Nat) (hmax : Float) (rs : List Float) (out : List Bar) :=
-    match rs with
+  let rec go (i : Nat) (open? : Bool) (b : Nat) (hmax : Float) (rest : List Float) (out : List Bar) :=
+    match rest with
     | [] =>
-      if openp then ({birth := b, death := i, height := hmax} :: out).reverse else out.reverse
-    | x :: tail =>
+      if open? then {birth := b, death := i, height := hmax} :: out |>.reverse else out.reverse
+    | x :: rs =>
       let above := x > θ
-      if !openp && !above then
-        go (i+1) false b hmax tail out
-      else if !openp && above then
-        go (i+1) true i x tail out
-      else if openp && above then
-        go (i+1) true b (fmax hmax x) tail out
-      else
-        go (i+1) false b hmax tail ({birth := b, death := i, height := hmax} :: out)
+      match open?, above with
+      | false, false => go (i+1) false b hmax rs out
+      | false, true  => go (i+1) true  i x    rs out
+      | true,  true  => go (i+1) true  b (Float.max hmax x) rs out
+      | true,  false => go (i+1) false b hmax rs ({birth := b, death := i, height := hmax} :: out)
   go 0 false 0 0.0 xs []
 
 def lifetime (bs : List Bar) : Nat :=
@@ -36,14 +32,11 @@ def mass (bs : List Bar) : Float :=
 
 def bottleneck (a b : List Bar) : Float :=
   let n := Nat.min a.length b.length
-  let rec mkPairs (i : Nat) (acc : List (Bar × Bar)) :=
-    if i >= n then acc.reverse else mkPairs (i+1) ((a[i]!, b[i]!) :: acc)
-  let pairs := mkPairs 0 []
-  pairs.foldl (fun acc (x, y) =>
+  let pairs := (List.range n).map (fun i => (a.get! i, b.get! i))
+  pairs.foldl (fun acc ⟨x,y⟩ =>
     let la := Float.ofNat (x.death - x.birth)
     let lb := Float.ofNat (y.death - y.birth)
-    let d  := Float.abs (la - lb)
-    if acc < d then d else acc) 0.0
+    Float.max acc (Float.abs (la - lb))) 0.0
 
 def barJson (b : Bar) : String :=
   s!"{{\"birth\":{b.birth},\"death\":{b.death},\"height\":{b.height}}}"
