@@ -30,3 +30,6 @@ out.json
 
 # ledger logs
 logs/
+.lake/
+lake-manifest.json
+out/
