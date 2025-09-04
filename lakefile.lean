@@ -1,12 +1,7 @@
 import Lake
 open Lake DSL
 
-package «tau_crystal» where
+package tau_crystal
 
-lean_lib «TauCrystal» where
-  -- include only modules under TauCrystal/ (Accel/* has been moved to legacy/)
-  globs := #[.submodules `TauCrystal]
-
-lean_exe «fusion» where
+lean_exe fusion where
   root := `FusionMain
-  supportInterpreter := true
