@@ -6,23 +6,27 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Create manifest
+      - name: Create manifest (Linux)
         run: |
           mkdir -p out
-          cat > out/manifest.json <<JSON
+          ts=$(date -u +%FT%TZ)
+          cat > out/manifest.json <<'EOF'
           {
-            "receipt_version": 1,
+            "kind": "tau-crystal-receipt",
+            "version": 1,
+            "timestamp": "__TS__",
             "run_id": "${{ github.run_id }}",
             "sha": "${{ github.sha }}",
             "repo": "${{ github.repository }}",
-            "event": "${{ github.event_name }}"
+            "event": "${{ github.event_name }}",
+            "os": "linux"
           }
-          JSON
+          EOF
+          sed -i "s/__TS__/$ts/" out/manifest.json
 
       - name: Show manifest
         run: cat out/manifest.json
