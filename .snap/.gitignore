@@ -1,0 +1,5 @@
+
+# local captures & scratch
+.snap/
+cookies.txt
+pr-*.png
