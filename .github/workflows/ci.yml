@@ -2,11 +2,38 @@ name: win-ci
 
 on:
   push:
-    branches: [ "main" ]   # don't run on feature branches
+    branches: [ "**" ]          # keep as-is; this job will upload the manifest
+  pull_request:
 
 jobs:
-  noop:
+  win:
     runs-on: windows-latest
     steps:
-      - name: Skip for screenshots
-        run: echo "Windows CI disabled on non-main branches for now."
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create manifest (Windows)
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path out | Out-Null
+          $o = @{
+            receipt_version = 1
+            run_id          = "${{ github.run_id }}"
+            sha             = "${{ github.sha }}"
+            repo            = "${{ github.repository }}"
+            event           = "${{ github.event_name }}"
+            os              = "windows"
+          } | ConvertTo-Json -Compress
+          Set-Content -NoNewline -Path out/manifest.json -Value $o -Encoding UTF8
+
+      - name: Show manifest (Windows)
+        shell: pwsh
+        run: Get-Content out/manifest.json
+
+      - name: Upload manifest (Windows)
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-crystal-manifest
+          path: out/manifest.json
+          if-no-files-found: error
+          retention-days: 7
