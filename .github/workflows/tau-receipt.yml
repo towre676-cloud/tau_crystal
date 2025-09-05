@@ -1,11 +1,10 @@
 name: tau-receipt
-
 on:
   pull_request:
     branches: [ main ]
   push:
     branches:
-      - chore/ci-ping   # <-- if your PR branch is different, change this
+      - chore/ci-ping
 
 concurrency:
   group: receipt-${{ github.ref }}
@@ -13,13 +12,11 @@ concurrency:
 
 jobs:
   receipt:
-    # This job name is the status check name on the PR
     name: Tau Crystal Receipt
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Write receipt (same for push/PR)
+      - name: Write receipt
         shell: bash
         run: |
           set -euo pipefail
@@ -33,13 +30,8 @@ jobs:
             "runner": "tau-receipt.yml"
           }' > tau-crystal-receipt.json
           cat tau-crystal-receipt.json
-
-      - name: Verify receipt contents
-        run: |
-          jq -e '.kind=="tau-crystal-receipt"' tau-crystal-receipt.json >/dev/null
-          echo "Receipt verified"
-
-      # Optional: upload artifact with the exact name reviewers expect
+      - name: Verify receipt
+        run: jq -e '.kind=="tau-crystal-receipt"' tau-crystal-receipt.json >/dev/null
       - name: Upload artifact (expected name)
         uses: actions/upload-artifact@v4
         with:
