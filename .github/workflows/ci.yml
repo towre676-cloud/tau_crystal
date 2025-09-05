@@ -6,11 +6,35 @@ on:
 
 jobs:
   win-ci:
-    name: win-ci (allow failure)
+    name: win-ci
     runs-on: windows-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
-      - name: Placeholder
+
+      - name: Install elan (Lean toolchain)
         shell: pwsh
-        run: echo "Windows CI placeholder; allowed to fail for now."
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $ProgressPreference = 'SilentlyContinue'
+
+          Invoke-WebRequest `
+            -Uri https://raw.githubusercontent.com/leanprover/elan/master/elan-init.ps1 `
+            -OutFile elan-init.ps1
+
+          # Note the explicit boolean for -NoPrompt
+          powershell -NoProfile -ExecutionPolicy Bypass -File .\elan-init.ps1 -NoPrompt:$true
+
+          "$env:USERPROFILE\.elan\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          elan --version
+
+          if (Test-Path .\lean-toolchain) {
+            $tc = Get-Content -Raw .\lean-toolchain
+            Write-Host "Selecting toolchain: $tc"
+            elan default $tc
+          } else {
+            Write-Host "No lean-toolchain file; keeping installer default."
+          }
+
+      - name: Build (placeholder)
+        shell: pwsh
+        run: elan show
