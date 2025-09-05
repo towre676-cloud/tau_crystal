@@ -33,3 +33,8 @@ logs/
 .lake/
 lake-manifest.json
 out/
+
+# local artifacts
+engine.bin
+pr-2-with-receipt.png
+
