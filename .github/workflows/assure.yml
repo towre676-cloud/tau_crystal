@@ -9,6 +9,34 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Emit Tau Crystal Receipt for Guardian
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > tau-crystal-receipt.json <<JSON
+          {
+            "kind": "tau-crystal-receipt",
+            "version": "1",
+            "repo": "${{ github.repository }}",
+            "sha":  "${{ github.sha }}",
+            "run_id": "${{ github.run_id }}",
+            "event": "${{ github.event_name }}",
+            "runner": "assure.yml:build"
+          }
+          JSON
+          cp tau-crystal-receipt.json manifest.json
+          command -v jq >/dev/null || sudo apt-get update && sudo apt-get install -y jq
+          jq -e ".kind==\"tau-crystal-receipt\"" tau-crystal-receipt.json >/dev/null
+          jq -e ".kind==\"tau-crystal-receipt\"" manifest.json >/dev/null
+
+      - name: Upload artifact for Guardian (exact name)
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-crystal-manifest
+          path: |
+            tau-crystal-receipt.json
+            manifest.json
+          if-no-files-found: error
 
       - name: Create manifest (Linux)
         run: |
