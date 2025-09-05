@@ -2,18 +2,27 @@ name: assure
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Create manifest
         run: |
           mkdir -p out
-          echo '{"receipt_version":1,"run_id":"${{ github.run_id }}","sha":"${{ github.sha }}"}' > out/manifest.json
+          cat > out/manifest.json <<JSON
+          {
+            "receipt_version": 1,
+            "run_id": "${{ github.run_id }}",
+            "sha": "${{ github.sha }}",
+            "repo": "${{ github.repository }}",
+            "event": "${{ github.event_name }}"
+          }
+          JSON
 
       - name: Show manifest
         run: cat out/manifest.json
