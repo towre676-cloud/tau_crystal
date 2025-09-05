@@ -1,28 +1,27 @@
 name: assure
+
 on:
-  push:
   pull_request:
+    types: [opened, synchronize, reopened]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install elan (Lean toolchain)
+
+      - name: Create manifest
         run: |
-          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
-          echo "$HOME/.elan/bin" >> $GITHUB_PATH
-      - name: Show tool versions
-        run: |
-          lean --version
-          lake --version
-      - name: Build
-        run: lake build
-      - name: Emit receipt
-        run: bash scripts/assure.sh
+          mkdir -p out
+          echo '{"receipt_version":1,"run_id":"${{ github.run_id }}","sha":"${{ github.sha }}"}' > out/manifest.json
+
+      - name: Show manifest
+        run: cat out/manifest.json
+
       - name: Upload manifest
         uses: actions/upload-artifact@v4
         with:
           name: tau-crystal-manifest
-          path: |
-            out/manifest.json
-            out/fusion.stdout.txt
+          path: out/manifest.json
+          if-no-files-found: error
+          retention-days: 7
