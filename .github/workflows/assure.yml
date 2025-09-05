@@ -26,3 +26,8 @@ jobs:
           path: |
             out/manifest.json
             out/fusion.stdout.txt
+	      - name: Optional Laurent signature (only if ring.csv exists)
+        if: ${{ hashFiles('data/ring.csv') != '' }}
+        run: |
+          chmod +x tools/laurent/integrate_laurent.sh
+          ./tools/laurent/integrate_laurent.sh data/ring.csv out/manifest.json 64
