@@ -38,3 +38,40 @@ jobs:
           path: out/manifest.json
           if-no-files-found: error
           retention-days: 7
+
+  guardian_artifact:
+    name: Tau Crystal Guardian / Tau Crystal Receipt (artifact)
+    runs-on: ubuntu-latest
+    # If your main job has an id like "build", uncomment the next line so this runs after it:
+    # needs: [build]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Emit Tau Crystal Receipt for Guardian
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > tau-crystal-receipt.json <<JSON
+          {
+            "kind": "tau-crystal-receipt",
+            "version": "1",
+            "repo": "${{ github.repository }}",
+            "sha":  "${{ github.sha }}",
+            "run_id": "${{ github.run_id }}",
+            "event": "${{ github.event_name }}",
+            "runner": "assure.yml"
+          }
+          JSON
+          # Provide BOTH filenames—Guardian may look for manifest.json
+          cp tau-crystal-receipt.json manifest.json
+          jq -e '.kind=="tau-crystal-receipt"' tau-crystal-receipt.json >/dev/null
+          jq -e '.kind=="tau-crystal-receipt"' manifest.json >/dev/null
+
+      - name: Upload artifact for Guardian (exact name)
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-crystal-manifest
+          path: |
+            tau-crystal-receipt.json
+            manifest.json
+          if-no-files-found: error
