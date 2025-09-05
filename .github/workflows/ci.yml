@@ -2,7 +2,7 @@ name: win-ci
 
 on:
   push:
-    branches: [ "**" ]          # keep as-is; this job will upload the manifest
+    branches: [ "**" ]
   pull_request:
 
 jobs:
