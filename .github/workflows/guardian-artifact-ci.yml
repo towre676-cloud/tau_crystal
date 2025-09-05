@@ -1,0 +1,22 @@
+name: guardian-artifact-ci
+on:
+  pull_request:
+    branches: [ main ]
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Emit tau receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "{\"kind\":\"tau-crystal-receipt\",\"version\":\"1\",\"repo\":\"${{ github.repository }}\",\"sha\":\"${{ github.sha }}\",\"run_id\":\"${{ github.run_id }}\",\"event\":\"${{ github.event_name }}\",\"runner\":\"guardian-artifact-ci.yml\"}" > tau-crystal-receipt.json
+          cp tau-crystal-receipt.json manifest.json
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-crystal-manifest
+          path: |
+            tau-crystal-receipt.json
+            manifest.json
