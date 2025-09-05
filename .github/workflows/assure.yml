@@ -3,35 +3,17 @@ name: assure
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      checks: write
-      pull-requests: read
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Create manifest
         run: |
           mkdir -p out
-          cat > out/manifest.json <<'JSON'
-          {
-            "receipt_version": 1,
-            "run_id": "${{ github.run_id }}",
-            "workflow": "${{ github.workflow }}",
-            "job": "build",
-            "sha": "${{ github.sha }}",
-            "repo": "${{ github.repository }}",
-            "pr_number": "${{ github.event.pull_request.number }}",
-            "ts": "${{ github.run_started_at }}"
-          }
-          JSON
+          echo '{"receipt_version":1,"run_id":"${{ github.run_id }}","sha":"${{ github.sha }}"}' > out/manifest.json
 
       - name: Show manifest
         run: cat out/manifest.json
