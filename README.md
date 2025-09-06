@@ -22,3 +22,17 @@ Quick start: `python scripts/tauc.py stamp` creates a fresh manifest and receipt
 ## Golden Outputs
 
 Canonical examples live in [docs/golden](docs/golden). Merkle root shown inline for fast review.
+
+## Verify release (Sigstore keyless)
+```bash
+# Download these from the GitHub Release assets for the tag you care about:
+#   - dist/SHA256SUMS.txt
+#   - dist/SHA256SUMS.txt.sig
+#   - dist/SHA256SUMS.txt.pem  (certificate)
+cosign verify-blob \
+  --certificate dist/SHA256SUMS.txt.pem \
+  --signature   dist/SHA256SUMS.txt.sig \
+  --certificate-identity-regexp 'https://github.com/.*/.*/.github/workflows/release.yml@refs/tags/.*' \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+  dist/SHA256SUMS.txt
+
