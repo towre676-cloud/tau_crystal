@@ -54,8 +54,21 @@ if man.get("kind") != "tau-crystal-manifest":
 
 # 1) included files present + hashes match
 calc = []
+def _normalize_path(s:str)->Path:
+    # treat Windows drive paths as absolute; strip to repo-relative if possible
+    # keep only the suffix starting at '/docs/' or '\\docs\\' if present
+    s0=s
+    if re.match(r'^[A-Za-z]:[\\/]', s0):
+        m=re.search(r'([\\/])docs([\\/]).*', s0)
+        if m:
+            s0 = s0[m.start():].replace('\\','/')
+        else:
+            # fallback: drop drive and backslashes
+            s0 = s0.split(':',1)[-1].lstrip('\\/').replace('\\','/')
+    return Path(s0)
+
 for e in man.get("included_files", []):
-    p = REPO / e["path"]
+    p = (REPO / _normalize_path(e["path"]).as_posix()).resolve()
     if not p.exists():
         fail(f"missing file: {p}")
     h = sha256_file(p)

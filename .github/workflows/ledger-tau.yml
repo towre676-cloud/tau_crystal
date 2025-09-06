@@ -18,6 +18,8 @@ jobs:
             echo "[info] no scripts/tauc.py; skipping stamp"
           fi
       - name: Run verification
+      - name: Normalize manifest paths (Windows→POSIX)
+        run: python scripts/normalize_manifest_paths.py
         run: python scripts/tau_verify.py
       - uses: actions/checkout@v4
 
