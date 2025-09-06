@@ -1,18 +1,18 @@
 {
   "kind": "tau-crystal-manifest",
   "version": "1.0",
-  "timestamp_utc": "2025-09-06T15:47:12Z",
+  "timestamp_utc": "2025-09-06T15:49:36Z",
   "included_files": [
     {
-      "path": "docs/monographs/tau-crystal-monograph-reflection.md",
+      "path": "C:/Users/Cody/Desktop/tau_crystal/docs/monographs/tau-crystal-monograph-reflection.md",
       "sha256": "9f7cfcf950c5db40294f78c54e262829e6b4a1a70ff90260d9dcfed73f37470b"
     },
     {
-      "path": "docs/monographs/tau-crystal-monograph.md",
+      "path": "C:/Users/Cody/Desktop/tau_crystal/docs/monographs/tau-crystal-monograph.md",
       "sha256": "d7aad600b1cd46871fe838e1e722e23b9709224585dd48bb4b51edacdf2370cc"
     },
     {
-      "path": "docs/monographs/tau-crystal-upgrade.md",
+      "path": "C:/Users/Cody/Desktop/tau_crystal/docs/monographs/tau-crystal-upgrade.md",
       "sha256": "2759735de6eb0bcdebcbccae945f60941480567ae0595781b4f06fe7cf07686d"
     }
   ],
@@ -21,18 +21,18 @@
   "archives": [
     {
       "path": "C:/Users/Cody/Desktop/tau_crystal/docs/monographs.tar.gz",
-      "sha256": "46082f7e48d8e80ff7b8d5b94dced2e3522399b1d60f563b3cf1c0f9809365b9",
+      "sha256": "2f70645044dcc8a506ecd4daa8df5e6c6bea3303b05c341585f58bd4ae2f57da",
       "alg": "tar.gz"
     },
     {
       "path": "C:/Users/Cody/Desktop/tau_crystal/docs/monographs.zip",
-      "sha256": "33fffea1e5442cbc454824c05f0fc5e2c53a899403735cfab7209f4558ca2f74",
+      "sha256": "dad6b0da3c9d20654523fa2f6901e14caa404c56223f624199029f9b596caf0f",
       "alg": "zip"
     }
   ],
   "pow": {
     "bits": 16,
-    "nonce": "131614"
+    "nonce": "87212"
   },
   "signatures": []
 }
