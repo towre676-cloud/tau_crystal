@@ -3,25 +3,28 @@ on: [push, pull_request]
 
 jobs:
   win-ci:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     defaults:
       run:
         shell: pwsh
     steps:
-      - name: Stamp docs (deterministic if available)
-        run: |
-          if [ -f scripts/tauc.py ]; then
-            python scripts/tauc.py stamp
-          else
-            echo "[info] no scripts/tauc.py; skipping stamp"
-          fi
-      - name: Run verification
-        run: python scripts/tau_verify.py
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: '3.x' }
 
       # Install Git for Windows Bash path (already present) and elan/lean
+      - name: Install elan (Lean toolchain)
+        run: |
+          curl -L https://raw.githubusercontent.com/leanprover/elan/master/elan-init.ps1 -o elan-init.ps1
+          pwsh -ExecutionPolicy Bypass -File elan-init.ps1 -NoPrompt
+          echo "$env:USERPROFILE\.elan\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          elan default (Get-Content -Raw lean-toolchain)
+          lean --version
+          lake --version
+
+      - name: Assure (PowerShell harness)
+        run: powershell -ExecutionPolicy Bypass -File .\assure.ps1
+
       - name: Assure (Bash harness)
         shell: bash
         run: |
