@@ -1,5 +1,7 @@
 # τ-Crystal
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 The project certifies not merely outputs but execution paths. Every build binds a geometric tau-clock to a Lean 4 program and emits a compact, cryptographically stable manifest that can be replayed, diffed, and audited without ambiguity. The result is a proof-carrying runtime receipt for scientific compute: identical inputs, identical path, identical proof. If two runs diverge, the manifest makes the point of divergence explicit and machine-checkable, collapsing weeks of forensics into a deterministic, one-line comparison. The repository is intentionally small and strict. Lake orchestrates the Lean toolchain; the executable graph emits a canonical receipt; the CI harness fixes the invariant grammar so that a receipt from today can be inspected tomorrow and still verify byte-for-byte.
 
 ![CI: assure.yml](https://github.com/towre676-cloud/tau_crystal/actions/workflows/assure.yml/badge.svg?branch=main)
@@ -11,12 +13,16 @@ Getting started is a two-command path on any machine with a recent toolchain. Fi
 
 ```bash
 # one-time toolchain (Git Bash)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
 export PATH="$HOME/.elan/bin:$PATH"
 lean --version
 lake --version
 
 # repo root: build and assure
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 lake build
 ./scripts/assure.sh
 ```
@@ -31,3 +37,7 @@ Read the monograph: [docs/MONOGRAPH.md](docs/MONOGRAPH.md)
 [![τ‑Crystal Verified](https://img.shields.io/badge/receipt-verified-brightgreen?logo=github)](docs/manifest.md)
 
 [![receipt-verified](https://img.shields.io/badge/receipt-verified-brightgreen)](https://towre676-cloud.github.io/tau_crystal/tau-crystal.html)
+
+—
+
+See **[CI Pipeline](docs/CI.md)** · **[License](LICENSE)** · **[Sample HTML](docs/sample/live.html)**
