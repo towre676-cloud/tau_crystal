@@ -41,9 +41,9 @@ cosign verify-blob \
 
 <!-- GOLDEN-OUTPUTS-BEGIN -->
 ### Golden outputs
-- **Merkle root:** 1c11d3ecac0beac2b80fd546e112ba7be7abe2781372665db91684f63270928f
-- **Manifest timestamp (UTC):** 2025-09-06T17:15:22Z
-- **docs/monographs.tar.gz (SHA-256):** 6571442532c1613c152aa5122c0ff267e8754d79bccf4bcc66c9cae32e5d3916
-- **docs/monographs.zip (SHA-256):** d71ec8d0463701b7d1aae60517fb30bba8ac8b89106adf4689b6d6d72a9304d9
+- **Merkle root:** 198235b501b83be3b7c4d490e74590e471126604ddae2a7a3c7a37e12af802b2
+- **Manifest timestamp (UTC):** 2025-09-06T19:31:28Z
+- **docs/monographs.tar.gz (SHA-256):** c0808b650dbd96ae08de6bfc7cdc1c97640916b3c22e225038ff46cde7301d6b
+- **docs/monographs.zip (SHA-256):** 3285120b77c84fc596f6aac6ebc9a3bfa8e50d740cb5f6d9c99309840ac6830a
 Files: [`tau-crystal-manifest.json`](tau-crystal-manifest.json), [`tau-crystal-receipt.json`](tau-crystal-receipt.json)
 <!-- GOLDEN-OUTPUTS-END -->
