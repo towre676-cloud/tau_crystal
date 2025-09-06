@@ -25,10 +25,9 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css" />
 </head>
 <body>
-<p>mkdir -p docs</p>
-<p>cat &gt; docs/manifest.md &lt;&lt;‘EOF’ # τ‑Crystal: A Canonical
-Receipt for Computation</p>
-<p>The core claim of τ‑Crystal is simple: you should be able to tell,
+<h1 id="τ-crystal-a-canonical-receipt-for-computation">τ-Crystal: A
+Canonical Receipt for Computation</h1>
+<p>The core claim of τ-Crystal is simple: you should be able to tell,
 without guesswork or ceremony, whether two runs of a program were the
 same computation. Not just the same inputs and outputs, but the same
 path through time. We take the habit of “it worked on my machine” and
@@ -50,7 +49,7 @@ receipt is a coarse but canonical description of that path. The project
 began as a complaint about post-hoc forensics: after a discrepancy,
 engineers spend days asking the same three questions—what code, what
 environment, what changed—while the relevant information evaporates.
-τ‑Crystal chooses to spend an extra second during the run in order to
+τ-Crystal chooses to spend an extra second during the run in order to
 save a week after the run.</p>
 <h2 id="why-lean-4-and-lake">Why Lean 4 and Lake</h2>
 <p>The receipt grammar lives in a Lean 4 codebase because we wanted
@@ -87,10 +86,10 @@ reference to an external dossier. The receipt points to the dossier but
 does not swallow it.</p>
 <h2 id="the-τ-series-and-the-rank-kernel">The τ series and the rank
 kernel</h2>
-<p>The initial producer, <code>fusion</code>, writes a transcript that
-is intentionally small and surprisingly informative. It drives a
-Chebyshev recurrence on a matrix mapped to the interval [-1,1] and emits
-the energy and cumulative τ sequence across a fixed budget of steps. In
+<p>The initial producer, fusion, writes a transcript that is
+intentionally small and surprisingly informative. It drives a Chebyshev
+recurrence on a matrix mapped to the interval [-1,1] and emits the
+energy and cumulative τ sequence across a fixed budget of steps. In
 parallel it computes a modular rank over fixed primes and logs the pivot
 transcript. These two lines of evidence—the spectral sketch and the rank
 kernel—catch a wide range of silent regressions without the cost of full
@@ -103,19 +102,19 @@ job.</p>
 <h2 id="from-local-to-continuous">From local to continuous</h2>
 <p>A project earns its keep when the same story holds locally and in CI.
 Locally, a developer runs a one-shot script that builds with Lake and
-writes out <code>/manifest.json</code> plus a short stdout file. In CI,
-the exact same script runs on a clean machine and uploads the two files
-as an artifact named <code>tau-crystal-manifest</code>. The names matter
-because the verifier depends on them. If the artifact is missing, the
-check fails with a plain sentence. If the JSON is malformed, the error
-is evident without log spelunking.</p>
-<p>The GitHub App is thin but decisive. It listens for
-<code>workflow_run</code> events, fetches the artifact for the completed
-run, opens the ZIP, validates the manifest, and posts a single check on
-the commit. Green means the receipt is present and valid. Red means
-something that should never be subtle has gone wrong. The check output
-includes the producing component, the Git hash, the timestamp, and a
-small usage note about plan limits.</p>
+writes out /manifest.json plus a short stdout file. In CI, the exact
+same script runs on a clean machine and uploads the two files as an
+artifact named tau-crystal-manifest. The names matter because the
+verifier depends on them. If the artifact is missing, the check fails
+with a plain sentence. If the JSON is malformed, the error is evident
+without log spelunking.</p>
+<p>The GitHub App is thin but decisive. It listens for workflow_run
+events, fetches the artifact for the completed run, opens the ZIP,
+validates the manifest, and posts a single check on the commit. Green
+means the receipt is present and valid. Red means something that should
+never be subtle has gone wrong. The check output includes the producing
+component, the Git hash, the timestamp, and a small usage note about
+plan limits.</p>
 <h2 id="canonicalization-as-governance">Canonicalization as
 governance</h2>
 <p>People tolerate friction when they can feel the payoff, but they
@@ -182,7 +181,7 @@ the team from the weekly archaeology dig. When you keep the grammar
 tight, you save yourself from the next clever idea that turns into a
 maintenance burden. When you build the check into the place people
 already look, you save attention for work that only humans can do.</p>
-<p>τ‑Crystal is a polite constraint. It is a reminder to build the right
+<p>τ-Crystal is a polite constraint. It is a reminder to build the right
 kind of memory into the places where your code already lives. It gives
 you a receipt that reads the same in the morning as it did last night,
 and a green check that means what it says. In an era where everything is
@@ -200,7 +199,7 @@ the quiet that follows.</p>
 work it does for you is cumulative. Every valid receipt you produce
 lowers the cost of the next investigation. Every time the check goes
 green without a second thought, you get a sliver of your day back.
-Software rarely pays you in small, regular dividends. τ‑Crystal tries
-to. EOF</p>
+Software rarely pays you in small, regular dividends. τ-Crystal tries
+to.</p>
 </body>
 </html>
