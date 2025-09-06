@@ -2,10 +2,7 @@ name: Deploy Pages
 on:
   push:
     branches: [ "**" ]
-    paths:
-      - 'docs/**'
-      - 'README.md'
-      - 'manifests/*.json'
+    paths: ["docs/**","manifests/*.json","README.md"]
   workflow_dispatch:
 permissions:
   contents: read
@@ -19,20 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Stamp MONOGRAPH with live counters
-        run: |
-          COUNT=$(ls -1 manifests/*.json 2>/dev/null | wc -l | tr -d " ")
-          LATEST=$(ls -1 manifests/*.json 2>/dev/null | tail -n 1)
-          ROOT=—
-          [ -n "$LATEST" ] && ROOT=$(sed -n 's/.*"merkle_root"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$LATEST" | head -n 1)
-          echo "<!-- manifests=$COUNT latest=$ROOT -->" >> docs/MONOGRAPH/index.html
       - uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs
+        with: { path: docs }
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    environment: { name: github-pages }
     runs-on: ubuntu-latest
     needs: build
     steps:
