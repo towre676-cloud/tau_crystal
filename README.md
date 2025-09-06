@@ -156,6 +156,8 @@ git checkout -- README.md
 
 ## Verify this repo (current commit)
 
+Tested at: https://github.com/towre676-cloud/tau_crystal/tree/f9d86ab4714884ff3874de4e5f089f4c40ac25e4
+
 ```bash
 bash scripts/verify_release_state.sh
 ```
