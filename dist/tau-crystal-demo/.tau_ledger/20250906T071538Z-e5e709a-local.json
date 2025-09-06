@@ -1,0 +1,12 @@
+{
+  "id": "20250906T071538Z-e5e709a-local",
+  "ts": "2025-09-06T07:15:37Z",
+  "git": "e5e709a",
+  "plan": "FREE",
+  "proofs": "false",
+  "laurent": "false",
+  "retention_days": "14",
+  "max_workers": "2",
+  "merkle_root": "273ec6dff68ae8a0be02f1ae0673de7aa8738c99c52dea9f5b641cc5a17e4b10",
+  "prev": "GENESIS"
+}
