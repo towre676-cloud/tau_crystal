@@ -1,6 +1,3 @@
-title: τ-Crystal
-theme:
-plugins: []
+title: τ‑Crystal Documentation
+theme: minima
 markdown: kramdown
-kramdown:
-  input: GFM
