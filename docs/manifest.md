@@ -62,6 +62,10 @@ STATUS: 2025-09-06T07:21:15Z • plan=FREE • receipt=unknown • hash=unknown
 
 # τ‑Crystal Manifest
 
+TAU_TANH2_SHA256: 8a692d462c8453c98fff3e8dd24ba2e0d55a5ba980d73537d61ef0dae80067c0
+
+SOLITON_SHA256: be3faf88fd1d477ecfa7c13a558c9404a1bfa2a2e58b02b1f303ec68de54fe2b
+
 This document tracks the verification lifecycle for this repository.
 
 - `MERKLE_ROOT:` hash over all tracked files (plan + code)
