@@ -55,3 +55,5 @@ Adoption is not a ceremony. Point your CI at the script, upload the artifact wit
 
 ## A final word
 This repository is intentionally strict and intentionally short. The work it does for you is cumulative. Every valid receipt you produce lowers the cost of the next investigation. Every time the check goes green without a second thought, you get a sliver of your day back. Software rarely pays you in small, regular dividends. τ-Crystal tries to.
+
+MERKLE_ROOT: b4872178f2bcfae2d6a9f0138f67b82177cfda154c74f1140a5fe88a41a5f3c1
