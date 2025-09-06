@@ -66,11 +66,26 @@ See **[CI Pipeline](docs/CI.md)** · **[License](LICENSE)** · **[Sample HTML](d
 
 ## Quickstart
 
-## Verify this release (v0.1.0)
+## τ-Crystal — proof-carrying runtime manifest for reproducible compute
+
+τ-Crystal turns a repository into a self-verifying project. Every run emits a receipt chained by SHA-256, stamps a repository-wide MERKLE_ROOT over tracked files, and writes a live STATUS line to docs/manifest.md. The result is a one-line, machine-checkable claim you can quote in issues, papers, and audits.
+
+**Why it matters:** traditional pipelines hash outputs or bundle environments, but they don’t prove the execution path. τ-Crystal makes divergence explicit and small: the CHAIN head changes if and only if the verified path changed.
+
+**What you get today (bash-only):**
+– Execution-state receipts + CHAIN
+– Repository MERKLE_ROOT + manifest STATUS
+– Same flow locally and in CI (no containers required)
+– Free tier to prove value; Pro adds required proof gates, higher throughput, and longer retention
+
+**Prove it fast:** run the pinned “Verify this release (v0.1.1)” snippet below, then try the Golden diff demo (perturb one tracked file and watch the head change). Keep your science/dev runnable—and provable—without heavy tooling. When you need org-wide enforcement, turn on Pro.
+
+
+## Verify this release (v0.1.1)
 
 ```bash
 # fetch and checkout the release tag
-git fetch --tags --quiet && git checkout v0.1.0
+git fetch --tags --quiet && git checkout v0.1.1
 
 # run the built-in chain + manifest checks
 bash scripts/plan/tau_pro_gate.sh
