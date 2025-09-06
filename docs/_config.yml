@@ -1,0 +1,12 @@
+title: τ‑Crystal
+description: Proof‑carrying manifests, receipts, and deterministic docs
+theme: jekyll-theme-cayman
+markdown: kramdown
+kramdown:
+  input: GFM
+plugins:
+  - jekyll-relative-links
+relative_links:
+  enabled: true
+  collections: true
+# Keep everything under docs/ (default gh-pages mode)
