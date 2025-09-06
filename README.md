@@ -38,3 +38,12 @@ cosign verify-blob \
 
 
 τ-Crystal Synthesis Monograph (Formal Verification & Reproducibility)
+
+<!-- GOLDEN-OUTPUTS-BEGIN -->
+### Golden outputs
+- **Merkle root:** 1c11d3ecac0beac2b80fd546e112ba7be7abe2781372665db91684f63270928f
+- **Manifest timestamp (UTC):** 2025-09-06T17:15:22Z
+- **docs/monographs.tar.gz (SHA-256):** 6571442532c1613c152aa5122c0ff267e8754d79bccf4bcc66c9cae32e5d3916
+- **docs/monographs.zip (SHA-256):** d71ec8d0463701b7d1aae60517fb30bba8ac8b89106adf4689b6d6d72a9304d9
+Files: [`tau-crystal-manifest.json`](tau-crystal-manifest.json), [`tau-crystal-receipt.json`](tau-crystal-receipt.json)
+<!-- GOLDEN-OUTPUTS-END -->
