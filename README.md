@@ -66,6 +66,35 @@ See **[CI Pipeline](docs/CI.md)** · **[License](LICENSE)** · **[Sample HTML](d
 
 ## Quickstart
 
+## Verify this release (v0.1.0)
+
+```bash
+# fetch and checkout the release tag
+git fetch --tags --quiet && git checkout v0.1.0
+
+# run the built-in chain + manifest checks
+bash scripts/plan/tau_pro_gate.sh
+bash scripts/plan/write_roots.sh
+TAU_MAX_SHARDS=${TAU_MAX_SHARDS:-4} ./scripts/plan/launch_verifiers.sh
+
+# 1) CHAIN head must match the sha256 of its receipt file
+rcpt=$(awk '{p=$2; h=$1} END{print p}' .tau_ledger/CHAIN)
+head=$(awk 'END{print $1}' .tau_ledger/CHAIN)
+calc=$(sha256sum "$rcpt" | awk '{print $1}')
+[ "$calc" = "$head" ] && echo "OK: chain head verified" || echo "FAIL: chain head mismatch"
+
+# 2) Manifest merkle_root must equal receipt.reflective.merkle_root
+if command -v jq >/dev/null 2>&1; then
+  m="$(jq -r .merkle_root tau-crystal-manifest.json 2>/dev/null)"
+  r="$(jq -r .reflective.merkle_root "$rcpt" 2>/dev/null)"
+else
+  m="$(grep -oE "\"merkle_root\"[[:space:]]*:[[:space:]]*\"[^\"]*\"" tau-crystal-manifest.json | sed -E "s/.*:\"([^\"]*)\".*/\1/" | head -n1)"
+  r="$(grep -oE "\"merkle_root\"[[:space:]]*:[[:space:]]*\"[^\"]*\"" "$rcpt" | head -n1 | sed -E "s/.*:\"([^\"]*)\".*/\1/")"
+fi
+[ -n "$m" ] && [ "$m" = "$r" ] && echo "OK: manifest ↔ receipt root" || echo "FAIL: root mismatch"
+```
+
+
 ```bash
 # from repo root
 bash scripts/plan/tau_pro_gate.sh
@@ -87,3 +116,25 @@ TAU_MAX_SHARDS=${TAU_MAX_SHARDS:-20} ./scripts/plan/launch_verifiers.sh
 - **Audit guide**: `docs/AUDIT.md`
 - **CI notes**: `docs/ci.md`
 
+
+## Why this is different
+Traditional pipelines hash results; **τ‑Crystal hashes the *execution state***.
+Each run emits a SHA‑256 chained receipt, stamps a Merkle root over tracked files,
+and writes a STATUS line to the manifest. Divergence is not hidden; it’s **explicit,
+small, and machine‑checkable** — so you can quote a single line to prove what ran.
+
+## Golden diff (10 lines)
+```bash
+# 1) baseline receipt
+bash scripts/plan/write_roots.sh; TAU_MAX_SHARDS=2 ./scripts/plan/launch_verifiers.sh
+base="$(tail -n1 .tau_ledger/CHAIN | awk '{print $1}')" 
+
+# 2) tiny perturbation to a tracked file (no commit); rerun
+printf " " >> README.md
+bash scripts/plan/write_roots.sh; TAU_MAX_SHARDS=2 ./scripts/plan/launch_verifiers.sh
+head="$(tail -n1 .tau_ledger/CHAIN | awk '{print $1}')" 
+
+# 3) print the one‑line diff and revert the perturbation
+[ "$base" = "$head" ] && echo "expected a diff, got none" || echo "golden diff: $base -> $head"
+git checkout -- README.md
+```
