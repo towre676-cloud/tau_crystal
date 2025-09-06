@@ -26,4 +26,8 @@ jobs:
           SIGNATURES_DIR: .well-known/tau-crystal-signers/signatures
           PROOF_OF_WORK_BITS: ${{ vars.PROOF_OF_WORK_BITS || '0' }}
         run: |
+      - name: Stamp docs (deterministic)
+        run: python scripts/tauc.py stamp
+      - name: Normalize manifest paths (Windows→POSIX)
+        run: python scripts/normalize_manifest_paths.py
           python scripts/tau_verify.py
