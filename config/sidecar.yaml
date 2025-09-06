@@ -1,0 +1,19 @@
+sidecar:
+  input:
+    type: file
+    path: tmp/P2P.ndjson
+  transcript:
+    fields:
+      - id: String
+      - timestamp: String
+      - event_type: String
+      - payload_hash: String
+    required: [id, timestamp, event_type]
+  output:
+    manifest_dir: manifests
+    format: json
+    canonical: true
+parameters:
+  tau_slope: 0.30
+  tau_min: 0.06
+  lead_prior_days: 7
