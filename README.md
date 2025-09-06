@@ -191,3 +191,25 @@ Tested at: https://github.com/towre676-cloud/tau_crystal/tree/f9d86ab4714884ff38
 ```bash
 bash scripts/verify_release_state.sh
 ```
+
+## Verify this release (cosign)
+
+```bash
+# set these for your asset(s)
+TAG=v0.1.0
+FILE=tau_crystal-$TAG.tgz
+DIGEST=sha256:<image-or-asset-digest>
+
+# verify signed SBOM attestation (CycloneDX) for container/image (if published)
+cosign verify-attestation --type cyclonedx \n  --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \n  --certificate-identity 'https://github.com/towre676-cloud/tau_crystal/.github/workflows/release.yml@refs/tags/' \n  ghcr.io/towre676-cloud/tau_crystal@"$DIGEST"
+
+# verify tarball against its .sig + .cert (blob)
+cosign verify-blob --certificate "$FILE.cert" --signature "$FILE.sig" "$FILE"
+```
+
+## Expected success
+
+```
+[OK] chain head = <sha> (receipt = .tau_ledger/receipts/...json)
+[OK] merkle_root = <sha> (manifest ↔ receipt)
+```
