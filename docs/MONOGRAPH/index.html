@@ -8,3 +8,74 @@
 <hr>
 <p>This page is rendered from the repo and auto-published by GitHub Pages.</p>
 <small>last updated 2025-09-06 01:12:42 EDT</small>
+<hr><pre>
+# τ‑Crystal ERP Trace Spine
+
+This repository implements a live τ‑Crystal sidecar for ERP systems. It emits SHA‑256–addressed receipts that combine:
+
+- τ-series: algebraic process time, calibrated from Chebyshev decay geometry
+- q‑CRO trace: deformation from the normal path
+- Residue: rank-based deviation proofs
+- Attestation block: Ed25519-signed content-linked receipts
+
+Each receipt upgrades the ERP from a timestamp trail to a verifiable execution trace. Every segment of a procurement, shipment, or job is positioned, measured, and attested in τ.
+
+---
+
+## Live status (from this repo)
+
+Manifests present: **10**
+
+Sample merkle_root: **sha256:d4402f3f84d648f6f7d73c3dc6dc1f3a7089acc03296f709f978298da31b160f**
+
+Sample signed: **no**
+
+Regenerate + verify locally:
+
+```bash
+TAU_SLOPE=0.30 TAU_MIN=0.06 scripts/rebuild-from-file.sh tmp/P2P.ndjson
+scripts/verify-all.sh
+```
+
+Watch and append new events:
+
+```bash
+scripts/process-watch.sh tmp/P2P.ndjson &amp;
+echo '{"process_id":"PO-2025-0912-00421","domain":"P2P","segment":"GRN.posted","payload":{"qty":100},"ts":"2025-09-06T16:22:00Z"}' &gt;&gt; tmp/P2P.ndjson
+```
+
+---
+
+## Manifest format (canonical core + attest)
+
+```json
+{
+  "kind": "tau-crystal-receipt",
+  "version": "1.2.0",
+  "process": { "id": "…", "domain": "…", "segment": "…", "prev_manifest": "sha256:…" },
+  "tau": { "t": [ … ], "clock": "Chebyshev-decay", "params": { "tau_min": 0.25 } },
+  "residue": { "R_norm": 0.083, "D_norm": 0.017, "kappa": 0.1591549431, "qcro": [ … ] },
+  "witness": { "events_sha": "sha256:…", "pivot_transcript": "sha256:…", "rank_signature": { "p": 2147482951, "rank": 6 } },
+  "sustainability": {},
+  "attest": { "merkle_root": "sha256:…", "signed_by": "ed25519:org-key-2025", "timestamp": "…" }
+}
+```
+
+---
+
+## ERP mapping (excerpt)
+
+| ERP domain | τ‑observable | Residue signal | Certificate payload | Decision surface |
+| --- | --- | --- | --- | --- |
+| Procure‑to‑Pay | τ on PO→GRN→3‑way match→AP→payment | Late‑mass beyond τ*; q‑CRO spikes on split/rework | SHA of event slice; finite‑field rank transcript; SLA witness | Release cash; reroute vendor; expedite pricing |
+| Order‑to‑Cash | τ on quote→order→ATP→pick/pack/ship→POD→invoice | Backorder torsion; dwell hot spots; carrier slippage | Carrier leg proofs; pick path witnesses; POD attestation | Promise recalibration; carrier penalties/rewards |
+| Production/MES | τ on job→issue→start→complete→QC | Setup‑change curvature; scrap bursts | BOM/route witness; QC cert; OEE‑aligned rank | Dispatch; SMED targeting; yield guardrails |
+
+---
+
+## How it wires in practice
+
+The ERP emits canonical domain events (PurchaseOrderCreated, GoodsReceived, QualityHoldPlaced, InvoiceApproved, PaymentReleased, TransferPosted) onto a bus or file stream. The τ‑Crystal sidecar maintains compact state vectors, updates τ, q‑CRO, and residue, and emits content‑addressed manifests. The ERP stores the manifest hash alongside each transaction; UX and APIs read τ‑aware status instead of raw timestamps. Finance, procurement, logistics, and risk all see the same attested story.
+
+Governance and compliance simplify: every material path is attested; receipts are small and replayable; CI verifies them; the same manifest line feeds SOX, ESG, insurer APIs, and vendor scorecards.
+</pre>
