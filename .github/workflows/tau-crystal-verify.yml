@@ -44,4 +44,6 @@ jobs:
           else
             echo "[info] no scripts/tauc.py; skipping stamp"
           fi
+      - name: Normalize manifest paths (Windows→POSIX)
+        run: python scripts/normalize_manifest_paths.py
           python scripts/tau_verify.py
