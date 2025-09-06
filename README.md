@@ -153,3 +153,9 @@ head="$(tail -n1 .tau_ledger/CHAIN | awk '{print $1}')"
 [ "$base" = "$head" ] && echo "expected a diff, got none" || echo "golden diff: $base -> $head"
 git checkout -- README.md
 ```
+
+## Verify this repo (current commit)
+
+```bash
+bash scripts/verify_release_state.sh
+```
