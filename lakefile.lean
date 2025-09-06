@@ -13,3 +13,6 @@ lean_exe app where
 
 -- std pin (harmless here; remove if you want)
 require std from git "https://github.com/leanprover/std4" @ "v4.5.0"
+target proofs : Unit := do
+  let _ ← Lean.build (importString := "TauCrystal.Proofs.TauMonotonic")
+  pure ()
