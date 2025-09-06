@@ -1,0 +1,10 @@
+{
+  "kind": "tau-crystal-receipt",
+  "version": "1.2.0",
+  "process": {"id":"PO-demo","domain":"P2P","segment":"PO.created","prev_manifest":""},
+  "tau": {"t":[0.0],"clock":"Chebyshev-decay","params":{"tau_min":0.06,"slope":0.3}},
+  "residue": {"R_norm":0.0,"D_norm":0.0,"kappa":0.1591549431,"qcro":[]},
+  "witness": {"events_sha":"sha256:placeholder","pivot_transcript":"sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855","rank_signature":{"p":2147482951,"rank":6}},
+  "sustainability": {},
+  "attest": {"merkle_root":"sha256:placeholder","signed_by":"","timestamp":"2025-09-06T05:35:41Z"}
+}
