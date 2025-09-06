@@ -156,6 +156,36 @@ git checkout -- README.md
 
 ## Verify this repo (current commit)
 
+## Why tanh?
+
+- One-soliton: u = 2 ∂_x^2 log(1 + e^θ) collapses to (k^2/2) sech^2(θ/2), with θ = k x + δ at t = 0.
+- τ-function (2-soliton): u = 2 ∂_x^2 log τ where τ = det(I + M); after identities the field organizes as sums/products of tanh^2.
+- Gudermannian: φ = gd(κ x) maps ℝ to S^1 to place modulation checks on a compact angle.
+- Determinism: we hash fixed-point envelopes for cross-OS stability and put hashes in the ledger/manifest.
+
+
+## Verify soliton demos
+
+```bash
+# one-soliton envelope: JSON + hash into .tau_ledger/soliton_envelope.json
+bash scripts/run_soliton_envelope.sh
+cat .tau_ledger/soliton_envelope.json | (jq -r ".sha256" 2>/dev/null || grep -oE "\"sha256\":\"[0-9a-fA-F]+\"" | sed -E "s/.*:\"([0-9a-fA-F]+)\".*/\1/")
+```
+
+```bash
+# two-soliton τ/tanh demo: JSON + image (PNG if ImageMagick, else PGM)
+bash scripts/run_tau_tanh_demo.sh
+cat .tau_ledger/tau_tanh_2soliton.json | (jq -r ".sha256" 2>/dev/null || grep -oE "\"sha256\":\"[0-9a-fA-F]+\"" | sed -E "s/.*:\"([0-9a-fA-F]+)\".*/\1/")
+ls -l media/tau_tanh_demo.png 2>/dev/null || echo "open media/tau_tanh_demo.pgm"
+```
+
+```bash
+# stamp both hashes into docs/manifest.md (idempotent)
+bash scripts/stamp_soliton_into_manifest.sh
+bash scripts/stamp_tau_tanh_into_manifest.sh
+```
+
+
 Tested at: https://github.com/towre676-cloud/tau_crystal/tree/f9d86ab4714884ff3874de4e5f089f4c40ac25e4
 
 ```bash
