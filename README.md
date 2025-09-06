@@ -27,3 +27,5 @@ Read the monograph: [docs/MONOGRAPH.md](docs/MONOGRAPH.md)
 ---
 
 [![Receipt Verified](https://img.shields.io/badge/tau--crystal-receipt--verified-brightgreen?logo=github)](docs/manifest.md)
+
+[![τ‑Crystal Verified](https://img.shields.io/badge/receipt-verified-brightgreen?logo=github)](docs/manifest.md)
