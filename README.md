@@ -36,3 +36,5 @@ cosign verify-blob \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com \
   dist/SHA256SUMS.txt
 
+
+τ-Crystal Synthesis Monograph (Formal Verification & Reproducibility)
