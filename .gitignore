@@ -34,3 +34,7 @@ logs/
 lake-manifest.json
 out/
 *.csv
+tmp/
+rescue/
+sidecar/.venv/
+*.tmp.*
