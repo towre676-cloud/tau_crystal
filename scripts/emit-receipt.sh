@@ -3,77 +3,67 @@ set -euo pipefail
 
 mkdir -p out
 
-commit="$(git rev-parse HEAD)"
-ts="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+commit="$(git rev-parse HEAD 2>/dev/null || echo unknown)"
+ts="$(date -u +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ)"
 seed="${TAU_SEED:-42}"
 
 # --- Demo transcript (portable) ---
 if [ "$seed" = "42" ]; then
-  tau='[0.1,0.2,0.3]'
-  rk='[7,13,19]'
+  tau_json='[0.1,0.2,0.3]'; tau_list="0.1 0.2 0.3"
+  rk_json='[7,13,19]';      rk_list="7 13 19"
 else
-  tau='[0.1,0.25,0.31]'
-  rk='[7,11,19]'
+  tau_json='[0.1,0.25,0.31]'; tau_list="0.1 0.25 0.31"
+  rk_json='[7,11,19]';        rk_list="7 11 19"
 fi
 
-# --- Minimal hash chain over events (tau + rk) ---
-H="0000000000000000000000000000000000000000000000000000000000000000"
-upd(){ H="$(printf "%s%s" "$H" "$1" | sha256sum | awk '{print $1}')"; }
-for v in 0.1 0.2 0.3; do upd "tau:$v"; done
-for v in 7 13 19; do upd "rk:$v"; done
-if [ "$seed" != "42" ]; then
-  H="0000000000000000000000000000000000000000000000000000000000000000"
-  for v in 0.1 0.25 0.31; do upd "tau:$v"; done
-  for v in 7 11 19; do upd "rk:$v"; done
-fi
-ticks=6
+# --- Hash-chain clock (H0 = 64 zeros; Hi = SHA256(Hi-1 || event)) ---
+H="$(printf '%064d' 0)"
+for v in $tau_list; do
+  H="$(printf "%s%s" "$H" "tau:$v" | sha256sum | awk '{print $1}')"
+done
+for v in $rk_list; do
+  H="$(printf "%s%s" "$H" "rk:$v" | sha256sum | awk '{print $1}')"
+done
+ticks=$(( $(wc -w <<<"$tau_list $rk_list") ))
 
-# --- Toolchain info (Lean) ---
-lean_path="$(command -v lean || echo "")"
-lean_ver=""; lean_sha=""
-if [ -n "$lean_path" ]; then
-  lean_ver="$(lean --version 2>/dev/null | head -n1 | awk '{print $NF}')"
-  lean_sha="$(sha256sum "$lean_path" | awk '{print $1}')"
-fi
-
-# std4 rev (best-effort)
-std_rev="unknown"
-if [ -f lake-manifest.json ]; then
-  cand="$(grep -oE '"std4".*"rev"[^"]*"[^"]*' lake-manifest.json | tail -n1 | sed -E 's/.*"rev"[[:space:]]*:[[:space:]]*"([^"]*)/\1/')"
-  [ -n "$cand" ] && std_rev="$cand"
-fi
-
-# --- GPU info (best-effort) ---
+# --- Hardware/GPU probe (portable) ---
 gpu_vendor="unknown"; gpu_model=""; gpu_driver=""; gpu_uuid=""
 if command -v nvidia-smi >/dev/null 2>&1; then
-  IFS=',' read -r gpu_model gpu_driver gpu_uuid < <(nvidia-smi --query-gpu=name,driver_version,uuid --format=csv,noheader 2>/dev/null | head -n1)
-  gpu_model="$(echo "$gpu_model" | xargs || true)"
-  gpu_driver="$(echo "$gpu_driver" | xargs || true)"
-  gpu_uuid="$(echo "$gpu_uuid" | xargs || true)"
-  [ -n "$gpu_model" ] && gpu_vendor="nvidia"
-else
-  psout="$(powershell.exe -NoProfile -Command "\$g = Get-CimInstance Win32_VideoController | Select-Object -First 1 Name,DriverVersion; Write-Output \$g.Name; Write-Output \$g.DriverVersion" 2>/dev/null | tr -d '\r')"
-  gpu_model="$(echo "$psout" | sed -n '1p')"
-  gpu_driver="$(echo "$psout" | sed -n '2p')"
-  if echo "$gpu_model" | grep -iq nvidia; then gpu_vendor="nvidia"; fi
+  line="$(nvidia-smi --query-gpu=name,driver_version,uuid --format=csv,noheader,nounits 2>/dev/null | head -n 1 || true)"
+  gpu_vendor="nvidia"
+  gpu_model="$(printf "%s" "$line" | cut -d',' -f1 | sed 's/^ *//;s/ *$//')"
+  gpu_driver="$(printf "%s" "$line" | cut -d',' -f2 | sed 's/^ *//;s/ *$//')"
+  gpu_uuid="$(printf "%s" "$line" | cut -d',' -f3 | sed 's/^ *//;s/ *$//')"
+elif command -v powershell.exe >/dev/null 2>&1; then
+  gpu_model="$(powershell.exe -NoProfile -Command "Get-WmiObject Win32_VideoController | Select-Object -First 1 -ExpandProperty Name" 2>/dev/null | tr -d '\r')"
+  gpu_driver="$(powershell.exe -NoProfile -Command "Get-WmiObject Win32_VideoController | Select-Object -First 1 -ExpandProperty DriverVersion" 2>/dev/null | tr -d '\r')"
+  gpu_vendor="$(powershell.exe -NoProfile -Command "Get-WmiObject Win32_VideoController | Select-Object -First 1 -ExpandProperty AdapterCompatibility" 2>/dev/null | tr -d '\r')"
 fi
 
-# Opaque driver digest (Windows CUDA driver DLL if present)
-opaque_json="[]"
-dll="/c/Windows/System32/nvcuda.dll"
-if [ -f "$dll" ]; then
-  dll_sha="$(sha256sum "$dll" | awk '{print $1}')"
-  winp="$(cygpath -w "$dll" 2>/dev/null || echo "$dll")"
-  winp_esc="${winp//\\/\\\\}"
-  opaque_json="$(cat <<J
-[
-  {"kind":"driver","path":"$winp_esc","sha256":"$dll_sha"}
-]
-J
-)"
+# --- Opaque digests (best-effort; empty is fine) ---
+opaque='[]'
+if command -v powershell.exe >/dev/null 2>&1; then
+  dllpath="$(powershell.exe -NoProfile -Command "(Get-Command nvcuda.dll -ErrorAction SilentlyContinue).Path" 2>/dev/null | tr -d '\r')"
+  if [ -n "$dllpath" ]; then
+    dllsha="$(powershell.exe -NoProfile -Command "(Get-FileHash -Algorithm SHA256 \"$dllpath\").Hash" 2>/dev/null | tr -d '\r')"
+    opaque="[ { \"path\": \"${dllpath//\\/\\\\}\", \"sha256\": \"${dllsha}\" } ]"
+  fi
 fi
 
-# --- Write JSON ---
+# --- Toolchain sealing (best-effort) ---
+lean_ver=""; lean_sha=""; std_rev=""
+if command -v lean >/dev/null 2>&1; then
+  lean_ver="$(lean --version 2>/dev/null | head -n1 | tr -d '\r' || true)"
+  lean_path="$(command -v lean || true)"
+  if [ -n "${lean_path:-}" ] && [ -f "$lean_path" ]; then
+    lean_sha="$(sha256sum "$lean_path" | awk '{print $1}')"
+  fi
+fi
+if [ -d ".lake/packages/std" ]; then
+  std_rev="$(git -C .lake/packages/std rev-parse HEAD 2>/dev/null || true)"
+fi
+
+# --- Write manifest ---
 cat > out/manifest.json <<JSON
 {
   "kind": "tau-crystal-receipt",
@@ -81,22 +71,16 @@ cat > out/manifest.json <<JSON
   "component": "fusion",
   "commit_hash": "$commit",
   "timestamp_utc": "$ts",
-  "tau_series": $tau,
-  "rank_kernel": $rk,
   "equivalence_level": "portable",
-  "clock": { "scheme": "step", "ticks": $ticks, "hash_chain": "$H" },
-  "hardware": { "gpu": {
-    "vendor": "$gpu_vendor",
-    "model": "${gpu_model//\"/\\\"}",
-    "driver": { "version": "${gpu_driver//\"/\\\"}" },
-    "uuid": "${gpu_uuid//\"/\\\"}"
-  }},
-  "opaque": $opaque_json,
-  "toolchain": {
-    "lean": { "version": "${lean_ver:-}", "sha256": "${lean_sha:-}", "path": "${lean_path//\"/\\\"}" },
-    "std4": { "rev": "$std_rev" }
-  }
+  "tau_series": $tau_json,
+  "rank_kernel": $rk_json,
+  "clock": { "scheme": "step+syscall", "ticks": $ticks, "hash_chain": "$H" },
+  "hardware": { "gpu": { "vendor": "$gpu_vendor", "model": "$gpu_model", "driver": "$gpu_driver", "uuid": "$gpu_uuid" } },
+  "opaque": $opaque,
+  "toolchain": { "lean": { "version": "$lean_ver", "sha256": "$lean_sha" }, "std4": { "rev": "$std_rev" } }
 }
 JSON
 
-echo "wrote out/manifest.json (seed=$seed)"
+sha256sum out/manifest.json > out/manifest.json.sha256
+echo "✅ wrote out/manifest.json"
+echo "   sha256: $(cut -d' ' -f1 out/manifest.json.sha256)"
