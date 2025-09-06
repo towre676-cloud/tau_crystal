@@ -37,11 +37,4 @@ jobs:
           else
             echo "[info] no scripts/tauc.py; skipping stamp"
           fi
-      - name: Stamp docs (deterministic if available)
-        run: |
-          if [ -f scripts/tauc.py ]; then
-            python scripts/tauc.py stamp
-          else
-            echo "[info] no scripts/tauc.py; skipping stamp"
-          fi
           python scripts/tau_verify.py
