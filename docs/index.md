@@ -13,3 +13,5 @@ Extras:
 - [Privacy Policy](./PRIVACY.md)
 - [Terms](./TERMS.md)
 - [Monograph](./MONOGRAPH.md)
+
+- [First verification](first-verification.md)
