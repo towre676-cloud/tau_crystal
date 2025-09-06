@@ -17,15 +17,6 @@ jobs:
       contents: write
       id-token: write   # needed for Sigstore keyless
     steps:
-      - name: Stamp docs (deterministic if available)
-        run: |
-          if [ -f scripts/tauc.py ]; then
-            python scripts/tauc.py stamp
-          else
-            echo "[info] no scripts/tauc.py; skipping stamp"
-          fi
-      - name: Run verification
-        run: python scripts/tau_verify.py
       - uses: actions/checkout@v4
         with: { fetch-depth: 2 }
 

@@ -8,22 +8,21 @@ permissions:
 
 jobs:
   assure:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     env:
       TAUCRYSTAL_SIG_KEY: ${{ secrets.TAUCRYSTAL_SIG_KEY }}
     steps:
-      - name: Stamp docs (deterministic if available)
-        run: |
-          if [ -f scripts/tauc.py ]; then
-            python scripts/tauc.py stamp
-          else
-            echo "[info] no scripts/tauc.py; skipping stamp"
-          fi
-      - name: Run verification
-        run: python scripts/tau_verify.py
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: '3.x' }
+
+      - name: Install Lean (elan) non-interactive
+        shell: bash
+        run: |
+          set -euxo pipefail
+          curl -L https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o elan-init.sh
+          bash elan-init.sh -y --default-toolchain leanprover/lean4:v4.22.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
 
       - name: Show versions
         shell: bash
@@ -32,6 +31,16 @@ jobs:
           which lean
           lean --version
           lake --version
+
+      - name: Cache Lake build
+        uses: actions/cache@v4
+        with:
+          path: |
+            .lake/build
+            .lake/packages
+          key: ${{ runner.os }}-lake-${{ hashFiles('lakefile.lean', 'lakefile.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-lake-
 
       - name: Run assurance harness
         shell: pwsh
