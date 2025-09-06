@@ -1,7 +1,7 @@
 {
   "kind": "tau-crystal-manifest",
   "version": "1.1",
-  "timestamp_utc": "2025-09-06T16:32:20Z",
+  "timestamp_utc": "2025-09-06T16:38:32Z",
   "included_files": [
     {
       "path": "C:/Users/Cody/Desktop/tau_crystal/docs/monographs/tau-crystal-monograph-reflection.md",
@@ -19,7 +19,7 @@
   "archives": [
     {
       "path": "C:/Users/Cody/Desktop/tau_crystal/docs/monographs.tar.gz",
-      "sha256": "010a806132ce8b0347af9cc6862ea3e676ff12debcff69ad668c8828d79df81a",
+      "sha256": "8079f1355f8a92905bf1478ee66fb7a4b4a58f0387927816cc8b04b5b9ec8de6",
       "alg": "tar.gz"
     },
     {
@@ -29,5 +29,5 @@
     }
   ],
   "merkle_root": "1c11d3ecac0beac2b80fd546e112ba7be7abe2781372665db91684f63270928f",
-  "prev_merkle_root": "f0a1afbea3f26f2e65151361b6289fbe3c1c1ce944eb3c2425a007b0017e7559"
+  "prev_merkle_root": "1c11d3ecac0beac2b80fd546e112ba7be7abe2781372665db91684f63270928f"
 }
