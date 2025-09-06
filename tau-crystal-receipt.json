@@ -1,24 +1,32 @@
 {
   "kind": "tau-crystal-receipt",
   "version": "1.0",
-  "timestamp_utc": "2025-09-06T15:24:46Z",
+  "timestamp_utc": "2025-09-06T15:28:16Z",
   "reflective": {
     "merkle_root": "d17490e0fd56d1553f640e7a2db585a8af1cba9e3b7e24b348e54758ad7754c7",
     "files": [
       {
-        "path": "C:/Users/Cody/Desktop/tau_crystal/docs/monographs/τ-crystal-monograph-reflection.md",
+        "path": "docs/monographs/τ-crystal-monograph-reflection.md",
         "sha256": "9f7cfcf950c5db40294f78c54e262829e6b4a1a70ff90260d9dcfed73f37470b"
       },
       {
-        "path": "C:/Users/Cody/Desktop/tau_crystal/docs/monographs/τ-crystal-monograph.md",
+        "path": "docs/monographs/τ-crystal-monograph.md",
         "sha256": "d7aad600b1cd46871fe838e1e722e23b9709224585dd48bb4b51edacdf2370cc"
       }
     ],
     "archives": [
       {
-        "path": "C:/Users/Cody/Desktop/tau_crystal/docs/monographs.tar.gz",
-        "sha256": "6abc7b214986cfd23ab02ba113bc164fb4e39c893d34f7768c8ba938b9800661"
+        "path": "docs/monographs.tar.gz",
+        "sha256": "9fdbdd2d7145b967cb970882042a5163b7909a45db1303d25bcd5be44cc02286",
+        "alg": "tar.gz"
+      },
+      {
+        "path": "docs/monographs.zip",
+        "sha256": "1c2a998f53e682b06f920b6c0494ea3f4ef36aa143549eff5b3477d8dfbd4036",
+        "alg": "zip"
       }
-    ]
+    ],
+    "signatures": [],
+    "anchors": []
   }
 }
