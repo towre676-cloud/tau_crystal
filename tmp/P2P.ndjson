@@ -1,0 +1,3 @@
+{"process_id":"PO-2025-0912-00421","domain":"P2P","segment":"PO.created","payload":{"vendor":"V-1001"},"ts":"2025-09-06T16:45:00Z"}
+{"process_id":"PO-2025-0912-00421","domain":"P2P","segment":"GRN.posted","payload":{"qty":100},"ts":"2025-09-06T16:46:00Z"}
+{"process_id":"PO-2025-0912-00421","domain":"P2P","segment":"Invoice.approved","payload":{"net":11850},"ts":"2025-09-06T16:47:00Z"}

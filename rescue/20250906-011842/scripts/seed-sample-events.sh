@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -u
+mkdir -p tmp
+cat > tmp/P2P.ndjson <<'NDJ'
+{"process_id":"PO-2025-0912-00421","domain":"P2P","segment":"PO.created","payload":{"amount":12000,"vendor":"ACME"},"ts":"2025-09-06T14:18:00Z"}
+{"process_id":"PO-2025-0912-00421","domain":"P2P","segment":"GRN.posted","payload":{"qty":500,"uom":"EA"},"ts":"2025-09-06T14:19:30Z"}
+{"process_id":"PO-2025-0912-00421","domain":"P2P","segment":"GRN.split_receipt","payload":{"qty":200},"ts":"2025-09-06T14:20:10Z"}
+{"process_id":"PO-2025-0912-00421","domain":"P2P","segment":"3WM.matched","payload":{"status":"ok"},"ts":"2025-09-06T14:21:05Z"}
+{"process_id":"PO-2025-0912-00421","domain":"P2P","segment":"AP.invoice_approved","payload":{"inv":"INV-7781","gross":11850},"ts":"2025-09-06T14:22:44Z"}
+{"process_id":"PO-2025-0912-00421","domain":"P2P","segment":"Payment.released","payload":{"net":11850},"ts":"2025-09-06T14:24:22Z"}
+NDJ
+echo "[seed] tmp/P2P.ndjson ready"
