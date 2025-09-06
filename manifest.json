@@ -1,0 +1,14 @@
+{
+  "kind": "tau-crystal-receipt",
+  "version": "1",
+  "component": "fusion",
+  "commit_hash": "a82bdd2eeda8a7613e5393b116d388a6fd1a055a",
+  "timestamp_utc": "2025-09-06T01:19:35Z",
+  "equivalence_level": "portable",
+  "tau_series": [0.1,0.25,0.31],
+  "rank_kernel": [7,11,19],
+  "clock": { "scheme": "step+syscall", "ticks": 6, "hash_chain": "b96f8b5b6b880739f21da6583f1898f2e4b8487d31ec7b9acfe1040c6672be5b" },
+  "hardware": { "gpu": { "vendor": "Intel Corporation", "model": "Intel(R) UHD Graphics 630", "driver": "31.0.101.2135", "uuid": "" } },
+  "opaque": [],
+  "toolchain": { "lean": { "version": "Lean (version 4.22.0, x86_64-w64-windows-gnu, commit ba2cbbf09d4978f416e0ebd1fceeebc2c4138c05, Release)", "sha256": "91d34194c2ac66b265000cefdb56fb8dbef7b7a57c7822781e84c06d10c0fb91" }, "std4": { "rev": "08ec2584b1892869e3a5f4122b029989bcb4ca79" } }
+}

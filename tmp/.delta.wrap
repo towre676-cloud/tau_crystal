@@ -1,0 +1,14 @@
+import sys, json
+from pathlib import Path
+src="tmp/.delta.ndjson"
+full="tmp/P2P.ndjson"
+out="tmp/.delta.filtered"
+Path(out).write_text("",encoding="utf-8")
+with open(src,"r",encoding="utf-8",errors="ignore") as f, open(out,"a",encoding="utf-8") as g:
+    for line in f:
+        line=line.strip()
+        if not line: continue
+        try:
+            obj=json.loads(line)
+            if "process_id" in obj: g.write(line+"\n")
+        except: pass
