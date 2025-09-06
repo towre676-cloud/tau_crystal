@@ -38,3 +38,8 @@ tmp/
 rescue/
 sidecar/.venv/
 *.tmp.*
+.venv/
+Lib/
+site-packages/
+system-commandline-sentinel-files
+README.md.tmp.*
