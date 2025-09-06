@@ -1,0 +1,45 @@
+{
+  "kind": "tau-crystal-receipt",
+  "version": "1.2.0",
+  "process": {
+    "id": "PO-2025-0912-00421",
+    "domain": "P2P",
+    "segment": "GRN.posted",
+    "prev_manifest": ""
+  },
+  "tau": {
+    "t": [
+      0.0,
+      0.06,
+      0.12,
+      0.18,
+      0.24,
+      0.3
+    ],
+    "clock": "Chebyshev-decay",
+    "params": {
+      "tau_min": 0.06,
+      "slope": 0.3
+    }
+  },
+  "residue": {
+    "R_norm": 0.0,
+    "D_norm": 0.0,
+    "kappa": 0.1591549431,
+    "qcro": []
+  },
+  "witness": {
+    "events_sha": "sha256:1fd1e852ecf2f2ca66c4ca30013f4ffd1c56d3bc8309222d7a1927eb5359fc86",
+    "pivot_transcript": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "rank_signature": {
+      "p": 2147482951,
+      "rank": 6
+    }
+  },
+  "sustainability": {},
+  "attest": {
+    "merkle_root": "sha256:86b9275b33cfe1276db843cf65166ea66cbe087ea82b28333495400ab6deac7d",
+    "signed_by": "",
+    "timestamp": "2025-09-06T06:23:29Z"
+  }
+}
