@@ -29,3 +29,5 @@ Read the monograph: [docs/MONOGRAPH.md](docs/MONOGRAPH.md)
 [![Receipt Verified](https://img.shields.io/badge/tau--crystal-receipt--verified-brightgreen?logo=github)](docs/manifest.md)
 
 [![τ‑Crystal Verified](https://img.shields.io/badge/receipt-verified-brightgreen?logo=github)](docs/manifest.md)
+
+[![receipt-verified](https://img.shields.io/badge/receipt-verified-brightgreen)](https://towre676-cloud.github.io/tau_crystal/tau-crystal.html)
