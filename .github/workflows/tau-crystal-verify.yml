@@ -30,4 +30,11 @@ jobs:
         run: python scripts/tauc.py stamp
       - name: Normalize manifest paths (Windows→POSIX)
         run: python scripts/normalize_manifest_paths.py
+      - name: Stamp docs (deterministic if available)
+        run: |
+          if [ -f scripts/tauc.py ]; then
+            python scripts/tauc.py stamp
+          else
+            echo "[info] no scripts/tauc.py; skipping stamp"
+          fi
           python scripts/tau_verify.py
