@@ -1,5 +1,9 @@
 # τ-Crystal
 
+[![Live τ](https://img.shields.io/badge/gh--pages-live%20τ-blue)](https://towre676-cloud.github.io/tau_crystal/sample/live.html)  
+[Monograph](https://towre676-cloud.github.io/tau_crystal/MONOGRAPH/) · 
+[Repository](https://github.com/towre676-cloud/tau_crystal)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 The project certifies not merely outputs but execution paths. Every build binds a geometric tau-clock to a Lean 4 program and emits a compact, cryptographically stable manifest that can be replayed, diffed, and audited without ambiguity. The result is a proof-carrying runtime receipt for scientific compute: identical inputs, identical path, identical proof. If two runs diverge, the manifest makes the point of divergence explicit and machine-checkable, collapsing weeks of forensics into a deterministic, one-line comparison. The repository is intentionally small and strict. Lake orchestrates the Lean toolchain; the executable graph emits a canonical receipt; the CI harness fixes the invariant grammar so that a receipt from today can be inspected tomorrow and still verify byte-for-byte.
