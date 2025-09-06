@@ -3,10 +3,14 @@ open Lake DSL
 
 package tau_crystal
 
--- Build the TauCrystal library (only what’s under TauCrystal/)
+-- Build only the known-good modules.
 lean_lib TauCrystal where
-  globs := #[.submodules `TauCrystal]
+  globs := #[
+    .precise `TauCrystal.Edition
+    -- add more when they compile:
+    -- .precise `TauCrystal.EconRisk
+    -- .precise `TauCrystal.Spectral
+  ]
 
--- Keep the tiny fusion tool
-lean_exe fusion where
+@[default_target] lean_exe fusion where
   root := `FusionMain
