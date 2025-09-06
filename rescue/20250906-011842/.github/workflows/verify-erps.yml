@@ -1,0 +1,35 @@
+name: verify-erp-receipts
+on:
+  push:
+    paths: [ 'manifests/*.json' ]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify signatures (best-effort)
+        run: |
+          python - <<'PY'
+import os, json, subprocess, tempfile, glob, sys
+files=glob.glob("manifests/*.json")
+ok=True
+for f in files:
+  try:
+    doc=json.load(open(f,"r",encoding="utf-8"))
+    digest=doc.get("attest",{}).get("merkle_root","")
+    sig=doc.get("attest",{}).get("signature","")
+    pub=doc.get("attest",{}).get("public_key_pem","")
+    canon=json.dumps({k:doc[k] for k in doc if k!="attest"},separators=(",",":"),ensure_ascii=False)
+    calc="sha256:"+__import__("hashlib").sha256(canon.encode()).hexdigest()
+    if digest and digest!=calc:
+      print("HASH MISMATCH", f); ok=False; continue
+    if sig and pub:
+      with tempfile.NamedTemporaryFile(delete=False) as m:
+        m.write(bytes.fromhex(digest.split("sha256:")[1])); m.flush()
+        v=subprocess.run(["bash","-lc","openssl pkeyutl -verify -pubin -inkey /dev/stdin -sigfile /dev/stdin -rawin -in "+m.name],
+                         input=pub.encode()+b"\n"+__import__("base64").b64decode(sig), capture_output=True)
+        if v.returncode!=0: print("SIG FAIL",f); ok=False
+  except Exception as e:
+    print("CHECK ERROR", f, e); ok=False
+sys.exit(0 if ok else 1)
+PY
