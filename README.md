@@ -1,3 +1,8 @@
+[![Plan: FREE](https://img.shields.io/badge/plan-FREE-blue?style=flat-square)](./.tau_plan_roots.env)
+[![CI](https://img.shields.io/github/actions/workflow/status/towre676-cloud/tau_crystal.git/verify.yml?style=flat-square)](https://github.com/towre676-cloud/tau_crystal.git/actions)
+[![Attestation](https://img.shields.io/badge/attestation-ledger-green?style=flat-square)](./.tau_ledger/attestation.txt)
+
+
 # τ-Crystal
 
 ## Plans
@@ -58,3 +63,27 @@ Read the monograph: [docs/MONOGRAPH.md](docs/MONOGRAPH.md)
 —
 
 See **[CI Pipeline](docs/CI.md)** · **[License](LICENSE)** · **[Sample HTML](docs/sample/live.html)**
+
+## Quickstart
+
+```bash
+# from repo root
+bash scripts/plan/tau_pro_gate.sh
+bash scripts/plan/write_roots.sh
+TAU_MAX_SHARDS=${TAU_MAX_SHARDS:-20} ./scripts/plan/launch_verifiers.sh
+```
+
+- Latest status: see `docs/manifest.md` (STATUS + MERKLE_ROOT)
+- Receipts: `.tau_ledger/receipts/`
+- Chain head: `.tau_ledger/CHAIN`
+- Human summary: `.tau_ledger/attestation.txt`
+
+
+## Docs
+
+- **Manifest spec**: `docs/specs/manifest-v1.1.md` (if present)
+- **Live manifest**: `docs/manifest.md`
+- **Ledger attestation**: `.tau_ledger/attestation.txt`
+- **Audit guide**: `docs/AUDIT.md`
+- **CI notes**: `docs/ci.md`
+
