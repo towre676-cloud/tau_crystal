@@ -1,0 +1,29 @@
+name: τ‑Crystal Docs Verification
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (with previous commit)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run verification
+        env:
+          SIGNATURE_THRESHOLD: ${{ vars.SIGNATURE_THRESHOLD || '0' }}
+          SIGNER_PUBKEYS_DIR: .well-known/tau-crystal-signers/pubkeys
+          SIGNATURES_DIR: .well-known/tau-crystal-signers/signatures
+          PROOF_OF_WORK_BITS: ${{ vars.PROOF_OF_WORK_BITS || '0' }}
+        run: |
+          python scripts/tau_verify.py
