@@ -16,3 +16,7 @@ require std from git "https://github.com/leanprover/std4" @ "v4.5.0"
 target proofs : Unit := do
   let _ ← Lean.build (importString := "TauCrystal.Proofs.TauMonotonic")
   pure ()
+
+target laurent_proofs : Unit := do
+  let _ ← Lean.build (importString := "TauCrystal.Proofs.LaurentCheck")
+  pure ()
