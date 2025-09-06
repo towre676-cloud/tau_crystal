@@ -1,0 +1,73 @@
+name: tau-crystal Release (Sigstore keyless)
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.2.0)'
+        required: true
+
+env:
+  COSIGN_VERSION: 'v2.2.3'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write   # needed for Sigstore keyless
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 2 }
+
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.x' }
+
+      - name: Stamp & verify
+        run: |
+          python scripts/tauc.py stamp
+          PROOF_OF_WORK_BITS=8 python scripts/tauc.py verify
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3
+        with:
+          cosign-release: ${{ env.COSIGN_VERSION }}
+
+      - name: Build release assets
+        run: python scripts/make_release_assets.py
+
+      - name: Sign assets (keyless; emit signature + certificate)
+        env:
+          COSIGN_YES: "true"
+        run: |
+          cosign sign-blob dist/SHA256SUMS.txt \
+            --output-signature dist/SHA256SUMS.txt.sig \
+            --output-certificate dist/SHA256SUMS.txt.pem
+          cosign sign-blob dist/sbom.cdx.json \
+            --output-signature dist/sbom.cdx.json.sig \
+            --output-certificate dist/sbom.cdx.json.pem
+
+      - name: Create & push tag
+        run: |
+          git config user.name "ci"
+          git config user.email "ci@users.noreply.github.com"
+          git tag -a "${{ github.event.inputs.tag }}" -m "tau-crystal release ${{ github.event.inputs.tag }}"
+          git push origin "${{ github.event.inputs.tag }}"
+
+      - name: Upload release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag }}
+          files: |
+            dist/SHA256SUMS.txt
+            dist/SHA256SUMS.txt.sig
+            dist/SHA256SUMS.txt.pem
+            dist/sbom.cdx.json
+            dist/sbom.cdx.json.sig
+            dist/sbom.cdx.json.pem
+            tau-crystal-manifest.json
+            tau-crystal-receipt.json
+            docs/monographs.tar.gz
+            docs/monographs.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
