@@ -1,0 +1,78 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><title>τ-crystal erp monograph</title>
+<style>body{font-family:system-ui,monospace;margin:2rem}code{background:#eee;padding:2px}</style></head>
+<body>
+<h1>τ-crystal erp monograph <small>(auto-rendered)</small></h1>
+<p><strong>live status</strong> — 10 manifests emitted · latest root <code>sha256:d4402f3f84d648f6f7d73c3dc6dc1f3a7089acc03296f709f978298da31b160f</code></p>
+<pre># Ï„â€‘Crystal ERP Trace Spine
+
+This repository implements a live Ï„â€‘Crystal sidecar for ERP systems. It emits SHAâ€‘256â€“addressed receipts that combine:
+
+- Ï„-series: algebraic process time, calibrated from Chebyshev decay geometry
+- qâ€‘CRO trace: deformation from the normal path
+- Residue: rank-based deviation proofs
+- Attestation block: Ed25519-signed content-linked receipts
+
+Each receipt upgrades the ERP from a timestamp trail to a verifiable execution trace. Every segment of a procurement, shipment, or job is positioned, measured, and attested in Ï„.
+
+---
+
+## Live status (from this repo)
+
+Manifests present: **10**
+
+Sample merkle_root: **sha256:d4402f3f84d648f6f7d73c3dc6dc1f3a7089acc03296f709f978298da31b160f**
+
+Sample signed: **no**
+
+Regenerate + verify locally:
+
+```bash
+TAU_SLOPE=0.30 TAU_MIN=0.06 scripts/rebuild-from-file.sh tmp/P2P.ndjson
+scripts/verify-all.sh
+```
+
+Watch and append new events:
+
+```bash
+scripts/process-watch.sh tmp/P2P.ndjson &
+echo '{"process_id":"PO-2025-0912-00421","domain":"P2P","segment":"GRN.posted","payload":{"qty":100},"ts":"2025-09-06T16:22:00Z"}' >> tmp/P2P.ndjson
+```
+
+---
+
+## Manifest format (canonical core + attest)
+
+```json
+{
+  "kind": "tau-crystal-receipt",
+  "version": "1.2.0",
+  "process": { "id": "â€¦", "domain": "â€¦", "segment": "â€¦", "prev_manifest": "sha256:â€¦" },
+  "tau": { "t": [ â€¦ ], "clock": "Chebyshev-decay", "params": { "tau_min": 0.25 } },
+  "residue": { "R_norm": 0.083, "D_norm": 0.017, "kappa": 0.1591549431, "qcro": [ â€¦ ] },
+  "witness": { "events_sha": "sha256:â€¦", "pivot_transcript": "sha256:â€¦", "rank_signature": { "p": 2147482951, "rank": 6 } },
+  "sustainability": {},
+  "attest": { "merkle_root": "sha256:â€¦", "signed_by": "ed25519:org-key-2025", "timestamp": "â€¦" }
+}
+```
+
+---
+
+## ERP mapping (excerpt)
+
+| ERP domain | Ï„â€‘observable | Residue signal | Certificate payload | Decision surface |
+| --- | --- | --- | --- | --- |
+| Procureâ€‘toâ€‘Pay | Ï„ on POâ†’GRNâ†’3â€‘way matchâ†’APâ†’payment | Lateâ€‘mass beyond Ï„*; qâ€‘CRO spikes on split/rework | SHA of event slice; finiteâ€‘field rank transcript; SLA witness | Release cash; reroute vendor; expedite pricing |
+| Orderâ€‘toâ€‘Cash | Ï„ on quoteâ†’orderâ†’ATPâ†’pick/pack/shipâ†’PODâ†’invoice | Backorder torsion; dwell hot spots; carrier slippage | Carrier leg proofs; pick path witnesses; POD attestation | Promise recalibration; carrier penalties/rewards |
+| Production/MES | Ï„ on jobâ†’issueâ†’startâ†’completeâ†’QC | Setupâ€‘change curvature; scrap bursts | BOM/route witness; QC cert; OEEâ€‘aligned rank | Dispatch; SMED targeting; yield guardrails |
+
+---
+
+## How it wires in practice
+
+The ERP emits canonical domain events (PurchaseOrderCreated, GoodsReceived, QualityHoldPlaced, InvoiceApproved, PaymentReleased, TransferPosted) onto a bus or file stream. The Ï„â€‘Crystal sidecar maintains compact state vectors, updates Ï„, qâ€‘CRO, and residue, and emits contentâ€‘addressed manifests. The ERP stores the manifest hash alongside each transaction; UX and APIs read Ï„â€‘aware status instead of raw timestamps. Finance, procurement, logistics, and risk all see the same attested story.
+
+Governance and compliance simplify: every material path is attested; receipts are small and replayable; CI verifies them; the same manifest line feeds SOX, ESG, insurer APIs, and vendor scorecards.
+
+</pre>
+<hr><small>last updated 2025-09-06 01:01:46 -0400</small>
+</body></html>
