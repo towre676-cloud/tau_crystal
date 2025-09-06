@@ -1,10 +1,5 @@
 ---
-title: τ-Crystal
-layout: none
+title: τ‑Crystal
 ---
 
-# τ-Crystal
-
-- [Privacy](PRIVACY)
-- [Terms](TERMS)
-- [Monograph](MONOGRAPH)
+{% include_relative manifest.md %}
