@@ -1,121 +1,88 @@
-τ‑Crystal
+# τ-Crystal: A Canonical Receipt for Computation
 
-A canonical receipt for any computation—from a single script run to a planet‑scale ERP flow. One line emits the proof. One hash binds the truth.
+The core claim of τ-Crystal is simple: you should be able to tell, without guesswork or ceremony, whether two runs of a program were the same computation. Not just the same inputs and outputs, but the same path through time. We take the habit of “it worked on my machine” and turn it into a small, inspectable object that travels with the run. The object is called a receipt. It is a compact, canonical JSON document that records a few decisive facts about the execution and is stable enough to verify tomorrow, next month, and under a cold read by another team.
+
+The approach is deliberately modest. We do not attempt to virtualize the world or to “record everything.” Instead we choose invariants that matter for scientific and engineering compute: a pinned toolchain, a deterministic build graph, a transcript that is cheap to produce and easy to replay, and a grammar that rules out stylistic drift. The result is not an encyclopedia of runtime minutiae. It is a terse affidavit that lets you line up two runs and see precisely where they diverge.
+
+The name τ is a reminder that we are certifying a trajectory, not just a destination. If a run is a path through a state space, the receipt is a coarse but canonical description of that path. The project began as a complaint about post-hoc forensics: after a discrepancy, engineers spend days asking the same three questions—what code, what environment, what changed—while the relevant information evaporates. τ-Crystal chooses to spend an extra second during the run in order to save a week after the run.
+
+## Why Lean 4 and Lake
+
+The receipt grammar lives in a Lean 4 codebase because we wanted proofs to be close at hand and because the `lake` build system keeps us honest about dependency order and toolchain pinning. Lean’s module system and pure semantics make it straightforward to write small verifiers that never pull in accidental state. The grammar is just code: a data type that says what a valid receipt is, a pretty-printer that writes it out, and a checker that refuses to parse anything that wanders from the canonical path. If two receipts parse to the same value, they are equivalent; if the bytes differ, it is because something meaningful changed.
+
+Lake does two jobs. It orchestrates the Lean toolchain so that a developer on Windows and a runner on Linux produce the same object files for the same sources, and it gives us hooks to introduce the receipt emission at the right moment in the build. The workflow is unromantic on purpose: build, run a short executable to produce a transcript, write the receipt, upload it as an artifact.
+
+## What is in the receipt
+
+The canonical manifest is designed to be boring. It names the producing component, records the exact commit hash, and includes a timestamp in UTC. If the producer writes a short stdout transcript, we record the stable path to it. The shape is conservative enough that small tools can read it across languages and platforms. Canonicalization is not an afterthought. The serializer avoids floating whitespace, ordered maps are flattened deterministically, and optional fields only appear when they have content. The grammar is tight because every spare byte is a place for accidental drift.
+
+We constrained scope for a reason. The receipt is not a configuration dump or a hardware profile. It is a certificate that this code at this commit produced this transcript at this time. If you need more context—container images, environment hashes, solver seeds—attach a reference to an external dossier. The receipt points to the dossier but does not swallow it.
+
+## The τ series and the rank kernel
+
+The initial producer, `fusion`, writes a transcript that is intentionally small and surprisingly informative. It drives a Chebyshev recurrence on a matrix mapped to the interval [-1,1] and emits the energy and cumulative τ sequence across a fixed budget of steps. In parallel it computes a modular rank over fixed primes and logs the pivot transcript. These two lines of evidence—the spectral sketch and the rank kernel—catch a wide range of silent regressions without the cost of full recomputation. The transcript is easy to replay and compare. If two runs disagree, the first index of divergence is explicit.
+
+None of this is a substitute for domain-specific validation. It is a smoke alarm. We keep the alarm loud but cheap so that teams can afford to run it on every branch, in every pull request, and on every nightly job.
+
+## From local to continuous
+
+A project earns its keep when the same story holds locally and in CI. Locally, a developer runs a one-shot script that builds with Lake and writes `out/manifest.json` plus a short stdout file. In CI, the exact same script runs on a clean machine and uploads the two files as an artifact named `tau-crystal-manifest`. The names matter because the verifier depends on them. If the artifact is missing, the check fails with a plain sentence. If the JSON is malformed, the error is evident without log spelunking.
+
+The GitHub App is thin but decisive. It listens for `workflow_run` events, fetches the artifact for the completed run, opens the ZIP, validates the manifest, and posts a single check on the commit. Green means the receipt is present and valid. Red means something that should never be subtle has gone wrong. The check output includes the producing component, the Git hash, the timestamp, and a small usage note about plan limits.
+
+## Canonicalization as governance
+
+People tolerate friction when they can feel the payoff, but they resent drift. The receipt grammar is our answer to drift. We favor determinism over convenience. When a field is optional, it is optional everywhere. When a serializer chooses a map order, it chooses it forever. When a new version is necessary, we version the grammar explicitly and keep the old checker available. The repository stays small because the grammar is small. The artifacts stay readable because the grammar is readable.
+
+A good grammar enables a culture. Engineers stop arguing about where to put things because the grammar tells them where things go. Reviewers stop asking “is this the same as last week?” because the receipt comparison tells them instantly. The habit that remains is to ask “does this difference matter?” which is a human question that a machine can help you find.
+
+## Security posture
+
+The verifier never asks for secrets. It uses GitHub App authentication to read the artifact for the run that just finished, and it posts a check on the commit that triggered that run. The webhook HMAC keeps noise off the endpoint in production. In development we allow a stub mode to accelerate iteration, but the default posture is strict. The service keeps a tiny monthly counter to enforce plan limits; it does not store source code or raw artifacts beyond the lifetime of a single check. Privacy is a feature of the architecture, not a policy added at the end.
+
+## Pricing that respects the work
+
+We kept pricing simple because complexity is where distrust grows. The free tier is generous enough to be useful on a real project. The pro tier raises limits and unlocks organizational use. Entitlements come from GitHub Marketplace so there is no second identity to manage. The verifier checks whether the installation account has a current subscription and applies the appropriate limit. If the usage counter rolls over the monthly cap, the check turns into a polite nudge with a link back to the listing page. All of this happens in the same place engineers already live: a pull request.
+
+## What happens when it fails
+
+A failure should be a hint, not a riddle. The verifier writes a failure with a single line title and a paragraph that names the missing piece. If the artifact was not uploaded, it says so. If the manifest JSON is invalid, it says so. If the grammar check failed, it lists the fields that are wrong. These sentences are short because we would rather you fix the cause than read about it. The dashboards you already have—Actions logs and a diff of the receipt—carry the rest.
+
+## How to extend the receipt
+
+The grammar is intentionally open to narrow extensions. If a producer has a domain-specific transcript that belongs in the receipt, add a namespaced field with a stable schema and a parser that refuses ambiguity. Do not smuggle in free-form logs. Do not make the canonical parts of the receipt depend on execution environment or clock drift. If you must carry a reference to an external artifact store, keep the handle deterministic and treat the store as a cache, not a database of record.
+
+This discipline means a lab or a company can carry their history forward without babysitting a zoo of ad hoc formats. A receipt from two years ago still parses. A receipt written tomorrow still compares to the one from last Tuesday. The set of valid receipts grows, but it does not meander.
+
+## Why this matters
+
+The point of reproducibility is not to pass an audit. It is to reduce the surface area of regret. When you keep a canonical receipt, you save the team from the weekly archaeology dig. When you keep the grammar tight, you save yourself from the next clever idea that turns into a maintenance burden. When you build the check into the place people already look, you save attention for work that only humans can do.
+
+τ-Crystal is a polite constraint. It is a reminder to build the right kind of memory into the places where your code already lives. It gives you a receipt that reads the same in the morning as it did last night, and a green check that means what it says. In an era where everything is a platform, this is a tool that tries to be small on purpose.
+
+## Road to adoption
+
+Adoption is not a ceremony. Point your CI at the script, upload the artifact with the expected name, install the app, and watch the check appear. If you later want to turn the free plan into the pro plan, you do not change the code; you publish a Marketplace listing and remove the stub flag in your server’s configuration. The rest is culture work: write receipts as a matter of habit, treat the grammar as law, and enjoy the quiet that follows.
+
+## A final word
+
+This repository is intentionally strict and intentionally short. The work it does for you is cumulative. Every valid receipt you produce lowers the cost of the next investigation. Every time the check goes green without a second thought, you get a sliver of your day back. Software rarely pays you in small, regular dividends. τ-Crystal tries to.
 
 ---
 
-## Affidavit, not artifact
+## FAQ
 
-Every execution should carry a small, deterministic receipt—something that tells you where two runs align, where they diverge, or whether they’re provably equivalent. τ‑Crystal is that receipt: a live algebraic trace recorded in real time, structured as a certificate, and verified on commit. It replaces timestamp soup with calibrated time. It replaces logging glue with contract‑stable state vectors. It replaces best‑effort attestation with content‑addressed, re‑checkable manifests.
+**How to configure the sidecar for transcripts?**
+Use a `sidecar.yaml` config (see `config/sidecar.yaml` for an example) to specify fixed fields for pivot transcripts. Required fields (`id`, `timestamp`, `event_type`) ensure verification compatibility. Validate the config with `scripts/validate-config.sh`.
 
----
+**How does τ‑Crystal handle partial failures?**  
+Receipts append at semantic checkpoints. If an event slice is incomplete, the residue increases and the next valid checkpoint produces a new manifest. Verification replays the slice and recomputes τ; absence or mis‑order is detectable via the `events_sha` and `prev_manifest` linkage.
 
-## Live digest
+**What’s the sidecar overhead?**  
+Typical ERP topics (P2P/O2C) run in O(n) in the number of events with sub‑millisecond per event on commodity nodes, since the rank signature uses fixed small primes and τ updates are vector‑local.
 
-```json
-{
-  "manifests": 42,
-  "latest_root": "sha256:7d0f1c9e4a…",
-  "signed": true,
-  "built_at": "2025-09-06T14:20:11Z"
-}
-Fast track
-bash
-Copy code
-# Build + emit a manifest
-lake build
-TAU_SLOPE=0.30 TAU_MIN=0.06 scripts/rebuild-from-file.sh tmp/P2P.ndjson
+**Common errors and resolutions**  
+Invalid Merkle root → regenerate via `scripts/rebuild-from-file.sh` (canonical digest over CORE only).  
+Signature mismatch → re‑sign or rotate keys; verifier must see `attest.signature` non‑empty.  
+Pivot transcript missing → ensure the sidecar emits the fixed‑field transcript; receipts omit optional fields when empty but verification requires transcript presence when configured.
 
-# Verify entire chain
-scripts/verify-all.sh
-
-# Optional: render live HTML
-python scripts/publish-html.py
-Receipt schema (stable since 1.2.0)
-json
-Copy code
-{
-  "kind": "tau-crystal-receipt",
-  "version": "1.2.0",
-  "process": {
-    "id": "PO-2025-0912-00421",
-    "domain": "P2P",
-    "segment": "GRN.posted",
-    "prev_manifest": "sha256:5e8c…"
-  },
-  "tau": {
-    "t": [0.0, 0.41, 0.77, 1.05],
-    "clock": "Chebyshev-decay",
-    "params": { "tau_min": 0.25, "lead_prior_days": 7 }
-  },
-  "residue": {
-    "R_norm": 0.083,
-    "D_norm": 0.017,
-    "kappa": 0.1591549431,
-    "qcro": [{ "t": 1.05, "mode": "split_receipt", "amp": 0.62 }]
-  },
-  "witness": {
-    "events_sha": "sha256:9ad1…",
-    "pivot_transcript": "sha256:3b72…",
-    "rank_signature": { "p": 2147482951, "rank": 6 }
-  },
-  "sustainability": {
-    "co2e_kg": 128.4,
-    "lane_id": "LAX→DFW",
-    "contract_sla": "sha256:ccaa…"
-  },
-  "attest": {
-    "merkle_root": "sha256:7d0f…",
-    "signed_by": "ed25519:org-key-2025",
-    "timestamp": "2025-09-06T14:20:11Z"
-  }
-}
-JSON byte equality is receipt identity. Whitespace is canonical. Optional fields disappear. One manifest equals one executable truth.
-
-Same receipt, different scale
-A single R&D run or an enterprise‑wide ERP both fit the same shape. The grammar never changes. The clock just gets smarter.
-
-Domain	τ‑observable	Residue signal	Certificate payload	Decision surface
-Procure‑to‑Pay	PO→GRN→Match→AP→Payment; vendor lead‑time, lane delay, inspection mix	Match friction, late mass, rework q‑CRO spikes	Rank signature over match matrix, carbon tags, SLA witness	Cash release, vendor reroute, expediting price, stock update
-Order‑to‑Cash	Quote→Order→ATP→Pick/Pack→POD→Invoice	Dwell torsion, carrier slippage	Carrier leg proof, POD attestation, chargeback rank	Promise date replan, carrier incentives, slotting changes
-Production/MES	Job→Issue→Start→Complete→QC; setup graph, cycle priors	Scrap resonance, micro‑stoppages	Route proof, QC cert, OEE ranks	Dispatch, SMED targeting, energy‑aware scheduling
-FP&A / Treasury	Plan→Commit→Actuals; ladder from AP/AR clocks	Forecast drift, liquidity modes	Cash ladder rank cert, hedge linkage	Rolling forecast, working capital playbook
-Workforce	Requisition→Hire→Ramp→Retention	Ramp curvature, attrition wavefronts	Skill witness, ramp path	Shift design, retention incentive vector
-
-The contract
-ERP emits canonical events: PurchaseOrderCreated, GoodsReceived, InvoiceApproved, and peers. The τ‑Crystal sidecar listens, builds its vector clock, measures the deformation, and writes a digest‑only manifest. The ERP transaction proceeds; no blocking. All you store is the pointer hash. All you replay is the receipt itself. Every system sees the same signal.
-
-Governance, verified
-SOX gets full‑path attestation. ESG gets CO₂ and defect scores tied to real flow. Insurers get algebraic variance, not best‑effort categories. Vendors get scored lanes, not QBR anecdotes. The same manifest satisfies all of them without API bloat, vendor lock, or audit drag.
-
-Security posture
-Manifests are Ed25519‑signed. Merkle roots are SHA‑256‑locked. No secrets stored. No source persisted. CI verifies the manifest chain using a read‑only GitHub App identity. Everything that touches a receipt is verifiable, minimal, and content‑addressed.
-
-Adoption: one step at a time
-Start with Procure‑to‑Pay. You already have the events. Add a short Python or Bash sidecar. Let it emit receipts to manifests/. Drop the verifier into CI. Watch it turn red when match logic gets patchy; watch it turn green when flow stabilizes. Then add Order‑to‑Cash, then MES, then FP&A. No flags, no platform wars. Just receipts.
-
-Formal interface (Lean 4)
-lean
-Copy code
-structure TauCrystal.Manifest where
-  kind           : String
-  version        : String
-  process        : Json
-  tau            : Json
-  residue        : Json
-  witness        : Json
-  sustainability : Json
-  attest         : Json
-deriving FromJson, ToJson
-
-def loadLatestManifest : IO Manifest := do
-  let files ← System.FilePath.readDir "manifests"
-  let latest := files.map (·.path) |>.qsort (toString · > toString ·) |>.get! 0
-  let raw ← IO.FS.readFile latest
-  match fromJson? <| Json.parse raw with
-  | .ok m      => pure m
-  | .error err => throw <| IO.userError s!"parse error: {err}"
-You can now prove theorems about tau, residue, or merkle_root using the same manifest the verifier uses. Your execution trace becomes part of your formal reasoning system.
-
-The deal
-Keep the schema boring. Keep the receipts small. Keep the checks visible. A green check means the path was valid. A red one means it wasn’t. You don’t need another dashboard. You need one manifest that proves what really happened.
