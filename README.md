@@ -1,5 +1,18 @@
 # τ-Crystal
 
+## Plans
+
+**τ‑Crystal** is free for public repos and small private experiments.  
+**Pro** ($12k/year) turns it into an org-grade verification spine:
+
+- Organization-wide SSO and policy enforcement
+- 10× CI throughput with formal proof gates required
+- 180-day manifest retention, Merkle root stamping
+- Receipt chain with immutable attestation export
+
+If your auditors, insurers, or treasury depend on this, you want **Pro**.
+
+
 [![Live τ](https://img.shields.io/badge/gh--pages-live%20τ-blue)](https://towre676-cloud.github.io/tau_crystal/sample/live.html)  
 [Monograph](https://towre676-cloud.github.io/tau_crystal/MONOGRAPH/) · 
 [Repository](https://github.com/towre676-cloud/tau_crystal)
