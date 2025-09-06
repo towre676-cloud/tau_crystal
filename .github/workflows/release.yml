@@ -1,3 +1,6 @@
+defaults:
+  run:
+    shell: bash
 name: tau-crystal Release (Sigstore keyless)
 
 on:

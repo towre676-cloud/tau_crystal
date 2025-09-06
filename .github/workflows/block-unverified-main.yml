@@ -1,3 +1,6 @@
+defaults:
+  run:
+    shell: bash
 name: Gate main on verification
 
 on:
