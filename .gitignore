@@ -43,3 +43,6 @@ Lib/
 site-packages/
 system-commandline-sentinel-files
 README.md.tmp.*
+.tau_ledger/ci/
+.tau_ledger/debug/
+.tau_ledger/
