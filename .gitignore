@@ -46,3 +46,4 @@ README.md.tmp.*
 .tau_ledger/ci/
 .tau_ledger/debug/
 .tau_ledger/
+receipts/latest.txt

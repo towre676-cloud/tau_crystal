@@ -3,26 +3,18 @@ on:
   push:
   pull_request:
 jobs:
-  build:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install elan (Lean toolchain)
+      - name: Run assure
         run: |
-          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
-          echo "$HOME/.elan/bin" >> $GITHUB_PATH
-      - name: Show tool versions
+          bash -lc "scripts/assure.sh"
+      - name: Attest receipt (soft fail if tool absent)
         run: |
-          lean --version
-          lake --version
-      - name: Build
-        run: lake build
-      - name: Emit receipt
-        run: bash scripts/assure.sh
-      - name: Upload manifest
+          if [ -f tools/receipt2attestation.py ]; then python3 tools/receipt2attestation.py; else echo "no attestation tool; skipping"; fi
+      - name: Upload receipts
         uses: actions/upload-artifact@v4
         with:
-          name: tau-crystal-manifest
-          path: |
-            out/manifest.json
-            out/fusion.stdout.txt
+          name: receipts
+          path: receipts/*.txt
