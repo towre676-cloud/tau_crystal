@@ -1,28 +1,21 @@
 name: assure
 on:
-  push:
-  pull_request:
+  push: { branches: ["**"] }
+  pull_request: {}
 jobs:
-  build:
+  assure:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install elan (Lean toolchain)
+      - name: Run τ-Crystal assure
         run: |
-          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
-          echo "$HOME/.elan/bin" >> $GITHUB_PATH
-      - name: Show tool versions
-        run: |
-          lean --version
-          lake --version
-      - name: Build
-        run: lake build
-      - name: Emit receipt
-        run: bash scripts/assure.sh
-      - name: Upload manifest
+          set -euo pipefail
+          chmod +x scripts/assure.sh
+          RECEIPT="$(scripts/assure.sh)"
+          echo "RECEIPT=$RECEIPT" >> "$GITHUB_ENV"
+          sed -n '1,4p' "$RECEIPT"
+      - name: Upload receipt
         uses: actions/upload-artifact@v4
         with:
-          name: tau-crystal-manifest
-          path: |
-            out/manifest.json
-            out/fusion.stdout.txt
+          name: tau-receipt
+          path: ${{ env.RECEIPT }}

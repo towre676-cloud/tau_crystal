@@ -1,4 +1,4 @@
-﻿import Std
+import Std
 namespace Tools
 namespace Json
 def escape (s : String) : String :=

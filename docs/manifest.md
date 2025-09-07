@@ -55,3 +55,22 @@ Adoption is not a ceremony. Point your CI at the script, upload the artifact wit
 
 ## A final word
 This repository is intentionally strict and intentionally short. The work it does for you is cumulative. Every valid receipt you produce lowers the cost of the next investigation. Every time the check goes green without a second thought, you get a sliver of your day back. Software rarely pays you in small, regular dividends. τ-Crystal tries to.
+
+MERKLE_ROOT: 41251899cddc5e32a22b498ee62f1458a2a517bc090349059fca60ec0337481c
+
+STATUS: 2025-09-06T07:21:15Z • plan=FREE • receipt=unknown • hash=unknown
+
+# τ‑Crystal Manifest
+
+TAU_TANH2_SHA256: 8a692d462c8453c98fff3e8dd24ba2e0d55a5ba980d73537d61ef0dae80067c0
+
+SOLITON_SHA256: be3faf88fd1d477ecfa7c13a558c9404a1bfa2a2e58b02b1f303ec68de54fe2b
+
+This document tracks the verification lifecycle for this repository.
+
+- `MERKLE_ROOT:` hash over all tracked files (plan + code)
+- `STATUS:` most recent successful proof run and plan hash
+- `attestation.txt:` lives in `.tau_ledger/attestation.txt`
+- `receipts:` live in `.tau_ledger/receipts/`
+
+Plan roots are defined in `.tau_plan_roots.env` and enforced in CI.
