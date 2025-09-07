@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: "3.x"
       - name: Run physics feasibility + certificate (warn-only)
-        run: bash scripts/physics/run_physics.sh
+        run: bash scripts/physics/run_with_energy.sh
       - name: Fit c_energy (warn-only)
         run: python3 scripts/physics/fit_energy.py || true
       - name: Upload physics artifacts
