@@ -1,0 +1,36 @@
+name: Boundary and Rationale Checks (Warn-Only)
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  boundary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Boundary check (warn-only)
+        env:
+          BOUNDARY_ENFORCE: "1"
+        run: bash scripts/boundary_check.sh
+      - name: Upload boundary report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boundary-report
+          path: boundary_report.txt
+          if-no-files-found: ignore
+  rationale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compute commit range (push)
+        if: github.event_name != 'pull_request'
+        run: echo "RANGE=${{ github.event.before }}..${{ github.sha }}" >> $GITHUB_ENV
+      - name: Compute commit range (PR)
+        if: github.event_name == 'pull_request'
+        run: echo "RANGE=${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
+      - name: Commit rationale check (warn-only)
+        env:
+          ENFORCE: "1"
+        run: bash scripts/commit_rationale_check.sh "$RANGE"
