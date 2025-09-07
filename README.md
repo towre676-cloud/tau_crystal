@@ -216,3 +216,6 @@ cosign verify-blob --certificate "$FILE.cert" --signature "$FILE.sig" "$FILE"
 
 ### Physics receipts
 Built against a device passport (β, c_time, linear window a,b,η). Each run prints a receipt: (n,k), predicted vs measured T, τ, and (optionally) energy, with residues checked in CI.
+
+### Physics receipts
+Built against a device passport (β, c_time, linear window a,b,η). Each run prints a receipt: (n,k), predicted vs measured T, τ, and (optionally) energy, with residues checked in CI.
