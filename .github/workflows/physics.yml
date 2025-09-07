@@ -7,7 +7,9 @@ on:
 jobs:
   physics:
     runs-on: ubuntu-latest
-    continue-on-error: true
+    env:
+      IO_FRAC: "0"
+      T_TOL: "0.5"
     steps:
       - uses: actions/checkout@v4
       - name: Run physics feasibility + certificate (warn-only)
