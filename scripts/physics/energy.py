@@ -13,8 +13,7 @@ def rapl_joules_snapshot():
     roots = glob.glob("/sys/class/powercap/intel-rapl:*")
     if not roots:
         return None
-    total_uj = 0
-    saw = False
+    total_uj, saw = 0, False
     for root in roots:
         for p in glob.glob(os.path.join(root, "**", "energy_uj"), recursive=True):
             v = _read_u64(p)
