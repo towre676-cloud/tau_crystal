@@ -1,3 +1,3 @@
-﻿import Std
+import Std
 def hello := "world"
 
