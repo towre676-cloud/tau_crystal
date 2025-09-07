@@ -6,7 +6,13 @@ on:
     branches: [ "main" ]
 jobs:
   physics:
+    name: Physics Limits / physics
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
     env:
       IO_FRAC: "0"
       T_TOL: "0.25"
