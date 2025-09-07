@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+set -uo pipefail
+set +H
+umask 022
+
+ROOT="${1:-$PWD}"
+cd "$ROOT" || { echo "[err] bad root: $ROOT"; exit 1; }
+
+LOGDIR=".tau_ledger/debug"; mkdir -p "$LOGDIR"
+TS="$(date -u +%Y%m%dT%H%M%SZ)"
+LOG="$LOGDIR/diag-$TS.log"
+: > "$LOG" || { echo "[err] cannot write $LOG"; exit 1; }
+
+exec > >(tee -a "$LOG") 2>&1
+
+_finish(){ ec=$?; set +x; echo "[diag] exit=$ec"; echo "[diag] log: $LOG"; }
+trap _finish EXIT
+PS4='+ [${BASH_SOURCE##*/}:${LINENO}] ' 
+set -x
+
+echo "[sys] uname:"
+uname -a || true
+if command -v cmd.exe >/dev/null 2>&1; then cmd.exe /c ver || true; fi
+
+echo "[shell] BASH_VERSION=${BASH_VERSION:-} bash=$(command -v bash || true)"
+echo "[paths] awk=$(command -v awk || true) sed=$(command -v sed || true) grep=$(command -v grep || true)"
+echo "[paths] git=$(command -v git || true) lake=$(command -v lake || true) lean=$(command -v lean || true)"
+
+echo "[git] toplevel:"
+git rev-parse --show-toplevel 2>/dev/null || true
+echo "[git] status -s:"
+git status -s 2>/dev/null || true
+git config --show-origin --show-scope core.autocrlf 2>/dev/null || true
+git config --show-origin --show-scope eol 2>/dev/null || true
+
+echo "[env] locale:"
+locale 2>/dev/null || true
+
+echo "[eol] scanning tracked files for CRLF markers"
+if git ls-files -z >/dev/null 2>&1; then git ls-files -z | while IFS= read -r -d "" f; do file --mime "$f" 2>/dev/null; done | grep -n "CRLF" || true; fi
+
+echo "[lean] versions:"
+command -v lean  >/dev/null 2>&1 && lean  --version || true
+command -v lake  >/dev/null 2>&1 && lake  --version || true
+command -v elan  >/dev/null 2>&1 && elan  --version || true
+
+if [ -f lakefile.lean ] && [ "${RUN_PROBE:-0}" = "1" ]; then
+  echo "[probe] lake update/build"
+  export PATH="$HOME/.elan/bin:$PATH"
+  lake update || true
+  lake build  || true
+else
+  echo "[probe] environment or lakefile missing; skipping build probe"
+fi
+
+echo "[shell] BASH_VERSION=${BASH_VERSION:-} bash=$(command -v bash || true)"
+echo "[paths] awk=$(command -v awk || true) sed=$(command -v sed || true) grep=$(command -v grep || true)"
+echo "[paths] git=$(command -v git || true) lake=$(command -v lake || true) lean=$(command -v lean || true)"
+
+echo "[git] toplevel:"
+git rev-parse --show-toplevel 2>/dev/null || true
+echo "[git] status -s:"
+git status -s 2>/dev/null || true
+git config --show-origin --show-scope core.autocrlf 2>/dev/null || true
+git config --show-origin --show-scope eol 2>/dev/null || true
+
+echo "[env] locale:"
+locale 2>/dev/null || true
+
+echo "[eol] scanning tracked files for CRLF markers"
+if git ls-files -z >/dev/null 2>&1; then
+  git ls-files -z | while IFS= read -r -d "" f; do file --mime "$f" 2>/dev/null; done | grep -n "CRLF" || true
+fi
+
+echo "[lean] versions:"
+command -v lean  >/dev/null 2>&1 && lean  --version || true
+command -v lake  >/dev/null 2>&1 && lake  --version || true
+command -v elan  >/dev/null 2>&1 && elan  --version || true
+
+if [ -f lakefile.lean ] && [ "${RUN_PROBE:-0}" = "1" ]; then
+  echo "[probe] lake update/build"
+  export PATH="$HOME/.elan/bin:$PATH"
+  lake update || true
+  lake build  || true
+else
+  echo "[probe] environment or lakefile missing; skipping build probe"
+fi

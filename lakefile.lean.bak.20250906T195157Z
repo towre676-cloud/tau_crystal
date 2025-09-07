@@ -1,0 +1,10 @@
+import Lake
+open Lake DSL
+
+package «TauCrystal» where
+
+lean_lib «TauCrystal» where
+
+@[defaultTarget]
+lean_exe «tau_proofs» where
+  root := `Main

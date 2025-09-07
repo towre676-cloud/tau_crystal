@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+title: "τ-Crystal"
+message: "If you use this software, please cite it as:"
+type: software
+authors:
+  - family-names: "Towre"
+    given-names: "Cody"
+repository-code: "https://github.com/$(git config --get remote.origin.url | sed -E 's#.*github.com[:/ ]([^/]+/[^/.]+).*#\1#')"

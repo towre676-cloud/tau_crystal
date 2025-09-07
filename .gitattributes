@@ -8,3 +8,10 @@
 *.ps1  text eol=crlf
 *.cmd  text eol=crlf
 *.bat  text eol=crlf
+*.lean text eol=lf
+*.sh      text eol=lf
+*.lean    text eol=lf
+*.yml     text eol=lf
+*.yaml    text eol=lf
+*.md      text eol=lf
+*.json    text eol=lf

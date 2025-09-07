@@ -1,0 +1,24 @@
+name: boundary
+on:
+  push:    { branches: ["**"] }
+  pull_request: {}
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Boundary audit + whitelist check
+        run: |
+          chmod +x scripts/boundary_audit.sh scripts/boundary_check.sh scripts/boundary_census.sh
+          scripts/boundary_check.sh
+          CENSUS="$(scripts/boundary_census.sh)"
+          echo "CENSUS=$CENSUS" >> "$GITHUB_ENV"
+          head -n 5 "$CENSUS" || true
+      - name: Upload boundary artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: boundary-artifacts
+          path: |
+            .tau_ledger/assumptions.tsv
+            .tau_ledger/assumptions.ndjson
+            ${{ env.CENSUS }}

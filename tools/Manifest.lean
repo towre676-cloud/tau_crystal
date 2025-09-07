@@ -1,4 +1,4 @@
-﻿import Std
+import Std
 import Tools.GPU
 
 namespace Tools
