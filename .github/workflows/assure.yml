@@ -8,11 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run τ‑Crystal assure
+      - name: Run τ-Crystal assure
         run: |
           chmod +x scripts/assure.sh
           RECEIPT="$(scripts/assure.sh)"
-          echo "RECEIPT=${RECEIPT}" >> "$GITHUB_ENV"
+          echo "RECEIPT=${RECEIPT}" >> $GITHUB_ENV
           sed -n '1,4p' "$RECEIPT"
       - name: Upload receipt
         uses: actions/upload-artifact@v4
