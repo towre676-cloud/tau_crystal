@@ -68,7 +68,7 @@ os.makedirs(os.path.dirname(path), exist_ok=True)
 open(path,"w",encoding="utf-8").write(json.dumps(doc, indent=2))
 
 # Step summary friendly print
-print("[calibrate] window n∈[%d,%d] k=%d  ->  a=%.3e s/item  b=%.3e s  max residual η=%.3f"
+print("[calibrate] window nin[%d,%d] k=%d  ->  a=%.3e s/item  b=%.3e s  max residual eta=%.3f"
       % (grid[0], grid[-1], K, a, b, eta))
 for n,T in pairs:
     pred=a*n+b
