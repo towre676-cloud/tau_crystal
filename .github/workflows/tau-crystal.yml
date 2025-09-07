@@ -1,4 +1,7 @@
 name: tau-crystal
+defaults:
+  run:
+    shell: bash
 
 on:
   push:
