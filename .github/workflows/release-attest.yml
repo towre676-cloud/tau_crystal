@@ -1,0 +1,28 @@
+name: release-attest
+on:
+  push:
+    tags: ["v*"]
+jobs:
+  attest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run τ‑Crystal assure
+        run: |
+          chmod +x scripts/assure.sh
+          RECEIPT="$(scripts/assure.sh)"
+          echo "RECEIPT=${RECEIPT}" >> "$GITHUB_ENV"
+          sed -n '1,4p' "$RECEIPT"
+      - name: Build attestation files
+        run: |
+          awk 'NR<=4{print}' "$RECEIPT" > attestation.txt
+          sha256sum "$RECEIPT" > attestation.txt.sha256
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ env.RECEIPT }}
+            attestation.txt
+            attestation.txt.sha256

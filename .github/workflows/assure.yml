@@ -1,20 +1,21 @@
 name: assure
 on:
   push:
-  pull_request:
+    branches: ["**"]
+  pull_request: {}
 jobs:
-  verify:
+  assure:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run assure
+      - name: Run τ‑Crystal assure
         run: |
-          bash -lc "scripts/assure.sh"
-      - name: Attest receipt (soft fail if tool absent)
-        run: |
-          if [ -f tools/receipt2attestation.py ]; then python3 tools/receipt2attestation.py; else echo "no attestation tool; skipping"; fi
-      - name: Upload receipts
+          chmod +x scripts/assure.sh
+          RECEIPT="$(scripts/assure.sh)"
+          echo "RECEIPT=${RECEIPT}" >> "$GITHUB_ENV"
+          sed -n '1,4p' "$RECEIPT"
+      - name: Upload receipt
         uses: actions/upload-artifact@v4
         with:
-          name: receipts
-          path: receipts/*.txt
+          name: tau-receipt
+          path: ${{ env.RECEIPT }}
