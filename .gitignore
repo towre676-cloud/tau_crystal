@@ -90,3 +90,7 @@ venv/
 __pycache__/
 *.pyc
 .pytest_cache/
+assumption_census.tsv
+boundary_report.txt
+scripts/*.broken
+.tau_ledger/physics/*.json
