@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IO_FRAC: "0"
+      T_TOL: "0.25"
+    env:
+      IO_FRAC: "0"
       T_TOL: "0.5"
     steps:
       - uses: actions/checkout@v4
