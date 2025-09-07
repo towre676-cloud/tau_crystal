@@ -47,3 +47,12 @@ README.md.tmp.*
 .tau_ledger/debug/
 .tau_ledger/
 receipts/latest.txt
+.tau_ledger/
+dist/
+receipts/latest.txt
+*.tar.gz
+*.tgz
+*.zip
+*.png
+*.jpg
+*.svg
