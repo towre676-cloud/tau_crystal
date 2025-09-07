@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run physics feasibility + certificate (warn-only)
-        run: bash scripts/physics/run_physics.sh
+        run: bash scripts/physics/run_with_energy.sh
       - name: Upload physics artifacts
         if: always()
         uses: actions/upload-artifact@v4
