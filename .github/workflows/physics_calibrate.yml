@@ -1,0 +1,35 @@
+name: Physics Calibrator (Manual)
+on:
+  workflow_dispatch:
+    inputs:
+      n_min: {description: "Minimum n", required: false, default: "200000"}
+      n_max: {description: "Maximum n", required: false, default: "2000000"}
+      n_samples: {description: "Samples in window", required: false, default: "5"}
+      k: {description: "k (modes)", required: false, default: "96"}
+      repeats: {description: "repeats per n", required: false, default: "1"}
+jobs:
+  calibrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Passport probe
+        run: python3 scripts/physics/passport_probe.py || true
+      - name: Fit linear window T(n)=a n + b
+        env:
+          N_MIN: ${{ github.event.inputs.n_min }}
+          N_MAX: ${{ github.event.inputs.n_max }}
+          N_SAMPLES: ${{ github.event.inputs.n_samples }}
+          K: ${{ github.event.inputs.k }}
+          REPEATS: ${{ github.event.inputs.repeats }}
+        run: |
+          python3 scripts/physics/calibrate_linear.py | tee .tau_ledger/physics/calibrate.log
+          if [ -n "${GITHUB_STEP_SUMMARY:-}" ] && [ -w "$GITHUB_STEP_SUMMARY" ]; then
+            echo "### Calibration results" >> "$GITHUB_STEP_SUMMARY"
+            sed -n '1,80p' .tau_ledger/physics/calibrate.log >> "$GITHUB_STEP_SUMMARY" || true
+          fi
+      - name: Upload updated passport
+        uses: actions/upload-artifact@v4
+        with:
+          name: physics-passport
+          path: .tau_ledger/physics/passport.json
+          if-no-files-found: error
