@@ -32,4 +32,4 @@ The `.gitignore` has been extended to exclude `.tau_ledger/` and `receipts/lates
 
 ## Result
 
-This sweep transforms τ‑Crystal from an experimental ledger into a functional runtime certificate system, where each computation emits a claim and a proof, and every published version contains its own attested output. The promise of reproducible science becomes a cryptographic object — precise, anchored, and machine-verifiable.
+This sweep transforms τ‑Crystal from an experimental ledger into a functional runtime certificate system, where each computation emits a claim and a proof, and every published version contains its own attested output. The promise of reproducible science becomes a cryptographic object — precise, anchored, and machine-verifiable. 
