@@ -85,3 +85,8 @@ obj/
 *.log
 *.lock
 receipts/latest.txt
+venv/
+**/system-commandline-sentinel-files
+__pycache__/
+*.pyc
+.pytest_cache/
