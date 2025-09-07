@@ -44,7 +44,7 @@ except Exception:
   pass
 # record
 doc={
-  "captured_at": datetime.now(datetime.timezone.utc).isoformat(),
+  "captured_at": datetime.now(timezone.utc).isoformat(),
   "host": {"system": platform.system(), "release": platform.release(), "machine": platform.machine()},
   "cpu": {"mem_total_bytes": mem_bytes},
   "gpu": {"name": gpu_name, "mem_total_bytes": gpu_mem},
