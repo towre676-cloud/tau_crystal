@@ -13,6 +13,7 @@ passport = json.load(open(".tau_ledger/physics/passport.json","r",encoding="utf-
 
 M_phys = rd(passport.get("gpu",{}).get("mem_total_bytes")) or rd(passport.get("cpu",{}).get("mem_total_bytes")) or 4.0e9
 beta   = rd(passport.get("io",{}).get("beta_sustained_bytes_per_s")) or 2.0e9
+IO_FRAC = float(os.environ.get("IO_FRAC","0") or "0")
 c_time = rd(passport.get("coefficients",{}).get("c_time")) or 1e-9
 c_energy = rd(passport.get("coefficients",{}).get("c_energy")) or 0.0
 c_mem = rd(passport.get("coefficients",{}).get("c_mem")) or 1.0
