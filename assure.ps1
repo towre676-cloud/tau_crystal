@@ -1,4 +1,4 @@
-﻿$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Stop"
 $LAKE = "$HOME\.elan\bin\lake.exe"
 if ($PSScriptRoot) { Set-Location -Path $PSScriptRoot }
 

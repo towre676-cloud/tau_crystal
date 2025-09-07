@@ -1,4 +1,4 @@
-﻿import Std
+import Std
 namespace Tools
 namespace QCRO
 

@@ -1,4 +1,4 @@
-﻿import Std
+import Std
 import Core.Tau
 import Core.Sheaf
 import Core.Residue
