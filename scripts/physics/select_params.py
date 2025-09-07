@@ -59,6 +59,7 @@ if n <= 0:
 
 while n>0:
     T_pred,E_pred,M_pred = predict(n,k)
+print(f"[select/debug] c_time={c_time} IO_FRAC={IO_FRAC} beta={beta} W={(w1+w2*k)*n} S={S(n,k)}")
     if T_pred<=L_max and (E_pred<=E_max or c_energy==0.0) and M_pred<=M_max:
         break
     n = int(n*0.9)

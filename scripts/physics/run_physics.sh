@@ -3,6 +3,10 @@ set -euo pipefail
 set +H
 umask 022
 
+# physics predictor knobs
+IO_FRAC="${IO_FRAC:-0}"
+T_TOL="${T_TOL:-0.5}"
+
 summary(){ if [ -n "${GITHUB_STEP_SUMMARY:-}" ] && [ -w "$GITHUB_STEP_SUMMARY" ]; then printf "%s\n" "$*" >> "$GITHUB_STEP_SUMMARY" || true; fi; }
 
 python3 scripts/physics/passport_probe.py || true
@@ -14,7 +18,7 @@ M_MAX="${M_MAX:-}";    # empty means "auto" inside selector
 EPS_MAX="${EPS_MAX:-1e-6}"; [ -n "$EPS_MAX" ] || EPS_MAX="1e-6"
 TAU_STAR="${TAU_STAR:-12}"; [ -n "$TAU_STAR" ] || TAU_STAR="12"
 
-L_MAX="$L_MAX" E_MAX="$E_MAX" M_MAX="$M_MAX" EPS_MAX="$EPS_MAX" TAU_STAR="$TAU_STAR" \
+IO_FRAC="$IO_FRAC" T_TOL="$T_TOL" L_MAX="$L_MAX" E_MAX="$E_MAX" M_MAX="$M_MAX" EPS_MAX="$EPS_MAX" TAU_STAR="$TAU_STAR" \
   python3 scripts/physics/select_params.py
 
 # Read n,k from pre_cert.json using a clean heredoc (no jq needed)
