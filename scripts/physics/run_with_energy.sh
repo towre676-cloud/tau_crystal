@@ -9,13 +9,13 @@ print(x if x is not None else -1.0)
 PY
 }
 
-pre=$(snap || echo -1)
-# Run the normal physics job; it will write post_meas.json with T and E=nan
+pre="$(snap || echo -1)"
+# Do the normal run (writes post_meas.json with T and E=nan)
 bash scripts/physics/run_physics.sh || true
-post=$(snap || echo -1)
+post="$(snap || echo -1)"
 
-# If RAPL is available, write E; otherwise leave as-is
-python3 - <<PY
+# Patch E into post_meas.json if we got usable readings
+python3 - <<'PY'
 import json, os, math
 p=".tau_ledger/physics/post_meas.json"
 try:
