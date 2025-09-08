@@ -8,6 +8,9 @@ jobs:
   census:
     runs-on: ubuntu-latest
     steps:
+      - name: Install tools (jq)
+        shell: bash
+        run: sudo apt-get update && sudo apt-get install -y jq
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
@@ -24,6 +27,9 @@ jobs:
   conformance:
     runs-on: ubuntu-latest
     steps:
+      - name: Install tools (jq)
+        shell: bash
+        run: sudo apt-get update && sudo apt-get install -y jq
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
