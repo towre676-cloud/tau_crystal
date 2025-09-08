@@ -45,3 +45,5 @@ Verify any emitted receipt in one step:
 ```bash
 lake manifest verify
 ```
+
+<!-- cache-hit demo 20250908-180558 -->
