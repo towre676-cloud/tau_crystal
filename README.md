@@ -212,3 +212,24 @@ cosign verify-blob --certificate "$FILE.cert" --signature "$FILE.sig" "$FILE"
 [OK] chain head = <sha> (receipt = .tau_ledger/receipts/...json)
 [OK] merkle_root = <sha> (manifest ↔ receipt)
 ```
+
+## GitHub Action: Tau Lean CI
+
+Run Lean 4 via elan, cache Lake artifacts, and build your project.
+
+```yaml
+name: lean-ci
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lean build
+        uses: towre676-cloud/tau_crystal@v1
+        with:
+          working-directory: .
+          elan-toolchain: leanprover/lean4:stable
+          lake-target: build
+          cache: true
+```

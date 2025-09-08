@@ -1,0 +1,72 @@
+name: "Tau Lean CI"
+description: "Set up Lean 4 via elan, optionally cache Lake artifacts, and run lake."
+author: "towre676-cloud"
+branding:
+  icon: "package"
+  color: "purple"
+
+inputs:
+  working-directory:
+    description: "Directory where lakefile.lean lives"
+    required: false
+    default: "."
+  elan-toolchain:
+    description: "Elan toolchain (e.g. leanprover/lean4:stable)"
+    required: false
+    default: "leanprover/lean4:stable"
+  lake-target:
+    description: "Lake subcommand/target (e.g. build, test)"
+    required: false
+    default: "build"
+  cache:
+    description: "Enable cache for .lake/ and build/"
+    required: false
+    default: "true"
+  cache-key:
+    description: "Extra salt for the cache key"
+    required: false
+    default: ""
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install elan (Lean toolchain)
+      shell: bash
+      run: |
+        set -euxo pipefail
+        curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+          | bash -s -- -y --default-toolchain="${{ inputs.elan-toolchain }}"
+        echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+    - name: Normalize working dir
+      shell: bash
+      run: echo "WORKDIR=${{ inputs.working-directory }}" >> "$GITHUB_ENV"
+
+    - name: Restore Lake cache
+      if: ${{ inputs.cache == 'true' }}
+      uses: actions/cache@v4
+      with:
+        path: |
+          ${{ env.WORKDIR }}/.lake
+          ${{ env.WORKDIR }}/build
+        key: ${{ runner.os }}-lake-${{ hashFiles(format('{0}/lakefile.lean', env.WORKDIR)) }}-${{ inputs.cache-key }}
+        restore-keys: |
+          ${{ runner.os }}-lake-${{ hashFiles(format('{0}/lakefile.lean', env.WORKDIR)) }}-
+          ${{ runner.os }}-lake-
+
+    - name: lake update
+      shell: bash
+      working-directory: ${{ env.WORKDIR }}
+      run: |
+        set -euxo pipefail
+        lake update
+
+    - name: lake run
+      shell: bash
+      working-directory: ${{ env.WORKDIR }}
+      run: |
+        set -euxo pipefail
+        lake ${{ inputs.lake-target }}
