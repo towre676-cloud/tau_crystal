@@ -5,37 +5,30 @@ on:
 permissions:
   contents: read
   packages: write
-  pull-requests: write
 jobs:
-  lean:
+  smart:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/leanprover-community/lean:leanprover-lean4-v4.22.0
+    container: "leanprover/lean4:v4.22.0"
     steps:
       - uses: actions/checkout@v4
-      - name: Install CI deps (container)
-        run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3 curl openssl ca-certificates tar gzip jq && update-ca-certificates
-      - name: Lean SmartCache
+      - name: Install system deps
+        run: apt-get update -y && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3 python3-pip jq curl ca-certificates openssl git tar gzip
+      - name: Lean SmartCache (hydrate/publish)
         uses: ./.github/actions/lean-smart
+        env:
+          ED25519_SK_B64: ${{ secrets.ED25519_SK_B64 }}
         with:
-          publish-on-miss: ${{ github.event_name == 'push' }}
-      - name: Synthesize receipt/summary (always)
-        if: always()
-        run: mkdir -p .tau_ledger && { [ -s .tau_ledger/receipt.json ] || { ts=$(date -u +%Y-%m-%dT%H:%M:%SZ || echo unknown); sha=$(git rev-parse --short=12 HEAD || echo unknown); printf "{ \"status\": \"unknown\", \"reason\": \"no receipt emitted by action\", \"commit\": \"%s\", \"timestamp\": \"%s\" }\n" "$sha" "$ts" > .tau_ledger/receipt.json; }; } && { [ -s .smartcache_summary_line.txt ] || echo "Lean SmartCache • Status: UNKNOWN • See job logs" > .smartcache_summary_line.txt; }
-      - name: Upload receipt artifact
-        if: always()
+          working-directory: .
+          elan-toolchain: "leanprover/lean4:v4.22.0"
+          ghcr-namespace: "ghcr.io/${{ github.repository_owner }}/mathlib-olean"
+          publish-on-miss: "true"
+      - name: Synthesize receipt (always)
+        if: ${{ always() }}
+        run: mkdir -p .tau_ledger && if [ -s .tau_ledger/receipt.json ]; then echo "receipt already present"; else echo "{ \"status\":\"synthetic\", \"note\":\"build failed earlier; synthetic receipt\" }" > .tau_ledger/receipt.json; fi
+      - name: Upload receipt artifact (always)
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: smartcache-receipt
           path: .tau_ledger/receipt.json
-      - name: Upload summary line
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: smartcache-summary
-          path: .smartcache_summary_line.txt
-      - name: Comment SmartCache result (PRs only)
-        if: ${{ github.event_name == "pull_request" }}
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: BODY="$(cat .smartcache_summary_line.txt 2>/dev/null || echo SmartCache summary unavailable)"; JSON=$(jq -Rn --arg body "$BODY" "{body:$body}"); curl -sS -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" -X POST "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${{ github.event.pull_request.number }}/comments" -d "$JSON" >/dev/null || true
+          if-no-files-found: error
