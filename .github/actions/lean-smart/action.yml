@@ -1,0 +1,52 @@
+name: "Lean SmartCache (Mathlib-aware)"
+description: "Lean 4 build keyed to Mathlib commit with GHCR hydrate/publish."
+inputs:
+  working-directory:
+    required: false
+    default: . 
+  elan-toolchain:
+    required: false
+    default: "leanprover/lean4:v4.22.0"
+  ghcr-namespace:
+    required: false
+    default: "ghcr.io/${{ github.repository_owner }}/mathlib-olean"
+  publish-on-miss:
+    required: false
+    default: "false"
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+    - name: Install elan
+      uses: leanprover/elan-action@v1
+      with:
+        toolchain: \${{ inputs.elan-toolchain }}
+    - name: Compute Mathlib SHA
+      id: sha
+      shell: bash
+      run: python3 scripts/mathlib-sha.py "${{ inputs.working-directory }}" > .mathlib_sha && echo "sha=$(cat .mathlib_sha)" >> "$GITHUB_OUTPUT"
+    - name: Install ORAS (Linux)
+      shell: bash
+      run: mkdir -p "$RUNNER_TEMP/oras" && curl -fsSL https://github.com/oras-project/oras/releases/download/v1.2.0/oras_1.2.0_linux_amd64.tar.gz -o "$RUNNER_TEMP/oras/oras.tgz" && tar -xzf "$RUNNER_TEMP/oras/oras.tgz" -C "$RUNNER_TEMP/oras" && echo "$RUNNER_TEMP/oras" >> "$GITHUB_PATH"
+    - name: Login GHCR (read if available)
+      shell: bash
+      env:
+        TOKEN: \${{ github.token }}
+      run: test -n "${TOKEN:-}" && oras login ghcr.io -u "${{ github.actor }}" -p "$TOKEN" || true
+    - name: Hydrate Mathlib from GHCR
+      id: hydrate
+      shell: bash
+      env:
+        IMAGE: \${{ inputs.ghcr-namespace }}
+      run: TOOL="\${{ inputs.elan-toolchain }}"; TOOL_SAFE="${TOOL//\//-}"; TOOL_SAFE="${TOOL_SAFE//:/-}"; TAG="\${{ runner.os }}-${TOOL_SAFE}-\${{ steps.sha.outputs.sha }}"; mkdir -p .lake/build; if oras pull "$IMAGE:$TAG" -o .lake-cache.tgz 2>/dev/null; then tar -xzf .lake-cache.tgz -C .lake/build; echo "hit=true" >> "$GITHUB_OUTPUT"; else echo MISS > .oras_miss; echo "hit=false" >> "$GITHUB_OUTPUT"; fi
+    - name: Lake build
+      shell: bash
+      working-directory: \${{ inputs.working-directory }}
+      run: lake build
+    - name: Publish GHCR layer on miss
+      if: \${{ inputs.publish-on-miss == true && steps.hydrate.outputs.hit == false }}
+      shell: bash
+      env:
+        IMAGE: \${{ inputs.ghcr-namespace }}
+        TOKEN: \${{ github.token }}
+      run: TOOL="\${{ inputs.elan-toolchain }}"; TOOL_SAFE="${TOOL//\//-}"; TOOL_SAFE="${TOOL_SAFE//:/-}"; TAG="\${{ runner.os }}-${TOOL_SAFE}-\${{ steps.sha.outputs.sha }}"; mkdir -p .lake/build/lib/lean .lake/build/ir; if [ -d .lake/build/lib/lean/Mathlib ] || [ -d .lake/build/ir/Mathlib ]; then tar -czf .lake-cache.tgz -C .lake/build lib/lean/Mathlib ir/Mathlib 2>/dev/null || true; if [ -s .lake-cache.tgz ]; then oras login ghcr.io -u "${{ github.actor }}" -p "${TOKEN:-}" || true; oras push "$IMAGE:$TAG" .lake-cache.tgz:application/vnd.tau-crystal.mathlib.layer.v1+tar; else echo "no Mathlib artifacts to publish"; fi; else echo "no Mathlib artifacts to publish"; fi
