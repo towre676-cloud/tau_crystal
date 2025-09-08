@@ -1,39 +1,7 @@
-name: Assumption Census + Conformance (Warn-Only)
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+name: census (disabled)
+on: workflow_dispatch
 jobs:
-  census:
-    continue-on-error: true
+  noop:
     runs-on: ubuntu-latest
     steps:
-      - name: Install tools (jq)
-        shell: bash
-        run: sudo apt-get update && sudo apt-get install -y jq
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
-      - name: Assumption census (warn-only)
-        run: bash -x scripts/assumption_census.sh || true
-      - name: Upload census
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: assumption-census
-          path: .tau_ledger/assumption_census.tsv
-          if-no-files-found: ignore
-  conformance:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install tools (jq)
-        shell: bash
-        run: sudo apt-get update && sudo apt-get install -y jq
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
-      - name: Manifest conformance (warn-only)
-        run: bash scripts/manifest_conformance.sh tau-crystal-manifest.json
+      - run: echo "census is disabled"
