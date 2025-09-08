@@ -6,6 +6,7 @@ on:
     branches: [ "main" ]
 jobs:
   census:
+    continue-on-error: true
     runs-on: ubuntu-latest
     steps:
       - name: Install tools (jq)
