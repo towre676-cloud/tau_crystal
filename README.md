@@ -1,3 +1,19 @@
+# τ-Crystal — **3× faster Mathlib caching** for Lean CI (Linux, containerized)
+![CI: lean-minicache](https://github.com/towre676-cloud/tau_crystal/actions/workflows/lean-minicache.yml/badge.svg?branch=main)
+
+Drop this repo's **`.github/workflows/lean-minicache.yml`** into your project (or copy the fragment). It caches **Mathlib** by exact commit and runs inside a prebuilt Lean container, so PRs on the same Mathlib SHA usually build **3–6× faster**—no registries, no ORAS.
+
+### Quick Start
+- Use **Linux runners** only (faster on GitHub-hosted).
+- Keep PRs on the **same Mathlib commit** to preserve cache hits.
+- Copy or adapt: `.github/workflows/lean-minicache.yml`.
+- After two runs (fresh + hydrated), record times in **[docs/BENCHMARK.md](docs/BENCHMARK.md)**.
+
+### What you get
+- **Mathlib-only cache** keyed by exact SHA → biggest time win with minimal risk.
+- **Prebuilt Lean container** → skips toolchain install (~20–40s saved).
+- **Step Summary** prints build time and cache key on every run.
+
 [![Plan: FREE](https://img.shields.io/badge/plan-FREE-blue?style=flat-square)](./.tau_plan_roots.env)
 [![CI](https://img.shields.io/github/actions/workflow/status/towre676-cloud/tau_crystal.git/verify.yml?style=flat-square)](https://github.com/towre676-cloud/tau_crystal.git/actions)
 [![Attestation](https://img.shields.io/badge/attestation-ledger-green?style=flat-square)](./.tau_ledger/attestation.txt)
