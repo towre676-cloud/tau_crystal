@@ -8,7 +8,7 @@ permissions:
 jobs:
   smart:
     runs-on: ubuntu-latest
-    container: "leanprover/lean4:v4.22.0"
+    container: "ghcr.io/leanprover/lean:latest"
     steps:
       - uses: actions/checkout@v4
       - name: Install system deps
@@ -19,7 +19,7 @@ jobs:
           ED25519_SK_B64: ${{ secrets.ED25519_SK_B64 }}
         with:
           working-directory: .
-          elan-toolchain: "leanprover/lean4:v4.22.0"
+          elan-toolchain: "ghcr.io/leanprover/lean:latest"
           ghcr-namespace: "ghcr.io/${{ github.repository_owner }}/mathlib-olean"
           publish-on-miss: "true"
       - name: Synthesize receipt (always)
