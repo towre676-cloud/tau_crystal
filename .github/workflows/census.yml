@@ -1,7 +1,4 @@
 name: Assumption Census + Conformance (Warn-Only)
-defaults:
-  run:
-    shell: bash
 on:
   push:
     branches: [ "main" ]

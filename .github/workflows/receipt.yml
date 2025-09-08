@@ -1,7 +1,4 @@
 name: receipt
-defaults:
-  run:
-    shell: bash
 on:
   push:
     paths: ['manifests/**','scripts/**']
