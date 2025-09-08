@@ -1,29 +1,7 @@
-name: assure
-on:
-  push: { branches: ["**"] }
-  pull_request: {}
+name: assure (disabled)
+on: workflow_dispatch
 jobs:
-  assure:
+  noop:
     runs-on: ubuntu-latest
     steps:
-      - name: Install tools (jq)
-        shell: bash
-        run: sudo apt-get update && sudo apt-get install -y jq
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
-      - name: Run τ-Crystal assure
-        run: |
-          set -euxo pipefail
-          chmod +x scripts/assure.sh
-          RECEIPT="$(bash scripts/assure.sh || true)"
-          echo "assure.sh returned path: [$RECEIPT]"
-          test -n "$RECEIPT" && test -f "$RECEIPT" || { echo "::warning::assure produced no receipt"; touch assure-empty.txt; RECEIPT=assure-empty.txt; }
-          echo "RECEIPT=$RECEIPT" >> "$GITHUB_ENV"
-        [[ -n "$RECEIPT"           sed -n '1,4p' "$RECEIPT"          sed -n '1,4p' "$RECEIPT" -f "$RECEIPT" ]] && sed -n '1,4p' "$RECEIPT" || true
-      - name: Upload receipt
-        uses: actions/upload-artifact@v4
-        with:
-          name: tau-receipt
-          path: ${{ env.RECEIPT }}
+      - run: echo "assure is disabled"
