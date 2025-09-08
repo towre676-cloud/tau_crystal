@@ -14,27 +14,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install CI deps (container)
-        run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3 curl openssl ca-certificates tar gzip && update-ca-certificates
+        run: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3 curl openssl ca-certificates tar gzip jq && update-ca-certificates
       - name: Lean SmartCache
         uses: ./.github/actions/lean-smart
         with:
           publish-on-miss: ${{ github.event_name == 'push' }}
+      - name: Synthesize receipt/summary (always)
+        if: always()
+        run: mkdir -p .tau_ledger && { [ -s .tau_ledger/receipt.json ] || { ts=$(date -u +%Y-%m-%dT%H:%M:%SZ || echo unknown); sha=$(git rev-parse --short=12 HEAD || echo unknown); printf "{ \"status\": \"unknown\", \"reason\": \"no receipt emitted by action\", \"commit\": \"%s\", \"timestamp\": \"%s\" }\n" "$sha" "$ts" > .tau_ledger/receipt.json; }; } && { [ -s .smartcache_summary_line.txt ] || echo "Lean SmartCache • Status: UNKNOWN • See job logs" > .smartcache_summary_line.txt; }
       - name: Upload receipt artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: smartcache-receipt
           path: .tau_ledger/receipt.json
-          if-no-files-found: ignore
       - name: Upload summary line
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: smartcache-summary
           path: .smartcache_summary_line.txt
-          if-no-files-found: ignore
       - name: Comment SmartCache result (PRs only)
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ github.event_name == "pull_request" }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: BODY="$(cat .smartcache_summary_line.txt 2>/dev/null || echo SmartCache\ summary\ unavailable)"; JSON=$(python3 - <<PY\nimport json,sys; print(json.dumps({\"body\": sys.stdin.read()}))\nPY <<<\"$BODY\"); curl -sS -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" -X POST "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${{ github.event.pull_request.number }}/comments" -d "$JSON" >/dev/null || true
+        run: BODY="$(cat .smartcache_summary_line.txt 2>/dev/null || echo SmartCache summary unavailable)"; JSON=$(jq -Rn --arg body "$BODY" "{body:$body}"); curl -sS -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" -X POST "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${{ github.event.pull_request.number }}/comments" -d "$JSON" >/dev/null || true
