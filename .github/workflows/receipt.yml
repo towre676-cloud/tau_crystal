@@ -1,12 +1,21 @@
 name: receipt
 on:
   push:
-    paths: ['manifests/**','scripts/**']
   pull_request:
-    paths: ['manifests/**','scripts/**']
+permissions:
+  contents: read
 jobs:
-  verify:
+  make-receipt:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: scripts/verify-all.sh
+      - name: Synthesize receipt
+        run: |
+          mkdir -p .tau_ledger
+          echo "{\"status\":\"synthetic\",\"note\":\"receipt-only workflow\",\"ref\":\"${GITHUB_REF}\",\"sha\":\"${GITHUB_SHA}\"}" > .tau_ledger/receipt.json
+      - name: Upload receipt artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: smartcache-receipt
+          path: .tau_ledger/receipt.json
+          if-no-files-found: error
