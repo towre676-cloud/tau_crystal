@@ -17,8 +17,18 @@ jobs:
         uses: ./.github/actions/lean-smart
         with:
           publish-on-miss: ${{ github.event_name == 'push' }}
+      - name: Upload receipt artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: smartcache-receipt
+          path: .tau_ledger/receipt.json
+      - name: Upload summary line
+        uses: actions/upload-artifact@v4
+        with:
+          name: smartcache-summary
+          path: .smartcache_summary_line.txt
       - name: Comment SmartCache result (PRs only)
         if: ${{ github.event_name == 'pull_request' }}
         env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh pr comment ${{ github.event.pull_request.number }} --body "$(cat .smartcache_summary_line.txt 2>/dev/null || echo SmartCache\ summary\ unavailable)" || true
+          GITHUB_TOKEN: ${{ github.token }}
+        run: BODY="$(cat .smartcache_summary_line.txt 2>/dev/null || echo SmartCache\ summary\ unavailable)"; JSON=$(python3 - <<PY\nimport json,sys; print(json.dumps({"body": sys.stdin.read()}))\nPY <<<"$BODY"); curl -sS -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" -X POST "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${{ github.event.pull_request.number }}/comments" -d "$JSON" >/dev/null || true
