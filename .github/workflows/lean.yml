@@ -1,0 +1,13 @@
+name: lean
+on:
+  push:
+  pull_request:
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/lean-smart
+        with:
+          working-directory: .
+          smart-cache: "true"
