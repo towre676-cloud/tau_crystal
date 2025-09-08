@@ -94,3 +94,7 @@ assumption_census.tsv
 boundary_report.txt
 scripts/*.broken
 .tau_ledger/physics/*.json
+
+# allow verifier key
+!.tau_ledger/
+!.tau_ledger/pubkey.pem
