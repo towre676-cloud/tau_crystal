@@ -1,89 +1,70 @@
-name: "Lean CI (SmartCache)"
-description: "Lean 4 with cache keyed to mathlib rev (+ lake/elan). Faster repeat CI."
-author: "towre676-cloud"
-branding: { icon: "zap", color: "blue" }
+name: "Lean SmartCache (Mathlib-aware)"
+description: "Lean 4 build with Mathlib commit key, GHCR hydration, and optional publish-on-miss"
 inputs:
   working-directory:
-    description: "Directory with lakefile.lean"
     required: false
-    default: "."
-  lean-version:
-    description: "elan toolchain, e.g. 'leanprover/lean4:stable'"
+    default: . 
+  elan-toolchain:
     required: false
-    default: ""
-  smart-cache:
-    description: "Key cache to mathlib rev detected from lake-manifest.json"
+    default: "leanprover/lean4:v4.22.0"
+  ghcr-namespace:
     required: false
-    default: "true"
-  cache-path:
-    description: "Paths to cache (newline-separated)"
+    default: "ghcr.io/${{ github.repository_owner }}/mathlib-olean"
+  publish-on-miss:
     required: false
-    default: |
-      ~/.elan
-      ${{ inputs.working-directory }}/.lake
-      ${{ inputs.working-directory }}/lake-packages
+    default: "false"
 runs:
   using: "composite"
   steps:
-    - name: Setup elan (Lean toolchain)
-      shell: bash
-      working-directory: ${{ inputs.working-directory }}
-      run: |
-        set -euo pipefail
-        if [[ -n "${{ inputs.lean-version }}" ]]; then
-          echo "${{ inputs.lean-version }}" > lean-toolchain
-        fi
-        curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
-          | bash -s -- -y
-        echo "$HOME/.elan/bin" >> $GITHUB_PATH
-
-    - name: Compute cache keys (elan + lake + mathlib rev)
-      id: keys
-      shell: bash
-      working-directory: ${{ inputs.working-directory }}
-      run: |
-        set -euo pipefail
-        os="${{ runner.os }}"
-        toolchain="$(cat lean-toolchain 2>/dev/null || echo "unknown")"
-        lake_hash="$( (sha256sum lakefile.lean 2>/dev/null || echo "no-lake  -") | awk '{print $1}' | cut -c1-12 )"
-
-        mathlib_rev="none"
-        if [[ "${{ inputs.smart-cache }}" == "true" ]] && [[ -f lake-manifest.json ]]; then
-          # Try jq first, then fall back to grep if missing.
-          if command -v jq >/dev/null 2>&1; then
-            mathlib_rev="$(jq -r '(.packages // [])[]
-               | select((.name|ascii_downcase)=="mathlib" or (.name|ascii_downcase)=="mathlib4")
-               | (.rev // .commit // .git // "")' lake-manifest.json | head -n1)"
-          fi
-          if [[ -z "${mathlib_rev}" || "${mathlib_rev}" == "null" ]]; then
-            mathlib_rev="$(grep -oE '"rev"\s*:\s*"[0-9a-f]{7,}"' lake-manifest.json | head -n1 | grep -oE '[0-9a-f]{7,}')"
-          fi
-          [[ -z "${mathlib_rev}" ]] && mathlib_rev="none"
-        fi
-
-        prefix="lean-${toolchain}-${os}-lake-${lake_hash}-"
-        key="${prefix}mathlib-${mathlib_rev}"
-
-        {
-          echo "CACHE_KEY_PREFIX=${prefix}"
-          echo "CACHE_KEY=${key}"
-        } >> "$GITHUB_ENV"
-
-        echo "key=${key}" >> "$GITHUB_OUTPUT"
-        echo "prefix=${prefix}" >> "$GITHUB_OUTPUT"
-
-    - name: Cache elan/lake artifacts
-      uses: actions/cache@v4
+    - uses: actions/checkout@v4
+    - name: Install elan
+      uses: leanprover/elan-action@v1
       with:
-        key: ${{ env.CACHE_KEY }}
-        restore-keys: |
-          ${{ env.CACHE_KEY_PREFIX }}
-        path: ${{ inputs.cache-path }}
-
-    - name: Build (lake build)
+        toolchain: \${{ inputs.elan-toolchain }}
+    - name: Compute Mathlib SHA
+      id: sha
       shell: bash
-      working-directory: ${{ inputs.working-directory }}
+      run: |
+        python3 scripts/mathlib-sha.py "${{ inputs.working-directory }}" > .mathlib_sha
+        echo "sha=$(cat .mathlib_sha)" >> "$GITHUB_OUTPUT"
+    - name: Install ORAS (Linux)
+      shell: bash
       run: |
         set -euo pipefail
-        lake -Kenv=dev update
-        lake build
+        mkdir -p "$RUNNER_TEMP/oras"
+        curl -fsSL https://github.com/oras-project/oras/releases/download/v1.2.0/oras_1.2.0_linux_amd64.tar.gz -o "$RUNNER_TEMP/oras/oras.tgz"
+        tar -xzf "$RUNNER_TEMP/oras/oras.tgz" -C "$RUNNER_TEMP/oras"
+        echo "$RUNNER_TEMP/oras" >> "$GITHUB_PATH"
+    - name: Hydrate Mathlib from GHCR
+      id: hydrate
+      shell: bash
+      env:
+        IMAGE: \${{ inputs.ghcr-namespace }}
+      run: |
+        set -euo pipefail
+        TAG="\${{ runner.os }}-\${{ inputs.elan-toolchain }}-\${{ steps.sha.outputs.sha }}"
+        echo "Attempting hydration: $IMAGE:$TAG"
+        mkdir -p .lake/build
+        if oras pull "$IMAGE:$TAG" -o .lake-cache.tgz; then
+          tar -xzf .lake-cache.tgz -C .lake/build
+          echo "hit=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "MISS" > .oras_miss
+          echo "hit=false" >> "$GITHUB_OUTPUT"
+        fi
+    - name: Lake build
+      shell: bash
+      working-directory: \${{ inputs.working-directory }}
+      run: lake build
+    - name: Publish GHCR layer on miss
+      if: \${{ inputs.publish-on-miss == true && steps.hydrate.outputs.hit == false }}
+      shell: bash
+      env:
+        IMAGE: \${{ inputs.ghcr-namespace }}
+      run: |
+        set -euo pipefail
+        TAG="\${{ runner.os }}-\${{ inputs.elan-toolchain }}-\${{ steps.sha.outputs.sha }}"
+        mkdir -p .lake/build/lib/lean .lake/build/ir
+        tar -czf .lake-cache.tgz -C .lake/build lib/lean/Mathlib ir/Mathlib 2>/dev/null || true
+        echo "\${{ github.token }}" | oras login ghcr.io -u "\${{ github.actor }}" --password-stdin
+        oras push "$IMAGE:$TAG" .lake-cache.tgz:application/vnd.tau-crystal.mathlib.layer.v1+tar
