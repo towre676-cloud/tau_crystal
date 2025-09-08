@@ -230,3 +230,4 @@ cosign verify-blob --certificate "$FILE.cert" --signature "$FILE.sig" "$FILE"
 [OK] merkle_root = <sha> (manifest ↔ receipt)
 ```
 
+
