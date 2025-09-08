@@ -1,4 +1,7 @@
 name: Physics Limits (Warn-Only)
+defaults:
+  run:
+    shell: bash
 on:
   push:
     branches: [ "main" ]
