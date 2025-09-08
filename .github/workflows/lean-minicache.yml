@@ -1,0 +1,31 @@
+name: lean-minicache
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install elan
+        uses: leanprover/elan-action@v1
+        with:
+          toolchain: leanprover/lean4:v4.22.0
+      - name: Compute Mathlib SHA
+        id: sha
+        run: python3 scripts/mathlib-sha.py . > .mathlib_sha && echo "sha=$(cat .mathlib_sha)" >> "$GITHUB_OUTPUT"
+      - name: Cache Mathlib (olean/ir)
+        uses: actions/cache@v4
+        with:
+          path: |
+            .lake/build/lib/lean/Mathlib
+            .lake/build/ir/Mathlib
+          key: ${{ runner.os }}-lean422-mathlib-${{ steps.sha.outputs.sha }}
+          restore-keys: |
+            ${{ runner.os }}-lean422-mathlib-
+      - name: Build (timed)
+        run: START=$(date +%s); lake build; END=$(date +%s); echo $((END-START))> .elapsed_s
+      - name: Step summary
+        run: ELAPSED=$(cat .elapsed_s 2>/dev/null || echo 0); printf "Mathlib cache key: %s\n" "${{ steps.sha.outputs.sha }}" >> "$GITHUB_STEP_SUMMARY"; printf "Build time: %ss\n" "$ELAPSED" >> "$GITHUB_STEP_SUMMARY"
