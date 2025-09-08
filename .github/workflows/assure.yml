@@ -21,7 +21,7 @@ jobs:
           echo "assure.sh returned path: [$RECEIPT]"
           test -n "$RECEIPT" && test -f "$RECEIPT" || { echo "::warning::assure produced no receipt"; touch assure-empty.txt; RECEIPT=assure-empty.txt; }
           echo "RECEIPT=$RECEIPT" >> "$GITHUB_ENV"
-          sed -n '1,4p' "$RECEIPT"
+        [[ -n "$RECEIPT"           sed -n '1,4p' "$RECEIPT"          sed -n '1,4p' "$RECEIPT" -f "$RECEIPT" ]] && sed -n '1,4p' "$RECEIPT" || true
       - name: Upload receipt
         uses: actions/upload-artifact@v4
         with:
