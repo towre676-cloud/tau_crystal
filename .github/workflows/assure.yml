@@ -1,4 +1,7 @@
 name: assure
+defaults:
+  run:
+    shell: bash
 on:
   push: { branches: ["**"] }
   pull_request: {}
