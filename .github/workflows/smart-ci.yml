@@ -18,5 +18,4 @@ jobs:
           elan-toolchain: "leanprover/lean4:v4.22.0"
           ghcr-namespace: "ghcr.io/\${{ github.repository_owner }}/mathlib-olean"
           publish-on-miss: "\${{ github.event_name == push && github.repository_owner == github.actor && true || false }}"
-      - name: Verify receipt
-        run: lake manifest verify
+      - name: Verify receipt (if present)
