@@ -1,0 +1,66 @@
+name: "Lean SmartCache (Mathlib-aware)"
+description: "Lean 4 build keyed to Mathlib commit with GHCR hydrate/publish and signed receipt."
+inputs:
+  working-directory:
+    required: false
+    default: . 
+  elan-toolchain:
+    required: false
+    default: "leanprover/lean4:v4.22.0"
+  ghcr-namespace:
+    required: false
+    default: "ghcr.io/${{ github.repository_owner }}/mathlib-olean"
+  publish-on-miss:
+    required: false
+    default: "false"
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v4
+    - name: Compute Mathlib SHA
+      id: sha
+      shell: bash
+      run: python3 scripts/mathlib-sha.py "${{ inputs.working-directory }}" > .mathlib_sha && echo "sha=$(cat .mathlib_sha)" >> "$GITHUB_OUTPUT"
+    - name: Install ORAS (Linux)
+      shell: bash
+      run: mkdir -p "$RUNNER_TEMP/oras" && curl -fsSL https://github.com/oras-project/oras/releases/download/v1.2.0/oras_1.2.0_linux_amd64.tar.gz -o "$RUNNER_TEMP/oras/oras.tgz" && tar -xzf "$RUNNER_TEMP/oras/oras.tgz" -C "$RUNNER_TEMP/oras" && echo "$RUNNER_TEMP/oras" >> "$GITHUB_PATH"
+    - name: GHCR login (best effort)
+      shell: bash
+      env:
+        TOKEN: ${{ github.token }}
+      run: test -n "${TOKEN:-}" && oras login ghcr.io -u "${{ github.actor }}" -p "$TOKEN" || true
+    - name: Hydrate Mathlib from GHCR
+      id: hydrate
+      shell: bash
+      env:
+        IMAGE: ${{ inputs.ghcr-namespace }}
+        TOOL:  ${{ inputs.elan-toolchain }}
+      run: TOOL_SAFE="${TOOL//\//-}"; TOOL_SAFE="${TOOL_SAFE//:/-}"; TAG="${{ runner.os }}-${TOOL_SAFE}-${{ steps.sha.outputs.sha }}"; mkdir -p .lake/build; if oras pull "$IMAGE:$TAG" -o .lake-cache.tgz 2>/dev/null; then tar -xzf .lake-cache.tgz -C .lake/build; echo "hit=true" >> "$GITHUB_OUTPUT"; else echo "hit=false" >> "$GITHUB_OUTPUT"; fi
+    - name: Lake build (timed)
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: START=$(date +%s); lake build; END=$(date +%s); echo $((END-START)) > .elapsed_s
+    - name: Publish GHCR layer on miss
+      if: ${{ inputs.publish-on-miss == 'true' && steps.hydrate.outputs.hit == 'false' }}
+      shell: bash
+      env:
+        IMAGE: ${{ inputs.ghcr-namespace }}
+        TOKEN: ${{ github.token }}
+        TOOL:  ${{ inputs.elan-toolchain }}
+      run: TOOL_SAFE="${TOOL//\//-}"; TOOL_SAFE="${TOOL_SAFE//:/-}"; TAG="${{ runner.os }}-${TOOL_SAFE}-${{ steps.sha.outputs.sha }}"; mkdir -p .lake/build/lib/lean .lake/build/ir; if [ -d .lake/build/lib/lean/Mathlib ] || [ -d .lake/build/ir/Mathlib ]; then tar -czf .lake-cache.tgz -C .lake/build lib/lean/Mathlib ir/Mathlib 2>/dev/null || true; if [ -s .lake-cache.tgz ]; then oras login ghcr.io -u "${{ github.actor }}" -p "${TOKEN:-}" || true; oras push "$IMAGE:$TAG" .lake-cache.tgz:application/vnd.tau-crystal.mathlib.layer.v1+tar && echo pushed> .oras_pushed; else echo "no Mathlib artifacts to publish"; fi; else echo "no Mathlib artifacts to publish"; fi
+    - name: Emit signed receipt
+      shell: bash
+      env:
+        TOOLCHAIN:  ${{ inputs.elan-toolchain }}
+        MATHLIB_SHA: ${{ steps.sha.outputs.sha }}
+        CACHE_STATUS: ${{ steps.hydrate.outputs.hit }}
+        ELAPSED_S: ${{ steps.hydrate.outputs.hit &&  ||  }}
+        ED25519_SK_B64: ${{ secrets.ED25519_SK_B64 }}
+      run: ELAPSED=$(cat .elapsed_s 2>/dev/null || echo 0); TOOL="${{ inputs.elan-toolchain }}"; TOOL_SAFE="${TOOL//\//-}"; TOOL_SAFE="${TOOL_SAFE//:/-}"; TAG="${{ runner.os }}-${TOOL_SAFE}-${{ steps.sha.outputs.sha }}"; IMAGE="${{ inputs.ghcr-namespace }}"; IMAGE_TAG="${IMAGE}:${TAG}"; ELAPSED_S="$ELAPSED" IMAGE_TAG="$IMAGE_TAG" TOOLCHAIN="$TOOL" MATHLIB_SHA="${{ steps.sha.outputs.sha }}" CACHE_STATUS="${{ steps.hydrate.outputs.hit }}" python3 scripts/emit_receipt.py
+    - name: SmartCache summary
+      shell: bash
+      env:
+        IMAGE: ${{ inputs.ghcr-namespace }}
+        TOOL:  ${{ inputs.elan-toolchain }}
+        HIT:   ${{ steps.hydrate.outputs.hit }}
+      run: TOOL_SAFE="${TOOL//\//-}"; TOOL_SAFE="${TOOL_SAFE//:/-}"; TAG="${{ runner.os }}-${TOOL_SAFE}-${{ steps.sha.outputs.sha }}"; ELAPSED=$(cat .elapsed_s 2>/dev/null || echo 0); STATUS=$([ "$HIT" = "true" ] && echo HIT || echo MISS); PUBLISHED=$([ -f .oras_pushed ] && echo "published" || echo "skipped"); printf "### Lean SmartCache\n" >> "$GITHUB_STEP_SUMMARY"; printf "• Status: %s\n" "$STATUS" >> "$GITHUB_STEP_SUMMARY"; printf "• Tag: %s:%s\n" "$IMAGE" "$TAG" >> "$GITHUB_STEP_SUMMARY"; printf "• Build time: %ss • Publish: %s\n" "$ELAPSED" "$PUBLISHED" >> "$GITHUB_STEP_SUMMARY"; printf "• Verify: \`python3 scripts/manifest_verify.py\`\n" >> "$GITHUB_STEP_SUMMARY"; printf "SmartCache: %s via %s:%s; build %ss; verify: \`python3 scripts/manifest_verify.py\`\n" "$STATUS" "$IMAGE" "$TAG" "$ELAPSED" > .smartcache_summary_line.txt; cat .smartcache_summary_line.txt
