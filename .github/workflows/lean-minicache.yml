@@ -7,12 +7,14 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/leanprover-community/lean:leanprover-lean4-v4.22.0
     steps:
       - uses: actions/checkout@v4
-      - name: Install elan
-        uses: leanprover/elan-action@v1
-        with:
-          toolchain: leanprover/lean4:v4.22.0
+      - name: Show Lean/Lake versions
+        run: |
+          lean --version || true
+          lake --version || true
       - name: Compute Mathlib SHA
         id: sha
         run: python3 scripts/mathlib-sha.py . > .mathlib_sha && echo "sha=$(cat .mathlib_sha)" >> "$GITHUB_OUTPUT"
@@ -28,4 +30,4 @@ jobs:
       - name: Build (timed)
         run: START=$(date +%s); lake build; END=$(date +%s); echo $((END-START))> .elapsed_s
       - name: Step summary
-        run: ELAPSED=$(cat .elapsed_s 2>/dev/null || echo 0); printf "Mathlib cache key: %s\n" "${{ steps.sha.outputs.sha }}" >> "$GITHUB_STEP_SUMMARY"; printf "Build time: %ss\n" "$ELAPSED" >> "$GITHUB_STEP_SUMMARY"
+        run: ELAPSED=$(cat .elapsed_s 2>/dev/null || echo 0); printf "Container: ghcr.io/leanprover-community/lean:leanprover-lean4-v4.22.0\n" >> "$GITHUB_STEP_SUMMARY"; printf "Mathlib key: %s\n" "${{ steps.sha.outputs.sha }}" >> "$GITHUB_STEP_SUMMARY"; printf "Build time: %ss\n" "$ELAPSED" >> "$GITHUB_STEP_SUMMARY"
