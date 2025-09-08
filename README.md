@@ -16,3 +16,20 @@ That makes cache hits more consistent across PRs that don’t bump mathlib.
     working-directory: .
     smart-cache: "true"
 ```
+
+## Lean SmartCache Quick Start
+Drop this action in place of the official one. It hydrates Mathlib by exact commit from GHCR and falls back to a normal build on a miss.
+
+```yaml
+- uses: actions/checkout@v4
+- uses: ./.github/actions/lean-smart
+  with:
+    working-directory: .
+    elan-toolchain: "leanprover/lean4:v4.22.0"
+```
+
+Verify any emitted receipt in one step:
+
+```bash
+lake manifest verify
+```
