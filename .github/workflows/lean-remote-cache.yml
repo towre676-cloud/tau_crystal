@@ -15,9 +15,32 @@ jobs:
       LEAN_NUM_THREADS: 8
     steps:
       - uses: actions/checkout@v4
+
+      # Windows commits sometimes lose +x or CRLF slips in; fix it in CI
+      - name: Make scripts executable
+        run: chmod +x scripts/*.sh || true
+
+      - name: Normalize line endings (best-effort)
+        run: sed -i 's/\r$//' scripts/*.sh || true
+
+      # Call via bash so we don’t rely on x-bit at all
       - name: Build with remote cache
-        run: scripts/ci_build.sh
-      - name: Upload receipt (always)
+        run: bash scripts/ci_build.sh
+
+      # If the build step died before writing receipt, synthesize one
+      - name: Synthesize receipt (always)
+        if: ${{ always() }}
+        run: |
+          mkdir -p .tau_ledger
+          if [ ! -s .tau_ledger/receipt.json ]; then
+            TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+            cat > .tau_ledger/receipt.json <<EOF
+{"version":"rcpt-1","timestamp":"$TS","status":"synthetic","note":"pre-receipt failure"}
+EOF
+          fi
+          echo "[ok] receipt at .tau_ledger/receipt.json"
+
+      - name: Upload receipt artifact (always)
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
