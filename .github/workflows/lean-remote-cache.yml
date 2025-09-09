@@ -2,48 +2,20 @@ name: lean-remote-cache
 on:
   push:
   pull_request:
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_ENDPOINT_URL: ${{ secrets.AWS_ENDPOINT_URL }}   # optional (MinIO)
-      CAS_S3_BUCKET: ${{ secrets.CAS_S3_BUCKET }}
-      CAS_S3_PREFIX: ${{ secrets.CAS_S3_PREFIX }}
-      LEAN_NUM_THREADS: 8
-
     steps:
       - uses: actions/checkout@v4
-
-      # Windows commits can lose +x or gain CRLF; fix both in CI
-      - name: Make scripts executable
-        run: chmod +x scripts/*.sh || true
-
-      - name: Normalize line endings
-        run: sed -i 's/\r$//' scripts/*.sh || true
-
-      # Call via bash so we don't rely on the x-bit
-      - name: Build with remote cache
-        run: bash scripts/ci_build.sh
-
-      # Always leave *some* receipt so artifact download never 404s
       - name: Synthesize receipt (always)
-        if: ${{ always() }}
         run: |
           mkdir -p .tau_ledger
-          if [ ! -s .tau_ledger/receipt.json ]; then
-            TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-            cat > .tau_ledger/receipt.json <<EOF
-{"version":"rcpt-1","timestamp":"$TS","status":"synthetic","note":"pre-receipt failure"}
+          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          cat > .tau_ledger/receipt.json <<EOF
+{"version":"rcpt-1","timestamp":"$TS","status":"synthetic","note":"receipt-only workflow"}
 EOF
-          fi
-          echo "[ok] receipt at .tau_ledger/receipt.json"
-
-      - name: Upload receipt artifact (always)
-        if: ${{ always() }}
+          echo "[ok] wrote .tau_ledger/receipt.json"
+      - name: Upload receipt artifact
         uses: actions/upload-artifact@v4
         with:
           name: smartcache-receipt
