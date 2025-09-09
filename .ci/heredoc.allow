@@ -1,0 +1,13 @@
+scripts/emit-receipt.sh
+scripts/emit_receipt.sh
+scripts/fix_minimal.sh
+scripts/hash.sh
+scripts/laurent/integrate_laurent.sh
+scripts/manifest_conformance.sh
+scripts/physics/run_physics.sh
+scripts/polish_repo.sh
+scripts/rebuild-from-file.sh
+scripts/run_ledger_from_bash.sh
+scripts/update_readme.sh
+scripts/verify-all.sh
+tools/verify_linear.sh

@@ -99,3 +99,9 @@ scripts/*.broken
 !.tau_ledger/
 !.tau_ledger/pubkey.pem
 .artifact_tmp/
+.pages_stamp
+# never commit private keys
+*_sk.pem
+*.pem
+!.tau_ledger/ed25519_pub.pem
+!.tau_ledger/pubkey.pem
