@@ -2,6 +2,7 @@ name: lean-remote-cache
 on:
   push:
   pull_request:
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,21 +14,22 @@ jobs:
       CAS_S3_BUCKET: ${{ secrets.CAS_S3_BUCKET }}
       CAS_S3_PREFIX: ${{ secrets.CAS_S3_PREFIX }}
       LEAN_NUM_THREADS: 8
+
     steps:
       - uses: actions/checkout@v4
 
-      # Windows commits sometimes lose +x or CRLF slips in; fix it in CI
+      # Windows commits can lose +x or gain CRLF; fix both in CI
       - name: Make scripts executable
         run: chmod +x scripts/*.sh || true
 
-      - name: Normalize line endings (best-effort)
+      - name: Normalize line endings
         run: sed -i 's/\r$//' scripts/*.sh || true
 
-      # Call via bash so we don’t rely on x-bit at all
+      # Call via bash so we don't rely on the x-bit
       - name: Build with remote cache
         run: bash scripts/ci_build.sh
 
-      # If the build step died before writing receipt, synthesize one
+      # Always leave *some* receipt so artifact download never 404s
       - name: Synthesize receipt (always)
         if: ${{ always() }}
         run: |
