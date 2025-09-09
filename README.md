@@ -247,3 +247,4 @@ cosign verify-blob --certificate "$FILE.cert" --signature "$FILE.sig" "$FILE"
 
 
 
+
