@@ -1,0 +1,87 @@
+name: three-streams
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: three-streams-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    env:
+      GRAMMAR_FILE: verify/ReceiptGrammar.lean
+      TLOG_GIST_ID: ${{ secrets.TLOG_GIST_ID }}
+      ED25519_SK_B64: ${{ secrets.ED25519_SK_B64 }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Normalize scripts (CRLF→LF, +x)
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          for f in scripts/*.sh; do sed -i 's/\r$//' "$f" || true; chmod +x "$f" || true; done
+
+      - name: Install minimal deps
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -y
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            jq curl ca-certificates git python3 python3-pip coreutils awscli || true
+          python3 -m pip install --user --no-warn-script-location opentimestamps-client >/dev/null 2>&1 || true
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends b3sum >/dev/null 2>&1 || true
+
+      - name: Synthesize receipt
+        id: rcpt
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$(mktemp)"
+          bash scripts/receipt_synthesize.sh | tee "$OUT" | tee -a "$GITHUB_STEP_SUMMARY" | sed 's/^/[rcpt] /'
+          while IFS='=' read -r k v; do
+            case "$k" in
+              receipt_path|receipt_digest|receipt_algo|statement|statement_digest|statement_algo|grammar_file|grammar_digest|grammar_algo)
+                echo "$k=$v" >> "$GITHUB_OUTPUT";;
+            esac
+          done < "$OUT"
+
+      - name: Append to transparency log (local + optional gist)
+        id: tlog
+        shell: bash
+        env:
+          RECEIPT_PATH: ${{ steps.rcpt.outputs.receipt_path }}
+          STATEMENT_FILE: ${{ steps.rcpt.outputs.statement }}
+          GRAMMAR_FILE: ${{ env.GRAMMAR_FILE }}
+        run: |
+          set -euo pipefail
+          OUT="$(mktemp)"
+          bash scripts/tlog_append.sh | tee "$OUT" | tee -a "$GITHUB_STEP_SUMMARY" | sed 's/^/[tlog] /'
+          while IFS='=' read -r k v; do
+            case "$k" in
+              tlog_leaf|tlog_leaf_algo|tlog_root|tlog_root_algo) echo "$k=$v" >> "$GITHUB_OUTPUT";;
+            esac
+          done < "$OUT"
+
+      - name: Stamp OpenTimestamps (optional)
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/anchor_ots.sh "${{ steps.rcpt.outputs.receipt_path }}" || true
+
+      - name: Upload receipt artifact (always)
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: smartcache-receipt
+          path: .tau_ledger/receipt.json
+          if-no-files-found: error
+          retention-days: 90
