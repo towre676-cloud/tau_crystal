@@ -3,45 +3,38 @@ on:
   push:
   pull_request:
   workflow_dispatch:
-
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+defaults:
+  run:
+    shell: bash
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
-      # Normalize permissions & endings in CI (belt-and-suspenders)
-      - name: Normalize script perms
-        shell: bash
+      - name: Normalize scripts (CRLF→LF, +x)
         run: |
           set -euo pipefail
           shopt -s nullglob
-          for f in scripts/*.sh; do
-            sed -i 's/\r$//' "$f" || true
-            chmod +x "$f" || true
-          done
+          for f in scripts/*.sh; do sed -i 's/\r$//' "$f" || true; chmod +x "$f" || true; done
 
       - name: Compute hashes and synthesize receipt
         id: synth
-        shell: bash
         env:
           GRAMMAR_FILE: verify/ReceiptGrammar.lean
         run: |
           set -euo pipefail
           mkdir -p .tau_ledger
-
-          # Choose a statement file or synthesize one
           STMT="$(git ls-files lake-manifest.json 'manifests/*.json' | head -n1 || true)"
-          if [ -z "${STMT:-}" ]; then
-            printf '{ "note": "synthetic statement (none present)" }\n' > .tau_ledger/statement.json
-            STMT=".tau_ledger/statement.json"
-          fi
-
-          # Always invoke via bash (don’t rely on +x)
-          S_HASH="$(bash scripts/hash.sh "$STMT"             | awk '{print $1}')"
-          G_HASH="$(bash scripts/grammar_hash.sh             | awk '{print $1}')"
+          if [ -z "${STMT:-}" ]; then printf '{ "note":"synthetic statement (none present)" }\n' > .tau_ledger/statement.json; STMT=".tau_ledger/statement.json"; fi
+          S_HASH="$(bash scripts/hash.sh "$STMT" | awk '{print $1}')"
+          G_HASH="$(bash scripts/grammar_hash.sh | awk '{print $1}')"
           TS="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-
           {
             printf '{'
             printf '"version":"rcpt-2",'
@@ -53,18 +46,28 @@ jobs:
             printf '"status":"synthetic"'
             printf '}\n'
           } > .tau_ledger/receipt.json
-
           R_HASH="$(bash scripts/hash.sh .tau_ledger/receipt.json | awk '{print $1}')"
-          echo "receipt_hash=$R_HASH" >> "$GITHUB_OUTPUT"
-          echo "statement=$STMT"      >> "$GITHUB_OUTPUT"
-          echo "grammar=$G_HASH"      >> "$GITHUB_OUTPUT"
-          echo "[ok] receipt synthesized: $R_HASH"
+          echo "receipt=$R_HASH" >> "$GITHUB_OUTPUT"
+          echo "statement=$STMT"  >> "$GITHUB_OUTPUT"
+          echo "grammar=$G_HASH"  >> "$GITHUB_OUTPUT"
+          {
+            echo "### τ-Crystal receipt"
+            echo ""
+            echo "- commit: \`$(git rev-parse --short HEAD)\`"
+            echo "- receipt hash: \`$R_HASH\`"
+            echo "- statement: \`$STMT\` → $(bash scripts/hash.sh "$STMT")"
+            echo "- grammar: \`$GRAMMAR_FILE\` → $G_HASH"
+            echo ""
+            echo '```json'
+            cat .tau_ledger/receipt.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload receipt artifact (always)
-        if: ${{ always() }}
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: smartcache-receipt
           path: .tau_ledger/receipt.json
           if-no-files-found: error
-          compression-level: 6
+          retention-days: 90
