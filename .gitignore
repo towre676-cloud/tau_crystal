@@ -99,3 +99,5 @@ scripts/*.broken
 !.tau_ledger/
 !.tau_ledger/pubkey.pem
 .artifact_tmp/
+*.pem
+py_ledger/__pycache__/

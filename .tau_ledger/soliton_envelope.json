@@ -1,1 +1,0 @@
-{"algo":"u=(k^2/2)*sech^2((k*x+delta)/2), t=0; hash over fixed-point q=round(u*scale)","delta":0.0,"grid":{"dx":0.019540791402051783,"n":2048,"xmax":20.0,"xmin":-20.0},"k":1.0,"l2":0.8164965809277,"scale":1000000000000.0,"sha256":"be3faf88fd1d477ecfa7c13a558c9404a1bfa2a2e58b02b1f303ec68de54fe2b","u_max":4.122307227884e-09}
