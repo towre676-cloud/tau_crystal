@@ -4,9 +4,11 @@ on:
   pull_request:
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - name: enforce heredoc-free scripts
+        run: scripts/ci_hardening/check_no_heredocs.sh
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       - name: Check for CR in tracked files
         run: |
           set -euo pipefail

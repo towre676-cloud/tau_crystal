@@ -1,0 +1,61 @@
+name: release
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch: {}
+permissions:
+  contents: write
+  id-token: write
+jobs:
+  sign_and_publish:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+      - name: Build tarball + SBOM
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME:-v0.0.0}"
+          name="tau_crystal-${tag}.tgz"
+          tar -czf "$name" --exclude-vcs --owner=0 --group=0 .
+          sha=$(sha256sum "$name" | awk "{print \$1}")
+          sbom="sbom-${tag}.cyclonedx.json"
+          printf "{\n  \"bomFormat\":\"CycloneDX\",\n  \"specVersion\":\"1.5\",\n  \"version\":1,\n  \"metadata\":{\"timestamp\":\"%s\",\"component\":{\"type\":\"application\",\"name\":\"tau_crystal\",\"version\":\"%s\"}},\n  \"components\":[{\"type\":\"file\",\"name\":\"%s\",\"hashes\":[{\"alg\":\"SHA-256\",\"content\":\"%s\"}]}]\n}\n" "$(date -u +%FT%TZ)" "$tag" "$name" "$sha" > "$sbom"
+      - name: Ensure cosign (hash-locked)
+        shell: bash
+        run: |
+          set -euo pipefail
+          url="$(sed -n "1p" .ci/cosign.url 2>/dev/null || true)"
+          want="$(tr -d "\r\n" < .ci/cosign.sha256 2>/dev/null || true)"
+          [ -n "$url" ] && [ -n "$want" ] || { echo "[err] .ci/cosign.url or .ci/cosign.sha256 missing"; exit 1; }
+          curl -sSfL "$url" -o cosign && chmod +x cosign
+          got="$(sha256sum cosign | awk "{print \$1}")"
+          [ "$got" = "$want" ] || { echo "[err] cosign sha256 mismatch"; exit 1; }
+          ./cosign version || true
+      - name: Sign tarball + SBOM (keyless OIDC)
+        shell: bash
+        env:
+          COSIGN_EXPERIMENTAL: "1"
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME:-v0.0.0}"
+          name="tau_crystal-${tag}.tgz"
+          sbom="sbom-${tag}.cyclonedx.json"
+          ./cosign sign-blob --yes "$name" --output-signature "$name.sig" --output-certificate "$name.cert"
+          ./cosign sign-blob --yes "$sbom" --output-signature "$sbom.sig" --output-certificate "$sbom.cert"
+      - name: Upload to release assets (gh cli)
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME:-v0.0.0}"
+          gh release upload "$tag" tau_crystal-"$tag".tgz sbom-"$tag".cyclonedx.json \\
+            tau_crystal-"$tag".tgz.sig tau_crystal-"$tag".tgz.cert \\
+            sbom-"$tag".cyclonedx.json.sig sbom-"$tag".cyclonedx.json.cert --clobber
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: release-assets
+          path: |
+            *.tgz*
+            sbom-*.json*

@@ -12,8 +12,10 @@ jobs:
         shell: bash
 
     steps:
+      - name: enforce heredoc-free scripts
+        run: scripts/ci_hardening/check_no_heredocs.sh
       - name: Check out
-        uses: actions/checkout@v4
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
         with:
           fetch-depth: 0
 
@@ -65,7 +67,7 @@ jobs:
           PY
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: tau-crystal-manifest
           path: |

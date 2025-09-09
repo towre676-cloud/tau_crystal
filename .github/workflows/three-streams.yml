@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       contents: read
       actions: read
@@ -20,7 +20,18 @@ jobs:
       TLOG_GIST_ID: ${{ secrets.TLOG_GIST_ID }}      # optional
       ED25519_SK_B64: ${{ secrets.ED25519_SK_B64 }}  # optional
     steps:
-      - uses: actions/checkout@v4
+      - name: enforce heredoc-free scripts
+        run: scripts/ci_hardening/check_no_heredocs.sh
+      - name: Guard pins
+        shell: bash
+        run: scripts/ci_hardening/require_pins.sh
+      - name: Transparency log (append + embed head)
+        id: tlog
+        shell: bash
+        env:
+          RECEIPT_PATH: ${{ steps.rcpt.outputs.receipt_path }}
+        run: scripts/run_tlog_step.sh
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
 
       - name: Normalize scripts (CRLF→LF, +x)
         shell: bash
@@ -81,7 +92,7 @@ jobs:
 
       - name: Upload receipt artifact (always)
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: smartcache-receipt
           path: .tau_ledger/receipt.json
