@@ -1,0 +1,3 @@
+# Require review for CI & scripts (edit handle as needed)
+.github/workflows/* @<your-github-handle>
+scripts/*             @<your-github-handle>
