@@ -12,8 +12,8 @@ jobs:
       actions: read
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: github/codeql-action/init@v3
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+      - uses: github/codeql-action/init@d3678e237b9c32a6c9bffb3315c335f976f3549f
         with:
           languages: 'javascript'
-      - uses: github/codeql-action/analyze@v3
+      - uses: github/codeql-action/analyze@d3678e237b9c32a6c9bffb3315c335f976f3549f

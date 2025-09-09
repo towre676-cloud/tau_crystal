@@ -1,0 +1,77 @@
+name: release
+on:
+  push:
+    tags: ["v*.*.*"]
+permissions:
+  contents: write
+  id-token: write
+jobs:
+  build-sign-upload:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Clone (no actions)
+        shell: bash
+        run: |
+          set +e
+          REPO="${GITHUB_REPOSITORY}"
+          REF="${GITHUB_REF_NAME:-${GITHUB_REF##*/}}"
+          rm -rf repo && mkdir repo && cd repo
+          git init -q
+          git -c http.extraheader="AUTHORIZATION: basic $(printf x-access-token:%s | base64 -w0 <<<"$GITHUB_TOKEN")" \\
+            remote add origin "https://github.com/${REPO}.git"
+          git fetch -q --depth 1 origin "$REF"
+          git checkout -q FETCH_HEAD
+      - name: Package, SBOM, (optional) sign
+        shell: bash
+        working-directory: repo
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          name="tau_crystal-${TAG}.tgz"
+          tar -czf "$name" --exclude-vcs --owner=0 --group=0 .
+          sha="$(sha256sum "$name" | awk '{print $1}')"
+          sbom="sbom-${TAG}.cyclonedx.json"
+          : > "$sbom"
+          printf "%s\n" "{" >> "$sbom"
+          printf "%s\n" "  \"bomFormat\":\"CycloneDX\"," >> "$sbom"
+          printf "%s\n" "  \"specVersion\":\"1.5\"," >> "$RELWF"
+          printf "%s\n" "  \"version\":1," >> "$RELWF"
+          printf "%s\n" "  \"metadata\": { \"timestamp\": \"$(date -u +%FT%TZ)\", \"component\": { \"type\":\"application\",\"name\":\"tau_crystal\",\"version\":\"$TAG\" } }," >> "$RELWF"
+          printf "%s\n" "  \"components\": [{\"type\":\"file\",\"name\":\"$name\",\"hashes\":[{\"alg\":\"SHA-256\",\"content\":\"$sha\"}]}]" >> "$RELWF"
+          printf "%s\n" "}" >> "$sbom"
+          # optional signing: requires .ci/cosign.url + .ci/cosign.sha256
+          if [ -s .ci/cosign.url ] && [ -s .ci/cosign.sha256 ]; then
+            url=$(tr -d "\r\n" < .ci/cosign.url); want=$(tr -d "\r\n" < .ci/cosign.sha256)
+            curl -fsSL "$url" -o .ci/cosign
+            got=$(sha256sum .ci/cosign | awk '{print $1}')
+            [ "$got" = "$want" ] || { echo "[err] cosign sha mismatch"; exit 1; }
+            chmod +x .ci/cosign
+            ./.ci/cosign version || true
+            ./.ci/cosign sign-blob --yes --bundle "$name" > "$name.sig"
+            # attest SBOM as cyclonedx
+            ./.ci/cosign attest --type cyclonedx --yes --predicate "$sbom" "$name" > "$name.attestation.txt" || true
+          else
+            echo "[warn] cosign pins missing; skipping signatures"
+          fi
+      - name: Upload to GitHub Release (REST)
+        shell: bash
+        working-directory: repo
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          set +e
+          api="https://api.github.com/repos/${GITHUB_REPOSITORY}"
+          auth="-H Authorization: Bearer ${GH_TOKEN}"
+          # get or create release
+          code=$(curl -sS -o rel.json -w "%{http_code}" $auth "$api/releases/tags/$TAG")
+          if [ "$code" != "200" ]; then
+            body=$(printf '{"tag_name":"%s","name":"%s","draft":false,"prerelease":false}' "$TAG" "$TAG")
+            curl -sS $auth -H "Content-Type: application/json" -d "$body" "$api/releases" -o rel.json
+          fi
+          upload=$(grep -oE "\"upload_url\":\"[^\"]+\"" rel.json | sed -E "s/.*:\"([^\"]*)\".*/\\1/" | sed "s/{?name,label}//")
+          for f in tau_crystal-"$TAG".tgz sbom-"$TAG".cyclonedx.json tau_crystal-"$TAG".tgz.sig tau_crystal-"$TAG".tgz.attestation.txt; do
+            [ -f "$f" ] || continue
+            echo "uploading $f"
+            curl -sS -X POST $auth -H "Content-Type: application/octet-stream" --data-binary @"$f" "${upload}?name=$(basename "$f")" >/dev/null
+          done
