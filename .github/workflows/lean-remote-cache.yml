@@ -1,0 +1,26 @@
+name: lean-remote-cache
+on:
+  push:
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ENDPOINT_URL: ${{ secrets.AWS_ENDPOINT_URL }}   # optional (MinIO)
+      CAS_S3_BUCKET: ${{ secrets.CAS_S3_BUCKET }}
+      CAS_S3_PREFIX: ${{ secrets.CAS_S3_PREFIX }}
+      LEAN_NUM_THREADS: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build with remote cache
+        run: scripts/ci_build.sh
+      - name: Upload receipt (always)
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: smartcache-receipt
+          path: .tau_ledger/receipt.json
+          if-no-files-found: error
