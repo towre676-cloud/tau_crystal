@@ -98,3 +98,4 @@ scripts/*.broken
 # allow verifier key
 !.tau_ledger/
 !.tau_ledger/pubkey.pem
+.artifact_tmp/
