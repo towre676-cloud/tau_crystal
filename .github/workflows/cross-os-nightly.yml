@@ -1,0 +1,34 @@
+name: cross-os-nightly
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  replay:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, macos-14, windows-2022]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
+      - name: Toolchain (pinned elan bootstrap)
+        shell: bash
+        run: |
+          scripts/ci_hardening/pin_elan.sh .ci/elan.commit .ci/elan.sha256 .ci/elan-init.sh
+          bash .ci/elan-init.sh -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Replay receipt
+        shell: bash
+        run: |
+          lake build
+          if [ -x ./scripts/assure.sh ]; then ./scripts/assure.sh; else bash scripts/plan/write_roots.sh; fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: receipts-${{ matrix.os }}-${{ github.sha }}
+          path: |
+            .tau_ledger/receipts/*.json
+            .tau_ledger/CHAIN

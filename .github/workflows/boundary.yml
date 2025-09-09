@@ -6,24 +6,28 @@ on:
     branches: [ "main" ]
 jobs:
   boundary:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - name: enforce heredoc-free scripts
+        run: scripts/ci_hardening/check_no_heredocs.sh
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       - name: Boundary check (warn-only)
         env:
           BOUNDARY_ENFORCE: "1"
         run: bash scripts/boundary_check.sh
       - name: Upload boundary report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: boundary-report
           path: boundary_report.txt
           if-no-files-found: ignore
   rationale:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - name: enforce heredoc-free scripts
+        run: scripts/ci_hardening/check_no_heredocs.sh
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       - name: Compute commit range (push)
         if: github.event_name != 'pull_request'
         run: echo "RANGE=${{ github.event.before }}..${{ github.sha }}" >> $GITHUB_ENV

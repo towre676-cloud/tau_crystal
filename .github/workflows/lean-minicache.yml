@@ -6,11 +6,13 @@ permissions:
   contents: read
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     container:
       image: ghcr.io/leanprover-community/lean:leanprover-lean4-v4.22.0
     steps:
-      - uses: actions/checkout@v4
+      - name: enforce heredoc-free scripts
+        run: scripts/ci_hardening/check_no_heredocs.sh
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
       - name: Show Lean/Lake versions
         run: |
           lean --version || true
@@ -19,7 +21,7 @@ jobs:
         id: sha
         run: python3 scripts/mathlib-sha.py . > .mathlib_sha && echo "sha=$(cat .mathlib_sha)" >> "$GITHUB_OUTPUT"
       - name: Cache Mathlib (olean/ir)
-        uses: actions/cache@v4
+        uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809
         with:
           path: |
             .lake/build/lib/lean/Mathlib
