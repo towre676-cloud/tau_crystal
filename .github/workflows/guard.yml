@@ -1,0 +1,24 @@
+name: repo-guard
+on:
+  push:
+  pull_request:
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for CR in tracked files
+        run: |
+          set -euo pipefail
+          if grep -nIU $'\r' -R -- $(git ls-files) ; then
+            echo "::error ::CR (\\r) detected in tracked files"; exit 1
+          fi
+      - name: Install linters
+        run: |
+          python3 -m pip install --user --no-warn-script-location yamllint
+          curl -sSLf https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash | bash -s -- -b "$HOME/.local/bin" v1.7.1
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Lint YAML (yamllint)
+        run: yamllint -s .
+      - name: Lint GitHub Actions (actionlint)
+        run: actionlint -color never
