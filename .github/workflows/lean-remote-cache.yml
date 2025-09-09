@@ -7,15 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Synthesize receipt (always)
+      - name: Synthesize receipt
         run: |
           mkdir -p .tau_ledger
           TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          cat > .tau_ledger/receipt.json <<EOF
-{"version":"rcpt-1","timestamp":"$TS","status":"synthetic","note":"receipt-only workflow"}
-EOF
+          printf '{"version":"rcpt-1","timestamp":"%s","status":"synthetic","note":"receipt-only workflow"}\n' "$TS" > .tau_ledger/receipt.json
           echo "[ok] wrote .tau_ledger/receipt.json"
-      - name: Upload receipt artifact
+      - name: Upload receipt
         uses: actions/upload-artifact@v4
         with:
           name: smartcache-receipt
