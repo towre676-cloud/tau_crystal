@@ -7,17 +7,75 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # Optional Trillian transparency log
+      TLOG_URL:        ${{ secrets.TLOG_URL }}        # e.g. https://trillian.example.com
+      TLOG_API:        ${{ secrets.TLOG_API }}        # bearer token if required
+      # Optional Gist fallback (create an empty gist once; put its ID here)
+      TLOG_GIST_ID:    ${{ secrets.TLOG_GIST_ID }}
+      # Your verifier path used to compute grammar hash:
+      GRAMMAR_FILE:    verify/ReceiptGrammar.lean
     steps:
       - uses: actions/checkout@v4
-      - name: Synthesize receipt
+
+      - name: Ensure CI deps
+        run: scripts/ensure_deps.sh
+
+      - name: Compute hashes and synthesize receipt
+        id: synth
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p .tau_ledger
-          TS=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          printf '{"version":"rcpt-1","timestamp":"%s","status":"synthetic","note":"receipt-only workflow"}\n' "$TS" > .tau_ledger/receipt.json
-          test -s .tau_ledger/receipt.json
-      - name: Upload receipt
+          # statement file: prefer lake-manifest.json; else any manifests/*.json; else synthetic
+          STMT="$(git ls-files lake-manifest.json 'manifests/*.json' | head -n1 || true)"
+          if [ -z "${STMT:-}" ]; then
+            printf '{ "note": "synthetic statement (none present)" }\n' > .tau_ledger/statement.json
+            STMT=".tau_ledger/statement.json"
+          fi
+          S_HASH="$(scripts/hash.sh "$STMT" | awk '{print $1}')"
+          G_HASH="$(scripts/grammar_hash.sh | awk '{print $1}')"
+          TS="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          {
+            printf '{'
+            printf '"version":"rcpt-2",'
+            printf '"timestamp":"%s",' "$TS"
+            printf '"repo":"%s",' "${GITHUB_SERVER_URL:-https://github.com}/${GITHUB_REPOSITORY:-unknown}"
+            printf '"commit":"%s",' "$(git rev-parse HEAD)"
+            printf '"grammar_blake3":"%s",' "$G_HASH"
+            printf '"statement_blake3":"%s",' "$S_HASH"
+            printf '"status":"synthetic"'
+            printf '}\n'
+          } > .tau_ledger/receipt.json
+          R_HASH="$(scripts/hash.sh .tau_ledger/receipt.json | awk '{print $1}')"
+          echo "receipt_hash=$R_HASH" >> "$GITHUB_OUTPUT"
+          echo "statement=$STMT"      >> "$GITHUB_OUTPUT"
+          echo "grammar=$G_HASH"      >> "$GITHUB_OUTPUT"
+          echo "[ok] receipt synthesized: $R_HASH"
+
+      - name: Append to transparency log + anchor
+        shell: bash
+        run: |
+          set -euo pipefail
+          RECEIPT_PATH=".tau_ledger/receipt.json" \
+          STATEMENT_FILE="${{ steps.synth.outputs.statement }}" \
+          scripts/tlog_append.sh
+          cat .tau_ledger/tlog-last.env >> "$GITHUB_ENV"
+
+      - name: Update receipt with tlog/anchor metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Amend receipt JSON (no jq: do a simple rewrite via temp + printf)
+          tmp="$(mktemp)"
+          # Extract existing fields
+          r="$(cat .tau_ledger/receipt.json)"
+          # Append extra fields safely
+          printf '%s' "$r" | sed 's/}$/,"tlog_leaf":"'"${TLOG_LEAF:-}"'","tlog_root":"'"${TLOG_ROOT:-}"'","anchors":{"ots":"'"${OTS_FILE:-}"'"}}/' > "$tmp"
+          mv "$tmp" .tau_ledger/receipt.json
+
+      - name: Upload receipt artifact (always)
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: smartcache-receipt

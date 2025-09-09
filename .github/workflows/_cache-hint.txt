@@ -1,0 +1,7 @@
+- uses: actions/cache@v4
+  with:
+    path: |
+      .lake/build
+      ~/.elan
+      ~/.cache/lean
+    key: ${{ runner.os }}-lean-${{ hashFiles('lake-manifest.json') }}-${{ env.GRAMMAR_FILE }}-${{ steps.synth.outputs.grammar }}
