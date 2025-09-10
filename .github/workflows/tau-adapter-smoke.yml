@@ -1,0 +1,11 @@
+name: tau-adapter-smoke
+on: [push, pull_request]
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install jq
+      run: sudo apt-get update && sudo apt-get install -y jq
+    - name: Run demo
+      run: bash examples/llm_agent_demo.sh && test -s .tau_ledger/trace.ndjson

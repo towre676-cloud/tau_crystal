@@ -1,0 +1,7 @@
+{
+  "priors": { "m_e":"0.510998950 MeV", "m_mu":"105.6583755 MeV" },
+  "dials":  { "family":"Koide-like", "p_bounds":[-3,3], "q_bounds":[-3,3] },
+  "ops":    ["+","-","*","/","sqrt","pow"],
+  "seed":   "tau:demo:0001",
+  "notes":  "Demo constraints for mass-ratio search"
+}
