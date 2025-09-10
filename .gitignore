@@ -107,3 +107,7 @@ py_ledger/__pycache__/
 .tau_ledger/
 tools/*.bak_*
 .tmp/
+
+# allow canonical bin utilities used by the ledger and adapter
+!scripts/bin/
+!scripts/bin/save_request_preimage.sh
