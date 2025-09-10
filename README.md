@@ -47,3 +47,14 @@ If this repo includes a Lean/Lake project, CI will publish chained receipts unde
 ## What’s new in τ-Crystal
 - See docs/WHATS_NEW.md for details of the verification pipeline, TM pre-gates, and campaign publishing.
 - For auditors: docs/REPRO.md is a one-page, bash-only rerun and hash verification guide.
+
+## Canonical request ingress
+
+Every run now begins by freezing the exact request bytes and emitting a single SHA-256 digest. The bytes are written verbatim to `analysis/<stem>.request.canon.json` by `scripts/bin/save_request_preimage.sh`; the digest is printed to stdout and, if you prefer, saved as a sidecar with `scripts/bin/bind_request.sh`. This seals the entrance: auditors can recompute the same hash on any machine and verify that the bytes cited by the ledger are the bytes that actually crossed the boundary. See `docs/monographs/request_preimage_canon.md` for the full rationale.
+
+```bash
+# stdin → canonical preimage + digest sidecar
+printf "{\"tau\":1,\"q\":[0,0.5,1]}\n" | scripts/bin/bind_request.sh demo - > .tau_ledger/demo.sha256
+# from file → same result; adapter unchanged
+scripts/bin/bind_request.sh tm1 request.tm1_sumrule.json > .tau_ledger/tm1.sha256
+```

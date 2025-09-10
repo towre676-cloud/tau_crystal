@@ -74,3 +74,7 @@ This document tracks the verification lifecycle for this repository.
 - `receipts:` live in `.tau_ledger/receipts/`
 
 Plan roots are defined in `.tau_plan_roots.env` and enforced in CI.
+
+### Request preimage and digest
+
+The canonical request preimage lives at `analysis/<stem>.request.canon.json` and its SHA-256 is recorded as a sidecar in `.tau_ledger/<stem>.sha256`. If the preimage file is listed among tracked inputs, its bytes are folded into `merkle_root` like any other tracked artifact. If it is not listed, the manifest remains unchanged and the preimage digest functions as an external, machine-checkable origin handle. In both modes the auditor workflow is identical: hash the stored preimage and compare to the cited digest; then verify `merkle_root` and the receipt chain as usual.
