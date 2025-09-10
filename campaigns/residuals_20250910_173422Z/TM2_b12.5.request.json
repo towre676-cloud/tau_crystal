@@ -1,0 +1,1 @@
+{ "tool":"cp_residual_symm_verifier", "input_path":"campaigns/residuals_20250910_173422Z/TM2_b12.5.contract.json", "output_path":"analysis/TM2_b12.5.out.json" }
