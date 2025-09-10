@@ -47,3 +47,12 @@ camp="$(ls -d campaigns/residuals_*Z 2>/dev/null | tail -n1)"
 sed -n '1,80p' "$camp/README.md"
 sed -n '1,80p' "$camp/summary.json"
 ```
+
+### Canonical hash verification (matches tool behavior)
+
+```bash
+CONTRACT="$(jq -r \".contract_path // empty\" analysis/tm1_sumrule.receipt.json 2>/dev/null || true)"; [ -n \"$CONTRACT\" ] || CONTRACT="contracts/cp_residual_symm.tm1.contract.json"
+H_CANON="$(scripts/bin/json_sha256.sh "$CONTRACT")"
+echo "canonical sha256: $H_CANON"
+[ "$H_CANON" = "$H_IN_REC" ] && echo "[OK] canonical hash matches receipt" || echo "[FAIL] canonical mismatch"
+```
