@@ -56,3 +56,8 @@ H_CANON="$(scripts/bin/json_sha256.sh "$CONTRACT")"
 echo "canonical sha256: $H_CANON"
 [ "$H_CANON" = "$H_IN_REC" ] && echo "[OK] canonical hash matches receipt" || echo "[FAIL] canonical mismatch"
 ```
+
+### Canonicalization detail
+- `input_sha256` is computed from **ASCII-escaped** canonical JSON of the contract (`sort_keys=True`, separators `(",",":")`, `ensure_ascii=True`).
+- `request_sha256` is computed from the canonicalized request. If the request is ASCII-only, UTF-8 vs ASCII yields the same digest.
+- Use `scripts/bin/verify_receipt.sh <receipt> <contract.json>` to verify.
