@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Tau-Crystal Contract",
+  "type": "object",
+  "required": ["priors","dials","ops","seed"],
+  "properties": {
+    "priors": { "type": "object", "description": "Declared constants/assumptions" },
+    "dials":  { "type": "object", "description": "Bounded knobs; fixed across the run" },
+    "ops":    { "type": "array",  "items": { "type": "string" }, "description": "Allowed operations/tools" },
+    "seed":   { "type": "string", "description": "Deterministic seed string" },
+    "notes":  { "type": "string" }
+  }
+}

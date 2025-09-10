@@ -1,17 +1,23 @@
----
-title: τ-Crystal
-layout: none
----
+# τ‑Crystal Adapter — Quickstart & API
 
-# τ-Crystal Documentation
+[![Adapter CI](https://github.com/towre676-cloud/tau_crystal/actions/workflows/adapter-ci.yml/badge.svg)](https://github.com/towre676-cloud/tau_crystal/actions/workflows/adapter-ci.yml)
 
-- **Canonical Manifest (HTML)** → [tau-crystal.html](./tau-crystal.html)
-- **Manifest (Markdown)** → [manifest.md](./manifest.md)
-- **SHA-256 digest** → [manifest.sha256](./manifest.sha256)
+This site mirrors the essential entrypoints for LLMs, agents, and humans. The canonical transport is **FIFO-based**, Bash-only. HTTP specs below are for teams that must bridge to REST but are not required for local usage.
 
-Extras:
-- [Privacy Policy](./PRIVACY.md)
-- [Terms](./TERMS.md)
-- [Monograph](./MONOGRAPH.md)
+## Zero‑Config Local Use
+```bash
+cd ~/Desktop/tau_crystal/tau_crystal
+bash scripts/serve_fifo.sh &                               # start the transport
+printf "%s" '{"tool":"llm:proposer","input_path":"fixtures/contracts/example.contract.json","output_path":"out/resp.json"}' | bash scripts/tau_pipe.sh
+cat out/resp.json
+```
 
-- [First verification](first-verification.md)
+## Schemas & Specs
+- Request schema: [`schema/request.schema.json`](../schema/request.schema.json)
+- Response schema: [`schema/response.schema.json`](../schema/response.schema.json)
+- OpenAPI (spec only): [`api/openapi.yaml`](../api/openapi.yaml)
+- JSON‑RPC schema: [`api/jsonrpc.schema.json`](../api/jsonrpc.schema.json)
+- JSON‑RPC example: [`api/jsonrpc.example.json`](../api/jsonrpc.example.json)
+
+## Philosophy
+The adapter is a **universal actuator** for LLMs: JSON in, JSON out, fully local, auditable, and hash‑stable. If you need HTTP, point a tiny bridge at the same contract; the FIFO transport remains the source of truth.

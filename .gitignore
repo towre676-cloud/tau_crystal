@@ -101,3 +101,9 @@ scripts/*.broken
 .artifact_tmp/
 *.pem
 py_ledger/__pycache__/
+
+# Secrets & local receipts
+*.pem
+.tau_ledger/
+tools/*.bak_*
+.tmp/
