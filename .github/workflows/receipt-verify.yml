@@ -1,0 +1,22 @@
+name: Receipt Verification
+on:
+  push:
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Show Python
+        run: python3 --version
+      - name: Verify receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +H
+          shopt -s nullglob
+          for rec in analysis/*.receipt.json; do
+            echo "::group::Verify $rec"
+            bash scripts/bin/verify_receipt.sh "$rec"
+            echo "::endgroup::"
+          done
