@@ -13,6 +13,6 @@
 | ✅ | — | — | 28.87 | 6.35 | 45.35 | 0.00 | — | `analysis/cp_unitary.receipt.json` |
 
 ## Integrity
-- Each receipt includes `input_sha256` and `request_sha256`.
+- Each receipt includes `input_sha256` (contract) and `request_sha256` (dispatch request).
 - Past receipts are immutable; new hypotheses use new contracts.
 - Falsification is scientifically valuable: these templates fail under fixed windows.
