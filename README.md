@@ -43,3 +43,7 @@ If this repo includes a Lean/Lake project, CI will publish chained receipts unde
 
 ## HOWTO
 - See the one-stop guide: [`doc/HOWTO.md`](doc/HOWTO.md)
+
+## What’s new in τ-Crystal
+- See docs/WHATS_NEW.md for details of the verification pipeline, TM pre-gates, and campaign publishing.
+- For auditors: docs/REPRO.md is a one-page, bash-only rerun and hash verification guide.
