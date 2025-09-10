@@ -58,3 +58,6 @@ printf "{\"tau\":1,\"q\":[0,0.5,1]}\n" | scripts/bin/bind_request.sh demo - > .t
 # from file → same result; adapter unchanged
 scripts/bin/bind_request.sh tm1 request.tm1_sumrule.json > .tau_ledger/tm1.sha256
 ```
+
+### Ground-truth audit
+A reproducible, host-agnostic audit of the current default branch—what τ-Crystal guarantees today, where those guarantees stop, and how the canonical request ingress fits the proof story—is available under `docs/audits/`. It is written to be replayed verbatim on any Unix host with elan installed.
