@@ -78,3 +78,7 @@ Plan roots are defined in `.tau_plan_roots.env` and enforced in CI.
 ### Request preimage and digest
 
 The canonical request preimage lives at `analysis/<stem>.request.canon.json` and its SHA-256 is recorded as a sidecar in `.tau_ledger/<stem>.sha256`. If the preimage file is listed among tracked inputs, its bytes are folded into `merkle_root` like any other tracked artifact. If it is not listed, the manifest remains unchanged and the preimage digest functions as an external, machine-checkable origin handle. In both modes the auditor workflow is identical: hash the stored preimage and compare to the cited digest; then verify `merkle_root` and the receipt chain as usual.
+
+### Request note sidecar
+
+Auditors and pipelines may prefer a single file that names both the request digest and its canonical path. `scripts/bin/write_request_note.sh` writes `receipts/<stem>.request.note.json` for that purpose; include the preimage itself in the manifest if you want it inside `merkle_root`, but the note remains purely informational.

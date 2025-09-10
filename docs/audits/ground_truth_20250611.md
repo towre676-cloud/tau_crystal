@@ -131,3 +131,7 @@ sha256sum -c tau-crystal-v1.2.0.tar.gz.sha256
 
 ## 9.  Single-sentence takeaway
 At commit `7e3fa2c…` τ-Crystal turns any repository into a self-verifying project by emitting an append-only chain of SHA-256 receipts, each anchoring a Merkle root over a declared file set, and the canonical request-ingress plug-in closes the last reproducibility gap by freezing the exact byte stream that enters the model, hashing it with a standard SHA-256 implementation, and storing the digest so that any later audit can re-derive the same hash and confirm byte-for-byte identity in less than a second.
+
+See also the pocket framework monograph in `docs/monographs/` for a concise present-tense overview and ingress details.
+
+The ingress toolchain includes `write_request_note.sh`, which writes `receipts/<stem>.request.note.json` pairing the request digest with its canonical preimage path; when `.tau_ledger/` exists the note is mirrored there for compatibility.

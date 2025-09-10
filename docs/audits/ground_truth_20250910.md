@@ -37,3 +37,7 @@ The timestamp in a receipt is a source of non-determinism at the level of second
 ## What changes for research teams
 
 A paper or benchmark that claims we submitted this exact request can now cite a digest that any reviewer recomputes directly from a file committed to the repository. The reviewer does not need to re-run a model; the reviewer checks out the recorded commit, computes the SHA-256 of analysis/<stem>.request.canon.json, and compares it to receipts/<stem>.sha256. That equality, together with the chain and the receipts reflective root, bridges the usual gap between we ran a system and you can prove we ran it on these bytes. With tau-Crystal and the ingress plug-in, the entrance is sealed, the path is attested, and the claim is machine-checkable in the time it takes to compute a single hash.
+
+See also the pocket framework monograph in `docs/monographs/` for a concise present-tense overview and ingress details.
+
+The ingress toolchain includes `write_request_note.sh`, which writes `receipts/<stem>.request.note.json` pairing the request digest with its canonical preimage path; when `.tau_ledger/` exists the note is mirrored there for compatibility.
