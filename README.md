@@ -66,3 +66,5 @@ A reproducible, host-agnostic audit of the current default branch—what τ-Crys
 
 ## CI speed benchmarks (receipt-backed)
 Warm runs on unchanged mathlib are materially faster than cold runs. We publish medians and a cold/warm factor from attested NDJSON lines and receipts; see `docs/benchmarks/ci_speed.md` for the current table and recent receipt hashes. Trigger the matrix via “CI Bench” (workflow_dispatch) and download the artifacts if you want to compare against your own fork.
+
+[![ci-fast](https://github.com/towre676-cloud/tau_crystal/actions/workflows/ci_fast.yml/badge.svg)](https://github.com/towre676-cloud/tau_crystal/actions/workflows/ci_fast.yml)
