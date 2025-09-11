@@ -7,8 +7,6 @@ if [ ! -f "$manifest" ]; then
   echo "error"; exit 0
 fi
 status="ok"
-if [ -x scripts/spec_guard.sh ]; then
-  if ! bash scripts/spec_guard.sh; then status="mismatch"; fi
-fi
+if [ -x scripts/spec_guard.sh ] && ! bash scripts/spec_guard.sh; then status="mismatch"; fi
 echo "$status"
 exit 0
