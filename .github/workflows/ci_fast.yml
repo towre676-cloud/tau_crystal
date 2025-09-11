@@ -21,7 +21,13 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail; set +H
-          if [ -f lake-manifest.json ]; then k=$(sha256sum lake-manifest.json | cut -c1-12); else k=$(date +%s); fi
+          if [ -f lake-manifest.json ]; then
+            k=$(sha256sum lake-manifest.json | cut -c1-12)
+          else
+            h1=$(sha256sum lean-toolchain 2>/dev/null | cut -c1-12 || echo none)
+            h2=$(sha256sum lakefile.lean 2>/dev/null | cut -c1-12 || echo none)
+            k="$h1-$h2"
+          fi
           echo "val=${{ runner.os }}-$k" >> "$GITHUB_OUTPUT"
       - uses: leanprover/lean-action@v1
       - name: Restore cache
