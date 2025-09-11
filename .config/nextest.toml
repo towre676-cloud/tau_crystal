@@ -1,0 +1,12 @@
+[profile.ci]
+# use all logical cores
+test-threads = "num-cpus"
+# faster output while keeping determinism
+status-level = "fail"
+# retry flaky tests once (adjust to 0 if you prefer)
+retries = 1
+# capture to keep logs manageable; turn off for deep debugging
+failure-output = "immediate-final"
+
+[profile.ci.junit]
+path = "target/nextest-junit.xml"
