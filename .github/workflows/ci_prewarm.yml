@@ -30,7 +30,11 @@ jobs:
           fi
           echo "val=${{ runner.os }}-$k" >> "$GITHUB_OUTPUT"
           echo "prewarm-key=${{ runner.os }}-$k"
-      - uses: leanprover/lean-action@v1
+      - name: Setup Lean toolchain
+        shell: bash
+        run: |
+          set -Eeuo pipefail; set +H
+          scripts/ci/setup_lean.sh
       - name: Restore cache
         uses: actions/cache/restore@v4
         with:

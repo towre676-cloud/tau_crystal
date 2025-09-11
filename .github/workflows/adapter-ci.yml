@@ -1,0 +1,76 @@
+name: τ‑Crystal Adapter CI
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+jobs:
+  adapter:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Environment
+        run: |
+          set -euo pipefail
+          bash --version
+          mkdir -p .tau_fifo/queue out .tau_fifo/logs
+          chmod +x scripts/*.sh
+      - name: Start FIFO server
+        run: |
+          set -euo pipefail
+          nohup bash scripts/serve_fifo.sh > .tau_fifo/logs/server.out 2>&1 &
+          sleep 0.5
+      - name: Validate schemas and fixtures
+        run: |
+          set -euo pipefail
+          bash scripts/tau_validate.sh request fixtures/requests/proposer.req.json
+          bash scripts/tau_validate.sh request fixtures/requests/digest.req.json
+      - name: Run proposer fixture
+        run: |
+          set -euo pipefail
+          bash scripts/tau_call_file.sh fixtures/requests/proposer.req.json | tee .tau_fifo/logs/proposer.envelope.json
+          test -s out/fixture.proposal.json
+      - name: Run digest fixture
+        run: |
+          set -euo pipefail
+          bash scripts/tau_call_file.sh fixtures/requests/digest.req.json | tee .tau_fifo/logs/digest.envelope.json
+          test -s out/fixture.digest.json
+      - name: Collect artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-artifacts
+          path: |
+            .tau_fifo/logs/*.json
+            .tau_fifo/logs/server.out
+            out/*.json
+
+      - name: Upload tau-ledger (optional)
+        if: ${{ hashFiles(.tau_ledger/*) !=  }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-ledger
+          path: .tau_ledger/*
+
+      - name: Semantic gate (optional)
+        if: env.TAU_SEMANTIC_GATE == 1
+        run: |
+          set -euo pipefail
+          # run adapter on fixture (requires TAU_LLM_CMD or uses placeholder)
+          bash scripts/tau_llm_adapter.sh llm:proposer fixtures/contracts/example.contract.json out/ci.llm.json
+          # extract metrics without jq
+          EM=$(sed -n s/.*"cosine_embed":[ ]*\\([0-9.][0-9.]*\\).*/\\1/p out/ci.llm.json | head -n1 || true)
+          BO=$(sed -n s/.*"cosine_bow":[ ]*\\([0-9.][0-9.]*\\).*/\\1/p out/ci.llm.json | head -n1 || true)
+          th_emb=${TAU_SEM_EMBED_MIN:-0.85}; th_bow=${TAU_SEM_BOW_MIN:-0.75}
+          fail=0
+          if [ -n "$EM" ]; then awk -v s="$EM" -v t="$th_emb" BEGIN{exit !(s>=t)} || fail=1; else if [ -n "$BO" ]; then awk -v s="$BO" -v t="$th_bow" BEGIN{exit !(s>=t)} || fail=1; fi; fi
+          if [ "$fail" -eq 1 ]; then echo "::error ::semantic similarity below threshold (embed>="$th_emb" or bow>="$th_bow")"; exit 1; fi
+
+      - name: Run tau_gate on CI fixture
+        if: env.TAU_SEMANTIC_GATE == 1
+        run: |
+          set -euo pipefail
+          test -f scripts/tau_gate.sh
+          # Prefer the file from the prior semantic step; else create one
+          if [ ! -f out/ci.llm.json ]; then bash scripts/tau_llm_adapter.sh llm:proposer fixtures/contracts/example.contract.json out/ci.llm.json; fi
+          bash scripts/tau_gate.sh --verbose out/ci.llm.json
