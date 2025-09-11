@@ -83,6 +83,6 @@ The canonical request preimage lives at `analysis/<stem>.request.canon.json` and
 
 Auditors and pipelines may prefer a single file that names both the request digest and its canonical path. `scripts/bin/write_request_note.sh` writes `receipts/<stem>.request.note.json` for that purpose; include the preimage itself in the manifest if you want it inside `merkle_root`, but the note remains purely informational.
 
-> **Note:** The canonical key order is explicit (not alphabetical). The field `ingress_preimage_sha256` is optional and, when present, **must** appear between `producer` and `timestamp`.
+> **Note:** The canonical key order is explicit (not explicit canonical). The field `ingress_preimage_sha256` is optional and, when present, **must** appear between `producer` and `timestamp`.
 
 - ingress_preimage_sha256: optional, 64-hex lowercase SHA-256 of the request preimage.
