@@ -22,13 +22,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [0, 1, 2, 3]
+        shard: [0,1,2,3,4,5,6,7]   # bump to 8-way parallel
     steps:
       - uses: actions/checkout@v4
 
-      # --------------------------
-      # Dependency/toolchain caches
-      # --------------------------
+      # ---------- CACHES ----------
       - name: Cache Python (pip)
         if: ${{ hashFiles('**/requirements.txt', '**/poetry.lock', '**/pyproject.toml') != '' }}
         uses: actions/cache@v4
@@ -74,41 +72,64 @@ jobs:
             ~/.cache/go-build
           key: ${{ runner.os }}-gobuild-${{ hashFiles('**/*.go','**/go.mod','**/go.sum') }}
 
-      # --------------------------
-      # Prepare test shard (language-agnostic)
-      # --------------------------
+      # ---------- SHARD PREP ----------
       - name: Prepare test shard
         id: shard
         run: |
-          bash scripts/ci/shard_list.sh ${{ matrix.shard }} 4
+          bash scripts/ci/shard_list.sh ${{ matrix.shard }} 8
           echo "Files in shard ${{ matrix.shard }}:"
           [ -s "${{ steps.shard.outputs.filesfile }}" ] && nl -ba "${{ steps.shard.outputs.filesfile }}" || echo "(none)"
 
-      # --------------------------
-      # Example runners (guarded by manifests)
-      # --------------------------
-      - name: Run pytest (sharded)
+      # ---------- PYTHON ----------
+      - name: Run pytest (sharded; xdist if present)
         if: ${{ steps.shard.outputs.count != '0' && hashFiles('**/pytest.ini', '**/pyproject.toml', '**/requirements.txt') != '' }}
         run: |
           set -Eeuo pipefail
-          xargs -a "${{ steps.shard.outputs.filesfile }}" -r -n 50 python -m pytest -q --maxfail=1
+          if python -c "import xdist" 2>/dev/null; then
+            xargs -a "${{ steps.shard.outputs.filesfile }}" -r -n 1 python -m pytest -q -n auto --dist loadfile --maxfail=1
+          else
+            xargs -a "${{ steps.shard.outputs.filesfile }}" -r -n 50 python -m pytest -q --maxfail=1
+          fi
 
+      # ---------- GO ----------
       - name: Run Go tests
         if: ${{ hashFiles('**/go.mod') != '' }}
         run: |
           set -Eeuo pipefail
-          go test ./... -count=1 -parallel=4
+          go test ./... -count=1 -parallel=8
 
-      # Rust with sccache acceleration
+      # ---------- RUST (sccache + cargo-chef) ----------
       - name: Setup sccache
         if: ${{ hashFiles('**/Cargo.toml') != '' }}
         uses: mozilla-actions/sccache-action@v0.0.3
 
-      - name: Enable sccache for rustc
+      - name: Enable sccache
         if: ${{ hashFiles('**/Cargo.toml') != '' }}
         run: |
           echo "RUSTC_WRAPPER=$(which sccache)" >> "$GITHUB_ENV"
           echo "SCCACHE_GHA_ENABLED=on" >> "$GITHUB_ENV"
+
+      - name: Install cargo-chef
+        if: ${{ hashFiles('**/Cargo.toml') != '' }}
+        run: cargo install cargo-chef --locked
+
+      - name: cargo-chef prepare (deps recipe)
+        if: ${{ hashFiles('**/Cargo.toml') != '' }}
+        run: cargo chef prepare --recipe-path recipe.json
+
+      - name: Cache cargo-chef cook layers
+        if: ${{ hashFiles('**/Cargo.toml') != '' }}
+        uses: actions/cache@v4
+        with:
+          path: |
+            target
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: ${{ runner.os }}-cargo-chef-${{ hashFiles('recipe.json') }}
+
+      - name: cargo-chef cook (compile deps)
+        if: ${{ hashFiles('**/Cargo.toml') != '' }}
+        run: cargo chef cook --recipe-path recipe.json --release
 
       - name: Run Rust tests
         if: ${{ hashFiles('**/Cargo.toml') != '' }}
@@ -116,38 +137,30 @@ jobs:
           set -Eeuo pipefail
           cargo test --all --locked --quiet
 
+      # ---------- NODE ----------
       - name: Run Node tests
         if: ${{ hashFiles('**/package-lock.json') != '' }}
         run: |
           set -Eeuo pipefail
-          npm ci
+          npm ci --prefer-offline
           npm test --silent
 
-      # --------------------------
-      # Docker Buildx cached build (if repo has a Dockerfile)
-      # --------------------------
+      # ---------- DOCKER (GHA cache) ----------
       - name: Setup Docker Buildx
         if: ${{ hashFiles('**/Dockerfile') != '' }}
         uses: docker/setup-buildx-action@v3
 
-      - name: Cache Docker buildx layers
+      - name: Build with GHA cache
         if: ${{ hashFiles('**/Dockerfile') != '' }}
-        uses: actions/cache@v4
+        uses: docker/build-push-action@v6
         with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ hashFiles('**/Dockerfile','**/.dockerignore','**/*') }}
+          context: .
+          push: false
+          tags: tau-crystal/ci:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-      - name: Build Docker image (cached)
-        if: ${{ hashFiles('**/Dockerfile') != '' }}
-        run: |
-          set -Eeuo pipefail
-          mkdir -p /tmp/.buildx-cache
-          docker buildx build \
-            --cache-from type=local,src=/tmp/.buildx-cache \
-            --cache-to   type=local,dest=/tmp/.buildx-cache-new,mode=max \
-            -t tau-crystal/ci:latest .
-          rm -rf /tmp/.buildx-cache && mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-
+      # ---------- NO-OP FALLBACK ----------
       - name: No matching test runner
         if: ${{ always() && steps.shard.outputs.count == '0' && hashFiles('**/pytest.ini', '**/pyproject.toml', '**/requirements.txt', '**/go.mod', '**/Cargo.toml', '**/package-lock.json') == '' }}
         run: echo "[info] No known test manifests found; nothing to run in this job."
