@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail; set +H; umask 022
+C_GREEN="\033[32m"; C_RED="\033[31m"; C_DIM="\033[2m"; C_OFF="\033[0m"
+FIX=${1:-fixtures/contracts/example.contract.json}
+OUT=${2:-out/smoke.llm.json}
+mkdir -p "$(dirname -- "$OUT")" 2>/dev/null || true
+[ -f "$FIX" ] || printf "%s\n" '{ "id":"demo-1", "title":"Example Contract", "requirements":["summary","risks","proposal"] }' > "$FIX"
+export TAU_LLM_CMD="${TAU_LLM_CMD:-cat}"
+if [ "${TAU_STRICT:-0}" = "1" ]; then export TAU_SEM_EMBED_MIN="${TAU_SEM_EMBED_MIN:-0.90}"; export TAU_SEM_BOW_MIN="${TAU_SEM_BOW_MIN:-0.80}"; export TAU_CONSIST_MIN="${TAU_CONSIST_MIN:-0.80}"; export TAU_REQUIRE_ADVERSARIAL="${TAU_REQUIRE_ADVERSARIAL:-1}"; fi
+echo "[smoke] tool=llm:proposer input=$FIX out=$OUT (${TAU_LLM_CMD})"
+bash scripts/tau_llm_adapter.sh llm:proposer "$FIX" "$OUT"
+echo "[smoke] gating $OUT..."
+if bash scripts/tau_gate.sh --verbose "$OUT"; then
+  printf "%b%s%b\n" "$C_GREEN" "[PASS] smoke succeeded" "$C_OFF"
+else
+  printf "%b%s%b\n" "$C_RED" "[FAIL] smoke failed" "$C_OFF"; exit 1
+fi
+printf "%b%s%b %s\n" "$C_DIM" "[file]" "$C_OFF" "$OUT"

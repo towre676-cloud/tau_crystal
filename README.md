@@ -61,3 +61,6 @@ scripts/bin/bind_request.sh tm1 request.tm1_sumrule.json > .tau_ledger/tm1.sha25
 
 ### Ground-truth audit
 A reproducible, host-agnostic audit of the current default branch—what τ-Crystal guarantees today, where those guarantees stop, and how the canonical request ingress fits the proof story—is available under `docs/audits/`. It is written to be replayed verbatim on any Unix host with elan installed.
+
+## CI speed benchmarks (receipt-backed)
+Warm runs on unchanged mathlib are materially faster than cold runs. We publish medians and a cold/warm factor from attested NDJSON lines and receipts; see `docs/benchmarks/ci_speed.md` for the current table and recent receipt hashes. Trigger the matrix via “CI Bench” (workflow_dispatch) and download the artifacts if you want to compare against your own fork.

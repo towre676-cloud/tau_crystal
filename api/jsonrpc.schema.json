@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tau-crystal/api/jsonrpc.schema.json",
+  "title": "tau_jsonrpc",
+  "type": "object",
+  "required": ["jsonrpc","method","id","params"],
+  "properties": {
+    "jsonrpc": { "const": "2.0" },
+    "method":  { "enum": ["tau.step"] },
+    "id":      { "type": ["string","integer"] },
+    "params":  { "$ref": "./request.schema.json" }
+  }
+}

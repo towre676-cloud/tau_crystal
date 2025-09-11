@@ -1,0 +1,5 @@
+{
+  "tool": "llm:proposer",
+  "input_path": "fixtures/contracts/example.contract.json",
+  "output_path": "out/fixture.proposal.json"
+}

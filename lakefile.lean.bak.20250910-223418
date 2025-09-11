@@ -6,5 +6,5 @@ package «tau_crystal»
 lean_lib «TauCrystal» where
   globs := #[.submodules `TauCrystal]
 
--- DUPREMOVED lean_lib TauCrystal where
+lean_lib TauCrystal where
   globs := #[.submodules `TauCrystal]

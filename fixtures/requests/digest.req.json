@@ -1,0 +1,5 @@
+{
+  "tool": "digest:sha1",
+  "input_path": "fixtures/contracts/example.contract.json",
+  "output_path": "out/fixture.digest.json"
+}
