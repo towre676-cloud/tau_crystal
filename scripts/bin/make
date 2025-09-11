@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail; set +H
+if command -v make >/dev/null 2>&1; then
+  exec make "$@"
+fi
+if command -v mingw32-make >/dev/null 2>&1; then
+  exec mingw32-make "$@"
+fi
+echo "[err] neither make nor mingw32-make found in PATH" >&2
+exit 127
