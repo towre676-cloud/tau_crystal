@@ -17,62 +17,62 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Detect what changed to avoid running irrelevant stacks
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      python:     ${{ steps.filter.outputs.python }}
+      go:         ${{ steps.filter.outputs.go }}
+      rust:       ${{ steps.filter.outputs.rust }}
+      node:       ${{ steps.filter.outputs.node }}
+      docker:     ${{ steps.filter.outputs.docker }}
+      tests_any:  ${{ steps.filter.outputs.tests }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          token: ${{ github.token }}
+          filters: |
+            python:
+              - '**/*.py'
+              - 'pyproject.toml'
+              - 'poetry.lock'
+              - 'requirements.txt'
+              - 'pytest.ini'
+            go:
+              - '**/*.go'
+              - 'go.mod'
+              - 'go.sum'
+            rust:
+              - '**/*.rs'
+              - 'Cargo.toml'
+              - 'Cargo.lock'
+            node:
+              - '**/*.{js,jsx,ts,tsx}'
+              - 'package.json'
+              - 'package-lock.json'
+              - 'pnpm-lock.yaml'
+              - 'yarn.lock'
+            docker:
+              - '**/Dockerfile'
+              - '**/.dockerignore'
+            tests:
+              - 'test*/**'
+              - '**/*_test.*'
+              - '**/*.test.*'
+
   build-and-test:
+    needs: [changes]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        shard: [0,1,2,3,4,5,6,7]   # bump to 8-way parallel
+        shard: [0,1,2,3,4,5,6,7]   # bump up/down to match runner quota
     steps:
       - uses: actions/checkout@v4
 
-      # ---------- CACHES ----------
-      - name: Cache Python (pip)
-        if: ${{ hashFiles('**/requirements.txt', '**/poetry.lock', '**/pyproject.toml') != '' }}
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/pip
-            ~/.cache/pypoetry
-          key: ${{ runner.os }}-py-${{ hashFiles('**/requirements.txt', '**/poetry.lock', '**/pyproject.toml') }}
-
-      - name: Cache Node (npm/pnpm/yarn)
-        if: ${{ hashFiles('**/package-lock.json', '**/pnpm-lock.yaml', '**/yarn.lock') != '' }}
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.npm
-            ~/.pnpm-store
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json', '**/pnpm-lock.yaml', '**/yarn.lock') }}
-
-      - name: Cache Rust (cargo)
-        if: ${{ hashFiles('**/Cargo.lock') != '' }}
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-
-      - name: Cache Go (modules)
-        if: ${{ hashFiles('**/go.sum') != '' }}
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/go/pkg/mod
-          key: ${{ runner.os }}-gomod-${{ hashFiles('**/go.sum') }}
-
-      - name: Cache Go build cache
-        if: ${{ hashFiles('**/go.mod') != '' }}
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/go/build
-            ~/.cache/go-build
-          key: ${{ runner.os }}-gobuild-${{ hashFiles('**/*.go','**/go.mod','**/go.sum') }}
-
-      # ---------- SHARD PREP ----------
+      # ---------- SHARD PREP (always runs; cheap) ----------
       - name: Prepare test shard
         id: shard
         run: |
@@ -81,44 +81,83 @@ jobs:
           [ -s "${{ steps.shard.outputs.filesfile }}" ] && nl -ba "${{ steps.shard.outputs.filesfile }}" || echo "(none)"
 
       # ---------- PYTHON ----------
+      - name: Cache Python (pip)
+        if: ${{ needs.changes.outputs.python == 'true' }}
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.cache/pypoetry
+          key: ${{ runner.os }}-py-${{ hashFiles('**/requirements.txt', '**/poetry.lock', '**/pyproject.toml') }}
+
       - name: Run pytest (sharded; xdist if present)
-        if: ${{ steps.shard.outputs.count != '0' && hashFiles('**/pytest.ini', '**/pyproject.toml', '**/requirements.txt') != '' }}
+        if: ${{ needs.changes.outputs.python == 'true' && steps.shard.outputs.count != '0' }}
         run: |
           set -Eeuo pipefail
-          if python -c "import xdist" 2>/dev/null; then
+          if python - <<'PY' 2>/dev/null; then :; else echo "[info] pytest-xdist not available; running serial within shard"; fi
+import pkgutil; import sys; sys.exit(0 if pkgutil.find_loader("xdist") else 1)
+PY
+          if [ $? -eq 0 ]; then
             xargs -a "${{ steps.shard.outputs.filesfile }}" -r -n 1 python -m pytest -q -n auto --dist loadfile --maxfail=1
           else
             xargs -a "${{ steps.shard.outputs.filesfile }}" -r -n 50 python -m pytest -q --maxfail=1
           fi
 
       # ---------- GO ----------
+      - name: Cache Go modules
+        if: ${{ needs.changes.outputs.go == 'true' }}
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-gomod-${{ hashFiles('**/go.sum') }}
+
+      - name: Cache Go build cache
+        if: ${{ needs.changes.outputs.go == 'true' }}
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/go/build
+            ~/.cache/go-build
+          key: ${{ runner.os }}-gobuild-${{ hashFiles('**/*.go','**/go.mod','**/go.sum') }}
+
       - name: Run Go tests
-        if: ${{ hashFiles('**/go.mod') != '' }}
+        if: ${{ needs.changes.outputs.go == 'true' }}
         run: |
           set -Eeuo pipefail
           go test ./... -count=1 -parallel=8
 
-      # ---------- RUST (sccache + cargo-chef) ----------
+      # ---------- RUST ----------
+      - name: Cache Rust (cargo)
+        if: ${{ needs.changes.outputs.rust == 'true' }}
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
       - name: Setup sccache
-        if: ${{ hashFiles('**/Cargo.toml') != '' }}
+        if: ${{ needs.changes.outputs.rust == 'true' }}
         uses: mozilla-actions/sccache-action@v0.0.3
 
       - name: Enable sccache
-        if: ${{ hashFiles('**/Cargo.toml') != '' }}
+        if: ${{ needs.changes.outputs.rust == 'true' }}
         run: |
           echo "RUSTC_WRAPPER=$(which sccache)" >> "$GITHUB_ENV"
           echo "SCCACHE_GHA_ENABLED=on" >> "$GITHUB_ENV"
 
       - name: Install cargo-chef
-        if: ${{ hashFiles('**/Cargo.toml') != '' }}
+        if: ${{ needs.changes.outputs.rust == 'true' }}
         run: cargo install cargo-chef --locked
 
-      - name: cargo-chef prepare (deps recipe)
-        if: ${{ hashFiles('**/Cargo.toml') != '' }}
+      - name: cargo-chef prepare
+        if: ${{ needs.changes.outputs.rust == 'true' }}
         run: cargo chef prepare --recipe-path recipe.json
 
-      - name: Cache cargo-chef cook layers
-        if: ${{ hashFiles('**/Cargo.toml') != '' }}
+      - name: Cache cargo-chef layers
+        if: ${{ needs.changes.outputs.rust == 'true' }}
         uses: actions/cache@v4
         with:
           path: |
@@ -127,31 +166,39 @@ jobs:
             ~/.cargo/git
           key: ${{ runner.os }}-cargo-chef-${{ hashFiles('recipe.json') }}
 
-      - name: cargo-chef cook (compile deps)
-        if: ${{ hashFiles('**/Cargo.toml') != '' }}
+      - name: cargo-chef cook
+        if: ${{ needs.changes.outputs.rust == 'true' }}
         run: cargo chef cook --recipe-path recipe.json --release
 
       - name: Run Rust tests
-        if: ${{ hashFiles('**/Cargo.toml') != '' }}
+        if: ${{ needs.changes.outputs.rust == 'true' }}
         run: |
           set -Eeuo pipefail
           cargo test --all --locked --quiet
 
       # ---------- NODE ----------
+      - name: Cache Node (npm/pnpm/yarn)
+        if: ${{ needs.changes.outputs.node == 'true' }}
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ~/.pnpm-store
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json', '**/pnpm-lock.yaml', '**/yarn.lock') }}
+
       - name: Run Node tests
-        if: ${{ hashFiles('**/package-lock.json') != '' }}
+        if: ${{ needs.changes.outputs.node == 'true' }}
         run: |
           set -Eeuo pipefail
-          npm ci --prefer-offline
-          npm test --silent
+          if [ -f package-lock.json ]; then npm ci --prefer-offline && npm test --silent; fi
 
-      # ---------- DOCKER (GHA cache) ----------
+      # ---------- DOCKER ----------
       - name: Setup Docker Buildx
-        if: ${{ hashFiles('**/Dockerfile') != '' }}
+        if: ${{ needs.changes.outputs.docker == 'true' }}
         uses: docker/setup-buildx-action@v3
 
       - name: Build with GHA cache
-        if: ${{ hashFiles('**/Dockerfile') != '' }}
+        if: ${{ needs.changes.outputs.docker == 'true' }}
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -160,7 +207,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      # ---------- NO-OP FALLBACK ----------
-      - name: No matching test runner
-        if: ${{ always() && steps.shard.outputs.count == '0' && hashFiles('**/pytest.ini', '**/pyproject.toml', '**/requirements.txt', '**/go.mod', '**/Cargo.toml', '**/package-lock.json') == '' }}
-        run: echo "[info] No known test manifests found; nothing to run in this job."
+      # ---------- NO-OP ----------
+      - name: Nothing to run (skipped all stacks)
+        if: ${{ needs.changes.outputs.python != 'true' && needs.changes.outputs.go != 'true' && needs.changes.outputs.rust != 'true' && needs.changes.outputs.node != 'true' && needs.changes.outputs.docker != 'true' }}
+        run: echo "[info] No matching stacks changed; skipping heavy work."
