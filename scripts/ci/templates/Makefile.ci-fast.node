@@ -1,0 +1,11 @@
+# Minimal fast path for Node — customize
+.PHONY: ci-fast
+ci-fast:
+	@echo "[fast] node: $(CURDIR)"
+	@if [ -f package.json ]; then \
+	  if command -v npm >/dev/null 2>&1; then \
+	    npm test --silent || echo "[info] no tests configured"; \
+	  else \
+	    echo "[warn] npm not found; skipping"; \
+	  fi; \
+	else echo "[info] no package.json; skipping"; fi

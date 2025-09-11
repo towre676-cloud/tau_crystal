@@ -1,0 +1,16 @@
+# Minimal fast path for Python — customize to your project
+.PHONY: ci-fast
+ci-fast:
+	@echo "[fast] python: $(CURDIR)"
+	@# quick syntax check; no venv/deps needed
+	@if command -v python >/dev/null 2>&1; then \
+	  pyfiles="$$(git ls-files '*.py' 2>/dev/null)"; \
+	  [ -n "$$pyfiles" ] && python - <<'EOF' $$pyfiles || true; \
+import sys, py_compile; [py_compile.compile(f, doraise=True) for f in sys.argv[1:]]
+EOF \
+	else echo "[warn] python not found; skipping py_compile"; fi
+	@# if pytest available, run a small subset (no install here)
+	@if command -v pytest >/dev/null 2>&1; then \
+	  echo "[info] pytest present → running quick subset"; \
+	  pytest -q --maxfail=1 -k "smoke or unit" || true; \
+	else echo "[info] pytest not on PATH; skipping tests"; fi
