@@ -1,6 +1,4 @@
-# Support
-
-Questions: open a Q&A in Discussions.  
-Bugs: open an Issue with a minimal repro plus `lean --version` and `lake --version`.  
-Security: use GitHub Security Advisories (private) instead of public issues.  
-We don’t offer paid support yet; Marketplace plans affect CI verification limits only.
+## Support
+Email: support@example.com
+SLA: Business hours, 48h initial response
+Security: see SECURITY.md
