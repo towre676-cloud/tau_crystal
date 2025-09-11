@@ -1,0 +1,10 @@
+{
+  "jsonrpc": "2.0",
+  "method": "tau.step",
+  "id": "demo-1",
+  "params": {
+    "tool": "llm:proposer",
+    "input_path": "fixtures/contracts/example.contract.json",
+    "output_path": "out/demo.json"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "tool": "delta27_verifier",
+  "input_path": "contracts/delta27.contract.json",
+  "output_path": "analysis/delta27.out.json"
+}

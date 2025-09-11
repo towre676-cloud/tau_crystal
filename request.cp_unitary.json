@@ -1,0 +1,1 @@
+{"tool": "cp_unitary_verifier", "input_path": "contracts/cp_unitary.contract.json", "output_path": "analysis/cp_unitary.out.json"}

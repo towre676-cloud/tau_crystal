@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tau-crystal/schema/request.schema.json",
+  "title": "tau_request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tool","input_path","output_path"],
+  "properties": {
+    "tool":        { "type": "string", "minLength": 1 },
+    "input_path":  { "type": "string", "minLength": 1 },
+    "output_path": { "type": "string", "minLength": 1 }
+  }
+}

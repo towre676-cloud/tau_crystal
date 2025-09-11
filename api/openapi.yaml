@@ -1,0 +1,27 @@
+openapi: 3.1.0
+info:
+  title: tau_crystal Local Adapter (Spec Only)
+  version: 1.0.0
+  description: >
+    Static reference for callers who prefer HTTP semantics. This repo is FIFO-first (pure Bash).
+    If you must expose HTTP, run a tiny bridge that maps POST /tau/step → queue (.req/.res).
+servers:
+  - url: http://127.0.0.1:8787
+paths:
+  /tau/step:
+    post:
+      summary: Submit adapter contract and receive envelope
+      description: Mirror of FIFO contract. Preferred transport is `.tau_fifo/queue`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./request.schema.json"
+      responses:
+        "200":
+          description: Adapter envelope
+          content:
+            application/json:
+              schema:
+                $ref: "./response.schema.json"

@@ -1,0 +1,1 @@
+{ "tool":"tm_sumrule_gate", "input_path":"contracts/cp_residual_symm.tm2.contract.json", "output_path":"analysis/tm2_sumrule.out.json" }

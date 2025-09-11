@@ -1,0 +1,1 @@
+{ "tool":"gap_aut_verifier", "input_path":"contracts/auto_delta27.contract.json", "output_path":"analysis/auto_delta27.out.json" }

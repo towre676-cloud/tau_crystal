@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tau-crystal/schema/response.schema.json",
+  "title": "tau_response",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["ok"],
+  "properties": {
+    "ok":     { "type": "boolean" },
+    "code":   { "type": "integer" },
+    "stdout": { "type": "string" },
+    "stderr": { "type": "string" }
+  }
+}

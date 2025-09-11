@@ -1,0 +1,14 @@
+{
+  "masses": {
+    "e":   0.51099895,
+    "mu": 105.6583755,
+    "tau": 1776.86
+  },
+  "rel_tol_default": 1e-3,
+  "relations": [
+    {"name":"mu_over_e","numerator":"mu","denominator":"e","expect":206.768282},
+    {"name":"tau_over_mu","numerator":"tau","denominator":"mu","expect":16.8167}
+  ],
+  "provenance": "PDG-like reference; verify ratios within stated tolerances",
+  "forbid_fit": true
+}
