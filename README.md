@@ -1,4 +1,6 @@
 # τ‑Crystal
+
+[![spec-guard](https://github.com/towre676-cloud/tau_crystal/actions/workflows/spec_guard.yml/badge.svg?branch=main)](https://github.com/towre676-cloud/tau_crystal/actions/workflows/spec_guard.yml)
 [![Adapter CI](https://github.com/towre676-cloud/tau_crystal/actions/workflows/adapter-ci.yml/badge.svg)](https://github.com/towre676-cloud/tau_crystal/actions/workflows/adapter-ci.yml)
 
 Local, composable, verifiable symbolic transport system for agent-safe computation. Shell-first, LLM-aligned, and cryptographically rooted.
