@@ -71,6 +71,7 @@ jobs:
       total:  ${{ steps.gen.outputs.total }}
   tests:  ${{ steps.gen.outputs.tests }}
   tests:  ${{ steps.gen.outputs.tests }}
+  tests:  ${{ steps.gen.outputs.tests }}
     steps:
       - uses: actions/checkout@v4
       - id: gen
