@@ -1,0 +1,10 @@
+{
+  "scheme": "tbm_r13",
+  "theta_deg": 9.0,
+  "bounds": {
+    "theta12_min": 20.0, "theta12_max": 40.0,
+    "theta13_min":  5.0, "theta13_max": 12.0,
+    "theta23_min": 35.0, "theta23_max": 55.0,
+    "delta_min":  -10.0, "delta_max":  10.0
+  }
+}

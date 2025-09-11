@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+if command -v gap >/dev/null 2>&1; then
+  exec gap "$@"
+fi
+if command -v docker >/dev/null 2>&1; then
+  exec docker run --rm -i -v "$PWD":/work -w /work gapframework/gap:latest gap -q "$@"
+fi
+if command -v podman >/dev/null 2>&1; then
+  exec podman run --rm -i -v "$PWD":/work -w /work gapframework/gap:latest gap -q "$@"
+fi
+echo "[gap-shim] no GAP engine found (native/docker/podman). Install GAP or Docker/Podman and retry." >&2
+exit 127

@@ -1,0 +1,5 @@
+{
+  "tool": "physics_verifier",
+  "input_path": "contracts/fermion_ratios.contract.json",
+  "output_path": "analysis/fermion_ratios.out.json"
+}

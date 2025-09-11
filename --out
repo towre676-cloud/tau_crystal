@@ -1,0 +1,17 @@
+{
+  "tool": "--input",
+  "input_sha256": "7e3f011429a3183d3b18135ec3114b5b27a53d62b03555b8c1375711cfc33667",
+  "input_fold_sha256": "7e3f011429a3183d3b18135ec3114b5b27a53d62b03555b8c1375711cfc33667",
+  "output_sha256": "c16f12fd96a9e48562329128f2e78b2e80260d2b3e10b0cecbd48eea1f52c180",
+  "output_fold_sha256": "2fe1723115d35e49f04b5586bf9e7e5e53e744ebba1dff6ea616ccc12592ee69",
+  "semantic": {
+    "method": "bow-only",
+    "cosine_bow": 0.903978,
+    "jaccard_2gram": 0.760000
+  },
+  "behavior": {
+    "consistency": {"ok":true,"consistency_rate":0.000000,"variants":3,"min_similarity":0.138013,"details":[{"variant":"","sim":0.138013,"method":"bow"},{"variant":"","sim":0.138013,"method":"bow"},{"variant":"","sim":0.138013,"method":"bow"}]},
+    "constraints": {"ok":false}
+  },
+  "output_text": "LLM adapter placeholder. tool=--input\nINPUT: { \"tool\":\"tm_sumrule_gate\", \"input_path\":\"contracts/cp_residual_symm.tm1.contract.json\", \"output_path\":\"analysis/tm1_sumrule.out.json\" }"
+}

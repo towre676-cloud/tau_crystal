@@ -1,0 +1,16 @@
+{
+  "A": [[0,2],[1,2]],
+  "mod": 3,
+  "expected": {
+    "order": 27,
+    "A_order": 3,
+    "detA_mod": 1,
+    "nonabelian": true,
+    "center_size": 3,
+    "derived_size": 3,
+    "num_1d_irreps": 9,
+    "num_3d_irreps": 2
+  },
+  "provenance": "Δ(27) ≅ (Z3×Z3) ⋊ Z3 with order-3 action; structure invariants only",
+  "forbid_fit": true
+}
