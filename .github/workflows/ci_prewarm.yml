@@ -3,11 +3,9 @@ on:
   schedule:
     - cron: '17 7 * * *'
   workflow_dispatch: {}
-
-0++ ? "" : concurrency:
+concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: false
-
 jobs:
   warm-cache:
     runs-on: ubuntu-latest
@@ -29,7 +27,6 @@ jobs:
             k="$h1-$h2"
           fi
           echo "val=${{ runner.os }}-$k" >> "$GITHUB_OUTPUT"
-          echo "prewarm-key=${{ runner.os }}-$k"
       - name: Setup Lean toolchain
         shell: bash
         run: |
