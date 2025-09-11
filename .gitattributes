@@ -3,3 +3,5 @@
 *.yaml text eol=lf
 *.lean text eol=lf
 * text=auto eol=lf
+.tau_ledger/chain.head text eol=lf
+*.head                     text eol=lf
