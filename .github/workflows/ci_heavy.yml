@@ -102,25 +102,32 @@ jobs:
           if [ "$EVENT_NAME" = "pull_request" ] && [ -n "$PR_BASE" ]; then BASE="$PR_BASE"; fi
           if [ -z "$BASE" ]; then BASE="$(git rev-parse --short=8 HEAD^)"; fi
           git fetch --no-tags --prune --depth=2 origin "+$BASE:$BASE" || true
-          changed=$(git diff --name-only "$BASE"... "$HEAD_SHA" | sed '/^\s*$/d' || true)
+          changed=$(git diff --name-only "$BASE"... "$HEAD_SHA" | sed "/^\s*$/d" || true)
           if [ -z "$changed" ]; then
-            echo "fast=false" >> "$GITHUB_OUTPUT"
-            exit 0
+            echo fast=false >> "$GITHUB_OUTPUT"; exit 0; fi
+          # separate root files vs top-level dirs
+          root_only=1
+          declare -A uniq=()
+          while IFS= read -r f; do
+            case "$f" in */*) uniq["${f%%/*}"]=1; root_only=0;; esac
+          done <<< "$changed"
+          if [ "$root_only" = 1 ]; then
+            if [ -f Makefile ] && grep -qE "(^|[^#[:alnum:]_-])ci-fast\s*:" Makefile; then
+              echo dir=.    >> "$GITHUB_OUTPUT"
+              echo fast=true >> "$GITHUB_OUTPUT"
+              echo "[info] fast-path hit: repo-root Makefile:ci-fast"
+              exit 0; fi
           fi
-          # collect unique top-level dirs (ignore files at repo root)
-          mapfile -t dirs < <(printf '%s\n' "$changed" | awk -F/ 'NF>1 {print $1}' | sort -u)
-          if [ "${#dirs[@]}" -ne 1 ]; then
-            echo "fast=false" >> "$GITHUB_OUTPUT"; exit 0
-          fi
-          dir="${dirs[0]}"
-          if [ -f "$dir/Makefile" ] && grep -qE '(^|[^#[:alnum:]_-])ci-fast\s*:' "$dir/Makefile"; then
-            echo "dir=$dir"    >> "$GITHUB_OUTPUT"
-            echo "fast=true"   >> "$GITHUB_OUTPUT"
+          # if exactly one top-level dir changed and it has ci-fast -> fast
+          tl=0; dir=""
+          for k in "${!uniq[@]}"; do tl=$((tl+1)); dir="$k"; done
+          if [ "$tl" -eq 1 ] && [ -f "$dir/Makefile" ] && grep -qE "(^|[^#[:alnum:]_-])ci-fast\s*:" "$dir/Makefile"; then
+            echo dir="$dir"  >> "$GITHUB_OUTPUT"
+            echo fast=true     >> "$GITHUB_OUTPUT"
             echo "[info] fast-path hit: $dir/Makefile:ci-fast"
           else
-            echo "fast=false"  >> "$GITHUB_OUTPUT"
+            echo fast=false >> "$GITHUB_OUTPUT"
           fi
-
       - name: Run fast-path target and short-circuit
         if: ${{ steps.fast.outputs.fast == 'true' }}
         run: |
