@@ -16,6 +16,29 @@ jobs:
           fetch-depth: 2
       - name: Setup Lean
         run: scripts/ci/setup_lean.sh
+      - name: Compute cache key
+        id: key
+        shell: bash
+        run: |
+          set -Eeuo pipefail; set +H
+          if [ -f lake-manifest.json ]; then
+            k=$(sha256sum lake-manifest.json | cut -c1-12)
+          else
+            h1=$(sha256sum lean-toolchain 2>/dev/null | cut -c1-12 || echo none)
+            h2=$(sha256sum lakefile.lean 2>/dev/null | cut -c1-12 || echo none)
+            k="$h1-$h2"
+          fi
+          echo "val=${{ runner.os }}-$k" >> "$GITHUB_OUTPUT"
+      - name: Restore cache
+        uses: actions/cache/restore@v4
+        with:
+          key: ${{ steps.key.outputs.val }}
+          restore-keys: |
+            ${{ runner.os }}-
+          path: |
+            .lake
+            lake-packages
+            lean_packages
       - name: Decide fast-path and run
         shell: bash
         run: |
@@ -45,3 +68,12 @@ jobs:
           fi
           echo "::notice::fallback: lake build"
           lake build
+      - name: Save cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          key: ${{ steps.key.outputs.val }}
+          path: |
+            .lake
+            lake-packages
+            lean_packages
