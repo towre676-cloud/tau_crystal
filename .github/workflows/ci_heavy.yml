@@ -1,0 +1,119 @@
+name: ci-heavy
+
+on:
+  push:
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - '.github/workflows/spec_guard.yml'
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - '.github/workflows/spec_guard.yml'
+
+concurrency:
+  group: heavy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]   # adjust to control parallelism
+    steps:
+      - uses: actions/checkout@v4
+
+      # --------------------------
+      # Dependency/toolchain caches
+      # --------------------------
+      - name: Cache Python (pip)
+        if: ${{ hashFiles('**/requirements.txt', '**/poetry.lock', '**/pyproject.toml') != '' }}
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.cache/pypoetry
+          key: ${{ runner.os }}-py-${{ hashFiles('**/requirements.txt', '**/poetry.lock', '**/pyproject.toml') }}
+
+      - name: Cache Node (npm/pnpm/yarn)
+        if: ${{ hashFiles('**/package-lock.json', '**/pnpm-lock.yaml', '**/yarn.lock') != '' }}
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            ~/.pnpm-store
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json', '**/pnpm-lock.yaml', '**/yarn.lock') }}
+
+      - name: Cache Rust (cargo)
+        if: ${{ hashFiles('**/Cargo.lock') != '' }}
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cache Go (modules)
+        if: ${{ hashFiles('**/go.sum') != '' }}
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+
+      # --------------------------
+      # Prepare sharded test file list (language-agnostic)
+      # --------------------------
+      - name: Prepare test shard
+        id: shard
+        run: |
+          bash scripts/ci/shard_list.sh ${{ matrix.shard }} 4
+          echo "Files in shard ${{ matrix.shard }}:"
+          [ -s "${{ steps.shard.outputs.filesfile }}" ] && nl -ba "${{ steps.shard.outputs.filesfile }}" || echo "(none)"
+
+      # --------------------------
+      # Example runners (guarded)
+      # Replace the commands with your actual project build/test steps.
+      # --------------------------
+
+      # Python tests (pytest) — runs only if Python manifests exist *and* this shard has files
+      - name: Run pytest (sharded)
+        if: ${{ steps.shard.outputs.count != '0' && hashFiles('**/pytest.ini', '**/pyproject.toml', '**/requirements.txt') != '' }}
+        run: |
+          set -Eeuo pipefail
+          # (Optional) setup Python version & deps; enable if needed:
+          # python -m pip install -U pip
+          # [ -f requirements.txt ] && pip install -r requirements.txt || true
+          xargs -a "${{ steps.shard.outputs.filesfile }}" -r -n 50 python -m pytest -q --maxfail=1
+
+      # Go tests — runs only if go.mod exists (does not shard by file; Go sharding typically uses package splits)
+      - name: Run Go tests
+        if: ${{ hashFiles('**/go.mod') != '' }}
+        run: |
+          set -Eeuo pipefail
+          # Basic parallelism via -parallel; for true sharding split packages across shards.
+          go test ./... -count=1 -parallel=4
+
+      # Rust tests — runs only if Cargo.toml exists (project-wide; sharding usually via workspace/package splits)
+      - name: Run Rust tests
+        if: ${{ hashFiles('**/Cargo.toml') != '' }}
+        run: |
+          set -Eeuo pipefail
+          cargo test --all --locked --quiet
+
+      # Node tests (npm) — if package-lock.json present
+      - name: Run Node tests
+        if: ${{ hashFiles('**/package-lock.json') != '' }}
+        run: |
+          set -Eeuo pipefail
+          npm ci
+          npm test --silent
+
+      # If nothing matched above, keep job green but explicit
+      - name: No matching test runner
+        if: ${{ always() && steps.shard.outputs.count == '0' && hashFiles('**/pytest.ini', '**/pyproject.toml', '**/requirements.txt', '**/go.mod', '**/Cargo.toml', '**/package-lock.json') == '' }}
+        run: echo "[info] No known test manifests found; nothing to run in this job."
