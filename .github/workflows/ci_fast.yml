@@ -2,7 +2,15 @@ name: ci-fast
 on:
   push:
     branches: ["**"]
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - '.tau_ledger/**'
   pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - '.tau_ledger/**'
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -28,6 +36,7 @@ jobs:
             h2=$(sha256sum lakefile.lean 2>/dev/null | cut -c1-12 || echo none)
             k="$h1-$h2"
           fi
+          echo "::notice::cache-key: ${{ runner.os }}-$k"
           echo "val=${{ runner.os }}-$k" >> "$GITHUB_OUTPUT"
       - name: Restore cache
         uses: actions/cache/restore@v4
@@ -40,6 +49,7 @@ jobs:
             lake-packages
             lean_packages
       - name: Decide fast-path and run
+        id: decide
         shell: bash
         run: |
           set -Eeuo pipefail; set +H
@@ -57,16 +67,19 @@ jobs:
             dir="$top_dirs"
             if [ -f "$dir/Makefile" ] && grep -qE '^[[:space:]]*ci-fast[[:space:]]*:' "$dir/Makefile"; then
               echo "::notice::module fast-path: $dir"
+              echo "fast_path=module:$dir" >> "$GITHUB_OUTPUT"
               make -C "$dir" ci-fast
               exit 0
             fi
           fi
           if [ -n "$roots" ] && [ -f Makefile ] && grep -qE '^[[:space:]]*ci-fast[[:space:]]*:' Makefile; then
             echo "::notice::root fast-path"
+            echo "fast_path=root" >> "$GITHUB_OUTPUT"
             make ci-fast
             exit 0
           fi
           echo "::notice::fallback: lake build"
+          echo "fast_path=fallback" >> "$GITHUB_OUTPUT"
           lake build
       - name: Save cache
         if: always()
@@ -77,3 +90,5 @@ jobs:
             .lake
             lake-packages
             lean_packages
+      - name: Summary
+        run: echo "Chosen: ${{ steps.decide.outputs.fast_path }}" >> $GITHUB_STEP_SUMMARY
