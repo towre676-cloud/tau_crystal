@@ -75,3 +75,10 @@ Warm runs on unchanged mathlib are materially faster than cold runs. We publish 
   with:
     manifest: .tau_ledger/manifest.demo.json
     fail-on-mismatch: 'true'
+
+## GitHub App (Marketplace path)
+- App manifest: `app/manifest.json` (create in GitHub → Settings → Developer settings → GitHub Apps → New App → "From manifest")
+- Webhook secret env: `GITHUB_APP_WEBHOOK_SECRET`
+- Dev webhook stub: `bash app/server.sh` (listens on :3000; requires nc/openssl)
+- Legal: `docs/PRIVACY.md`, `docs/TERMS.md`
+- Support: `SUPPORT.md`, `SECURITY.md`
