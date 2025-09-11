@@ -18,4 +18,6 @@ done
 json+=']}'
 echo "matrix=$json"       >> "$GITHUB_OUTPUT"
 echo "total=$shards"      >> "$GITHUB_OUTPUT"
+echo "tests=$n"         >> "$GITHUB_OUTPUT"
 echo "[info] tests=$n shards=$shards" 1>&2
+

@@ -69,6 +69,7 @@ jobs:
     outputs:
       matrix: ${{ steps.gen.outputs.matrix }}
       total:  ${{ steps.gen.outputs.total }}
+  tests:  ${{ steps.gen.outputs.tests }}
     steps:
       - uses: actions/checkout@v4
       - id: gen
@@ -253,3 +254,26 @@ PY
       - name: Nothing to run (skipped all stacks)
         if: ${{ needs.changes.outputs.python != 'true' && needs.changes.outputs.go != 'true' && needs.changes.outputs.rust != 'true' && needs.changes.outputs.node != 'true' && needs.changes.outputs.docker != 'true' }}
         run: echo "[info] No matching stacks changed; skipping heavy work."
+
+  summary:
+    needs: [changes, matrix]
+    if: ${{ needs.matrix.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: CI Speed Summary
+        run: |
+          {
+            echo "## CI Speed Summary";
+            echo "";
+            echo "- Stacks changed:";
+            echo "  - python: ${{ needs.changes.outputs.python }}";
+            echo "  - go:     ${{ needs.changes.outputs.go }}";
+            echo "  - rust:   ${{ needs.changes.outputs.rust }}";
+            echo "  - node:   ${{ needs.changes.outputs.node }}";
+            echo "  - docker: ${{ needs.changes.outputs.docker }}";
+            echo "- Tests discovered: ${{ needs.matrix.outputs.tests }}";
+            echo "- Shard total:     ${{ needs.matrix.outputs.total }}";
+            echo "";
+            echo "_Tip_: If tests < 80 and shards > 4, consider lowering shard cap or raising test-per-shard target in scripts/ci/generate_matrix.sh for faster queue times.";
+          } >> "$GITHUB_STEP_SUMMARY"
+    
