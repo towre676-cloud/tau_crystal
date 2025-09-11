@@ -28,6 +28,7 @@ jobs:
       tests_any:  ${{ steps.filter.outputs.tests }}
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
       - id: filter
         uses: dorny/paths-filter@v3
         with:
@@ -69,11 +70,10 @@ jobs:
     outputs:
       matrix: ${{ steps.gen.outputs.matrix }}
       total:  ${{ steps.gen.outputs.total }}
-  tests:  ${{ steps.gen.outputs.tests }}
-  tests:  ${{ steps.gen.outputs.tests }}
-  tests:  ${{ steps.gen.outputs.tests }}
+      tests:  ${{ steps.gen.outputs.tests }}
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
       - id: gen
         run: bash scripts/ci/generate_matrix.sh
 
@@ -86,18 +86,59 @@ jobs:
       matrix: ${{ fromJson(needs.matrix.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      # ---------- FAST PATH DETECTION ----------
+      - name: Detect fast-path module (single top-level dir with Makefile:ci-fast)
+        id: fast
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE:    ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE:${{ github.event.before }}
+          HEAD_SHA:   ${{ github.sha }}
+        run: |
+          set -Eeuo pipefail
+          BASE="$PUSH_BEFORE"
+          if [ "$EVENT_NAME" = "pull_request" ] && [ -n "$PR_BASE" ]; then BASE="$PR_BASE"; fi
+          if [ -z "$BASE" ]; then BASE="$(git rev-parse --short=8 HEAD^)"; fi
+          git fetch --no-tags --prune --depth=2 origin "+$BASE:$BASE" || true
+          changed=$(git diff --name-only "$BASE"... "$HEAD_SHA" | sed '/^\s*$/d' || true)
+          if [ -z "$changed" ]; then
+            echo "fast=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # collect unique top-level dirs (ignore files at repo root)
+          mapfile -t dirs < <(printf '%s\n' "$changed" | awk -F/ 'NF>1 {print $1}' | sort -u)
+          if [ "${#dirs[@]}" -ne 1 ]; then
+            echo "fast=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          dir="${dirs[0]}"
+          if [ -f "$dir/Makefile" ] && grep -qE '(^|[^#[:alnum:]_-])ci-fast\s*:' "$dir/Makefile"; then
+            echo "dir=$dir"    >> "$GITHUB_OUTPUT"
+            echo "fast=true"   >> "$GITHUB_OUTPUT"
+            echo "[info] fast-path hit: $dir/Makefile:ci-fast"
+          else
+            echo "fast=false"  >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run fast-path target and short-circuit
+        if: ${{ steps.fast.outputs.fast == 'true' }}
+        run: |
+          set -Eeuo pipefail
+          make -C "${{ steps.fast.outputs.dir }}" ci-fast
 
       # ---------- SHARD PREP ----------
       - name: Prepare test shard
+        if: ${{ steps.fast.outputs.fast != 'true' }}
         id: shard
         run: |
           bash scripts/ci/shard_list.sh ${{ matrix.shard }} ${{ needs.matrix.outputs.total }}
           echo "Files in shard ${{ matrix.shard }}:"
           [ -s "${{ steps.shard.outputs.filesfile }}" ] && nl -ba "${{ steps.shard.outputs.filesfile }}" || echo "(none)"
 
-      # ---------- PYTHON (install dev deps + testmon/xdist; cache + run) ----------
+      # ---------- PYTHON ----------
       - name: Cache Python (pip)
-        if: ${{ needs.changes.outputs.python == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.python == 'true' }}
         uses: actions/cache@v4
         with:
           path: |
@@ -108,7 +149,7 @@ jobs:
             ${{ runner.os }}-py-
 
       - name: Install Python dev deps
-        if: ${{ needs.changes.outputs.python == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.python == 'true' }}
         run: |
           python -m pip install -U pip
           if [ -f requirements-dev.txt ]; then
@@ -118,7 +159,7 @@ jobs:
           fi
 
       - name: Cache pytest testmon DB
-        if: ${{ needs.changes.outputs.python == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.python == 'true' }}
         uses: actions/cache@v4
         with:
           path: .testmondata
@@ -126,16 +167,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-testmon-
 
-      - name: Run pytest (test impact if available; else sharded)
-        if: ${{ needs.changes.outputs.python == 'true' && steps.shard.outputs.count != '0' }}
+      - name: Run pytest (incremental if available; else sharded)
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.python == 'true' && steps.shard.outputs.count != '0' }}
         run: |
           set -Eeuo pipefail
           if python - <<'PY' 2>/dev/null; then MODE="testmon"; else MODE="shard"; fi
 import pkgutil,sys; sys.exit(0 if pkgutil.find_loader("testmon") else 1)
 PY
           if [ "$MODE" = "testmon" ]; then
-            echo "[info] pytest-testmon enabled (incremental tests)"
-            python -m pytest -q --testmon --maxfail=1
+            echo "[info] pytest-testmon enabled (incremental tests)"; python -m pytest -q --testmon --maxfail=1
           else
             echo "[info] pytest-testmon not present; using shard file list"
             if python - <<'PY' 2>/dev/null; then PAR="-n auto --dist loadfile"; else PAR=""; fi
@@ -146,7 +186,7 @@ PY
 
       # ---------- GO ----------
       - name: Cache Go modules
-        if: ${{ needs.changes.outputs.go == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.go == 'true' }}
         uses: actions/cache@v4
         with:
           path: |
@@ -154,8 +194,9 @@ PY
           key: ${{ runner.os }}-gomod-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-gomod-
+
       - name: Cache Go build cache
-        if: ${{ needs.changes.outputs.go == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.go == 'true' }}
         uses: actions/cache@v4
         with:
           path: |
@@ -164,13 +205,14 @@ PY
           key: ${{ runner.os }}-gobuild-${{ hashFiles('**/*.go','**/go.mod','**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-gobuild-
+
       - name: Run Go tests
-        if: ${{ needs.changes.outputs.go == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.go == 'true' }}
         run: go test ./... -count=1 -parallel=${{ needs.matrix.outputs.total }}
 
-      # ---------- RUST (nextest + sccache + cargo-chef) ----------
+      # ---------- RUST ----------
       - name: Cache Rust (cargo)
-        if: ${{ needs.changes.outputs.rust == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.rust == 'true' }}
         uses: actions/cache@v4
         with:
           path: |
@@ -180,22 +222,27 @@ PY
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-cargo-
+
       - name: Setup sccache
-        if: ${{ needs.changes.outputs.rust == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.rust == 'true' }}
         uses: mozilla-actions/sccache-action@v0.0.3
+
       - name: Enable sccache
-        if: ${{ needs.changes.outputs.rust == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.rust == 'true' }}
         run: |
           echo "RUSTC_WRAPPER=$(which sccache)" >> "$GITHUB_ENV"
           echo "SCCACHE_GHA_ENABLED=on" >> "$GITHUB_ENV"
+
       - name: Install cargo-chef
-        if: ${{ needs.changes.outputs.rust == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.rust == 'true' }}
         run: cargo install cargo-chef --locked
+
       - name: cargo-chef prepare
-        if: ${{ needs.changes.outputs.rust == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.rust == 'true' }}
         run: cargo chef prepare --recipe-path recipe.json
+
       - name: Cache cargo-chef layers
-        if: ${{ needs.changes.outputs.rust == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.rust == 'true' }}
         uses: actions/cache@v4
         with:
           path: |
@@ -205,16 +252,19 @@ PY
           key: ${{ runner.os }}-cargo-chef-${{ hashFiles('recipe.json') }}
           restore-keys: |
             ${{ runner.os }}-cargo-chef-
+
       - name: Install nextest
-        if: ${{ needs.changes.outputs.rust == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.rust == 'true' }}
         uses: taiki-e/install-action@v2
         with:
           tool: nextest
+
       - name: Run Rust tests (nextest)
-        if: ${{ needs.changes.outputs.rust == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.rust == 'true' }}
         run: cargo nextest run --all --locked --profile ci || cargo nextest run --all --locked
+
       - name: Upload nextest JUnit (if present)
-        if: ${{ needs.changes.outputs.rust == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.rust == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: rust-nextest-junit
@@ -223,7 +273,7 @@ PY
 
       # ---------- NODE ----------
       - name: Cache Node (npm/pnpm/yarn)
-        if: ${{ needs.changes.outputs.node == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.node == 'true' }}
         uses: actions/cache@v4
         with:
           path: |
@@ -232,18 +282,20 @@ PY
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json', '**/pnpm-lock.yaml', '**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
       - name: Run Node tests
-        if: ${{ needs.changes.outputs.node == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.node == 'true' }}
         run: |
           set -Eeuo pipefail
           if [ -f package-lock.json ]; then npm ci --prefer-offline; npm test --silent; fi
 
       # ---------- DOCKER ----------
       - name: Setup Docker Buildx
-        if: ${{ needs.changes.outputs.docker == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.docker == 'true' }}
         uses: docker/setup-buildx-action@v3
+
       - name: Build with GHA cache
-        if: ${{ needs.changes.outputs.docker == 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.docker == 'true' }}
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -252,14 +304,14 @@ PY
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      # ---------- FALLBACK ----------
+      # ---------- NO-OP FALLBACK ----------
       - name: Nothing to run (skipped all stacks)
-        if: ${{ needs.changes.outputs.python != 'true' && needs.changes.outputs.go != 'true' && needs.changes.outputs.rust != 'true' && needs.changes.outputs.node != 'true' && needs.changes.outputs.docker != 'true' }}
+        if: ${{ steps.fast.outputs.fast != 'true' && needs.changes.outputs.python != 'true' && needs.changes.outputs.go != 'true' && needs.changes.outputs.rust != 'true' && needs.changes.outputs.node != 'true' && needs.changes.outputs.docker != 'true' }}
         run: echo "[info] No matching stacks changed; skipping heavy work."
 
   summary:
     needs: [changes, matrix]
-    if: ${{ needs.matrix.result == 'success' }}
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       - name: CI Speed Summary
@@ -273,9 +325,12 @@ PY
             echo "  - rust:   ${{ needs.changes.outputs.rust }}";
             echo "  - node:   ${{ needs.changes.outputs.node }}";
             echo "  - docker: ${{ needs.changes.outputs.docker }}";
-            echo "- Tests discovered: ${{ needs.matrix.outputs.tests }}";
-            echo "- Shard total:     ${{ needs.matrix.outputs.total }}";
+            if [ "${{ needs.matrix.result }}" = "success" ]; then
+              echo "- Tests discovered: ${{ needs.matrix.outputs.tests }}";
+              echo "- Shard total:     ${{ needs.matrix.outputs.total }}";
+            else
+              echo "- Matrix skipped (no relevant changes)";
+            fi
             echo "";
-            echo "_Tip_: If tests < 80 and shards > 4, consider lowering shard cap or raising test-per-shard target in scripts/ci/generate_matrix.sh for faster queue times.";
+            echo "_Tip_: Adjust shard targets in .github/ci.env (TESTS_PER_SHARD, MATRIX_MAX_SHARDS).";
           } >> "$GITHUB_STEP_SUMMARY"
-    
