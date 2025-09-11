@@ -16,7 +16,7 @@ jobs:
       - name: Install linters
         run: |
           python3 -m pip install --user --no-warn-script-location yamllint
-          curl -sSLf https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash | bash -s -- -b "$HOME/.local/bin" v1.7.1
+          curl -sSLf https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash | bash -s -- latest "$HOME/.local/bin"
           echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Lint YAML (yamllint)
         run: yamllint -s .
