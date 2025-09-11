@@ -1,0 +1,33 @@
+name: τ-Crystal Verify
+description: Verify manifests/artifacts with τ-Crystal (Lean-backed)
+author: tau-crystal
+branding:
+  color: blue
+  icon: check
+inputs:
+  manifest:
+    description: Path to manifest JSON to verify
+    required: true
+  fail-on-mismatch:
+    description: 'If true, fail job when verification != ok'
+    default: 'true'
+outputs:
+  status:
+    description: Verification status (ok|mismatch|error)
+runs:
+  using: composite
+  steps:
+    - name: Setup Lean
+      shell: bash
+      run: scripts/ci/setup_lean.sh
+    - name: Verify
+      id: verify
+      shell: bash
+      run: |
+        set -Eeuo pipefail; set +H
+        s="$(scripts/tau_verify.sh "${{ inputs.manifest }}")"
+        echo "status=$s" >> "$GITHUB_OUTPUT"
+        echo "::notice::tau-crystal status: $s"
+        if [ "${{ inputs.fail-on-mismatch }}" = "true" ] && [ "$s" != "ok" ]; then
+          echo "::error::verification failed ($s)"; exit 1
+        fi

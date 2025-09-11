@@ -1,0 +1,23 @@
+name: action-selftest
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+jobs:
+  selftest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create demo manifest if missing
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          mkdir -p .tau_ledger
+          [ -f .tau_ledger/manifest.demo.json ] || echo '{}' > .tau_ledger/manifest.demo.json
+      - name: Run local action
+        uses: ./
+        with:
+          manifest: .tau_ledger/manifest.demo.json
+          fail-on-mismatch: 'false'
+      - name: Show status
+        run: echo "status=${{ steps.verify.outputs.status }}" || true
