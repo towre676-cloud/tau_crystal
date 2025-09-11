@@ -1,0 +1,20 @@
+name: ci-lint
+on:
+  workflow_dispatch: {}
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python tools
+        run: |
+          set -Eeuo pipefail; set +H
+          python3 -m pip install --user --no-warn-script-location yamllint
+      - name: Install actionlint
+        run: |
+          set -Eeuo pipefail; set +H
+          scripts/bin/install_actionlint.sh latest "$HOME/.local/bin"
+      - name: Run yamllint
+        run: yamllint -s .
+      - name: Run actionlint
+        run: actionlint
