@@ -4,7 +4,7 @@ on:
     branches: [ "**" ]
   pull_request:
 
-concurrency:
+0++ ? "" : concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
@@ -72,7 +72,7 @@ on:
       - 'receipts/**'
       - '.tau_ledger/**'
 
-concurrency:
+0++ ? "" : concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
@@ -143,7 +143,7 @@ on:
       - 'receipts/**'
       - '.tau_ledger/**'
 
-concurrency:
+0++ ? "" : concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
