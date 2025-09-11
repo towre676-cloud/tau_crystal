@@ -1,0 +1,48 @@
+name: Lake Receipts
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+jobs:
+  receipts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Precheck (Lake project?)
+        id: probe
+        run: |
+          set -euo pipefail
+          if [ -f lakefile.lean ] || [ -f lake-manifest.json ]; then echo "has_lake=true" >> "$GITHUB_OUTPUT"; else echo "has_lake=false" >> "$GITHUB_OUTPUT"; fi
+      - name: Install elan/lean (only if needed)
+        if: steps.probe.outputs.has_lake == true
+        run: |
+          set -euo pipefail
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+          elan --version
+      - name: Prepare sidecar
+        if: steps.probe.outputs.has_lake == true
+        run: |
+          set -euo pipefail
+          chmod +x scripts/lake_with_receipts.sh || true
+          mkdir -p .tau_ledger
+      - name: Resolve mathlib commit (best-effort)
+        if: steps.probe.outputs.has_lake == true
+        run: |
+          set -euo pipefail
+          if [ -d lake-packages/mathlib ]; then
+            echo "MATHLIB_COMMIT=$(git -C lake-packages/mathlib rev-parse --short=12 HEAD)" >> $GITHUB_ENV
+          fi
+      - name: Build with receipts
+        if: steps.probe.outputs.has_lake == true
+        run: |
+          set -euo pipefail
+          bash scripts/lake_with_receipts.sh
+      - name: Upload ledger artifacts
+        if: steps.probe.outputs.has_lake == true
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-ledger
+          path: .tau_ledger/*
