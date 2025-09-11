@@ -28,7 +28,8 @@ jobs:
             h2=$(sha256sum lakefile.lean 2>/dev/null | cut -c1-12 || echo none)
             k="$h1-$h2"
           fi
-          echo "val=${{ runner.os }}-$k" >> "$GITHUB_OUTPUT"
+          echo "::notice::cache-key: ${{ runner.os }}-$k"
+echo "val=${{ runner.os }}-$k" >> "$GITHUB_OUTPUT"
       - name: Restore cache
         uses: actions/cache/restore@v4
         with:
