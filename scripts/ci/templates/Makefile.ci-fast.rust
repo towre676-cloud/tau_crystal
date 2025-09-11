@@ -1,0 +1,11 @@
+# Minimal fast path for Rust — customize (nextest preferred if available)
+.PHONY: ci-fast
+ci-fast:
+	@echo "[fast] rust: $(CURDIR)"
+	@if command -v cargo >/dev/null 2>&1; then \
+	  if command -v cargo-nextest >/dev/null 2>&1 || cargo nextest --version >/dev/null 2>&1; then \
+	    cargo nextest run -q --profile ci || cargo nextest run -q; \
+	  else \
+	    cargo test -q --all || cargo test -q; \
+	  fi; \
+	else echo "[warn] cargo not found; skipping"; fi
