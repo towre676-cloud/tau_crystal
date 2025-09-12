@@ -1,0 +1,6 @@
+{
+  \schema\: 	aucrystal/receipt/v1\,
+  	au_class\: \work\,
+  \params\: { \K\: 32, \omega\: 0.95 },
+  \provenance\: { \git_commit\: \523bb204ab71\, 	imestamp\: \2025-09-12T18:09:57Z\, \host\: \DESKTOP-IGE96SV\, ash\: \5.2.37(1)-release\ },
+  \signals\: { \work_raw\: [1,2,3,4,5,5,5,6,6,6,7,7,7,7,8,8,8,8,8], \work_tau\: [%.9f,%.9f,%.9f,%.9f,%.9f,%.9f,%.9f,%.9f,%.9f,%.9f,%.9f,%.9f,%.9f,%.9f,%.9f,%.9f,%.9f,%.9f,%.9f] },

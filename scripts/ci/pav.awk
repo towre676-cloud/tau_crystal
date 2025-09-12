@@ -1,0 +1,1 @@
+BEGIN{m=0} {v=$1+0; y[++m]=v} END{nb=0; for(i=1;i<=m;i++){nb++; a[nb]=y[i]; w[nb]=1; while(nb>1 && a[nb]<a[nb-1]){tot=a[nb]*w[nb]+a[nb-1]*w[nb-1]; w[nb-1]+=w[nb]; a[nb-1]=tot/w[nb-1]; nb--}} for(i=1;i<=nb;i++)for(j=1;j<=w[i];j++)printf "%%f\n",a[i]}
