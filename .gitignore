@@ -112,3 +112,4 @@ tools/*.bak_*
 !scripts/bin/
 !scripts/bin/save_request_preimage.sh
 .github/workflows/*.bak.*
+.tau_ledger/calibration_bad/
