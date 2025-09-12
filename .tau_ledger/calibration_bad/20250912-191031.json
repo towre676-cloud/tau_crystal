@@ -1,0 +1,6 @@
+{
+  "schema":"taucrystal/calibration/v1",
+  "tau_class":"spectral_or_work",
+  "grid":{"K":[8,16,32],"omega":[0.70,0.80,0.90,0.95]},
+  "operator":{"digest":"unknown","size":0,"construction":"unspecified"},
+}

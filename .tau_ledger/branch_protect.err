@@ -1,0 +1,7 @@
+gh: Invalid request.
+
+No subschema in "anyOf" matched.
+"required_pull_request_reviews", "required_status_checks", "restrictions" weren't supplied.
+For 'allOf/0', "true" is not a boolean.
+Not all subschemas of "allOf" matched.
+For 'anyOf/1', "true" is not a null. (HTTP 422)

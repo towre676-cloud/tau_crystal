@@ -1,0 +1,14 @@
+{
+  "version": "tau-crystal/0.1",
+  "ts": "2025-09-09T22:33:18Z",
+  "trace": {
+    "path": ".tau_ledger/trace.ndjson",
+    "sha256": "953a35dac01fe3aa7be1adc482c783f260bc8fa85ce225608d7d3ed388e310a6"
+  },
+  "signer": {
+    "type": "host",
+    "id": "DESKTOP-IGE96SV"
+  },
+  "claim": "This receipt attests the locked priors and the exact step trace for this run.",
+  "id": "20250909T223318Z-33a6251b8944b67f2582d22b905df229"
+}

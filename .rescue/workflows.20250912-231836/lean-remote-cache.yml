@@ -1,0 +1,73 @@
+name: lean-remote-cache
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+defaults:
+  run:
+    shell: bash
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Normalize scripts (CRLF→LF, +x)
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          for f in scripts/*.sh; do sed -i 's/\r$//' "$f" || true; chmod +x "$f" || true; done
+
+      - name: Compute hashes and synthesize receipt
+        id: synth
+        env:
+          GRAMMAR_FILE: verify/ReceiptGrammar.lean
+        run: |
+          set -euo pipefail
+          mkdir -p .tau_ledger
+          STMT="$(git ls-files lake-manifest.json 'manifests/*.json' | head -n1 || true)"
+          if [ -z "${STMT:-}" ]; then printf '{ "note":"synthetic statement (none present)" }\n' > .tau_ledger/statement.json; STMT=".tau_ledger/statement.json"; fi
+          S_HASH="$(bash scripts/hash.sh "$STMT" | awk '{print $1}')"
+          G_HASH="$(bash scripts/grammar_hash.sh | awk '{print $1}')"
+          TS="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          {
+            printf '{'
+            printf '"version":"rcpt-2",'
+            printf '"timestamp":"%s",' "$TS"
+            printf '"repo":"%s",' "${GITHUB_SERVER_URL:-https://github.com}/${GITHUB_REPOSITORY:-unknown}"
+            printf '"commit":"%s",' "$(git rev-parse HEAD)"
+            printf '"grammar_blake3":"%s",' "$G_HASH"
+            printf '"statement_blake3":"%s",' "$S_HASH"
+            printf '"status":"synthetic"'
+            printf '}\n'
+          } > .tau_ledger/receipt.json
+          R_HASH="$(bash scripts/hash.sh .tau_ledger/receipt.json | awk '{print $1}')"
+          echo "receipt=$R_HASH" >> "$GITHUB_OUTPUT"
+          echo "statement=$STMT"  >> "$GITHUB_OUTPUT"
+          echo "grammar=$G_HASH"  >> "$GITHUB_OUTPUT"
+          {
+            echo "### τ-Crystal receipt"
+            echo ""
+            echo "- commit: \`$(git rev-parse --short HEAD)\`"
+            echo "- receipt hash: \`$R_HASH\`"
+            echo "- statement: \`$STMT\` → $(bash scripts/hash.sh "$STMT")"
+            echo "- grammar: \`$GRAMMAR_FILE\` → $G_HASH"
+            echo ""
+            echo '```json'
+            cat .tau_ledger/receipt.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload receipt artifact (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smartcache-receipt
+          path: .tau_ledger/receipt.json
+          if-no-files-found: error
+          retention-days: 90

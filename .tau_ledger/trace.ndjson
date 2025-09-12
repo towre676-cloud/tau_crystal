@@ -1,0 +1,25 @@
+{"type":"lock","ts":"2025-09-09T22:30:28Z","data":{"contract_sha256":"18de9466d5652c69d33f3693e14ed6a363390c7fb1885e59ccd05135d4543c20","contract_path":"protocol/example.contract.json"}}
+{"type":"lock","ts":"2025-09-09T22:31:30Z","data":{"contract_sha256":"18de9466d5652c69d33f3693e14ed6a363390c7fb1885e59ccd05135d4543c20","contract_path":"protocol/example.contract.json"}}
+{
+  "type": "step",
+  "ts": "2025-09-09T22:31:30Z",
+  "data": {
+    "tool": "llm:formula-proposer",
+    "input_sha256": "18de9466d5652c69d33f3693e14ed6a363390c7fb1885e59ccd05135d4543c20",
+    "output_sha256": "09f64a217ca53d13f64b4c6d77abff12aefe32fbb93cae63d2bf6e57dda2b55b"
+  }
+}
+{"type":"commit","ts":"2025-09-09T22:31:31Z","data":{"trace_sha256":"df53111881f513872578f69763411944e338b7cfd327a16383a8d9ba885775bf","receipt_sha256":"e242ea5686d3b2be2c78d74f6ac02e4fae9ce201c25851d87449d26f0ecc4fd6","receipt_path":".tau_ledger/receipts/20250909T223131Z-7bb550cad3031587480d1440f3517321.json"}}
+{"type":"lock","ts":"2025-09-09T22:33:18Z","data":{"contract_sha256":"18de9466d5652c69d33f3693e14ed6a363390c7fb1885e59ccd05135d4543c20","contract_path":"protocol/example.contract.json"}}
+{"type":"commit","ts":"2025-09-09T22:33:18Z","data":{"trace_sha256":"953a35dac01fe3aa7be1adc482c783f260bc8fa85ce225608d7d3ed388e310a6","receipt_sha256":"47f4c78e91f889a27fb86f07a54af97077b2131a9b9e2ec982add911fd84a410","receipt_path":".tau_ledger/receipts/20250909T223318Z-33a6251b8944b67f2582d22b905df229.json"}}
+{"type":"lock","ts":"2025-09-09T22:34:17Z","data":{"contract_sha256":"18de9466d5652c69d33f3693e14ed6a363390c7fb1885e59ccd05135d4543c20","contract_path":"protocol/example.contract.json"}}
+{
+  "type": "step",
+  "ts": "2025-09-09T22:34:17Z",
+  "data": {
+    "tool": "llm:formula-proposer",
+    "input_sha256": "18de9466d5652c69d33f3693e14ed6a363390c7fb1885e59ccd05135d4543c20",
+    "output_sha256": "09f64a217ca53d13f64b4c6d77abff12aefe32fbb93cae63d2bf6e57dda2b55b"
+  }
+}
+{"type":"commit","ts":"2025-09-09T22:34:18Z","data":{"trace_sha256":"b5d6232266c7ec736a8d564132834856f15853f8b95559e26f9a4a9074e31115","receipt_sha256":"2477f800ca0439e5f77c80559ed8dcd18700de5ec79e81d3ffacf68ff3a6d293","receipt_path":".tau_ledger/receipts/20250909T223418Z-6e62165c4351a033eda78a895c76deb6.json"}}

@@ -1,0 +1,13 @@
+{
+  "schema":"taucrystal/calibration/v1",
+  "tau_class":"spectral_or_work",
+  "grid":{"K":[8,16,32],"omega":[0.70,0.80,0.90,0.95]},
+  "choice":{"K":8,"omega":0.95,"score":99.981308769},
+  "operator":{
+  "digest":"placeholder",
+  "size": 0,
+  "construction":"demo"
+}
+,
+  "provenance":{"run_id":"20250912-191912","host":"DESKTOP-IGE96SV","ts":"2025-09-12T19:19:13Z"}
+}
