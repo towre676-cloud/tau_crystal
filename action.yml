@@ -50,6 +50,15 @@ runs:
           bash "$ACTION_DIR/scripts/tau_adapter.sh" .tau_ledger/signals/observable.tsv || true
         fi
 
+    - name: Record wrapper digest
+      shell: bash
+      env:
+        ACTION_DIR: ${{ github.action_path }}
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        set +H; umask 022
+        bash "$ACTION_DIR/scripts/bin/hash_action_wrapper.sh" "${{ inputs.working-directory }}"
+
     - name: Collect outputs
       id: outs
       shell: bash
@@ -62,10 +71,8 @@ runs:
           head=$(awk 'END{print $1}' .tau_ledger/CHAIN 2>/dev/null || true)
         fi
         if [ -f tau-crystal-manifest.json ]; then
-          root=$(grep -oE '\"merkle_root\"[[:space:]]*:[[:space:]]*\"[^\"]*\"' tau-crystal-manifest.json | sed -E 's/.*:"([^"]*)".*/\1/' | head -n1 || true)
+          root=$(grep -oE '"merkle_root"[[:space:]]*:[[:space:]]*"[^"]*"' tau-crystal-manifest.json | sed -E 's/.*:"([^"]*)".*/\1/' | head -n1 || true)
         fi
         echo "receipt=$rcpt" >> "$GITHUB_OUTPUT"
         echo "head=$head" >> "$GITHUB_OUTPUT"
         echo "root=$root" >> "$GITHUB_OUTPUT"
-
-# NOTE: ensure the workflow includes a step to run scripts/bin/hash_action_wrapper.sh
