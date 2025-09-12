@@ -67,3 +67,5 @@ runs:
         echo "receipt=$rcpt" >> "$GITHUB_OUTPUT"
         echo "head=$head" >> "$GITHUB_OUTPUT"
         echo "root=$root" >> "$GITHUB_OUTPUT"
+
+# NOTE: ensure the workflow includes a step to run scripts/bin/hash_action_wrapper.sh
