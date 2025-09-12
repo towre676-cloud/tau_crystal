@@ -1,0 +1,17 @@
+name: τ-Crystal Verify (Consumer)
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: towre676-cloud/tau_crystal@v1
+        id: tau
+        with:
+          working-directory: "."
+          install-elan: "true"
+      - name: Show results
+        run: |
+          echo "Receipt: ${{ steps.tau.outputs.receipt-path }}"
+          echo "Chain head: ${{ steps.tau.outputs.chain-head }}"
+          echo "Merkle root: ${{ steps.tau.outputs.merkle-root }}"
