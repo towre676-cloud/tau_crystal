@@ -59,6 +59,15 @@ runs:
         set +H; umask 022
         bash "$ACTION_DIR/scripts/bin/hash_action_wrapper.sh" "${{ inputs.working-directory }}"
 
+    - name: Enforce wrapper digest (required)
+      shell: bash
+      env:
+        ACTION_DIR: ${{ github.action_path }}
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        set -Eeuo pipefail; set +H; umask 022
+        bash "$ACTION_DIR/scripts/bin/enforce_wrapper_digest.sh" "${{ inputs.working-directory }}"
+
     - name: Collect outputs
       id: outs
       shell: bash
