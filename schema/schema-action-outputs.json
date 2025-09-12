@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "τ-Crystal Action Outputs",
+  "type": "object",
+  "properties": {
+    "receipt-path": { "type": "string", "description": "Path to latest receipt JSON" },
+    "chain-head":   { "type": "string", "pattern": "^[a-f0-9]{64}$", "description": "sha256 of receipt file" },
+    "merkle-root":  { "type": "string", "pattern": "^[A-Fa-f0-9]+$", "description": "Merkle root over tracked files" }
+  },
+  "required": ["receipt-path", "chain-head", "merkle-root"],
+  "additionalProperties": false
+}

@@ -1,3 +1,5 @@
+[![τ-Crystal Action self-test](https://github.com/towre676-cloud/tau_crystal/actions/workflows/test_tau_action.yml/badge.svg)](https://github.com/towre676-cloud/tau_crystal/actions/workflows/test_tau_action.yml)
+
 # τ‑Crystal
 
 [![spec-guard](https://github.com/towre676-cloud/tau_crystal/actions/workflows/spec_guard.yml/badge.svg?branch=main)](https://github.com/towre676-cloud/tau_crystal/actions/workflows/spec_guard.yml)
