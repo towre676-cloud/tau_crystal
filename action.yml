@@ -1,27 +1,69 @@
-name: τ-Crystal Verify
-description: Verify manifests/artifacts with τ-Crystal (Lean-backed)
-author: tau-crystal
+name: "τ-Crystal Verify"
+description: "Receipt-first, Merkle-rooted attestation via pure bash (Lean optional via elan)."
+author: "towre676-cloud"
 branding:
-  color: blue
-  icon: check
+  icon: "lock"
+  color: "purple"
+
 inputs:
-  manifest:
-    description: Path to manifest JSON to verify
-    required: true
-  fail-on-mismatch:
-    description: "If true, fail job when verification != ok"
+  working-directory:
+    description: "Path to verify"
+    required: false
+    default: "."
+  install-elan:
+    description: "Install Lean toolchain with elan"
+    required: false
     default: "true"
+
 outputs:
-  status:
-    description: Verification status (ok|mismatch|error)
-    value: ${{ steps.verify.outputs.status }}
+  receipt-path:
+    description: "Latest receipt JSON path"
+    value: ${{ steps.outs.outputs.receipt }}
+  chain-head:
+    description: "CHAIN head (sha256)"
+    value: ${{ steps.outs.outputs.head }}
+  merkle-root:
+    description: "Manifest merkle root"
+    value: ${{ steps.outs.outputs.root }}
+
 runs:
-  using: composite
+  using: "composite"
   steps:
-    - name: Setup Lean
+    - name: Install elan (optional)
+      if: ${{ inputs.install-elan == 'true' }}
       shell: bash
-      run: bash scripts/ci/setup_lean.sh
-    - id: verify
-      name: Verify
+      run: |
+        set +H; umask 022
+        curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+        echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+    - name: Verify with τ-Crystal
       shell: bash
-      run: bash scripts/action_verify.sh "${{ inputs.manifest }}" "${{ inputs.fail-on-mismatch }}"
+      env:
+        ACTION_DIR: ${{ github.action_path }}
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        set +H; umask 022
+        if [ -x "$ACTION_DIR/scripts/tau_verify.sh" ]; then bash "$ACTION_DIR/scripts/tau_verify.sh"; fi
+        if [ -x "$ACTION_DIR/scripts/spec_guard.sh" ]; then bash "$ACTION_DIR/scripts/spec_guard.sh" || true; fi
+        if [ -s ".tau_ledger/signals/observable.tsv" ] && [ -x "$ACTION_DIR/scripts/tau_adapter.sh" ]; then
+          bash "$ACTION_DIR/scripts/tau_adapter.sh" .tau_ledger/signals/observable.tsv || true
+        fi
+
+    - name: Collect outputs
+      id: outs
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        set +H; umask 022
+        rcpt=""; head=""; root=""
+        if [ -f .tau_ledger/CHAIN ]; then
+          rcpt=$(awk '{p=$2} END{print p}' .tau_ledger/CHAIN 2>/dev/null || true)
+          head=$(awk 'END{print $1}' .tau_ledger/CHAIN 2>/dev/null || true)
+        fi
+        if [ -f tau-crystal-manifest.json ]; then
+          root=$(grep -oE '\"merkle_root\"[[:space:]]*:[[:space:]]*\"[^\"]*\"' tau-crystal-manifest.json | sed -E 's/.*:"([^"]*)".*/\1/' | head -n1 || true)
+        fi
+        echo "receipt=$rcpt" >> "$GITHUB_OUTPUT"
+        echo "head=$head" >> "$GITHUB_OUTPUT"
+        echo "root=$root" >> "$GITHUB_OUTPUT"

@@ -82,3 +82,47 @@ Warm runs on unchanged mathlib are materially faster than cold runs. We publish 
 - Dev webhook stub: `bash app/server.sh` (listens on :3000; requires nc/openssl)
 - Legal: `docs/PRIVACY.md`, `docs/TERMS.md`
 - Support: `SUPPORT.md`, `SECURITY.md`
+---
+## Using τ-Crystal as a GitHub Action
+
+The action is a thin wrapper around the same bash you run locally. It installs elan on demand, runs the receipt guard, and exposes three outputs for downstream jobs: the latest receipt path, the CHAIN head, and the manifest Merkle root.
+
+**Local self-test (inside this repo):**
+
+```yaml
+name: Test τ-Crystal Action
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./. 
+        id: tau
+        with:
+          working-directory: "."
+          install-elan: "true"
+      - run: |
+          echo "Receipt=${{ steps.tau.outputs.receipt-path }}"
+          echo "Head=${{ steps.tau.outputs.chain-head }}"
+          echo "Root=${{ steps.tau.outputs.merkle-root }}"
+```
+
+**Marketplace usage (after tagging):**
+
+```yaml
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: towre676-cloud/tau_crystal@v1
+        id: tau
+        with:
+          working-directory: "."
+          install-elan: "true"
+      - run: echo "Root=${{ steps.tau.outputs.merkle-root }}"
+```
+
+Inputs: `working-directory` (defaults to `.`), `install-elan` (defaults to `true`). Outputs: `receipt-path`, `chain-head`, `merkle-root`.
+
