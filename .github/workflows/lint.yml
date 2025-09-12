@@ -9,5 +9,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: actionlint
         run: |
-          curl -sSfL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash | bash -s -- -b ./.bin
+          curl -sSfL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash | bash -s -- latest ./.bin
           ./.bin/actionlint -color never
