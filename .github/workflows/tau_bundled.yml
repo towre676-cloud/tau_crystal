@@ -2,6 +2,7 @@ name: tau-bundled
 on:
   push:
     branches: [ tau-verifier-bundled ]
+  workflow_dispatch:
 jobs:
   attest:
     runs-on: ubuntu-latest
@@ -13,7 +14,7 @@ jobs:
         with:
           working-directory: .
 
-      # see exactly which outputs are set by your action
+      # Print exactly what outputs your action set
       - name: debug outputs
         run: |
           echo "verifier=${{ steps.tau.outputs.verifier }}"
@@ -22,7 +23,7 @@ jobs:
           echo "chain-head=${{ steps.tau.outputs['chain-head'] }}"
           echo "merkle-root=${{ steps.tau.outputs['merkle-root'] }}"
 
-      # run the verifier that's bundled inside the action
+      # Use the bundled verifier directly (no curl, no PATH)
       - name: verify (bundled)
         run: ${{ steps.tau.outputs.verifier }} \
              ${{ steps.tau.outputs['receipt-path'] }} \
