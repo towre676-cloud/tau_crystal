@@ -147,3 +147,8 @@ artifact: dist/package-1.0.0.tgz
 witness: .tau_ledger/sheaf/sheafv1-20250913T060000Z.json
 marker: .tau-receipt.sha256-015b803d02f701f99e4b52852d265aff542430ebc51ea0bff3b966ad2c23eeb1
 
+## zkdiff (v1)
+
+baseline_meta: base-20250913T065313Z.meta
+baseline_ladder_sha256: 5aff092b290ade0af3338f545ed4419b2310afd9888a269224254f6e2561e7c5
+
