@@ -10,13 +10,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # allow later steps to run even if tau fails (we want to see outputs/logs)
       - id: tau
         uses: towre676-cloud/tau-crystal-action@v1
         with:
           working-directory: .
+        continue-on-error: true
 
-      # print the raw outputs the action exposes
       - name: debug outputs
+        if: always()
         shell: bash
         run: |
           set -euo pipefail
@@ -26,9 +28,9 @@ jobs:
           echo "chain-head=${{ steps.tau.outputs['chain-head'] }}"
           echo "merkle-root=${{ steps.tau.outputs['merkle-root'] }}"
 
-      # pick a receipt path with fallbacks, ensure file exists
       - id: pick
         name: pick receipt path
+        if: always()
         shell: bash
         run: |
           set -euo pipefail
@@ -39,9 +41,9 @@ jobs:
           test -f "$rp" || { echo "::error::receipt not found at $rp"; exit 1; }
           echo "rp=$rp" >> "$GITHUB_OUTPUT"
 
-      # also ensure the hash outputs exist
       - id: keys
         name: pick head/root
+        if: always()
         shell: bash
         run: |
           set -euo pipefail
@@ -52,8 +54,8 @@ jobs:
           echo "head=$head" >> "$GITHUB_OUTPUT"
           echo "root=$root" >> "$GITHUB_OUTPUT"
 
-      # run the bundled verifier; no curl / no PATH changes
       - name: verify (bundled)
+        if: always()
         shell: bash
         run: ${{ steps.tau.outputs.verifier }} \
              "${{ steps.pick.outputs.rp }}" \
