@@ -1,0 +1,83 @@
+name: tau-seal (receipt-sealed tarballs)
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  seal-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure scripts are executable
+        run: |
+          chmod +x scripts/meta/seal_tarball_with_receipt.sh || true
+          chmod +x scripts/meta/verify_tarball_seal.sh || true
+          # optional QR tool
+          if [ -f scripts/meta/qr_witness.sh ]; then chmod +x scripts/meta/qr_witness.sh; fi
+
+      - name: Find candidate tarballs
+        id: find_tgz
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          files=(dist/*.tgz dist/*.tar.gz)
+          n=0
+          for f in "${files[@]}"; do
+            if [ -f "$f" ]; then
+              echo "found: $f"
+              echo "TGZ_$n=$f" >> "$GITHUB_OUTPUT"
+              n=$((n+1))
+            fi
+          done
+          echo "COUNT=$n" >> "$GITHUB_OUTPUT"
+          if [ "$n" = "0" ]; then
+            echo "[SKIP] no tarballs in dist/; nothing to seal"
+          fi
+
+      - name: Seal tarballs (τ marker)
+        if: steps.find_tgz.outputs.COUNT != '0'
+        shell: bash
+        run: |
+          set -euo pipefail
+          n="${{ steps.find_tgz.outputs.COUNT }}"
+          for i in $(seq 0 $((n-1))); do
+            f="${{ steps.find_tgz.outputs['TGZ_' + i] }}"
+            echo "::group::seal $f"
+            scripts/meta/seal_tarball_with_receipt.sh "$f"
+            echo "::endgroup::"
+          done
+
+      - name: Verify seals
+        if: steps.find_tgz.outputs.COUNT != '0'
+        shell: bash
+        run: |
+          set -euo pipefail
+          n="${{ steps.find_tgz.outputs.COUNT }}"
+          for i in $(seq 0 $((n-1))); do
+            f="${{ steps.find_tgz.outputs['TGZ_' + i] }}"
+            echo "::group::verify $f"
+            scripts/meta/verify_tarball_seal.sh "$f"
+            echo "::endgroup::"
+          done
+
+      - name: Show sealed entries (debug)
+        if: steps.find_tgz.outputs.COUNT != '0'
+        run: |
+          for f in "${{ steps.find_tgz.outputs.TGZ_0 }}" "${{ steps.find_tgz.outputs.TGZ_1 }}" "${{ steps.find_tgz.outputs.TGZ_2 }}"; do
+            [ -n "$f" ] && [ -f "$f" ] && tar -tzf "$f" | grep '^.tau-receipt.sha256-' || true
+          done
+
+      - name: Upload sealed artifacts + manifest
+        if: steps.find_tgz.outputs.COUNT != '0'
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-sealed-tarballs
+          path: |
+            dist/**/*.tgz
+            dist/**/*.tar.gz
+            docs/manifest.md
+          if-no-files-found: warn
