@@ -141,3 +141,9 @@ svg_path: .tau_ledger/qr/qr-witness.svg
 ## docker_receipt (v1)
 label: org.opencontainers.image.source.receipt=sha256:015b803d02f701f99e4b52852d265aff542430ebc51ea0bff3b966ad2c23eeb1
 
+## sealed_tarball (v1)
+
+artifact: dist/package-1.0.0.tgz
+witness: .tau_ledger/sheaf/sheafv1-20250913T060000Z.json
+marker: .tau-receipt.sha256-015b803d02f701f99e4b52852d265aff542430ebc51ea0bff3b966ad2c23eeb1
+
