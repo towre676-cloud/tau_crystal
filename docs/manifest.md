@@ -122,3 +122,13 @@ witness_sha256: 015b803d02f701f99e4b52852d265aff542430ebc51ea0bff3b966ad2c23eeb1
 chain_lines: 0
 chain_bytes: 0
 
+## policy_gate (v1)
+
+id: pgv1-20250913T060342Z
+utc: 20250913T060342Z
+status: FAIL
+checks_passed: 4
+checks_failed: 2
+report: .tau_ledger/gates/pgv1-20250913T060342Z.txt
+report_sha256: b9bba0d2be1d84f75a8be55509e296a122753ff6102e76d9abde1a2d25d664f6
+
