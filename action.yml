@@ -24,13 +24,14 @@ runs:
           if [ -s .tau_ledger/CHAIN ]; then
             W=".tau_ledger/qr/chain-witness.json"; CH="$(sha .tau_ledger/CHAIN)"
             : > "$W"
-            printf "{\\n" >> "$W"
-            printf "  \\"schema\\": \\"taucrystal/chain_witness/v1\\",\\n" >> "$W"
-            printf "  \\"utc\\": \\"%s\\",\\n" "$(env TZ=UTC date -u +%%Y%%m%%dT%%H%%M%%SZ)" >> "$W"
-            printf "  \\"chain_sha256\\": \\"%s\\\"\\n" "$CH" >> "$W"
-            printf "}\\n" >> "$W"
+            printf '{\n' >> "$W"
+            printf '  "schema":"taucrystal/chain_witness/v1",\n' >> "$W"
+            printf '  "utc":"%s",\n' "$(env TZ=UTC date -u +%%Y%%m%%dT%%H%%M%%SZ)" >> "$W"
+            printf '  "chain_sha256":"%s"\n' "$CH" >> "$W"
+            printf '}\n' >> "$W"
           else
-            W=".tau_ledger/qr/empty-witness.json"; printf "%s\n" "{\"schema\":\"taucrystal/empty/v1\"}" > "$W"
+            W=".tau_ledger/qr/empty-witness.json"; printf \%s\n''
+{"schema":"taucrystal/empty/v1"}
           fi
         fi
         H="$(sha "$W")"
@@ -50,8 +51,9 @@ runs:
     - name: Expose outputs
       shell: bash
       run: |
-        set -Eeuo pipefail; set +H
-        echo "::notice title=τ‑receipt::${{ steps.pick.outputs.witness }} (sha256=${{ steps.pick.outputs.sha256 }}) status=${{ steps.verify.outputs.status }}"
+        echo "witness: ${{ steps.pick.outputs.witness }}"
+        echo "sha256:  ${{ steps.pick.outputs.sha256 }}"
+        echo "status:  ${{ steps.verify.outputs.status }}"
 outputs:
   receipt_path:
     value: ${{ steps.pick.outputs.witness }}
