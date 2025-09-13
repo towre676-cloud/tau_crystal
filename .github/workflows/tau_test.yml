@@ -1,0 +1,20 @@
+name: tau-test
+on:
+  push:
+    branches: [tau-receipt-test]
+
+jobs:
+  attest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: tau
+        uses: towre676-cloud/tau-crystal-action@v1
+        with:
+          working-directory: .
+          out: .tau_ledger/receipt.json
+      - name: upload receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: receipt
+          path: .tau_ledger/receipt.json
