@@ -9,24 +9,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: tau
-        uses: towre676-cloud/tau_crystal@v1.0.12
+        uses: towre676-cloud/tau-crystal-action@v1
         continue-on-error: true
         with:
           working-directory: .
-      - name: find receipt path
+      - id: pick
         if: always()
-        id: pick
         run: |
           set -euo pipefail
-          p="${{ steps.tau.outputs.receipt }}"
-          if [ -z "$p" ]; then
-            p="$(find "$GITHUB_WORKSPACE" -maxdepth 4 -type f -name "*.json" 2>/dev/null \\
-                | while read -r f; do grep -q '"chain_head"' "$f" && grep -q '"merkle_root"' "$f" && echo "$f" && break; done)
-          fi
-          echo "using: ${p:-<none found>}"
-          [ -n "${p:-}" ] && echo "path=$p" >> "$GITHUB_OUTPUT" || true
+          p="${{ steps.tau.outputs.receipt }}"; [ -n "$p" ] || p=".tau_ledger/receipt.json"
+          echo "path=$p" >> "$GITHUB_OUTPUT"
+          test -f "$p" && head -40 "$p" || true
       - name: upload receipt
-        if: always() && steps.pick.outputs.path != 
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: receipt
