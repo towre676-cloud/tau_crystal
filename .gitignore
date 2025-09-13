@@ -120,3 +120,4 @@ tools/*.bak_*
 !receipts/
 !.tau_ledger/timefolds/
 !.tau_ledger/interf/
+!.tau_ledger/qr/
