@@ -114,3 +114,11 @@ signature_sha256: 067a19efea182415421bd2003095ff238fc288fcd1b4f775efe1f50e2a7614
 svg: .tau_ledger/interf/interference.svg
 sha256: eacfe53cf98cceb2d84e96c5ace6e2c18e18924c6119f6fd4aafad66148b24d8
 
+## sheaf_reflection (v1)
+
+id: sheafv1-20250913T060000Z
+ladder_sha256: 
+witness_sha256: 015b803d02f701f99e4b52852d265aff542430ebc51ea0bff3b966ad2c23eeb1
+chain_lines: 0
+chain_bytes: 0
+
