@@ -13,19 +13,15 @@ jobs:
         continue-on-error: true
         with:
           working-directory: .
-          out: .tau_ledger/receipt.json
-      - name: debug ledger
+      - name: debug outputs
         if: always()
         run: |
-          ls -la . || true
-          ls -la .tau_ledger || true
-          echo "receipt output -> ${{ steps.tau.outputs.receipt }}"
+          echo "receipt=${{ steps.tau.outputs.receipt }}"
+          test -f "${{ steps.tau.outputs.receipt }}" && head -50 "${{ steps.tau.outputs.receipt }}" || true
       - name: upload receipt
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: receipt
-          path: |
-            ${{ steps.tau.outputs.receipt }}
-            .tau_ledger/receipt.json
-          if-no-files-found: warn
+          path: ${{ steps.tau.outputs.receipt }}
+          if-no-files-found: error
