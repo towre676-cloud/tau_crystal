@@ -1,19 +1,22 @@
 #!/usr/bin/env bash
-# Prove: relative to BASE.files, only the listed files changed (paths disclosed; contents never).
 set -Eeuo pipefail; set +H; umask 022
 base="${1:-}"; shift || true
 [ -n "${base:-}" ] && [ -f "$base" ] || { echo "usage: $0 <base.files> <path1> [path2...]"; exit 2; }
 declare -a claim=("$@")
 sha(){ scripts/meta/_sha256.sh "$1"; }
 
-# load base order + old hashes
-declare -A old; declare -a order
+# read baseline into arrays (portable parsing)
+declare -A old; order=()
 while IFS= read -r line; do
-  h="${line%%  *}"; p="${line#*  }"
-  old["$p"]="$h"; order+=("$p")
+  # split at two spaces: "<hash>  <path>"
+  h="${line%%  *}"
+  p="${line#*  }"
+  [ -n "$p" ] || continue
+  old["$p"]="$h"
+  order+=("$p")
 done < "$base"
 
-# extend order with claimed paths not in baseline (added files)
+# extend with added files
 for c in "${claim[@]}"; do
   if [ -z "${old[$c]:-}" ]; then
     old["$c"]="__MISSING__"
@@ -21,7 +24,7 @@ for c in "${claim[@]}"; do
   fi
 done
 
-# recompute current hashes; determine changed set
+# compute current hashes
 declare -A new changed
 for p in "${order[@]}"; do
   if [ -f "$p" ]; then nh="$(sha "$p")"; else nh="__MISSING__"; fi
@@ -29,40 +32,37 @@ for p in "${order[@]}"; do
   [ "${old[$p]}" != "$nh" ] && changed["$p"]=1 || true
 done
 
-# set equality: actual changes == claimed
+# set equality
 declare -A claimset; for c in "${claim[@]:-}"; do claimset["$c"]=1; done
 for p in "${!changed[@]}"; do [ -n "${claimset[$p]:-}" ] || { echo "[FAIL] extra change not claimed: $p"; exit 1; }; done
 for p in "${!claimset[@]}"; do [ -n "${changed[$p]:-}" ] || { echo "[FAIL] claimed but unchanged: $p"; exit 1; }; done
 
-# recompute ladder using extended order
+# ladder from new state using baseline order (+ additions)
 ladder=""
 for p in "${order[@]}"; do
-  ladder="$(printf '%s\n%s  %s' "$ladder" "${new[$p]}" "$p" | openssl dgst -sha256 | awk '{print $2}')"
+  ladder="$(printf '%s\n%s  %s' "$ladder" "${new[$p]}" "$p" | tr -d '\r' | sha256sum | awk '{print $1}')"
 done
 
 ts="$(LC_ALL=C date -u +%Y%m%dT%H%M%SZ)"
 out=".tau_ledger/zkdiff/proof-$ts.proof"
 : > "$out"
-printf '%s\n' "schema: taucrystal/zkdiff-proof/v1" >> "$out"
-printf '%s\n' "utc: $ts"                           >> "$out"
-printf '%s\n' "base_listing: $(basename "$base")"  >> "$out"
-printf '%s\n' "new_ladder_sha256: $ladder"         >> "$out"
-printf '%s'   "changed_paths:"                      >> "$out"; for p in "${claim[@]}"; do printf ' %s' "$p" >> "$out"; done; printf '\n' >> "$out"
+printf 'schema: %s\n' "taucrystal/zkdiff-proof/v1" >> "$out"
+printf 'utc: %s\n' "$ts"                           >> "$out"
+printf 'base_listing: %s\n' "$(basename "$base")"  >> "$out"
+printf 'new_ladder_sha256: %s\n' "$ladder"         >> "$out"
+printf 'changed_paths:' >> "$out"; for p in "${claim[@]}"; do printf ' %s' "$p" >> "$out"; done; printf '\n' >> "$out"
 for p in "${claim[@]}"; do
-  printf '%s\n' "  $p"               >> "$out"
-  printf '%s\n' "    old: ${old[$p]}" >> "$out"
-  printf '%s\n' "    new: ${new[$p]}" >> "$out"
+  printf '  %s\n' "$p"               >> "$out"
+  printf '    old: %s\n' "${old[$p]}" >> "$out"
+  printf '    new: %s\n' "${new[$p]}" >> "$out"
 done
 
-# manifest stamp
 man="docs/manifest.md"; tmp="docs/.manifest.zk.$$"; : > "$tmp"; [ -f "$man" ] || : > "$man"
-while IFS= read -r line; do case "$line" in "## zkdiff (v1)"*) break ;; *) printf '%s\n' "$line" >> "$tmp";; esac; done < "$man"
+awk 'BEGIN{p=1} /^## zkdiff \(v1\)/{p=0} p{print}' "$man" >> "$tmp" 2>/dev/null || true
 {
-  printf '%s\n' "## zkdiff (v1)"
-  printf '\n'; printf '%s\n' "proof: $(basename "$out")"
-  printf '%s\n' "new_ladder_sha256: $ladder"
-  printf '\n'
+  printf '## zkdiff (v1)\n\n'
+  printf 'proof: %s\n' "$(basename "$out")"
+  printf 'new_ladder_sha256: %s\n\n' "$ladder"
 } >> "$tmp"
 mv "$tmp" "$man"
-
 echo "[OK] proof @ $out (changed: ${#claim[@]}) new_ladder=$ladder"
