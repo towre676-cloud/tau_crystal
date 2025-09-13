@@ -91,3 +91,13 @@ Auditors and pipelines may prefer a single file that names both the request dige
 digest: bfd49b537f1915f25606f0b826ea1d879d849293d0e8ab3c4d66c36bf178d4d0
 stamped_utc: 2025-09-13T05:37:09Z
 
+## timefold (v1)
+
+id: tf-20250913T054806Z
+label: initial
+utc: 20250913T054806Z
+archive: tf-20250913T054806Z.tar.gz
+sha256: dced968185b58f9a7e9baeefc0a84a7b60f9f91e7bdcc61e80247ca84297cc26
+bytes: 5917
+files: 4
+
