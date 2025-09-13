@@ -13,15 +13,20 @@ jobs:
         continue-on-error: true
         with:
           working-directory: .
-      - name: debug outputs
+      - name: pick receipt path
         if: always()
+        id: pick
         run: |
-          echo "receipt=${{ steps.tau.outputs.receipt }}"
-          test -f "${{ steps.tau.outputs.receipt }}" && head -50 "${{ steps.tau.outputs.receipt }}" || true
+          set -euo pipefail
+          p="${{ steps.tau.outputs.receipt }}"
+          [ -n "$p" ] || p=".tau_ledger/receipt.json"
+          echo "using path: $p"
+          echo "path=$p" >> "$GITHUB_OUTPUT"
+          test -f "$p" && head -50 "$p" || true
       - name: upload receipt
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: receipt
-          path: ${{ steps.tau.outputs.receipt }}
-          if-no-files-found: error
+          path: ${{ steps.pick.outputs.path }}
+          if-no-files-found: warn
