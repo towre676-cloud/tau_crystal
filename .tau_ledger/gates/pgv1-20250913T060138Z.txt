@@ -1,0 +1,12 @@
+==> timefold
+OK: timefold archive verified
+[OK] timefold
+==> signature
+OK: signature satisfied
+[OK] signature
+==> federation
+OK: all federation receipts verified
+[OK] federation
+==> holography
+::error ::holography section missing
+[FAIL] holography
