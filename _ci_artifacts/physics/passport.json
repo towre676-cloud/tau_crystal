@@ -1,0 +1,19 @@
+{
+  "host": {
+    "system": "Linux",
+    "release": "6.11.0-1018-azure",
+    "machine": "x86_64"
+  },
+  "cpu": {
+    "mem_total_bytes": null
+  },
+  "gpu": {},
+  "io": {
+    "beta_sustained_bytes_per_s": 7019886353.532568
+  },
+  "coefficients": {
+    "c_mem": 1.0,
+    "E0": 0.0
+  },
+  "captured_at": "2025-09-08T17:51:46.227272+00:00"
+}
