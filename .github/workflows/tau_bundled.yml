@@ -10,7 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # allow later steps to run even if tau fails (we want to see outputs/logs)
       - id: tau
         uses: towre676-cloud/tau-crystal-action@v1
         with:
