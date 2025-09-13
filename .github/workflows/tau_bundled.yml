@@ -22,7 +22,7 @@ jobs:
           echo "verify_status=${{ steps.tau.outputs.verify_status }}"
           test -n "${{ steps.tau.outputs.receipt_path }}" && test -s "${{ steps.tau.outputs.receipt_path }}" || true
       - name: Upload witness artifact (always)
-        if: ${{ always() }}
+        if: ${{ steps.tau.outputs.receipt_path !=  && steps.tau.outputs.receipt_path != null }}
         uses: actions/upload-artifact@v4
         with:
           name: tau-bundled
