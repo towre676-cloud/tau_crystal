@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - id: tau
         uses: towre676-cloud/tau-crystal-action@v1
         with:
