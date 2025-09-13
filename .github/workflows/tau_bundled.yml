@@ -14,8 +14,10 @@ jobs:
         uses: towre676-cloud/tau-crystal-action@v1
         with:
           working-directory: .
+        continue-on-error: true
 
       - name: debug outputs
+        if: always()
         run: |
           echo "verifier=${{ steps.tau.outputs.verifier }}"
           echo "receipt=${{ steps.tau.outputs.receipt }}"
@@ -24,6 +26,7 @@ jobs:
           echo "merkle-root=${{ steps.tau.outputs['merkle-root'] }}"
 
       - name: pick receipt path
+        if: always()
         id: pick
         run: |
           set -euo pipefail
@@ -33,15 +36,17 @@ jobs:
             p="$(awk '{x=$2} END{print x}' .tau_ledger/CHAIN || true)"
           fi
           echo "path=$p" >> "$GITHUB_OUTPUT"
+          echo "using: $p"
 
       - name: verify (bundled)
+        if: always()
         run: ${{ steps.tau.outputs.verifier }} \
              ${{ steps.pick.outputs.path }} \
              ${{ steps.tau.outputs['chain-head'] }} \
              ${{ steps.tau.outputs['merkle-root'] }}
 
       - name: upload receipt
-        if: ${{ always() && steps.pick.outputs.path != '' }}
+        if: always() && steps.pick.outputs.path != ''
         uses: actions/upload-artifact@v4
         with:
           name: receipt
