@@ -11,20 +11,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Run bundled verifier
         id: tau
         uses: ./
-
       - name: Echo results
         run: |
           set -Eeuo pipefail; set +H
           echo "receipt_path=${{ steps.tau.outputs.receipt_path }}"
           echo "receipt_sha256=${{ steps.tau.outputs.receipt_sha256 }}"
           echo "verify_status=${{ steps.tau.outputs.verify_status }}"
-
       - name: Upload witness artifact (guarded)
-        if: ${{ steps.tau.outputs.receipt_path != \'
+        if: ${{ steps.tau.outputs.receipt_path !=  }}
         uses: actions/upload-artifact@v4
         with:
           name: tau-bundled
