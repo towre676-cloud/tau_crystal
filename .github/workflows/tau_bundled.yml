@@ -10,6 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Use the action; if it fails we still want to see outputs, so continue-on-error here (in the WORKFLOW, not the action).
       - id: tau
         uses: towre676-cloud/tau-crystal-action@v1
         with:
@@ -39,7 +40,7 @@ jobs:
           echo "using: $p"
 
       - name: verify (bundled)
-        if: always()
+        if: always() && steps.pick.outputs.path != ''
         run: ${{ steps.tau.outputs.verifier }} \
              ${{ steps.pick.outputs.path }} \
              ${{ steps.tau.outputs['chain-head'] }} \
