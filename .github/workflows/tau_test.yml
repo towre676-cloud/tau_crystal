@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: tau
-        uses: towre676-cloud/tau-crystal-action@v1.0.0
+        uses: towre676-cloud/tau_crystal@v1.0.12
         continue-on-error: true
         with:
           working-directory: .
