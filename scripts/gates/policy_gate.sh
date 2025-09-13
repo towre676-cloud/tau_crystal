@@ -1,23 +1,48 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail; set +H; umask 022
-man="docs/manifest.md"; outdir=".tau_ledger/gates"; stamp=$(LC_ALL=C date -u +%Y%m%dT%H%M%SZ)
-id="pgv1-$stamp"; rep="$outdir/$id.txt"; sha="$outdir/$id.sha256"; mkdir -p "$outdir"; : > "$rep"
+man="docs/manifest.md"
+outdir=".tau_ledger/gates"
+stamp=$(LC_ALL=C date -u +%Y%m%dT%H%M%SZ)
+id="pgv1-$stamp"
+rep="$outdir/$id.txt"
+sha="$outdir/$id.sha256"
+mkdir -p "$outdir"
+: > "$rep"
 ok=0; fail=0
 runcheck() {
-  name="$1"; cmd="$2"; printf "%s\n" "==> $name" >> "$rep"
-  if eval "$cmd" >> "$rep" 2>&1; then printf "%s\n" "[OK] $name" >> "$rep"; ok=$((ok+1)); else printf "%s\n" "[FAIL] $name" >> "$rep"; fail=$((fail+1)); fi
+  name="$1"; cmd="$2"
+  printf "%s\n" "==> $name" >> "$rep"
+  if eval "$cmd" >> "$rep" 2>&1; then
+    printf "%s\n" "[OK] $name" >> "$rep"; ok=$((ok+1))
+  else
+    printf "%s\n" "[FAIL] $name" >> "$rep"; fail=$((fail+1))
+  fi
 }
-[ -x scripts/timefold/verify_timefold.sh ] && runcheck "timefold" "scripts/timefold/verify_timefold.sh" || printf "%s\n" "[SKIP] timefold" >> "$rep"
-[ -x scripts/signature/verify_signature.sh ] && runcheck "signature" "scripts/signature/verify_signature.sh" || printf "%s\n" "[SKIP] signature" >> "$rep"
-[ -x scripts/federate/verify_xref_index.sh ] && runcheck "federation" "scripts/federate/verify_xref_index.sh" || printf "%s\n" "[SKIP] federation" >> "$rep"
-[ -x scripts/holo/verify_holo.sh ] && runcheck "holography" "scripts/holo/verify_holo.sh" || printf "%s\n" "[SKIP] holography" >> "$rep"
+[ -x scripts/timefold/verify_timefold.sh ]   && runcheck "timefold"    "scripts/timefold/verify_timefold.sh"    || printf "%s\n" "[SKIP] timefold"    >> "$rep"
+[ -x scripts/signature/verify_signature.sh ] && runcheck "signature"   "scripts/signature/verify_signature.sh"   || printf "%s\n" "[SKIP] signature"   >> "$rep"
+[ -x scripts/federate/verify_xref_index.sh ] && runcheck "federation"  "scripts/federate/verify_xref_index.sh"   || printf "%s\n" "[SKIP] federation"  >> "$rep"
+[ -x scripts/holo/verify_holo.sh ]           && runcheck "holography"  "scripts/holo/verify_holo.sh"             || printf "%s\n" "[SKIP] holography"  >> "$rep"
+[ -x scripts/entropy/verify_entropy.sh ]     && runcheck "entropy"     "scripts/entropy/verify_entropy.sh"       || printf "%s\n" "[SKIP] entropy"     >> "$rep"
+sheaf_id=$(sed -n "/^## sheaf_reflection (v1)$/,/^## / s/^id: //p" "$man" | head -n 1)
+sheaf_want=$(sed -n "/^## sheaf_reflection (v1)$/,/^## / s/^witness_sha256: //p" "$man" | head -n 1)
+if [ -n "${sheaf_id:-}" ] && [ -n "${sheaf_want:-}" ]; then
+  j=".tau_ledger/sheaf/$sheaf_id.json"
+  if [ -f "$j" ]; then
+    have=$(scripts/meta/_sha256.sh "$j")
+    if [ "$have" = "$sheaf_want" ]; then
+      printf "%s\n" "[OK] sheaf_reflection" >> "$rep"; ok=$((ok+1))
+    else
+      printf "%s\n" "[FAIL] sheaf_reflection want=$sheaf_want have=$have" >> "$rep"; fail=$((fail+1))
+    fi
   else
     printf "%s\n" "[FAIL] sheaf_reflection missing witness $sheaf_id.json" >> "$rep"; fail=$((fail+1))
   fi
 else
   printf "%s\n" "[SKIP] sheaf_reflection (no manifest block)" >> "$rep"
 fi
-printf "%s\n" "" >> "$rep"; printf "checks_passed: %s\n" "$ok" >> "$rep"; printf "checks_failed: %s\n" "$fail" >> "$rep"
+printf "%s\n" "" >> "$rep"
+printf "checks_passed: %s\n" "$ok" >> "$rep"
+printf "checks_failed: %s\n" "$fail" >> "$rep"
 scripts/meta/_sha256.sh "$rep" > "$sha"
 status="PASS"; [ "$fail" -gt 0 ] && status="FAIL"
 tmpm="docs/.manifest.pg.$$"; : > "$tmpm"; [ -f "$man" ] || : > "$man"
