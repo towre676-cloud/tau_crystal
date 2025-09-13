@@ -109,3 +109,8 @@ signature_sha256: 067a19efea182415421bd2003095ff238fc288fcd1b4f775efe1f50e2a7614
 ## federation (v1)
 
 
+## interference (v1)
+
+svg: .tau_ledger/interf/interference.svg
+sha256: eacfe53cf98cceb2d84e96c5ace6e2c18e18924c6119f6fd4aafad66148b24d8
+
