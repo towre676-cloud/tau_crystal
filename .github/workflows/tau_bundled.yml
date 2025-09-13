@@ -10,15 +10,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Use the action; if it fails we still want to see outputs, so continue-on-error here (in the WORKFLOW, not the action).
       - id: tau
         uses: towre676-cloud/tau-crystal-action@v1
         with:
           working-directory: .
-        continue-on-error: true
 
       - name: debug outputs
-        if: always()
         run: |
           echo "verifier=${{ steps.tau.outputs.verifier }}"
           echo "receipt=${{ steps.tau.outputs.receipt }}"
@@ -26,28 +23,37 @@ jobs:
           echo "chain-head=${{ steps.tau.outputs['chain-head'] }}"
           echo "merkle-root=${{ steps.tau.outputs['merkle-root'] }}"
 
-      - name: pick receipt path
-        if: always()
-        id: pick
+      - id: pick
+        name: pick receipt path
+        shell: bash
         run: |
           set -euo pipefail
-          p="${{ steps.tau.outputs.receipt }}"
-          [ -z "$p" ] && p="${{ steps.tau.outputs['receipt-path'] }}"
+          p="${{ steps.tau.outputs['receipt-path'] }}"
+          h="${{ steps.tau.outputs['chain-head'] }}"
+          r="${{ steps.tau.outputs['merkle-root'] }}"
           if [ -z "$p" ] && [ -f .tau_ledger/CHAIN ]; then
             p="$(awk '{x=$2} END{print x}' .tau_ledger/CHAIN || true)"
           fi
+          if [ -z "$h" ] && [ -f .tau_ledger/CHAIN ]; then
+            h="$(awk 'END{print $1}' .tau_ledger/CHAIN || true)"
+          fi
+          if [ -z "$r" ] && [ -n "$p" ] && [ -f "$p" ]; then
+            r="$(grep -oE '"'"'"merkle_root"[[:space:]]*:[[:space:]]*"[^"]*'"'"'" "$p" \
+                 | sed -E 's/.*"merkle_root"[[:space:]]*:[[:space:]]*"([^"]*)".*/\1/' | head -n1 || true)"
+          fi
           echo "path=$p" >> "$GITHUB_OUTPUT"
-          echo "using: $p"
+          echo "head=$h" >> "$GITHUB_OUTPUT"
+          echo "root=$r" >> "$GITHUB_OUTPUT"
 
       - name: verify (bundled)
-        if: always() && steps.pick.outputs.path != ''
+        if: ${{ steps.pick.outputs.path != '' && steps.pick.outputs.head != '' && steps.pick.outputs.root != '' }}
         run: ${{ steps.tau.outputs.verifier }} \
              ${{ steps.pick.outputs.path }} \
-             ${{ steps.tau.outputs['chain-head'] }} \
-             ${{ steps.tau.outputs['merkle-root'] }}
+             ${{ steps.pick.outputs.head }} \
+             ${{ steps.pick.outputs.root }}
 
       - name: upload receipt
-        if: always() && steps.pick.outputs.path != ''
+        if: ${{ steps.pick.outputs.path != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: receipt
