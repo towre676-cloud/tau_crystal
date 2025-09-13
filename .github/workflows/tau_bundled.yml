@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      # run the fixed Marketplace action; allow the job to continue regardless
       - id: tau
         uses: towre676-cloud/tau-crystal-action@v1
         with:
@@ -36,21 +38,16 @@ jobs:
           echo "path=$p" >> "$GITHUB_OUTPUT"
 
       - name: verify (bundled)
-        if: always()
+        if: always() && steps.pick.outputs.path != '' && steps.tau.outputs.verifier != '' && steps.tau.outputs['chain-head'] != '' && steps.tau.outputs['merkle-root'] != ''
         run: |
           set -euo pipefail
-          v="${{ steps.tau.outputs.verifier }}"
-          r="${{ steps.pick.outputs.path }}"
-          h="${{ steps.tau.outputs['chain-head'] }}"
-          m="${{ steps.tau.outputs['merkle-root'] }}"
-          if [ -z "$v" ] || [ -z "$r" ] || [ -z "$h" ] || [ -z "$m" ]; then
-            echo "::warning::incomplete outputs; skipping verify"
-            exit 0
-          fi
-          "$v" "$r" "$h" "$m"
+          "${{ steps.tau.outputs.verifier }}" \
+            "${{ steps.pick.outputs.path }}" \
+            "${{ steps.tau.outputs['chain-head'] }}" \
+            "${{ steps.tau.outputs['merkle-root'] }}"
 
       - name: upload receipt
-        if: always()
+        if: always() && steps.pick.outputs.path != ''
         uses: actions/upload-artifact@v4
         with:
           name: receipt
