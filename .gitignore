@@ -94,3 +94,4 @@ assumption_census.tsv
 boundary_report.txt
 scripts/*.broken
 .tau_ledger/physics/*.json
+ed25519_sk.pem
