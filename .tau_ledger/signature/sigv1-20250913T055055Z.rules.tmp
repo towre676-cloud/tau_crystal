@@ -1,0 +1,5 @@
+require:file:lean-toolchain
+require:file:lake-manifest.json
+require:dir:.tau_ledger
+forbid:glob:**/*.unsafe.lean
+note:policy:default

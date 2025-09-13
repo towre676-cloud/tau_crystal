@@ -101,3 +101,8 @@ sha256: dced968185b58f9a7e9baeefc0a84a7b60f9f91e7bdcc61e80247ca84297cc26
 bytes: 5917
 files: 4
 
+## signature (v1)
+
+id: sigv1-20250913T055055Z
+signature_sha256: 067a19efea182415421bd2003095ff238fc288fcd1b4f775efe1f50e2a761488
+
