@@ -1,0 +1,30 @@
+name: tau-bundled
+on:
+  push:
+    branches: [ tau-verifier-bundled ]
+jobs:
+  attest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: tau
+        uses: towre676-cloud/tau-crystal-action@v1
+        with:
+          working-directory: .
+
+      # see exactly which outputs are set by your action
+      - name: debug outputs
+        run: |
+          echo "verifier=${{ steps.tau.outputs.verifier }}"
+          echo "receipt=${{ steps.tau.outputs.receipt }}"
+          echo "receipt-path=${{ steps.tau.outputs['receipt-path'] }}"
+          echo "chain-head=${{ steps.tau.outputs['chain-head'] }}"
+          echo "merkle-root=${{ steps.tau.outputs['merkle-root'] }}"
+
+      # run the verifier that's bundled inside the action
+      - name: verify (bundled)
+        run: ${{ steps.tau.outputs.verifier }} \
+             ${{ steps.tau.outputs['receipt-path'] }} \
+             ${{ steps.tau.outputs['chain-head'] }} \
+             ${{ steps.tau.outputs['merkle-root'] }}
