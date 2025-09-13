@@ -3,6 +3,7 @@ on:
   push:
     branches: [ tau-verifier-bundled ]
   workflow_dispatch:
+
 jobs:
   attest:
     runs-on: ubuntu-latest
@@ -14,18 +15,47 @@ jobs:
         with:
           working-directory: .
 
-      # Print exactly which outputs the action set
+      # print the raw outputs the action exposes
       - name: debug outputs
+        shell: bash
         run: |
+          set -euo pipefail
           echo "verifier=${{ steps.tau.outputs.verifier }}"
           echo "receipt=${{ steps.tau.outputs.receipt }}"
           echo "receipt-path=${{ steps.tau.outputs['receipt-path'] }}"
           echo "chain-head=${{ steps.tau.outputs['chain-head'] }}"
           echo "merkle-root=${{ steps.tau.outputs['merkle-root'] }}"
 
-      # Use the bundled verifier directly (no curl, no PATH)
+      # pick a receipt path with fallbacks, ensure file exists
+      - id: pick
+        name: pick receipt path
+        shell: bash
+        run: |
+          set -euo pipefail
+          rp="${{ steps.tau.outputs['receipt-path'] }}"
+          [ -z "$rp" ] && rp="${{ steps.tau.outputs.receipt }}"
+          [ -z "$rp" ] && rp=".tau_ledger/receipt.json"
+          echo "using receipt path: $rp"
+          test -f "$rp" || { echo "::error::receipt not found at $rp"; exit 1; }
+          echo "rp=$rp" >> "$GITHUB_OUTPUT"
+
+      # also ensure the hash outputs exist
+      - id: keys
+        name: pick head/root
+        shell: bash
+        run: |
+          set -euo pipefail
+          head="${{ steps.tau.outputs['chain-head'] }}"
+          root="${{ steps.tau.outputs['merkle-root'] }}"
+          [ -z "$head" ] && { echo "::error::missing chain-head output"; exit 1; }
+          [ -z "$root" ] && { echo "::error::missing merkle-root output"; exit 1; }
+          echo "head=$head" >> "$GITHUB_OUTPUT"
+          echo "root=$root" >> "$GITHUB_OUTPUT"
+
+      # run the bundled verifier; no curl / no PATH changes
       - name: verify (bundled)
+        shell: bash
         run: ${{ steps.tau.outputs.verifier }} \
-             ${{ steps.tau.outputs['receipt-path'] }} \
-             ${{ steps.tau.outputs['chain-head'] }} \
-             ${{ steps.tau.outputs['merkle-root'] }}
+             "${{ steps.pick.outputs.rp }}" \
+             "${{ steps.keys.outputs.head }}" \
+             "${{ steps.keys.outputs.root }}"
