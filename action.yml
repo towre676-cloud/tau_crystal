@@ -13,25 +13,29 @@ runs:
       shell: bash
       run: |
         set -Eeuo pipefail; set +H; umask 022
-        pick_latest() { ls -1 "$1" 2>/dev/null | LC_ALL=C sort | tail -1 2>/dev/null || true; }
-        sha() {
-          if command -v sha256sum >/dev/null 2>&1; then sha256sum "$1" | awk "{print \$1}";
-          elif command -v shasum >/dev/null 2>&1; then shasum -a 256 "$1" | awk "{print \$1}";
-          else openssl dgst -sha256 "$1" | awk "{print \$2}"; fi
-        }
+        pick_latest(){ ls -1 "$1" 2>/dev/null | LC_ALL=C sort | tail -1 2>/dev/null || true; }
+        sha(){ if command -v sha256sum >/dev/null 2>&1; then sha256sum "$1" | awk "{print \$1}";
+              elif command -v shasum >/dev/null 2>&1; then shasum -a 256 "$1" | awk "{print \$1}";
+              else openssl dgst -sha256 "$1" | awk "{print \$2}"; fi; }
         W="$(pick_latest .tau_ledger/sheaf/sheafv1-*.json || true)"
         [ -z "$W" ] && W="$(pick_latest .tau_ledger/entropy/entv1-*.json || true)"
         [ -z "$W" ] && W="$(pick_latest .tau_ledger/receipts/*.json || true)"
         if [ -z "$W" ] || [ ! -s "$W" ]; then
           if [ -s .tau_ledger/CHAIN ]; then
-            W=".tau_ledger/qr/chain-witness.json"; CH=$(sha .tau_ledger/CHAIN); : > "$W"
-            printf "{\\n  \\"schema\\":\\"taucrystal/chain_witness/v1\\",\\n  \\"utc\\":\\"$(date -u +%%Y%%m%%dT%%H%%M%%SZ)\\",\\n  \\"chain_sha256\\":\\"$CH\\"\\n}\\n" > "$W"
+            W=".tau_ledger/qr/chain-witness.json"; CH="$(sha .tau_ledger/CHAIN)"
+            : > "$W"
+            printf "{\\n" >> "$W"
+            printf "  \\"schema\\": \\"taucrystal/chain_witness/v1\\",\\n" >> "$W"
+            printf "  \\"utc\\": \\"%s\\",\\n" "$(env TZ=UTC date -u +%%Y%%m%%dT%%H%%M%%SZ)" >> "$W"
+            printf "  \\"chain_sha256\\": \\"%s\\\"\\n" "$CH" >> "$W"
+            printf "}\\n" >> "$W"
           else
-            W=".tau_ledger/qr/empty-witness.json"; echo "{\"schema\":\"taucrystal/empty/v1\"}" > "$W"
+            W=".tau_ledger/qr/empty-witness.json"; printf "%s\n" "{\"schema\":\"taucrystal/empty/v1\"}" > "$W"
           fi
         fi
-        echo "witness=$W" >> $GITHUB_OUTPUT
-        echo "sha256=$(sha "$W")" >> $GITHUB_OUTPUT
+        H="$(sha "$W")"
+        echo "witness=$W" >> "$GITHUB_OUTPUT"
+        echo "sha256=$H"  >> "$GITHUB_OUTPUT"
     - name: Run local verifier shim
       id: verify
       shell: bash
@@ -39,14 +43,15 @@ runs:
         set -Eeuo pipefail; set +H; umask 022
         W="${{ steps.pick.outputs.witness }}"
         status="ok"
-        [ -x scripts/tau_verify.sh ] && status="$(bash scripts/tau_verify.sh "$W" || true)"
+        if [ -x scripts/tau_verify.sh ]; then
+          status="$(bash scripts/tau_verify.sh "$W" || true)"
+        fi
         echo "status=$status" >> "$GITHUB_OUTPUT"
     - name: Expose outputs
       shell: bash
       run: |
-        echo "witness: ${{ steps.pick.outputs.witness }}"
-        echo "sha256:  ${{ steps.pick.outputs.sha256 }}"
-        echo "status:  ${{ steps.verify.outputs.status }}"
+        set -Eeuo pipefail; set +H
+        echo "::notice title=τ‑receipt::${{ steps.pick.outputs.witness }} (sha256=${{ steps.pick.outputs.sha256 }}) status=${{ steps.verify.outputs.status }}"
 outputs:
   receipt_path:
     value: ${{ steps.pick.outputs.witness }}
