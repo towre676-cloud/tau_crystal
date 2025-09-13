@@ -11,10 +11,7 @@ h=$(grep "^sha256:" "$latest" | awk "{print $2}")
 sz=$(grep "^bytes:" "$latest" | awk "{print $2}")
 cnt=$(grep "^files:" "$latest" | awk "{print $2}")
 tmp="docs/.manifest.tf.$$"; : > "$tmp"
-awk '/^## timefold 
-𝑣
-1
-v1/{exit} {print}' "$man" > "$tmp"
+awk '{ if(index($0,"## timefold (v1)")==1) exit; print }' "$man" > "$tmp"
 echo "## timefold (v1)" >> "$tmp"
 echo "" >> "$tmp"
 echo "id: $id" >> "$tmp"
