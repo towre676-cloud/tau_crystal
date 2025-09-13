@@ -1,0 +1,56 @@
+name: tau-trace (Jupyter receipts)
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  trace:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install IPython only
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install ipython
+
+      - name: Ensure ledger dirs
+        run: |
+          mkdir -p .tau_ledger/jupyter scripts/jupyter scripts/meta
+          # Make QR tool executable if present
+          if [ -f scripts/meta/qr_witness.sh ]; then chmod +x scripts/meta/qr_witness.sh; fi
+
+      - name: Run traced cells
+        env:
+          PYTHONIOENCODING: UTF-8
+        run: |
+          python scripts/jupyter/run_tau_trace_ci.py 'print("hello from CI"); sum(range(5))' ci-hello
+          python scripts/jupyter/run_tau_trace_ci.py 'import math; print(math.isfinite(3.14))' ci-math
+
+      - name: Gate — at least one witness produced
+        run: |
+          c=$(ls -1 .tau_ledger/jupyter/cellv1-*.json 2>/dev/null | wc -l | tr -d ' ')
+          if [ "$c" = "0" ]; then
+            echo "::error ::no jupyter witnesses were created"; exit 1
+          fi
+          echo "[ok] witnesses: $c"
+
+      - name: Show last witness (debug)
+        run: |
+          ls -1 .tau_ledger/jupyter/cellv1-*.json | tail -1 | xargs -I{} sh -c 'echo "== {} =="; sed -n "1,80p" {}'
+
+      - name: Upload ledger + manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-ledger-jupyter
+          path: |
+            .tau_ledger/jupyter
+            docs/manifest.md
+          if-no-files-found: warn
