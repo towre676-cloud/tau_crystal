@@ -13,8 +13,16 @@ jobs:
         with:
           working-directory: .
           out: .tau_ledger/receipt.json
+        continue-on-error: true
+      - name: show ledger (debug)
+        if: always()
+        run: |
+          ls -la .tau_ledger || true
+          test -f .tau_ledger/receipt.json && head -100 .tau_ledger/receipt.json || true
       - name: upload receipt
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: receipt
           path: .tau_ledger/receipt.json
+          if-no-files-found: warn
