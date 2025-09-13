@@ -112,3 +112,9 @@ tools/*.bak_*
 !scripts/bin/
 !scripts/bin/save_request_preimage.sh
 .github/workflows/*.bak.*
+
+# allow meta scripts
+!scripts/meta/
+
+# keep attested receipts
+!receipts/

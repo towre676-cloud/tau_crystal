@@ -86,3 +86,8 @@ Auditors and pipelines may prefer a single file that names both the request dige
 > **Note:** The canonical key order is explicit (not explicit canonical). The field `ingress_preimage_sha256` is optional and, when present, **must** appear between `producer` and `timestamp`.
 
 - ingress_preimage_sha256: optional, 64-hex lowercase SHA-256 of the request preimage.
+## sheaf_digest (v1)
+
+digest: bfd49b537f1915f25606f0b826ea1d879d849293d0e8ab3c4d66c36bf178d4d0
+stamped_utc: 2025-09-13T05:37:09Z
+
