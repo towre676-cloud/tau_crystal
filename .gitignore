@@ -118,3 +118,4 @@ tools/*.bak_*
 
 # keep attested receipts
 !receipts/
+!.tau_ledger/timefolds/
