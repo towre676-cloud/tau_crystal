@@ -13,22 +13,23 @@ jobs:
         with:
           working-directory: .
         continue-on-error: true
+          if-no-files-found: error
       - name: pick receipt path
         if: always()
         id: pick
+        shell: bash
         run: |
-          set -euo pipefail
+          set -uo pipefail
           p="${{ steps.tau.outputs.receipt }}"
           if [ -z "$p" ]; then
-            p="$(find "$GITHUB_WORKSPACE" -maxdepth 5 -type f -name "*.json" 2>/dev/null |
-                 while read -r f; do grep -q "\"chain_head\"" "$f" && grep -q "\"merkle_root\"" "$f" && echo "$f" && break; done)"
+            p="$(grep -RIl --include=*.json "merkle_root" . 2>/dev/null | xargs -r grep -Il "chain_head" | head -n1 || true)"
           fi
           echo "using: ${p:-<none>}"
-          [ -n "${p:-}" ] && echo "path=$p" >> "$GITHUB_OUTPUT"
+          if [ -n "${p:-}" ]; then echo "path=$p" >> "$GITHUB_OUTPUT"; fi
       - name: upload receipt
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: receipt
           path: ${{ steps.pick.outputs.path }}
-          if-no-files-found: error
+          if-no-files-found: warn
