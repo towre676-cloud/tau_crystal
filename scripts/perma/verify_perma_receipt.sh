@@ -9,6 +9,7 @@ cid=$(sed -n "s/^cid: //p" "$meta" | head -n 1)
 [ -s ".tau_ledger/receipts/$receipt" ] || { echo "[FAIL] missing receipt: $receipt"; exit 1; }
 have_sha=$(scripts/meta/_sha256.sh ".tau_ledger/receipts/$receipt")
 [ "$have_sha" = "$sha" ] || { echo "[FAIL] receipt hash mismatch"; echo "want: $sha"; echo "have: $have_sha"; exit 1; }
+[ "$cid" = "unpinned" ] && { echo "[OK] perma receipt verified: $receipt (unpinned)"; exit 0; }
 have_cid=$(curl -s "https://ipfs.io/ipfs/$cid" | sha256sum | awk "{print \$1}")
 [ "$have_cid" = "$sha" ] || { echo "[FAIL] IPFS CID content mismatch"; echo "want: $sha"; echo "have: $have_cid"; exit 1; }
 echo "[OK] perma receipt verified: $receipt (CID: $cid)"

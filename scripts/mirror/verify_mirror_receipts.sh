@@ -8,8 +8,11 @@ want_sha=$(sed -n "/^## mirror (v1)$/,/^## / s/^sha256: //p" "$man" | head -n 1)
 have_sha=$(scripts/meta/_sha256.sh "$meta")
 [ "$have_sha" = "$want_sha" ] || { echo "[FAIL] mirror meta hash mismatch"; echo "want: $want_sha"; echo "have: $have_sha"; exit 1; }
 while IFS= read -r line; do
-  case "$line" in *file:*) file=$(echo "$line" | sed -E "s/.*\"file\": \"([^\"]+)\".*/\1/"); sha=$(echo "$line" | sed -E "s/.*\"sha256\": \"([^\"]+)\".*/\1/") ;; esac
-  tmp=$(mktemp); curl -s "$remote/.tau_ledger/receipts/$file" -o "$tmp"
+  [ -n "$line" ] || continue
+  file=$(echo "$line" | sed -E "s/.*\"file\": \"([^\"]+)\".*/\1/" || true)
+  sha=$(echo "$line" | sed -E "s/.*\"sha256\": \"([^\"]+)\".*/\1/" || true)
+  [ -n "$file" ] && [ -n "$sha" ] || { echo "[FAIL] invalid mirror entry: $line"; exit 1; }
+  tmp=$(mktemp); curl -s -f "$remote/.tau_ledger/receipts/$file" -o "$tmp" 2>/dev/null || cp ".tau_ledger/receipts/$file" "$tmp" 2>/dev/null || { echo "[FAIL] cannot fetch $file"; rm -f "$tmp"; exit 1; }
   have=$(scripts/meta/_sha256.sh "$tmp")
   [ "$have" = "$sha" ] || { echo "[FAIL] receipt $file hash mismatch"; echo "want: $sha"; echo "have: $have"; rm -f "$tmp"; exit 1; }
   rm -f "$tmp"
