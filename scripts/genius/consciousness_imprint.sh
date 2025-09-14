@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail; set +H; umask 022
 . scripts/genius/_util.sh
-root=".tau_ledger/genius"; mkdir -p "$root"; t=$(ts); id="consciousv1-$t"; meta="$root/$id.meta"
-vals=$(sed -n "s/^tau: //p" "$root"/entangle-*.meta 2>/dev/null | tr "\n" " " || true)
-set +e; cnt=$(wc -w <<< "$vals" | tr -d " "); set -e; [ "$cnt" -gt 0 ] || vals="0 0 0 0"
-sum=0; for v in $vals; do sum=$(echo "$sum + $v" | bc -l); done
-avg=$(echo "scale=10; $sum / ($cnt + 0.0000001)" | bc -l)
-var=0; for v in $vals; do var=$(echo "$var + ($v - $avg)^2" | bc -l); done
-var=$(echo "scale=10; $var / ($cnt + 0.0000001)" | bc -l)
-: > "$meta"; emit_kv "schema" "taucrystal/conscious/v1" "$meta"; emit_kv "id" "$id" "$meta"; emit_kv "utc" "$t" "$meta"; emit_kv "variance" "$var" "$meta"; emit_kv "is_deterministic" "$(echo "$var < 0.001" | bc -l)" "$meta"; echo "[OK] conscious: $meta"
+root=".tau_ledger/genius"; mkdir -p "$root"
+t=$(ts); f="$root/consciousv1-$t.meta"
+set +e; files=$(ls -1 "$root"/entangle-*.meta 2>/dev/null); rc=$?; set -e
+[ $rc -eq 0 ] && [ -n "$files" ] || { echo "[err] no entangle files"; exit 2; }
+read avg var cnt < <(awk '/^tau: /{v=$2; s+=v; ss+=v*v; n++} END{ if(n>0){m=s/n; print m, (ss/n)-(m*m), n}else{print 0,0,0}}' $files)
+: > "$f"
+emit_kv schema taucrystal/conscious/v1 "$f"
+emit_kv id "$(basename "${f%.meta}")" "$f"
+emit_kv utc "$t" "$f"
+emit_kv variance "$var" "$f"
+det=$(awk -v v="$var" 'BEGIN{print (v<0.001)?1:0}')
+emit_kv is_deterministic "$det" "$f"
+echo "[OK] conscious: $f"
+[ "$det" = "1" ] || { echo "[FAIL] variance too high"; exit 1; }

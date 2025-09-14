@@ -1,25 +1,18 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail; set +H; umask 022
-root=".tau_ledger/holo"; mkdir -p "$root"
-stamp=$(date -u +%Y%m%dT%H%M%SZ); id="holov1-$stamp"; json="$root/$id.json"
-mapfile -t receipts < <(ls -1 .tau_ledger/receipts/*.json 2>/dev/null | LC_ALL=C sort || true)
-[ "${#receipts[@]}" -gt 0 ] || { echo "[err] no receipts found"; exit 2; }
-: > "$json"
-printf "%s\n" "{" >> "$json"
-printf "%s\n" "  \"schema\": \"taucrystal/holo/v1\"," >> "$json"
-printf "%s\n" "  \"id\": \"$id\"," >> "$json"
-printf "%s\n" "  \"utc\": \"$stamp\"," >> "$json"
-printf "%s\n" "  \"tensor\": [" >> "$json"
-i=0
-for r in "${receipts[@]}"; do
-  i=$((i+1))
-  sha=$(scripts/meta/_sha256.sh "$r")
-  commit=$(jq -r ".commit // \"none\"" "$r" 2>/dev/null || echo "none")
-  merkle=$(jq -r ".merkle_root // \"none\"" "$r" 2>/dev/null || echo "none")
-  entropy=$(jq -r ".entropy_delta_bytes // 0" "$r" 2>/dev/null || echo 0)
-  SEP=$([ $i -gt 1 ] && echo "," || true)
-  printf "%s\n" "    $SEP{\"file\": \"$(basename "$r")\", \"sha256\": \"$sha\", \"commit\": \"$commit\", \"merkle_root\": \"$merkle\", \"entropy_delta\": $entropy}" >> "$json"
-done
-printf "%s\n" "  ]" >> "$json"
-printf "%s\n" "}" >> "$json"
-echo "[OK] holo tensor: $json"
+dir=".tau_ledger/holo"; mkdir -p "$dir"
+set -- .tau_ledger/receipts/*.json
+[ -e "$1" ] || { echo "[skip] no receipts"; exit 0; }
+ts=$(date -u +%Y%m%dT%H%M%SZ); out="$dir/holov1-$ts.json"
+{
+  printf '{\n'
+  printf '  "schema":"taucrystal/holo/v1","id":"holov1-%s","utc":"%s","receipts":[' "$ts" "$ts"
+  first=1
+  for r in .tau_ledger/receipts/*.json; do
+    sha=$(sha256sum "$r" | awk '{print $1}')
+    if [ $first -eq 1 ]; then first=0; printf '\n'; else printf ',\n'; fi
+    printf '    {"file":"%s","sha256":"%s"}' "$(basename "$r")" "$sha"
+  done
+  printf '\n  ]\n}\n'
+} > "$out"
+echo "[OK] holo: $out"
