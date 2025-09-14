@@ -42,3 +42,5 @@ jobs:
           TOL: '1e-3'
         run: |
           bash scripts/langlands/lab.sh modular "${{ steps.best.outputs.BEST_N }}" .tau_ledger/demo .tau_ledger "$TOL"
+      - name: Bash reciprocity (strict)
+        run: bash scripts/langlands/reciprocity.sh .tau_ledger .tau_ledger/demo 1000
