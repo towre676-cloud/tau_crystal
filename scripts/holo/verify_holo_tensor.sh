@@ -8,7 +8,10 @@ holo_sha=$(sed -n "/^## holo (v1)$/,/^## / s/^sha256: //p" "$man" | head -n 1)
 have=$(scripts/meta/_sha256.sh "$j")
 [ "$have" = "$holo_sha" ] || { echo "[FAIL] holo tensor hash mismatch"; echo "want: $holo_sha"; echo "have: $have"; exit 1; }
 while IFS= read -r line; do
-  case "$line" in *file:*) file=$(echo "$line" | sed -E "s/.*\"file\": \"([^\"]+)\".*/\1/"); sha=$(echo "$line" | sed -E "s/.*\"sha256\": \"([^\"]+)\".*/\1/") ;; esac
+  [ -n "$line" ] || continue
+  file=$(echo "$line" | sed -E "s/.*\"file\": \"([^\"]+)\".*/\1/" || true)
+  sha=$(echo "$line" | sed -E "s/.*\"sha256\": \"([^\"]+)\".*/\1/" || true)
+  [ -n "$file" ] && [ -n "$sha" ] || { echo "[FAIL] invalid tensor entry: $line"; exit 1; }
   [ -s ".tau_ledger/receipts/$file" ] || { echo "[FAIL] missing receipt: $file"; exit 1; }
   have_sha=$(scripts/meta/_sha256.sh ".tau_ledger/receipts/$file")
   [ "$have_sha" = "$sha" ] || { echo "[FAIL] receipt $file hash mismatch"; echo "want: $sha"; echo "have: $have_sha"; exit 1; }

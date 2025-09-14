@@ -95,11 +95,24 @@ sha256: 20283b23d272709fcb029ba2651360ba00212437de2a21dcfb4f2e69fc0048ec
 
 ## holo (v1)
 
-id: holov1-20250914T143706Z
-sha256: 1940413aab1a6d1fae6fe9f450800b7c1f6cb28dd18aa7e275542217d3c1edde
+id: holov1-20250914T144201Z
+sha256: 7dfa6ff4b76ab205be740edd4a840a623b0409200f63473244a97f05b54b9d8e
 
 ## physics (v1)
 
 id: passport
-sha256: 4673c3ecf62937715a62bc06f14a1da600ec11049cc06d6a66aebea041e2e62a
+sha256: 3c289e397d1c2758791cd18e52e0225d98c2564c3ed25d6bfd06efb8fe6bb213
+
+## perma_receipt (v1)
+
+id: permav1-20250914T144205Z
+receipt: demo-20250914T023421Z.json
+sha256: e7114898a44dbffb8b5076dee970ee60c646c26843aa61450cf7cb07b00f55ab
+cid: unpinned
+
+## mirror (v1)
+
+id: mirrorv1-20250914T144208Z
+remote: https://raw.githubusercontent.com/towre676-cloud/tau_crystal/main
+sha256: 8898354e051e06730ea5bbeaaf8b3c7c06c2e7fcfcb78c7a200e21e68e188771
 
