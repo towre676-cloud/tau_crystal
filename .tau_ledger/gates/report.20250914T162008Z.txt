@@ -1,0 +1,6 @@
+scripts/timefold/verify_timefold.sh: line 10: syntax error: unexpected end of file
+scripts/entropy/verify_entropy.sh: line 10: syntax error: unexpected end of file
+scripts/sigring/verify_signature_ring.sh: line 12: syntax error: unexpected end of file
+scripts/federate/verify_xref_index.sh: line 10: unexpected EOF while looking for matching `"'
+qr: present
+interference: present
