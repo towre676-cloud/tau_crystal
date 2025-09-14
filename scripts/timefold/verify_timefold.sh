@@ -1,19 +1,9 @@
 #!/usr/bin/env bash
-# lines: 27
-# Verify latest timefold archive against its meta.
-set -Eeuo pipefail; set +H; umask 022
-root=".tau_ledger/timefolds"
-meta="${1:-$(ls -1 "$root"/tf-*.meta 2>/dev/null | LC_ALL=C sort | tail -1 || true)}"
-[ -n "$meta" ] && [ -f "$meta" ] || { echo "usage: $0 [tf-*.meta]" >&2; exit 2; }
-sha(){ scripts/meta/_sha256.sh "$1"; }
-
-arc="$(awk '/^archive:/{print $2}' "$meta")"
-want="$(awk '/^sha256:/{print $2}' "$meta")"
-[ -f "$arc" ] || { echo "[FAIL] missing archive: $arc" >&2; exit 1; }
-
-have="$(sha "$arc")"
-if [ "$have" = "$want" ]; then
-  echo "[OK] timefold verified (sha256:$have)"
-else
-  echo "[FAIL] timefold hash mismatch"; echo " want: $want"; echo " have: $have"; exit 1
-fi
+set -Eeuo pipefail; set +H
+man="docs/manifest.md"; root=".tau_ledger/timefolds"
+arc=$(sed -n "/^## timefold (v1)$/,/^## / s/^archive: //p" "$man" | head -n 1)
+want=$(sed -n "/^## timefold (v1)$/,/^## / s/^sha256: //p" "$man" | head -n 1)
+[ -n "${arc:-}" ] && [ -n "${want:-}" ] || { echo "::error ::timefold section missing"; exit 1; }
+path="$root/$arc"; test -f "$path" || { echo "::error ::missing archive $path"; exit 1; }
+have=$(scripts/meta/_sha256.sh "$path")
+[ "$have" = "$want" ] && echo "OK: timefold archive verified" || { echo "FAIL: timefold hash mismatch"; echo "want $want"; echo "have $have"; exit 1; }
