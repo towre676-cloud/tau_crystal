@@ -1,2 +1,4 @@
 scripts/genius/mandelbrot_receipt.sh: line 9: bc: command not found
 scripts/genius/mandelbrot_receipt.sh: line 9: [: -eq: unary operator expected
+scripts/genius/mandelbrot_receipt.sh: line 9: bc: command not found
+scripts/genius/mandelbrot_receipt.sh: line 9: [: -eq: unary operator expected
