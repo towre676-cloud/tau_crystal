@@ -1,0 +1,8 @@
+{
+  "schema": "taucrystal/holo/v1",
+  "id": "holov1-20250914T142135Z",
+  "utc": "20250914T142135Z",
+  "tensor": [
+    {"file": "demo-20250914T023421Z.json", "sha256": "70eaacb6cfe45e3b939b77e10d4ab2a4019d3f5816c281c8f2b8f93e3f5cd3ce", "commit": "demo-20250914T023421Z", "merkle_root": "deadbeef", "entropy_delta": 0}
+  ]
+}
