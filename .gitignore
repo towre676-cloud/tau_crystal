@@ -98,3 +98,5 @@ ed25519_sk.pem
 
 !.tau_ledger/
 !.tau_ledger/qr/
+
+!extension/
