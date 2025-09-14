@@ -12,3 +12,6 @@ else
   jq "del(.run_id)" "$MF" > "$MF.tmp" && mv "$MF.tmp" "$MF"
 fi
 echo "[OK] normalized manifest: $MF"
+
+# Genius Mode (optional)
+scripts/genius/genius_unified.sh || true
