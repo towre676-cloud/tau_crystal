@@ -56,7 +56,7 @@ if command -v lean >/dev/null 2>&1; then
   lean_ver="$(lean --version 2>/dev/null | head -n1 | tr -d '\r' || true)"
   lean_path="$(command -v lean || true)"
   if [ -n "${lean_path:-}" ] && [ -f "$lean_path" ]; then
-    lean_sha="$(sha256sum "$lean_path" | awk '{print $1}')"
+    lean_sha="$(scripts/sha256.sh "$file"
   fi
 fi
 if [ -d ".lake/packages/std" ]; then

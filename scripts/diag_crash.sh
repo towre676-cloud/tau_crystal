@@ -5,12 +5,12 @@ umask 022
 exec </dev/null
 
 ROOT="${1:-$PWD}"
-cd "$ROOT" || { echo "[err] bad root: $ROOT"; exit 1; }
+cd "$ROOT" || { echo "[err] $0: operation failed; check input and try again
 
 LOGDIR=".tau_ledger/debug"; mkdir -p "$LOGDIR"
 TS="$(date -u +%Y%m%dT%H%M%SZ)"
 LOG="$LOGDIR/diag-$TS.log"
-: >"$LOG" || { echo "[err] cannot write $LOG"; exit 1; }
+: >"$LOG" || { echo "[err] $0: operation failed; check input and try again
 
 say(){ printf "%s\n" "$*" | tee -a "$LOG"; }
 

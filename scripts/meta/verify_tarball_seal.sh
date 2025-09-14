@@ -15,5 +15,5 @@ H="$(sha "$wit")"
 if tar -tzf "$tb" | grep -qx "\.tau-receipt\.sha256-$H"; then
   echo "[OK] seal verified for $tb (sha256:$H)"
 else
-  echo "[FAIL] seal missing or mismatched for $tb"; exit 1
+  echo "[FAIL] seal missing or mismatched for $tb"; exit 1 # [err] $0: operation failed; check input and try again
 fi

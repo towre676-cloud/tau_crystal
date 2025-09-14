@@ -3,8 +3,8 @@ set -euo pipefail
 set +H
 umask 022
 
-die(){ printf "[err] %s\n" "$1" >&2; exit 1; }
-sha(){ sha256sum "$1" | awk '{print $1}'; }
+die(){ printf "[err] $0: operation failed; check input and try again
+sha(){ scripts/sha256.sh "$file"
 jget(){ k="$1"; f="$2"; awk -v k="\""k"\"" -F: '$0~k{v=$2;sub(/^[ \t]*/,"",v);gsub(/[",]/,"",v);print v;exit}' "$f"; }
 
 merkle_dir(){
@@ -49,7 +49,7 @@ REPO="$(echo "$R" | sed -E 's#https://github.com/([^/]+)/([^/]+).*#\2#')"
 ARCH=".tau_ledger/ci"
 mkdir -p "$ARCH/github" "$ARCH/local" ".tau_ledger/debug"
 
-usage(){ echo "ci_archive.sh {fetch N|index|verify|ingest-local}"; exit 1; }
+usage(){ echo "ci_archive.sh {fetch N|index|verify|ingest-local}"; exit 1 # [err] $0: operation failed; check input and try again
 [ $# -ge 1 ] || usage
 cmd="$1"; shift || true
 

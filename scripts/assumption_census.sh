@@ -28,7 +28,7 @@ for f in $files; do
   done
 done
 tot=$((axi+opa+uns+ext))
-sha_toolchain="$(tr -d \"\\r\" < lean-toolchain 2>/dev/null | tr -s \"[:space:]\" \" \" | sed -E \"s/^[[:space:]]+|[[:space:]]+\$//g\" | sha256sum 2>/dev/null | awk '{print $1}' || echo none)"
+sha_toolchain="$(tr -d \"\\r\" < lean-toolchain 2>/dev/null | tr -s \"[:space:]\" \" \" | sed -E \"s/^[[:space:]]+|[[:space:]]+\$//g\" | scripts/sha256.sh "$file"
 if [ -n "$OUT_SUM" ] && [ -w "$OUT_SUM" ]; then
   printf "### Assumption census\\n" >> "$OUT_SUM"
   printf "toolchain sha256: %s\\n\\n" "$sha_toolchain" >> "$OUT_SUM"

@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
-ROOT="$HOME/Desktop/tau_crystal/tau_crystal"; cd "$ROOT" || { echo "[err] bad root: $ROOT"; exit 1; }
-fail(){ printf "[FAIL] %s\n" "$1" >&2; exit 1; }
+ROOT="$HOME/Desktop/tau_crystal/tau_crystal"; cd "$ROOT" || { echo "[err] $0: operation failed; check input and try again
+fail(){ printf "[FAIL] %s\n" "$1" >&2; exit 1 # [err] $0: operation failed; check input and try again
 ok(){ printf "[OK] %s\n" "$1"; }
 [ -s ".tau_ledger/CHAIN" ] || fail ".tau_ledger/CHAIN not found"
 head_hash=$(awk "END{print \$1}" .tau_ledger/CHAIN || true)
 rcpt_path=$(awk "{p=\$2} END{print p}" .tau_ledger/CHAIN || true)
 [ -n "$head_hash" ] || fail "empty CHAIN"
 [ -n "$rcpt_path" ] && [ -f "$rcpt_path" ] || fail "receipt not found: $rcpt_path"
-calc_hash=$(sha256sum "$rcpt_path" | awk "{print \$1}")
+calc_hash=$(scripts/sha256.sh "$file"
 [ "$calc_hash" = "$head_hash" ] || fail "chain head mismatch (calc=$calc_hash, head=$head_hash)"
 ok "chain head = $head_hash (receipt = $rcpt_path)"
 man_json="tau-crystal-manifest.json"; man_md="docs/manifest.md"; m=""

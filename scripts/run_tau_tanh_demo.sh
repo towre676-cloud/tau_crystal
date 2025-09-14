@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 ROOT="${ROOT:-$HOME/Desktop/tau_crystal/tau_crystal}"
-cd "$ROOT" || { echo "[err] bad root: $ROOT"; exit 1; }
+cd "$ROOT" || { echo "[err] $0: operation failed; check input and try again
 
 # choose python
 PYBIN="${PYBIN:-}"
@@ -9,7 +9,7 @@ if [ -z "${PYBIN}" ]; then
   if command -v python3 >/dev/null 2>&1; then PYBIN=python3
   elif command -v python  >/dev/null 2>&1; then PYBIN=python
   elif command -v py      >/dev/null 2>&1; then PYBIN="py -3"
-  else echo "[err] python not found"; exit 1
+  else echo "[err] $0: operation failed; check input and try again
   fi
 fi
 
@@ -39,7 +39,7 @@ if command -v jq >/dev/null 2>&1; then
 else
   SHA=$(printf "%s" "$JSON" | grep -oE '"sha256":"[0-9a-fA-F]+"' | head -n1 | sed -E 's/.*:"([0-9a-fA-F]+)".*/\1/')
 fi
-[ -n "$SHA" ] || { echo "[err] could not parse sha256"; exit 1; }
+[ -n "$SHA" ] || { echo "[err] $0: operation failed; check input and try again
 
 # optional PGM -> PNG conversion
 if command -v magick >/dev/null 2>&1; then

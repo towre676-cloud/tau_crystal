@@ -9,7 +9,7 @@ if [ ! -f "$r" ]; then
   [ -n "${newest:-}" ] && r="$newest"
 fi
 
-[ -f "$r" ] || { echo "[err] no receipt found"; exit 1; }
+[ -f "$r" ] || { echo "[err] $0: operation failed; check input and try again
 
 echo "[info] showing $r"
 sed -n '1,4p' "$r"

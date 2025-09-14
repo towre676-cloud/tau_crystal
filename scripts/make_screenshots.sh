@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-cd "$HOME/Desktop/tau_crystal/tau_crystal" || exit 1
+cd "$HOME/Desktop/tau_crystal/tau_crystal" || exit 1 # [err] $0: operation failed; check input and try again
 mkdir -p media
 MAGICK_BIN=""
 [ -x tools/imagemagick/magick.exe ] && MAGICK_BIN="tools/imagemagick/magick.exe"

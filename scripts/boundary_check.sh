@@ -45,7 +45,7 @@ rm -f "$patfile" 2>/dev/null || true
 if [ "$warns" -gt 0 ]; then
   summary "### Boundary check warnings\nFound $warns assumption(s) not whitelisted. See \`boundary_report.txt\` in artifacts or job logs."
   echo "[boundary] $warns violation(s) found"
-  if [ "$ENFORCE" = "1" ]; then echo "[boundary] enforcement on; failing"; exit 1; else echo "[boundary] warn-only; passing"; exit 0; fi
+  if [ "$ENFORCE" = "1" ]; then echo "[boundary] enforcement on; failing"; exit 1 # [err] $0: operation failed; check input and try again
 else
   summary "Boundary check: clean. ✅"
   echo "[boundary] clean"

@@ -20,7 +20,7 @@ for c in $COMMITS; do
 done
 if [ "$missing" -gt 0 ]; then
   summary "### Commit rationale warnings\nChecked $reviewed commit(s); $missing missing a clear why/rationale. Add a line like \`rationale:\` or \`why:\` to future messages while the audit stabilizes."
-  if [ "$ENFORCE" = "1" ]; then echo "[rationale] enforcement on; failing"; exit 1; else echo "[rationale] warn-only; passing"; exit 0; fi
+  if [ "$ENFORCE" = "1" ]; then echo "[rationale] enforcement on; failing"; exit 1 # [err] $0: operation failed; check input and try again
 else
   summary "Commit rationale: all commits include a why. ✅"
   exit 0

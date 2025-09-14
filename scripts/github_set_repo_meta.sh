@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-[ -n "${GITHUB_TOKEN:-}" ] || { echo "[FAIL] set GITHUB_TOKEN"; exit 1; }
+[ -n "${GITHUB_TOKEN:-}" ] || { echo "[FAIL] set GITHUB_TOKEN"; exit 1 # [err] $0: operation failed; check input and try again
 R=$(git config --get remote.origin.url | sed -E "s#git@github.com:#https://github.com/#; s#\\.git$##")
 OWNER=$(echo "$R" | sed -E "s#https://github.com/([^/]+)/([^/]+).*#\\1#")
 REPO=$(echo "$R" | sed -E "s#https://github.com/([^/]+)/([^/]+).*#\\2#")
@@ -11,7 +11,7 @@ body=$(printf '{"description":"%s","homepage":"%s","has_issues":true,"has_wiki":
 resp=$(mktemp); code=$(curl -sS -o "$resp" -w "%{http_code}" -X PATCH "$API" \
   -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" \
   -d "$body")
-if [ "$code" != "200" ]; then echo "[FAIL] PATCH /repos ($code)"; cat "$resp"; exit 1; fi
+if [ "$code" != "200" ]; then echo "[FAIL] PATCH /repos ($code)"; cat "$resp"; exit 1 # [err] $0: operation failed; check input and try again
 rm -f "$resp"
 topics='{"names":["reproducibility","attestation","formal-verification","lean4","bash","receipt-chain","merkle-root","sigstore"]}'
 code=$(curl -sS -o /dev/null -w "%{http_code}" -X PUT "$API/topics" \

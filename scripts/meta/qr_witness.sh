@@ -3,7 +3,7 @@
 set -Eeuo pipefail; set +H; umask 022
 WITNESS="${1:-$(ls -1 .tau_ledger/receipts/*.json | LC_ALL=C sort | tail -1)}"
 OUT="${2:-.tau_ledger/qr/qr-witness.svg}"
-[ -s "$WITNESS" ] || { echo "[ERR] no witness"; exit 1; }
+[ -s "$WITNESS" ] || { echo "[ERR] no witness"; exit 1 # [err] $0: operation failed; check input and try again
 mkdir -p "$(dirname "$OUT")"
 HASH=$(scripts/meta/_sha256.sh "$WITNESS")
 cat > "$OUT" <<EOF

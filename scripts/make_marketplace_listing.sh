@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-cd "$HOME/Desktop/tau_crystal/tau_crystal" || exit 1
+cd "$HOME/Desktop/tau_crystal/tau_crystal" || exit 1 # [err] $0: operation failed; check input and try again
 OWNER_REPO=$(git config --get remote.origin.url | sed -E "s#git@github.com:#https://github.com/#; s#\.git\$##"); HOMEPAGE=$(echo "$OWNER_REPO" | sed -E "s#https://github.com/([^/]+)/([^/]+).*#https://\1.github.io/\2/#")
 : > docs/marketplace-listing.md
 add(){ printf "%s\n" "$1" >> docs/marketplace-listing.md; }

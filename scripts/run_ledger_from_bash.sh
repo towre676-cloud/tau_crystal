@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
-trap 'echo; echo "💥 ERROR at line $LINENO (see $LOG)"; exit 1' ERR
+trap 'echo; echo "💥 ERROR at line $LINENO (see $LOG)"; exit 1 # [err] $0: operation failed; check input and try again
 
 # Resolve repo root even if BASH_SOURCE is unset
 SRC="${BASH_SOURCE[0]-$0}"
