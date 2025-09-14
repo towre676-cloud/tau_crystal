@@ -6,7 +6,7 @@ on:
 
 jobs:
   receipt:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
@@ -72,3 +72,6 @@ jobs:
             out/manifest.json
             out/manifest.json.sha256
           if-no-files-found: error
+defaults:
+  run:
+    shell: bash
