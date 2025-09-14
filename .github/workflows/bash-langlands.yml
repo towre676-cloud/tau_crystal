@@ -1,0 +1,19 @@
+name: Langlands Lab CI
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python (python -> python3)
+        run: sudo apt-get update && sudo apt-get install -y python3 python-is-python3
+      - name: Adele snapshot
+        run: bash scripts/langlands/lab.sh adele .
+      - name: L(1) and rank(.tau_ledger)
+        run: |\n          bash scripts/langlands/lab.sh L 1 .tau_ledger\n          bash scripts/langlands/lab.sh rank .tau_ledger
+      - name: Hecke/Theta (best from scan)
+        env:\n          BEST_N: '10'\n          BEST_S: '0.70'\n          BEST_T: '0.00'
+        run: |\n          bash scripts/langlands/lab.sh hecke "$BEST_N" .tau_ledger\n          bash scripts/langlands/lab.sh theta "$BEST_S" "$BEST_T" .tau_ledger/demo
+      - name: Modularity assertion (fail if not within tol)
+        env:\n          BEST_N: '10'\n          TOL: '1e-3'
+        run: |\n          bash scripts/langlands/lab.sh modular "$BEST_N" .tau_ledger/demo .tau_ledger "$TOL"
