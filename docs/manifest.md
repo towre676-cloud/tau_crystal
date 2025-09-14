@@ -76,5 +76,15 @@ This document tracks the verification lifecycle for this repository.
 Plan roots are defined in `.tau_plan_roots.env` and enforced in CI.
 ## sheaf (v1)
 
-digest: 1381ef8a82544d820c6b7fdfbce16bc519f2d239fc69a58e2ae30f82cd450c97
+digest: 8faa7c4b077e817e0a5f266f7281ef5787037e859559606a0c79e802004b8d1f
+
+## timefold (v1)
+
+id: tf-20250914T022521Z
+label: initial
+utc: 20250914T022521Z
+archive: tf-20250914T022521Z.tar.gz
+sha256: 64f58a257fe90657680487de866ad37a765fcfc3d3fdafe9a5f5f67653da2450
+bytes: 5491
+files: 4
 
