@@ -213,3 +213,4 @@ cosign verify-blob --certificate "$FILE.cert" --signature "$FILE.sig" "$FILE"
 [OK] chain head = <sha> (receipt = .tau_ledger/receipts/...json)
 [OK] merkle_root = <sha> (manifest ↔ receipt)
 ```
+zkdiff demo 04:12:59Z
