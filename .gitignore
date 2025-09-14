@@ -95,3 +95,6 @@ boundary_report.txt
 scripts/*.broken
 .tau_ledger/physics/*.json
 ed25519_sk.pem
+
+!.tau_ledger/
+!.tau_ledger/qr/

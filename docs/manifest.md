@@ -88,3 +88,9 @@ sha256: 64f58a257fe90657680487de866ad37a765fcfc3d3fdafe9a5f5f67653da2450
 bytes: 5491
 files: 4
 
+## qr_witness (v1)
+
+witness_path: .tau_ledger/CHAIN
+witness_sha256: 46ba5b15905fb11547ea79e53c9206af232beff595e5a3cc3b369db62c24e9c9
+svg_path: .tau_ledger/qr/qr-witness.svg
+
