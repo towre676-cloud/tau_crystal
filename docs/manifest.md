@@ -116,3 +116,10 @@ id: mirrorv1-20250914T144208Z
 remote: https://raw.githubusercontent.com/towre676-cloud/tau_crystal/main
 sha256: 8898354e051e06730ea5bbeaaf8b3c7c06c2e7fcfcb78c7a200e21e68e188771
 
+## enclave (v1)
+
+id: enclavev1-20250914T144251Z
+receipt: demo-20250914T023421Z.json
+sha256: e7114898a44dbffb8b5076dee970ee60c646c26843aa61450cf7cb07b00f55ab
+status: PASS
+
