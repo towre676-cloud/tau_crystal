@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+set -euo pipefail; set +H; umask 022
+tool="${1:-}"; inp="${2:-}"; out="${3:-}"
+[ -n "$tool" ] && [ -n "$inp" ] && [ -n "$out" ] || { echo "[llm_adapter] usage: tau_llm_adapter.sh <tool> <input_path> <output_path>" >&2; exit 2; }
+mkdir -p "$(dirname -- "$out")" 2>/dev/null || true
+[ -f "$inp" ] || { echo "[llm_adapter] missing input: $inp" >&2; exit 3; }
+normalize(){ tr -d "\r" | sed -Ee "s/[[:space:]]+/ /g" -e "s/^ //; s/ $//" ; }
+lower(){ tr "[:upper:]" "[:lower:]" ; }
+sha(){ if command -v sha256sum >/dev/null 2>&1; then sha256sum | awk "{print \$1}"; else openssl dgst -sha256 | awk "{print \$2}"; fi; }
+in_raw=$(cat -- "$inp")
+in_norm=$(printf "%s" "$in_raw" | normalize)
+in_fold=$(printf "%s" "$in_norm" | lower)
+h_in_raw=$(printf "%s" "$in_raw" | sha || true)
+h_in_fold=$(printf "%s" "$in_fold" | sha || true)
+out_tmp=$(mktemp); trap 'rm -f "$out_tmp"' EXIT
+if [ -n "${TAU_LLM_CMD:-}" ]; then
+  printf "%s" "$in_raw" | eval "$TAU_LLM_CMD" > "$out_tmp" 2> "$out_tmp.err" || true
+else
+  printf "LLM adapter placeholder. tool=%s\nINPUT: %s\n" "$tool" "$in_norm" > "$out_tmp"
+fi
+out_raw=$(cat -- "$out_tmp")
+out_norm=$(printf "%s" "$out_raw" | normalize)
+out_fold=$(printf "%s" "$out_norm" | lower)
+h_out_raw=$(printf "%s" "$out_raw" | sha || true)
+h_out_fold=$(printf "%s" "$out_fold" | sha || true)
+# --- semantic layer
+fa=$(mktemp); fb=$(mktemp); trap 'rm -f "$fa" "$fb"' RETURN
+printf "%s" "$in_norm" > "$fa"; printf "%s" "$out_norm" > "$fb"
+sem=$(bash scripts/tau_semantic.sh "$fa" "$fb" 2>/dev/null || echo "{\"ok\":false}")
+cos_bow=$(printf "%s" "$sem" | sed -n 's/.*"cosine_bow":[ ]*\([0-9.]\+\).*/\1/p')
+jac2=$(printf "%s" "$sem" | sed -n 's/.*"jaccard_2gram":[ ]*\([0-9.]\+\).*/\1/p')
+cos_emb=$(printf "%s" "$sem" | sed -n 's/.*"cosine_embed":[ ]*\([0-9.]\+\).*/\1/p') || true
+method="bow-only"; [ -n "${TAU_EMBED_CMD:-}" ] && method="embed+bow"
+# --- behavioral layer
+tmp_prompt=$(mktemp); printf "%s" "$in_norm" > "$tmp_prompt"
+tmp_out=$(mktemp);    printf "%s" "$out_norm" > "$tmp_out"
+cons=$(bash scripts/tau_consistency.sh "$tmp_prompt" "$tmp_out" 2>/dev/null || echo "{\"ok\":false}")
+behv=$(bash scripts/tau_behavior.sh    "$tmp_out" "${TAU_EXPECT_KEYS:-output_text}" 2>/dev/null || echo "{\"ok\":false}")
+# --- emit JSON
+printf "{\n" > "$out"
+printf "  \"tool\": \"%s\",\n" "$tool" >> "$out"
+printf "  \"input_sha256\": \"%s\",\n" "$h_in_raw" >> "$out"
+printf "  \"input_fold_sha256\": \"%s\",\n" "$h_in_fold" >> "$out"
+printf "  \"output_sha256\": \"%s\",\n" "$h_out_raw" >> "$out"
+printf "  \"output_fold_sha256\": \"%s\",\n" "$h_out_fold" >> "$out"
+printf "  \"semantic\": {\n" >> "$out"
+printf "    \"method\": \"%s\",\n" "$method" >> "$out"
+printf "    \"cosine_bow\": %s,\n" "${cos_bow:-0}" >> "$out"
+printf "    \"jaccard_2gram\": %s" "${jac2:-0}" >> "$out"
+[ -n "${cos_emb:-}" ] && printf ",\n    \"cosine_embed\": %s" "$cos_emb" >> "$out"
+printf "\n  },\n" >> "$out"
+printf "  \"behavior\": {\n" >> "$out"
+printf "    \"consistency\": %s,\n" "$(printf "%s" "$cons" | tr -d "\n")" >> "$out"
+printf "    \"constraints\": %s\n" "$(printf "%s" "$behv" | tr -d "\n")" >> "$out"
+printf "  },\n" >> "$out"
+printf "  \"output_text\": \"%s\"\n" "$(printf "%s" "$out_raw" | awk 'BEGIN{RS="";ORS=""}{gsub(/\\/,"\\\\");gsub(/"/,"\\\"");gsub(/\r/,"");gsub(/\t/,"\\t");gsub(/\n/,"\\n");printf "%s",$0}' )" >> "$out"
+printf "}\n" >> "$out"

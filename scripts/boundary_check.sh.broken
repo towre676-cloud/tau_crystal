@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+set +H
+umask 022
+ASSUME_FILE="${ASSUME_FILE:-.tau_ledger/assumptions.tsv}"
+WHITELIST_DIR="${WHITELIST_DIR:-boundary}"
+ENFORCE="${BOUNDARY_ENFORCE:-0}"
+warns=0
+summary(){ if [ -n "${GITHUB_STEP_SUMMARY:-}" ] && [ -w "$GITHUB_STEP_SUMMARY" ]; then printf "%s\n" "$*" >> "$GITHUB_STEP_SUMMARY" || true; fi; }
+echo "[boundary] reading $ASSUME_FILE"
+[ -f "$ASSUME_FILE" ] || { echo "[boundary] no assumptions file; nothing to check"; summary "Boundary check: no assumptions file found. ✅"; exit 0; }
+mapfile -t PATTERNS < <( { for f in "$WHITELIST_DIR"/WHITELIST* 2>/dev/null; do [ -f "$f" ] || continue; sed -E "s/[[:space:]]+#.*$//" "$f" | sed "/^[[:space:]]*$/d"; done; } || true )
+echo "[boundary] loaded ${#PATTERNS[@]:-0} whitelist pattern(s)"
+check_allowed(){ local key="$1" p; for p in "${PATTERNS[@]:-}"; do if [[ "$key" == $p ]]; then return 0; fi; done; return 1; }
+: > boundary_report.txt
+while IFS=$'\t' read -r key rest || [ -n "${key:-}" ]; do
+  [ -n "${key//[[:space:]]/}" ] || continue
+  [[ "$key" =~ ^# ]] && continue
+  if ! check_allowed "$key"; then printf "[boundary][violation] %s\t%s\n" "$key" "${rest:-}" | tee -a boundary_report.txt; warns=$((warns+1)); fi
+done < "$ASSUME_FILE"
+if [ "$warns" -gt 0 ]; then
+  summary "### Boundary check warnings\nFound $warns assumption(s) not whitelisted. See \`boundary_report.txt\` in artifacts or job logs."
+  echo "[boundary] $warns violation(s) found"
+  if [ "$ENFORCE" = "1" ]; then echo "[boundary] enforcement on; failing"; exit 1; else echo "[boundary] warn-only; passing"; exit 0; fi
+else
+  summary "Boundary check: clean. ✅"
+  echo "[boundary] clean"
+  exit 0
+fi
