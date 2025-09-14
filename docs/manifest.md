@@ -74,3 +74,7 @@ This document tracks the verification lifecycle for this repository.
 - `receipts:` live in `.tau_ledger/receipts/`
 
 Plan roots are defined in `.tau_plan_roots.env` and enforced in CI.
+## sheaf (v1)
+
+digest: 1381ef8a82544d820c6b7fdfbce16bc519f2d239fc69a58e2ae30f82cd450c97
+
