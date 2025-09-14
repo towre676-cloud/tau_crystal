@@ -1,0 +1,5 @@
+{
+  "commit": "demo-20250914T023421Z",
+  "merkle_root": "deadbeef", "wrapper_digest": "beadfeed",
+  "tau_tensor": "none", "entropy_delta_bytes": 0
+}
