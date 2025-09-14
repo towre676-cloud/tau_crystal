@@ -116,3 +116,8 @@ id: mirrorv1-20250914T144425Z
 remote: https://raw.githubusercontent.com/towre676-cloud/tau_crystal/main
 sha256: 0984a0a74f160ac5d7e519dfbc4600340efe88b0f6958dffe7ff08281d9ef9d2
 
+## cache (v1)
+
+id: cache-20250914T144514Z
+sha256: 2127c36c7048c6f06fa643ab4b5cf5e84a9ef8a96fbda37259c45bbc146a1efb
+
