@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="640" height="160" viewBox="0 0 640 160">
-  <rect x="0" y="0" width="640" height="160" fill="#ffffff" stroke="#000000"/>
-  <text x="20" y="95" font-family="monospace" font-size="20">witness sha256: 46ba5b15905fb11547ea79e53c9206af232beff595e5a3cc3b369db62c24e9c9</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="210" height="210">
+  <rect width="100%%" height="100%%" fill="#ffffff"/>
+  <text x="50%%" y="50%%" dominant-baseline="middle" text-anchor="middle" font-family="monospace" font-size="10">e7114898a44dbffb8b5076dee970ee60c646c26843aa61450cf7cb07b00f55ab</text>
+  <rect x="10" y="10" width="190" height="190" stroke="#000000" stroke-width="2" fill="none"/>
 </svg>
