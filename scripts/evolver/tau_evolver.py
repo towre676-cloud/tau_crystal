@@ -7,7 +7,7 @@ def evolve_params(log_path, out_path):
         with open(log_path, "r") as f: logs = json.load(f)
         if logs: best = min(logs, key=lambda x: x["build_time"])
         params = best["params"] if "params" in best else params
-    data = {"schema": "taucrystal/evolver/v1", "id": f"evolver-{time.strftime(\"%Y%m%dT%H%M%SZ\", time.gmtime())}", "params": params}
+    data = {"schema": "taucrystal/evolver/v1", "id": "evolver-" + time.strftime("%Y%m%dT%H%M%SZ", time.gmtime()), "params": params}
     with open(out_path, "w") as f: json.dump(data, f, indent=2)
     print(f"[OK] evolved params: {out_path}")
 if __name__ == "__main__":
