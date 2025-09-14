@@ -1,0 +1,13 @@
+holo: FAIL
+physics_symm: PASS
+physics_delta27: PASS
+perma: FAIL
+mirror: FAIL
+bin: FAIL
+genius_entangle: FAIL
+genius_dark: PASS
+genius_godel: PASS
+genius_godel: PASS
+genius_mandelbrot: PASS
+genius_paradox: PASS
+policy_gate: 7 passed, 5 failed
