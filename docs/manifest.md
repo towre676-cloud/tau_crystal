@@ -90,60 +90,6 @@ files: 4
 
 ## qr_witness (v1)
 
-witness_path: .tau_ledger/CHAIN
-witness_sha256: 46ba5b15905fb11547ea79e53c9206af232beff595e5a3cc3b369db62c24e9c9
-svg_path: .tau_ledger/qr/qr-witness.svg
-
-## entropy (v1)
-
-id: entv1-20250914T023136Z
-head_change: changed
-timefold_bytes: 0
-entropy_sha256: 3e0ee0df760df0f5cb7696a18acfbd38664c6b7f1f3b8a30fdcac50bf1cbc622
-
-## interference (v1)
-
-svg: .tau_ledger/interf/interference.svg
-sha256: 8fa8c97ea6c0149efe3df0a2b41e84eb78b2151ad2cfd526ae0716a589e3d39d
-
-## signature_ring (v1)
-
-id: ringv1-20250914T023849Z
-sha256: 59e47883e182f4fad3ca156ef097d2f9bfe7136b1a786fc7e55b15c5bf16e688
-
-## federation (v1)
-
-- id: hello.receipt
-  url: url
-  sha256: 98db61415ffcc4dac893faf209c40265b60357a60abb02bf62011a7fb12dd419
-
-## policy_gate (v1)
-
-id: policyv1-20250914T025734Z
-utc: 20250914T025734Z
-%s
-checks_passed: 3
-checks_failed: 1
-report: .tau_ledger/gates/report.20250914T025733Z.txt
-report_sha256: a34c23d7fee194aa256fc23c23eac740dad61ff9dabee9881236b109e2481538
-
-## signature_rules (v1)
-
-id: sigv1-20250914T035320Z
-sha256: dc49516f04719cc7a52157b9ae1afe215352295c425280aa6ff35db1188ebc98
-
-## zkdiff (v1)
-
-baseline_meta: base-20250914T041543Z.meta
-baseline_ladder_sha256: 5867d4f2ae303b04540a4c85eb5fc76a2a365ba05f0dbd49874ae6527b9899b9
-
-## holo (v1)
-
-id: holov1-20250914T142135Z
-sha256: be6fe46718d930403bc97bee5dd00d5965b2e808647f914dd74f9b2fa08e307c
-
-## physics (v1)
-
-id: passport
-sha256: 0fe70c8db3aa9eaf5a81b4380f554e3d0bba424a972b4324837a15b212f147ea
+id: qr-witness-qr-witness
+sha256: 20283b23d272709fcb029ba2651360ba00212437de2a21dcfb4f2e69fc0048ec
 
