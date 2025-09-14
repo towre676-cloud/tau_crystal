@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail; set +H
+IN="$1"; [ -f "$IN" ] || { echo "usage: $0 signals.raw" >&2; exit 2; }
+GRID_K="${GRID_K:-8 16 32}"; GRID_W="${GRID_W:-0.70 0.80 0.90 0.95}"
+bestK=; bestW=; bestS=;
+OUTTSV="${OUTTSV:-scripts/ci/_sweep.tsv}"; : > "$OUTTSV"
+for K in $GRID_K; do for W in $GRID_W; do
+  S=$(awk -v K="$K" -v W="$W" '{x[NR]=$1+0} END{ema=0; s=0; neg=0; jitter=0; n=NR; for(i=1;i<=n;i++){s+=x[i]; if(i>K)s-=x[i-K]; m=s/((i<K)?i:K); ema=W*ema+(1-W)*m; t[i]=ema} for(i=2;i<=n;i++){d=t[i]-t[i-1]; if(d<0)neg++; if(i>2){j=fabs((t[i]-t[i-1])-(t[i-1]-t[i-2])); jitter+=j}} sc=neg*1000000 + jitter; printf "%%.6f", sc}' "$IN")
+  printf "%s\t%s\t%s\n" "$K" "$W" "$S" >> "$OUTTSV"
+  if [ -z "${bestS:-}" ] || awk -v a="$S" -v b="$bestS" 'BEGIN{exit !(a<b)}'; then bestS="$S"; bestK="$K"; bestW="$W"; fi
+done; done
+printf "K=%s OMEGA=%s SCORE=%s\n" "$bestK" "$bestW" "$bestS"
