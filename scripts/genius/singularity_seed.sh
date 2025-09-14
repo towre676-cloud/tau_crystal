@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail; set +H; umask 022
 . scripts/genius/_util.sh
-root=".tau_ledger/genius"; mkdir -p "$root"; t=$(ts); id="singularityv1-$t"; meta="$root/$id.meta"
-det=0.99; rate=0.001; gens="${1:-100}"
-for g in $(seq 1 "$gens"); do det=$(echo "scale=12; 1 - (1 - $det)*e(-$rate)" | bc -l); done
-prox=$(echo "scale=12; 1/(1 - $det + 0.000000000001)" | bc -l)
-: > "$meta"; emit_kv "schema" "taucrystal/singularity/v1" "$meta"; emit_kv "id" "$id" "$meta"; emit_kv "utc" "$t" "$meta"; emit_kv "determinism" "$det" "$meta"; emit_kv "proximity" "$prox" "$meta"; echo "[OK] singularity: $meta"
+root=".tau_ledger/genius"; mkdir -p "$root"
+t=$(ts); f="$root/singularityv1-$t.meta"
+gens="${1:-100}"
+det=$(awk -v d=0.99 -v r=0.001 -v g="$gens" 'BEGIN{print 1 - (1-d)*exp(-r*g)}')
+prox=$(awk -v d="$det" 'BEGIN{print 1/(1-d+1e-12)}')
+: > "$f"; emit_kv schema taucrystal/singularity/v1 "$f"; emit_kv id "$(basename "${f%.meta}")" "$f"; emit_kv utc "$t" "$f"; emit_kv determinism "$det" "$f"; emit_kv proximity "$prox" "$f"
+echo "[OK] singularity: $f"

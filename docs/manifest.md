@@ -112,23 +112,13 @@ cid: unpinned
 
 ## mirror (v1)
 
-id: mirrorv1-20250914T151250Z
+id: mirrorv1-20250914T162524Z
 remote: https://raw.githubusercontent.com/towre676-cloud/tau_crystal/main
-sha256: 7f5e16a354bfd791edf7e0591ff61b4fc5952c258f4c87ce7113c51b32f0a2a9
-
-## cache (v1)
-
-id: cache-20250914T151253Z
-sha256: 3553911e8d2dba96d67beed594622e7f3abcf15bc5042898323d1b2d77619b2a
-
-## evolver (v1)
-
-id: evolver-20250914T151253Z
-sha256: 5461059a855443f9fe56f5ea42720551697480d0c4b15954091546bfe0fb5a76
+sha256: 
 
 ## bin (v1)
 
-id: binv1-20250914T151916Z
+id: binv1-20250914T192810Z
 receipt: demo-20250914T023421Z.json
 sha256: e7114898a44dbffb8b5076dee970ee60c646c26843aa61450cf7cb07b00f55ab
 status: PASS
