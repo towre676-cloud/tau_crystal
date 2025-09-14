@@ -127,3 +127,8 @@ checks_failed: 1
 report: .tau_ledger/gates/report.20250914T025733Z.txt
 report_sha256: a34c23d7fee194aa256fc23c23eac740dad61ff9dabee9881236b109e2481538
 
+## signature_rules (v1)
+
+id: sigv1-20250914T035320Z
+sha256: dc49516f04719cc7a52157b9ae1afe215352295c425280aa6ff35db1188ebc98
+
