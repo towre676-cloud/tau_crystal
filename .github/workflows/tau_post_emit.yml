@@ -1,7 +1,7 @@
 name: tau-post-emit
 on:
   workflow_run:
-    workflows: ["assure","Assumption Census","Boundary Check","codeql","receipt","Lean Proof Build"]
+    workflows: ["assure","Assumption Census + Conformance (Warn-Only)","Boundary and Rationale Checks (Warn-Only)","codeql","Receipt Verification","tau-crystal","Lake Receipts","Lean Proofs","lean-ci","receipt","τ‑Crystal Docs Verification","tau-receipt","tau-trace (Jupyter receipts)","tau-adapter-smoke","tau-seal","tau_bundled","tau_test","lean","lean-remote-cache","Lake Receipts","repo-guard","smart-ci","smoke","spec-guard","three-streams","τ-Crystal Verify (Consumer)"]
     types: [completed]
 jobs:
   emit:
