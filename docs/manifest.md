@@ -111,3 +111,9 @@ sha256: 8fa8c97ea6c0149efe3df0a2b41e84eb78b2151ad2cfd526ae0716a589e3d39d
 id: ringv1-20250914T023849Z
 sha256: 59e47883e182f4fad3ca156ef097d2f9bfe7136b1a786fc7e55b15c5bf16e688
 
+## federation (v1)
+
+- id: hello.receipt
+  url: url
+  sha256: 98db61415ffcc4dac893faf209c40265b60357a60abb02bf62011a7fb12dd419
+
