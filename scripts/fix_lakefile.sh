@@ -3,7 +3,7 @@ set -euo pipefail
 dry=0
 if [ "${1:-}" = "--dry" ]; then dry=1; shift; fi
 f="${1:-lakefile.lean}"
-[ -f "$f" ] || { echo "[err] not found: $f"; exit 1; }
+[ -f "$f" ] || { echo "[err] $0: operation failed; check input and try again
 
 bak="$f.bak.$(date +%Y%m%dT%H%M%SZ)"
 cp -f "$f" "$bak"

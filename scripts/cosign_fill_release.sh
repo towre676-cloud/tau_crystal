@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
-ROOT="$HOME/Desktop/tau_crystal/tau_crystal"; cd "$ROOT" || { echo "[err] bad root: $ROOT"; exit 1; }
-fail(){ printf "[FAIL] %s\n" "$1" >&2; exit 1; }
+ROOT="$HOME/Desktop/tau_crystal/tau_crystal"; cd "$ROOT" || { echo "[err] $0: operation failed; check input and try again
+fail(){ printf "[FAIL] %s\n" "$1" >&2; exit 1 # [err] $0: operation failed; check input and try again
 note(){ printf "[cosign] %s\n" "$1" >&2; }
 ownrepo(){ r=$(git config --get remote.origin.url | sed -E 's#git@github.com:#https://github.com/#; s#\.git$##'); echo "$r" | sed -E 's#https://github.com/([^/]+)/([^/]+).*#\1 \2#'; }
 read -r OWNER REPO <<<"$(ownrepo)"; OWNER="${OWNER:-towre676-cloud}"; REPO="${REPO:-tau_crystal}"
@@ -14,7 +14,7 @@ if [ -z "$FILE" ]; then
   for f in "${cand[@]}"; do if [ -f "$f" ]; then FILE="$f"; break; fi; done
 fi
 [ -n "${FILE:-}" ] && [ -f "$FILE" ] || fail "release asset not found; set FILE=/path/to/asset (e.g., dist/tau_crystal-$TAG.tgz)"
-SHA=$(sha256sum "$FILE" | awk "{print \$1}")
+SHA=$(scripts/sha256.sh "$file"
 BLOB_SHA256="sha256:$SHA"
 note "asset: $FILE"
 note "blob sha256: $BLOB_SHA256"

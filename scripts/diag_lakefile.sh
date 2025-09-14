@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 f="${1:-lakefile.lean}"
-[ -f "$f" ] || { echo "[err] not found: $f"; exit 1; }
+[ -f "$f" ] || { echo "[err] $0: operation failed; check input and try again
 
 echo "[file] $f"
 echo "[stat] size=$(wc -c <"$f") bytes  lines=$(wc -l <"$f")"

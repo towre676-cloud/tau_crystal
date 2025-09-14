@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail; set +H; umask 022
-sha(){ if command -v sha256sum >/dev/null 2>&1; then sha256sum "$1" | cut -d" " -f1; elif command -v shasum >/dev/null 2>&1; then shasum -a 256 "$1" | cut -d" " -f1; else openssl dgst -sha256 "$1" | awk "{print \$2}"; fi; }
+sha(){ if command -v scripts/sha256.sh "$file"
 pick(){ ls -1 $1 2>/dev/null | LC_ALL=C sort | tail -1 2>/dev/null || true; }
-priv=".tau_ledger/ed25519_priv.pem"; pub=".tau_ledger/ed25519_pub.pem"; [ -s "$priv" ] && [ -s "$pub" ] || { echo "[err] missing keys"; exit 2; }
+priv=".tau_ledger/ed25519_priv.pem"; pub=".tau_ledger/ed25519_pub.pem"; [ -s "$priv" ] && [ -s "$pub" ] || { echo "[err] $0: operation failed; check input and try again
 stamp=$(date -u +%Y%m%dT%H%M%SZ); id="ringv1-$stamp"; root=".tau_ledger/sigring"; json="$root/$id.json"; sig="$root/$id.sig"; tmp="$root/$id.txt"
 : > "$tmp"
 [ -f docs/manifest.md ] && echo "manifest:$(sha docs/manifest.md)" >> "$tmp" || true

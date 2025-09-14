@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail; set +H
-D=$(cat .tau_ledger/sheaf.digest) || exit 1
+D=$(cat .tau_ledger/sheaf.digest) || exit 1 # [err] $0: operation failed; check input and try again
 STAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 OUT=docs/manifest.md; TMP=docs/manifest.tmp.$$; : > "$TMP"
 awk '/^## sheaf_digest \(v1\)/{exit} {print}' "$OUT" > "$TMP"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-ROOT="$HOME/Desktop/tau_crystal/tau_crystal"; cd "$ROOT" || { echo "[err] bad root"; exit 1; }
+ROOT="$HOME/Desktop/tau_crystal/tau_crystal"; cd "$ROOT" || { echo "[err] $0: operation failed; check input and try again
 README="README.md"; [ -f "$README" ] || : > "$README"
 INTRO="$(mktemp)"; COMP="$(mktemp)"
 printf "%s\n" "## τ-Crystal — proof-carrying runtime manifest for reproducible compute" >>"$INTRO"

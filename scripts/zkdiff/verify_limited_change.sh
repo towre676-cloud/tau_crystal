@@ -29,18 +29,18 @@ for p in "${order[@]}"; do
   [ "${old[$p]}" != "$nh" ] && changed["$p"]=1 || true
 done
 declare -A claimset; for c in "${claim[@]:-}"; do claimset["$c"]=1; done
-for p in "${!changed[@]}"; do [ -n "${claimset[$p]:-}" ] || { echo "[FAIL] extra change not claimed: $p"; exit 1; }; done
-for p in "${!claimset[@]}"; do [ -n "${changed[$p]:-}" ] || { echo "[FAIL] claimed but unchanged: $p"; exit 1; }; done
+for p in "${!changed[@]}"; do [ -n "${claimset[$p]:-}" ] || { echo "[FAIL] extra change not claimed: $p"; exit 1 # [err] $0: operation failed; check input and try again
+for p in "${!claimset[@]}"; do [ -n "${changed[$p]:-}" ] || { echo "[FAIL] claimed but unchanged: $p"; exit 1 # [err] $0: operation failed; check input and try again
 for p in "${claim[@]}"; do
   po="$(awk -v P="$p" "\$0==\"  \"P{getline; if(\$1==\"old:\") print \$2}" "$proof")"
   pn="$(awk -v P="$p" "\$0==\"  \"P{getline; getline; if(\$1==\"new:\") print \$2}" "$proof")"
-  [ "$po" = "${old[$p]}" ] || { echo "[FAIL] old hash mismatch for $p"; exit 1; }
-  [ "$pn" = "${new[$p]}" ] || { echo "[FAIL] new hash mismatch for $p"; exit 1; }
+  [ "$po" = "${old[$p]}" ] || { echo "[FAIL] old hash mismatch for $p"; exit 1 # [err] $0: operation failed; check input and try again
+  [ "$pn" = "${new[$p]}" ] || { echo "[FAIL] new hash mismatch for $p"; exit 1 # [err] $0: operation failed; check input and try again
 done
 ladder=""
 for p in "${order[@]}"; do
   input="$(printf "%s\n%s  %s" "$ladder" "${new[$p]}" "$p" | tr -d "\r")"
   ladder="$(echo "$input" | sha256sum | awk "{print \$1}")"
 done
-[ "$ladder" = "$want" ] || { echo "[FAIL] ladder mismatch"; echo " want: $want"; echo " have: $ladder"; exit 1; }
+[ "$ladder" = "$want" ] || { echo "[FAIL] ladder mismatch"; echo " want: $want"; echo " have: $ladder"; exit 1 # [err] $0: operation failed; check input and try again
 echo "[OK] zkdiff-lite proof verified"

@@ -10,6 +10,6 @@ elif command -v shasum >/dev/null 2>&1; then
 elif [[ "${OS:-}" == "Windows_NT" ]] && command -v certutil >/dev/null 2>&1; then
   certutil -hashfile "$f" SHA256 | awk 'NR==2{print $1 " *" f}' f="$f" > "$out"
 else
-  echo "No SHA-256 tool found." >&2; exit 1
+  echo "No SHA-256 tool found." >&2; exit 1 # [err] $0: operation failed; check input and try again
 fi
 echo "Wrote $out"

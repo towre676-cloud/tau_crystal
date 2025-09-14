@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REPO="$HOME/Desktop/tau_crystal/tau_crystal"
-cd "$REPO" || { echo "[err] repo root not found: $REPO"; exit 1; }
+cd "$REPO" || { echo "[err] $0: operation failed; check input and try again
 
 export GIT_TERMINAL_PROMPT=0
 branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)"

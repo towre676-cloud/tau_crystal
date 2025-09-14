@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
-ROOT="$HOME/Desktop/tau_crystal/tau_crystal"; cd "$ROOT" || { echo "[err] bad root: $ROOT"; exit 1; }
-fail(){ printf "[FAIL] %s\n" "$1" >&2; exit 1; }
+ROOT="$HOME/Desktop/tau_crystal/tau_crystal"; cd "$ROOT" || { echo "[err] $0: operation failed; check input and try again
+fail(){ printf "[FAIL] %s\n" "$1" >&2; exit 1 # [err] $0: operation failed; check input and try again
 note(){ printf "[rel] %s\n" "$1" >&2; }
 [ -n "${GITHUB_TOKEN:-}" ] || fail "set GITHUB_TOKEN with repo:write"
 [ $# -ge 1 ] || fail "usage: scripts/release_via_api.sh vX.Y.Z [dist/tau_crystal-vX.Y.Z.tgz] [title] [body-append]"

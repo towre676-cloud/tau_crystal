@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
-ROOT="$HOME/Desktop/tau_crystal/tau_crystal"; cd "$ROOT" || { echo "[err] bad root"; exit 1; }
-fail(){ printf "[FAIL] %s\n" "$1" >&2; exit 1; }
+ROOT="$HOME/Desktop/tau_crystal/tau_crystal"; cd "$ROOT" || { echo "[err] $0: operation failed; check input and try again
+fail(){ printf "[FAIL] %s\n" "$1" >&2; exit 1 # [err] $0: operation failed; check input and try again
 [ $# -eq 1 ] || fail "usage: scripts/bump_readme_release.sh vX.Y.Z"
 new="$1"
 [[ "$new" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([-.][0-9A-Za-z.]+)?$ ]] || fail "tag must look like v1.2.3 or v1.2.3-rc1"

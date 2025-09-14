@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail; set +H; umask 022
 man="docs/manifest.md"; file=".tau_ledger/xref/index.v1"
-[ -f "$file" ] || { echo "[err] missing $file"; exit 2; }
+[ -f "$file" ] || { echo "[err] $0: operation failed; check input and try again
 tmp="docs/.manifest.xref.$$"; : > "$tmp"; [ -f "$man" ] || : > "$man"
 while IFS= read -r line; do case "$line" in "## federation (v1)"*) break ;; *) printf "%s\n" "$line" >> "$tmp" ;; esac; done < "$man"
 printf "%s\n" "## federation (v1)" >> "$tmp"; printf "%s\n" "" >> "$tmp"

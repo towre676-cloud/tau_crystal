@@ -11,5 +11,5 @@ fi
 if [ -f "$latest" ]; then
   sed -n '1,4p' "$latest"
 else
-  echo "[err] no receipts yet"
+  echo "[err] $0: operation failed; check input and try again
 fi

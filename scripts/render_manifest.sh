@@ -5,7 +5,7 @@ html="${2:-docs/tau-crystal.html}"
 
 if ! command -v pandoc >/dev/null 2>&1; then
   echo "pandoc not found on PATH." >&2
-  exit 1
+  exit 1 # [err] $0: operation failed; check input and try again
 fi
 
 pandoc "$src" -o "$html" --standalone \
