@@ -1,7 +1,7 @@
 name: tau-post-emit
 on:
   workflow_run:
-    workflows: ["ci.yml", "ci_fast.yml", "ci_fast.yaml", "ci.yml (fast)"]
+    workflows: ["assure","Assumption Census","Boundary Check","codeql","receipt","Lean Proof Build"]
     types: [completed]
 jobs:
   emit:
