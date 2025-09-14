@@ -141,3 +141,9 @@ status: PASS
   type: monograph
   path: monographs/cohomological_architecture.md
   canonical_id: τC:Monograph:Cohomology:2025
+
+### Reference: A Langlands Correspondence for Computational Behavior
+- title: A Langlands Correspondence for Computational Behavior
+  type: monograph
+  path: monographs/langlands_for_computation.md
+  canonical_id: τC:Monograph:Langlands:2025
