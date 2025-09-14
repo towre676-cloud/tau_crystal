@@ -1,0 +1,5 @@
+OK: timefold archive verified
+OK: entropy witness verified
+OK hello.receipt 98db61415ffcc4dac893faf209c40265b60357a60abb02bf62011a7fb12dd419
+qr: present
+interference: present

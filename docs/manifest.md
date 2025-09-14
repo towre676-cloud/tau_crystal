@@ -117,3 +117,13 @@ sha256: 59e47883e182f4fad3ca156ef097d2f9bfe7136b1a786fc7e55b15c5bf16e688
   url: url
   sha256: 98db61415ffcc4dac893faf209c40265b60357a60abb02bf62011a7fb12dd419
 
+## policy_gate (v1)
+
+id: policyv1-20250914T025734Z
+utc: 20250914T025734Z
+%s
+checks_passed: 3
+checks_failed: 1
+report: .tau_ledger/gates/report.20250914T025733Z.txt
+report_sha256: a34c23d7fee194aa256fc23c23eac740dad61ff9dabee9881236b109e2481538
+
