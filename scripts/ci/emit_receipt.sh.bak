@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail; set +H
+. scripts/rc/common.sh
+TAU_CLASS="${TAU_CLASS:-work}"
+case "$TAU_CLASS" in ensemble|work) : ;; *) TAU_CLASS=work ;; esac
+mkdir -p receipts signals
+WORK=signals/work.raw; MEM=signals/mem.raw
+[ -f "$WORK" ] || { echo "missing signals/work.raw" >&2; exit 3; }
+BEST=$(scripts/ci/param_sweep.sh "$WORK"); eval "$BEST"  # sets K, OMEGA
+TMP="$(mktemp -d)"; trap "rm -rf \"$TMP\"" EXIT
+awk -v K="$K" -v W="$OMEGA" '{x[NR]=$1+0} END{ema=0;s=0;for(i=1;i<=NR;i++){s+=x[i];if(i>K)s-=x[i-K];m=s/((i<K)?i:K);ema=W*ema+(1-W)*m;printf "%.9f\n",ema}}' "$WORK" > "$TMP/work.tau"
+FUSE=0; if [ "$TAU_CLASS" = "ensemble" ] && [ -f "$MEM" ]; then FUSE=1; fi
+if [ "$FUSE" = "1" ]; then
+  awk '{a[NR]=$1+0} END{n=NR;for(i=1;i<=n;i++)ord[i]=a[i];asorti(ord,idx);for(r=1;r<=n;r++)pos[idx[r]]=r;for(i=1;i<=n;i++)printf "%.9f\n",(pos[i]-1)/(n-1)}' "$MEM" > "$TMP/mem.norm"
+  paste -d" " "$TMP/work.tau" "$TMP/mem.norm" | awk '{printf "%.9f\n",($1+$2)/2}' | awk -f scripts/ci/pav.awk > "$TMP/tau.final"
+else
+  cp "$TMP/work.tau" "$TMP/tau.final"
+fi
+WR=$(tr -d " \r" < "$WORK" | tr "\n" "," | sed -e "s/,$//")
+WT=$(tr -d " \r" < "$TMP/work.tau" | tr "\n" "," | sed -e "s/,$//")
+TAU=$(tr -d " \r" < "$TMP/tau.final" | tr "\n" "," | sed -e "s/,$//")
+MR=""; if [ "$FUSE" = "1" ]; then MR=$(tr -d " \r" < "$MEM" | tr "\n" "," | sed -e "s/,$//"); fi
+STAMP="$(iso_now)"; SHA="$(git_sha)"; HOST="$(hostname_s)"; BVER="${BASH_VERSION:-unknown}"
+OUT="receipts/${STAMP//:/-}.json"; : > "$OUT"
+printf "{\n" >> "$OUT"
+printf "  \"%s\": \"%s\",\n" schema "taucrystal/receipt/v1" >> "$OUT"
+printf "  \"%s\": \"%s\",\n" tau_class "$TAU_CLASS" >> "$OUT"
+printf "  \"%s\": { \"%s\": %s, \"%s\": %.2f },\n" params K "$K" omega "$OMEGA" >> "$OUT"
+printf "  \"%s\": { \"%s\": \"%s\", \"%s\": \"%s\", \"%s\": \"%s\", \"%s\": \"%s\" },\n" provenance git_commit "$SHA" timestamp "$STAMP" host "$HOST" bash "$BVER" >> "$OUT"
+printf "  \"%s\": { \"%s\": [%s], \"%s\": [%s]" signals work_raw "$WR" work_tau "$WT" >> "$OUT"
+if [ "$FUSE" = "1" ]; then printf ", \"%s\": [%s]" mem_raw "$MR" >> "$OUT"; fi
+printf " },\n" >> "$OUT"
+printf "  \"%s\": [%s]\n" tau "$TAU" >> "$OUT"
+printf "}\n" >> "$OUT"
+echo "$OUT"

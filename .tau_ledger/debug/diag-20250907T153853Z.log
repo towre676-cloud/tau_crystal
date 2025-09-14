@@ -1,0 +1,12 @@
+[sys] uname:
+MINGW64_NT-10.0-26100 DESKTOP-IGE96SV 3.6.4-b9f03e96.x86_64 2025-07-16 18:17 UTC x86_64 Msys
+
+[sys] shell:
+/usr/bin/bash
+
+[diag] previous log tail (up to 200 lines):
+[diag] none
+
+[diag] active processes (grep tau_crystal):
+
+[ok] wrote diagnostic snapshot to .tau_ledger/debug/diag-20250907T153853Z.log

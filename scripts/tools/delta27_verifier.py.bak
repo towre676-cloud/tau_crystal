@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+import json,sys,hashlib,time
+def die(msg): print(json.dumps({"ok":False,"error":msg}), flush=True); sys.exit(0)
+if len(sys.argv)!=2: die("usage")
+spec=json.load(open(sys.argv[1],"r",encoding="utf-8"))
+A=spec.get("A"); mod=int(spec.get("mod",3)); exp=spec.get("expected",{})
+if not A or len(A)!=2 or len(A[0])!=2 or len(A[1])!=2: die("bad_A")
+def m2mul(X,Y): return [[(X[0][0]*Y[0][0]+X[0][1]*Y[1][0])%mod,(X[0][0]*Y[0][1]+X[0][1]*Y[1][1])%mod],[(X[1][0]*Y[0][0]+X[1][1]*Y[1][0])%mod,(X[1][0]*Y[0][1]+X[1][1]*Y[1][1])%mod]]
+def det2(X): return (X[0][0]*X[1][1]-X[0][1]*X[1][0])%mod
+I=[[1%mod,0],[0,1%mod]]
+A1=[row[:] for row in A]; A2=m2mul(A1,A1); A3=m2mul(A2,A1)
+Ao=1 if (A1!=I and A2!=I and A3==I) else (3 if A3==I else 0)
+detA=det2(A1)
+elts=[(x,y,k) for x in range(mod) for y in range(mod) for k in range(mod)]
+def vadd(u,v): return ((u[0]+v[0])%mod,(u[1]+v[1])%mod)
+def vmm(M,v): return ((M[0][0]*v[0]+M[0][1]*v[1])%mod,(M[1][0]*v[0]+M[1][1]*v[1])%mod)
+Apows=[I,A1,A2]
+def mul(a,b): (x1,y1,k1)=a; (x2,y2,k2)=b; v=vadd((x1,y1), vmm(Apows[k1%mod], (x2,y2))); return (v[0],v[1], (k1+k2)%mod)
+def inv(g): (x,y,k)=g; kinv=(-k)%mod; v=vmm(Apows[kinv%mod], (-x%mod,-y%mod)); return (v[0],v[1], kinv)
+def comm(a,b): ai=inv(a); bi=inv(b); return mul(mul(ai,bi),mul(a,b))
+order=len(elts)
+def commute(a,b): return mul(a,b)==mul(b,a)
+is_nonab=any(not commute(g,h) for g in elts for h in elts)
+center=[g for g in elts if all(commute(g,h) for h in elts)]
+Z=len(center)
+C=set(comm(g,h) for g in elts for h in elts)
+Gcomm=set([(0,0,0)]); changed=True
+while changed:
+  changed=False
+  for x in list(Gcomm):
+    for y in C:
+      z=mul(x,y)
+      if z not in Gcomm: Gcomm.add(z); changed=True
+D=len(Gcomm)
+num1d=order//D if D>0 else 0
+pred3d = (order - num1d)//9 if ((order - num1d)%9)==0 else -1
+stamp=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+def sha256_obj(o): return hashlib.sha256(json.dumps(o,sort_keys=True,separators=(",",":")).encode()).hexdigest()
+chk={
+ "order": {"obs":order,"exp":exp.get("order"),"ok": (exp.get("order")==order)},
+ "A_order": {"obs":Ao,"exp":exp.get("A_order"),"ok": (exp.get("A_order")==Ao)},
+ "detA_mod": {"obs":detA,"exp":exp.get("detA_mod"),"ok": (exp.get("detA_mod")==detA)},
+ "nonabelian": {"obs":bool(is_nonab),"exp":bool(exp.get("nonabelian",True)),"ok": bool(is_nonab)==bool(exp.get("nonabelian",True))},
+ "center_size": {"obs":Z,"exp":exp.get("center_size"),"ok": (exp.get("center_size")==Z)},
+ "derived_size": {"obs":D,"exp":exp.get("derived_size"),"ok": (exp.get("derived_size")==D)},
+ "num_1d_irreps": {"obs":num1d,"exp":exp.get("num_1d_irreps"),"ok": (exp.get("num_1d_irreps")==num1d)},
+ "num_3d_irreps": {"obs":pred3d,"exp":exp.get("num_3d_irreps"),"ok": (exp.get("num_3d_irreps")==pred3d)}
+}
+all_ok=all(v.get("ok",False) for v in chk.values())
+out={
+ "ok": all_ok,
+ "kind":"tau-crystal.physics.delta27",
+ "timestamp": stamp,
+ "input_sha256": sha256_obj(spec),
+ "A": A, "mod": mod, "expected": exp,
+ "observed": {
+   "order":order,"A_order":Ao,"detA_mod":detA,
+   "nonabelian":bool(is_nonab),"center_size":Z,"derived_size":D,
+   "num_1d_irreps":num1d,"num_3d_irreps":pred3d
+ },
+ "checks": chk
+}
+print(json.dumps(out,separators=(",",":"),ensure_ascii=True))

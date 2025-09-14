@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail; set +H; umask 022
+REQ="${1:-}"; [ -n "$REQ" ] && [ -f "$REQ" ] || { echo "{\"ok\":false,\"error\":\"usage: tau_exec.sh <request.json>\"}"; exit 2; }
+rf(){ python3 - "$REQ" 2>/dev/null <<PY || echo ""
+import json,sys; d=json.load(open(sys.argv[1],"r",encoding="utf-8"))
+print(d.get("tool","")); print(d.get("input_path","")); print(d.get("output_path",""))
+PY
+}
+readarray -t F < <(rf) || true
+t="${F[0]:-}"; in="${F[1]:-}"; out="${F[2]:-}"
+t=$(printf "%s" "$t" | tr -d )
+in=$(printf "%s" "$in" | tr -d )
+out=$(printf "%s" "$out" | tr -d )
+[ -n "${t:-}" ] && [ -n "${in:-}" ] && [ -n "${out:-}" ] || { echo "{\"ok\":false,\"error\":\"bad_request\"}"; exit 3; }
+mkdir -p "$(dirname -- "$out")" 2>/dev/null || true
+case "$t" in
+  physics_verifier)  bash scripts/tools/physics_verifier.sh "$in" "$out" || true ;;
+  delta27_verifier) bash scripts/tools/delta27_verifier.sh "$in" "$out"   || true ;;
+  *) echo "{\"ok\":false,\"error\":\"unsupported_tool\""; exit 4 ;;
+esac
+python3 - "$REQ" "$out" 2>/dev/null <<PY || cat -- "$out"
+import json,sys,hashlib
+o=json.load(open(sys.argv[2],"r",encoding="utf-8"))
+h=hashlib.sha256(open(sys.argv[1],"rb").read()).hexdigest()
+o["request_sha256"]=h
+print(json.dumps(o,separators=(",",":")))
+PY

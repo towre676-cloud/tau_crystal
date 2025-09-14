@@ -1,0 +1,22 @@
+++ [diag_wrap.sh:10] pwd
++ [diag_wrap.sh:10] echo '[wrap] pwd: /c/Users/Cody/Desktop/tau_crystal/tau_crystal'
+[wrap] pwd: /c/Users/Cody/Desktop/tau_crystal/tau_crystal
++ [diag_wrap.sh:11] echo '[wrap] cmd: bash -lc export PATH="$HOME/.elan/bin:$PATH"; lake update && lake build'
+[wrap] cmd: bash -lc export PATH="$HOME/.elan/bin:$PATH"; lake update && lake build
+++ [diag_wrap.sh:12] command -v lake
++ [diag_wrap.sh:12] echo '[wrap] lake: /c/Users/Cody/.elan/bin/lake'
+[wrap] lake: /c/Users/Cody/.elan/bin/lake
+++ [diag_wrap.sh:13] command -v lean
++ [diag_wrap.sh:13] echo '[wrap] lean: /c/Users/Cody/.elan/bin/lean'
+[wrap] lean: /c/Users/Cody/.elan/bin/lean
++ [diag_wrap.sh:14] set +e
++ [diag_wrap.sh:15] bash -lc 'export PATH="$HOME/.elan/bin:$PATH"; lake update && lake build'
+error: C:\Users\Cody\Desktop\tau_crystal\tau_crystal\lakefile.lean:8:2: unknown attribute [defaultTarget]
+error: C:\Users\Cody\Desktop\tau_crystal\tau_crystal\lakefile.lean: package configuration has errors
++ [diag_wrap.sh:16] ec=1
++ [diag_wrap.sh:17] set -e
++ [diag_wrap.sh:18] echo '[wrap] exit=1'
+[wrap] exit=1
++ [diag_wrap.sh:19] echo '[wrap] log: .tau_ledger/debug/wrap-20250906T195150Z.log'
+[wrap] log: .tau_ledger/debug/wrap-20250906T195150Z.log
++ [diag_wrap.sh:20] exit 1

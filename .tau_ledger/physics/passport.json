@@ -1,0 +1,24 @@
+{
+  "captured_at": "2025-09-07T19:19:25.259955-04:00",
+  "host": {
+    "system": "Windows",
+    "release": "11",
+    "machine": "AMD64"
+  },
+  "cpu": {
+    "mem_total_bytes": null
+  },
+  "gpu": {
+    "name": null,
+    "mem_total_bytes": null
+  },
+  "io": {
+    "beta_sustained_bytes_per_s": 2441165639.3116083
+  },
+  "coefficients": {
+    "c_time": 1.0965711336342995e-12,
+    "c_energy": null,
+    "c_mem": 1.0,
+    "E0": 0.0
+  }
+}
