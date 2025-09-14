@@ -106,3 +106,8 @@ entropy_sha256: 3e0ee0df760df0f5cb7696a18acfbd38664c6b7f1f3b8a30fdcac50bf1cbc622
 svg: .tau_ledger/interf/interference.svg
 sha256: 8fa8c97ea6c0149efe3df0a2b41e84eb78b2151ad2cfd526ae0716a589e3d39d
 
+## signature_ring (v1)
+
+id: ringv1-20250914T023849Z
+sha256: 59e47883e182f4fad3ca156ef097d2f9bfe7136b1a786fc7e55b15c5bf16e688
+
