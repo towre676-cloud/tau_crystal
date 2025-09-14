@@ -29,7 +29,7 @@ tail -n "$N" "$CHAIN" | awk '{print $2}' | while read -r rcpt; do
   plan=$(grep -oE '"plan"[[:space:]]*:[[:space:]]*"[^"]*"'         "$rcpt" | sed -E 's/.*"plan"[[:space:]]*:[[:space:]]*"([^"]*)".*/\1/' )
   merkle=$(grep -oE '"merkle_root"[[:space:]]*:[[:space:]]*"[^"]*"' "$rcpt" | sed -E 's/.*"merkle_root"[[:space:]]*:[[:space:]]*"([^"]*)".*/\1/' )
   # receipt file hash is stored in CHAIN; recompute to show local integrity too
-  rhash=$(sha256sum "$rcpt" | awk '{print $1}')
+  rhash=$(scripts/sha256.sh "$file"
   echo "id=${id} ts=${ts} plan=${plan} git=${git} hash=${rhash} merkle=${merkle}"
 done >> "$OUT"
 

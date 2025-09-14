@@ -2,7 +2,7 @@
 set -Eeuo pipefail; set +H
 man="docs/manifest.md"; dir=".tau_ledger/enclave"
 meta=$(ls -1 "$dir"/enclavev1-*.meta 2>/dev/null | LC_ALL=C sort | tail -1 || true)
-[ -s "$meta" ] || { echo "[err] no enclave meta found"; exit 2; }
+[ -s "$meta" ] || { echo "[err] $0: operation failed; check input and try again
 id=$(sed -n "s/^id: //p" "$meta" | head -n 1)
 receipt=$(sed -n "s/^receipt: //p" "$meta" | head -n 1)
 sha=$(sed -n "s/^sha256: //p" "$meta" | head -n 1)

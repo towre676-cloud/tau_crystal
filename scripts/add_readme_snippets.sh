@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-ROOT="$HOME/Desktop/tau_crystal/tau_crystal"; cd "$ROOT" || { echo "[err] bad root"; exit 1; }
+ROOT="$HOME/Desktop/tau_crystal/tau_crystal"; cd "$ROOT" || { echo "[err] $0: operation failed; check input and try again
 README="README.md"; [ -f "$README" ] || : > "$README"
 VERI="$(mktemp)"; GOLD="$(mktemp)"
 printf "%s\n" "## Verify this release (v0.1.1)" >>"$VERI"
@@ -14,7 +14,7 @@ printf "%s\n" "TAU_MAX_SHARDS=\${TAU_MAX_SHARDS:-4} ./scripts/plan/launch_verifi
 printf "\n%s\n" "# 1) CHAIN head must match the sha256 of its receipt file" >>"$VERI"
 printf "%s\n" "rcpt=\$(awk '{p=\$2}' END'{print p}' .tau_ledger/CHAIN)" >>"$VERI"
 printf "%s\n" "head=\$(awk 'END'{print \$1}' .tau_ledger/CHAIN)" >>"$VERI"
-printf "%s\n" "calc=\$(sha256sum \"\$rcpt\" | awk '{print \$1}')" >>"$VERI"
+printf "%s\n" "calc=\$(scripts/sha256.sh "$file"
 printf "%s\n" "[ \"\$calc\" = \"\$head\" ] && echo \"OK: chain head verified\" || echo \"FAIL: chain head mismatch\"" >>"$VERI"
 printf "\n%s\n" "# 2) Manifest merkle_root must equal receipt.reflective.merkle_root" >>"$VERI"
 printf "%s\n" "if command -v jq >/dev/null 2>&1; then" >>"$VERI"

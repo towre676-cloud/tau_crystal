@@ -2,7 +2,7 @@
 set -Eeuo pipefail; set +H
 root=".tau_ledger/timefolds"; man="docs/manifest.md"
 latest=$(ls -1 "$root"/tf-*.meta 2>/dev/null | LC_ALL=C sort | tail -1 || true)
-[ -n "$latest" ] || { echo "[err] no timefold meta found" >&2; exit 2; }
+[ -n "$latest" ] || { echo "[err] $0: operation failed; check input and try again
 id=$(sed -n "s/^id: //p" "$latest" | head -n 1)
 label=$(sed -n "s/^label: //p" "$latest" | head -n 1)
 utc=$(sed -n "s/^utc: //p" "$latest" | head -n 1)

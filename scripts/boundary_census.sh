@@ -12,7 +12,7 @@ short="${head:0:12}"
 scripts/boundary_audit.sh >/dev/null
 
 # small helpers
-sha() { [ -f "$1" ] && sha256sum "$1" | awk '{print $1}' || echo ""; }
+sha() { [ -f "$1" ] && scripts/sha256.sh "$file"
 first() { command -v "$1" >/dev/null 2>&1 && "$@" | head -n1 || echo ""; }
 
 lean_toolchain="$(tr -d '\r' < lean-toolchain 2>/dev/null || echo '')"

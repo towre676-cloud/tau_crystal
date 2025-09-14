@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 set +H
-ROOT="$HOME/Desktop/tau_crystal/tau_crystal"; cd "$ROOT" || { echo "[err] bad root: $ROOT"; exit 1; }
+ROOT="$HOME/Desktop/tau_crystal/tau_crystal"; cd "$ROOT" || { echo "[err] $0: operation failed; check input and try again
 export PATH="$HOME/.elan/bin:$PATH"
 bak="lakefile.lean.bak.$(date +%Y%m%dT%H%M%SZ)"; [ -f lakefile.lean ] && cp -f lakefile.lean "$bak" || true
 : > lakefile.lean

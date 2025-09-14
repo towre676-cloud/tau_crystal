@@ -33,5 +33,5 @@ if [ "$bad" -eq 0 ]; then
   exit 0
 else
   echo "[verify] FAIL ($bad bad)"
-  exit 1
+  exit 1 # [err] $0: operation failed; check input and try again
 fi

@@ -1,0 +1,28 @@
+name: tau-post-emit
+on:
+  workflow_run:
+    workflows: ["ci.yml", "ci_fast.yml", "ci_fast.yaml", "ci.yml (fast)"]
+    types: [completed]
+jobs:
+  emit:
+    if: ${{ github.event.workflow_run.conclusion == success }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Emit H1 and spectral pages
+        run: |
+          set -Eeuo pipefail
+          set +H
+          umask 022
+          bash scripts/cohomology/h1_receipt_cech.sh || true
+          bash scripts/spectral/sseq_build.sh || true
+      - name: Upload tau artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-epistemic-artifacts
+          path: |
+            .tau_ledger/metrics/h1_cech.json
+            .tau_ledger/sseq/E_pages.svg

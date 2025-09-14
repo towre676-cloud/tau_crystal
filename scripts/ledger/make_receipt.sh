@@ -38,7 +38,7 @@ rcpt="${RECEIPTS_DIR}/${rid}.json"
   echo "}"
 } > "$rcpt"
 
-hash="$(sha256sum "$rcpt" | awk '{print $1}')"
+hash="$(scripts/sha256.sh "$file"
 echo "${hash} ${rcpt}" >> "$CHAIN_FILE"
 
 printf '[ledger] receipt=%s hash=%s prev=%s\n' "$rcpt" "$hash" "$prev" >&2

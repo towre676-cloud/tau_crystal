@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 ROOT="${ROOT:-$HOME/Desktop/tau_crystal/tau_crystal}"
-cd "$ROOT" || { echo "[err] bad root: $ROOT"; exit 1; }
+cd "$ROOT" || { echo "[err] $0: operation failed; check input and try again
 
 MAN="docs/manifest.md"
 [ -f "$MAN" ] || { echo "[warn] $MAN missing; nothing to stamp"; exit 0; }

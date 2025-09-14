@@ -2,7 +2,7 @@
 # tau_verify.sh — safe local witness verifier (used by composite)
 set -Eeuo pipefail; set +H
 manifest="${1:-}"
-[ -n "$manifest" ] || { echo "[err] missing manifest path" >&2; echo "error"; exit 0; }
+[ -n "$manifest" ] || { echo "[err] $0: operation failed; check input and try again
 if [ ! -f "$manifest" ]; then
   echo "::error file=$manifest::manifest not found"
   echo "error"; exit 0

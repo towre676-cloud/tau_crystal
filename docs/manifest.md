@@ -118,8 +118,26 @@ sha256:
 
 ## bin (v1)
 
-id: binv1-20250914T193417Z
+id: binv1-20250914T193557Z
 receipt: demo-20250914T023421Z.json
 sha256: e7114898a44dbffb8b5076dee970ee60c646c26843aa61450cf7cb07b00f55ab
 status: PASS
 
+
+### Reference: The Mathematical Architecture of τ‑Crystal
+- title: The Mathematical Architecture of τ‑Crystal
+  type: monograph
+  path: monographs/theory_fundamentals.md
+  canonical_id: τC:Monograph:Foundations:2025
+
+### τ‑Crystal spectral metrics
+| Signal | Field | Type | Notes |
+|---|---|---|---|
+| τ‑Attractor Dimension | dim_τ | number | Scaling estimate from τ‑sequence increments (deterministic, byte‑stable) |
+| Chebyshev Entropy Profile | CEP_τ | object | Multi‑scale dispersion summary of τ‑sequence |
+
+### Reference: The Cohomological Architecture of Computational Memory
+- title: The Cohomological Architecture of Computational Memory
+  type: monograph
+  path: monographs/cohomological_architecture.md
+  canonical_id: τC:Monograph:Cohomology:2025

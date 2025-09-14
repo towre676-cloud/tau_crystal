@@ -8,7 +8,7 @@ if ! command -v jq >/dev/null 2>&1; then
 fi
 fields="commit merkle_root wrapper_digest tau_tensor entropy_delta_bytes"
 mapfile -t files < <(ls -1 "$REPO"/*.json 2>/dev/null | LC_ALL=C sort || true)
-[ "${#files[@]}" -gt 0 ] || { echo "[err] no receipts in $REPO"; exit 2; }
+[ "${#files[@]}" -gt 0 ] || { echo "[err] $0: operation failed; check input and try again
 n=${#files[@]}; w=$((n*20)); h=$((n*20))
 : > "$OUT"; printf "%s\n" "<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"$w\\" height=\\"$h\\">" >> "$OUT"
 max=1

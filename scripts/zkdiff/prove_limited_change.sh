@@ -25,8 +25,8 @@ for p in "${order[@]}"; do
   [ "${old[$p]}" != "$nh" ] && changed["$p"]=1 || true
 done
 declare -A claimset; for c in "${claim[@]:-}"; do claimset["$c"]=1; done
-for p in "${!changed[@]}"; do [ -n "${claimset[$p]:-}" ] || { echo "[FAIL] extra change not claimed: $p"; exit 1; }; done
-for p in "${!claimset[@]}"; do [ -n "${changed[$p]:-}" ] || { echo "[FAIL] claimed but unchanged: $p"; exit 1; }; done
+for p in "${!changed[@]}"; do [ -n "${claimset[$p]:-}" ] || { echo "[FAIL] extra change not claimed: $p"; exit 1 # [err] $0: operation failed; check input and try again
+for p in "${!claimset[@]}"; do [ -n "${changed[$p]:-}" ] || { echo "[FAIL] claimed but unchanged: $p"; exit 1 # [err] $0: operation failed; check input and try again
 ladder=""
 for p in "${order[@]}"; do
   input="$(printf "%s\n%s  %s" "$ladder" "${new[$p]}" "$p" | tr -d "\r")"

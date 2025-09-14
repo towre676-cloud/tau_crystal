@@ -27,7 +27,7 @@ MAN="docs/manifest.md"
 
 tmp="$(mktemp)"
 git ls-files -z | xargs -0 sha256sum | LC_ALL=C sort -k2 > "$tmp"
-MERKLE_ROOT="$(sha256sum "$tmp" | awk '{print $1}')"
+MERKLE_ROOT="$(scripts/sha256.sh "$file"
 rm -f "$tmp"
 
 # portable in-place sed
