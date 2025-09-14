@@ -1,1 +1,2 @@
 policy_gate: FAIL (7 passed, 5 failed) → .tau_ledger/gates/report.20250914T175528Z.txt
+policy_gate → .tau_ledger/gates/report.20250914T190401Z.txt

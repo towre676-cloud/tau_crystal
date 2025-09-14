@@ -1,1 +1,2 @@
 scripts/sha256.sh: line 8: syntax error near unexpected token `fi'
+scripts/sha256.sh: line 8: syntax error near unexpected token `fi'
