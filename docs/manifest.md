@@ -93,3 +93,13 @@ files: 4
 id: qr-witness-qr-witness
 sha256: 20283b23d272709fcb029ba2651360ba00212437de2a21dcfb4f2e69fc0048ec
 
+## holo (v1)
+
+id: holov1-20250914T143706Z
+sha256: 1940413aab1a6d1fae6fe9f450800b7c1f6cb28dd18aa7e275542217d3c1edde
+
+## physics (v1)
+
+id: passport
+sha256: 4673c3ecf62937715a62bc06f14a1da600ec11049cc06d6a66aebea041e2e62a
+
