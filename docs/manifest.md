@@ -94,3 +94,10 @@ witness_path: .tau_ledger/CHAIN
 witness_sha256: 46ba5b15905fb11547ea79e53c9206af232beff595e5a3cc3b369db62c24e9c9
 svg_path: .tau_ledger/qr/qr-witness.svg
 
+## entropy (v1)
+
+id: entv1-20250914T023136Z
+head_change: changed
+timefold_bytes: 0
+entropy_sha256: 3e0ee0df760df0f5cb7696a18acfbd38664c6b7f1f3b8a30fdcac50bf1cbc622
+
