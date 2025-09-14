@@ -214,3 +214,4 @@ cosign verify-blob --certificate "$FILE.cert" --signature "$FILE.sig" "$FILE"
 [OK] merkle_root = <sha> (manifest ↔ receipt)
 ```
 zkdiff demo 04:12:59Z
+zkdiff demo 04:16:46Z
