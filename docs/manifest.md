@@ -95,8 +95,8 @@ sha256: 20283b23d272709fcb029ba2651360ba00212437de2a21dcfb4f2e69fc0048ec
 
 ## holo (v1)
 
-id: holov1-20250914T144753Z
-sha256: ffcff5abe3189aeeb4009cf9dc681b009732a594f21265fb7fa0f5d3553e9aa8
+id: holov1-20250914T150653Z
+sha256: f46bbe1bc52d50ec46ebebb36b3e17ae55c0b1a0bfbcea78849306e99525a02d
 
 ## physics (v1)
 
@@ -105,19 +105,19 @@ sha256: 3c289e397d1c2758791cd18e52e0225d98c2564c3ed25d6bfd06efb8fe6bb213
 
 ## perma_receipt (v1)
 
-id: permav1-20250914T144758Z
+id: permav1-20250914T150657Z
 receipt: demo-20250914T023421Z.json
 sha256: e7114898a44dbffb8b5076dee970ee60c646c26843aa61450cf7cb07b00f55ab
 cid: unpinned
 
 ## mirror (v1)
 
-id: mirrorv1-20250914T144800Z
+id: mirrorv1-20250914T150700Z
 remote: https://raw.githubusercontent.com/towre676-cloud/tau_crystal/main
-sha256: df236dadfea2b739faacab28dec9aa20099b83949fbb08dd4051c93eeb9e09bb
+sha256: f23bc0a25eed9808a0ea973c9b54becb9f9f2b10039fe805461788bba7808d4c
 
 ## cache (v1)
 
-id: cache-20250914T144803Z
-sha256: 9aa29adf4250932a6c455dbd35fa6f899c6cd04c4181334632f556c14ec77045
+id: cache-20250914T150703Z
+sha256: e18c6bfe1bd2b8f686ef09a63f937265d2dce37ba559a2e361a6717d6a72be04
 
