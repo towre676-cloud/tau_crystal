@@ -57,3 +57,26 @@ jobs:
             analysis/reciprocity_best.tsv
             analysis/reciprocity_best.env
             analysis/bash_theta_scan.tsv
+      - name: Normalize artifact + plot
+        run: bash scripts/langlands/artifact_normalize.sh && bash scripts/langlands/plots_write.sh
+      - name: Upload L-data normalized artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ldata-normalized
+          path: |
+            analysis/normalized/*.norm.json
+            analysis/plots/status.svg
+      - name: Double-zero scan
+        run: |
+          bash scripts/langlands/double_zero_scan.sh
+          bash scripts/langlands/double_zero_refine.sh
+      - name: Upload double-zero artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: double-zero-artifacts
+          path: |
+            analysis/double_zero_ords.tsv
+            analysis/double_zero_clusters.tsv
+            analysis/double_zero_refined.tsv
+            analysis/plots/doubles.svg
+            analysis/plots/doubles_refined.svg
