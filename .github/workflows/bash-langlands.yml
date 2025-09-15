@@ -46,3 +46,14 @@ jobs:
         run: bash scripts/langlands/reciprocity.sh .tau_ledger .tau_ledger/demo 1000
       - name: Bash reciprocity (soft report)
         run: bash scripts/langlands/reciprocity.sh .tau_ledger .tau_ledger/demo 1000 --soft
+
+      - name: Bash reciprocity verify (gate)
+        run: bash scripts/langlands/reciprocity_verify.sh 1000 .tau_ledger .tau_ledger/demo
+      - name: Upload reciprocity artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: reciprocity-best
+          path: |
+            analysis/reciprocity_best.tsv
+            analysis/reciprocity_best.env
+            analysis/bash_theta_scan.tsv
