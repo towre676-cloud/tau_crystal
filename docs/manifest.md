@@ -147,3 +147,9 @@ status: PASS
   type: monograph
   path: monographs/langlands_for_computation.md
   canonical_id: τC:Monograph:Langlands:2025
+
+### Reference: The Scripts Universe—A Locally-Ringed Cosmos of Computational Motives
+- title: The Scripts Universe—A Locally-Ringed Cosmos of Computational Motives
+  type: monograph
+  path: monographs/scripts_universe.md
+  canonical_id: τC:Monograph:ScriptsUniverse:2025
