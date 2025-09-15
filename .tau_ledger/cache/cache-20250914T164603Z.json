@@ -1,8 +1,1 @@
-[
-  {
-    "commit": "HEAD",
-    "build_time": 10.0,
-    "cache_hit": 0.9,
-    "utc": "20250914T164604Z"
-  }
-]
+{"build_time":10.0,"cache_hit":0.9,"commit":"HEAD","provenance":{"machine":"DESKTOP-IGE96SV","merkle_root":"6663e9fb371f187219aa2d906bac628688f2611e7fa7f85229cf94fdb9929115","run_id":"local:2025-09-15T11:47:57Z","timestamp":"2025-09-15T11:47:57Z"},"utc":"20250914T164604Z"}\n
