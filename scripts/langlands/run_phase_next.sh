@@ -18,6 +18,9 @@ fi
 [ -x scripts/langlands/padic_family.sh ] && bash scripts/langlands/padic_family.sh || true
 [ -x scripts/langlands/deformation_ring.sh ] && bash scripts/langlands/deformation_ring.sh || true
 [ -x scripts/langlands/generate_monograph.sh ] && bash scripts/langlands/generate_monograph.sh || true
+[ -x scripts/langlands/zero_depletion.sh ]   && bash scripts/langlands/zero_depletion.sh   || true
+[ -x scripts/langlands/satake_direction.sh ] && bash scripts/langlands/satake_direction.sh || true
+[ -x scripts/langlands/micro_conductor.sh ]  && bash scripts/langlands/micro_conductor.sh  || true
 [ -x scripts/langlands/update_ledger.sh ] && bash scripts/langlands/update_ledger.sh || true
 echo "[phase-next] done    UTC=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 [ -x scripts/langlands/around_witness_scan.sh ] && bash scripts/langlands/around_witness_scan.sh || true
