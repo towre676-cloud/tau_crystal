@@ -105,3 +105,4 @@ ed25519_sk.pem
 .tau_ledger/cache/
 scripts/tools/__pycache__/
 **/*.pyc
+.garden/
