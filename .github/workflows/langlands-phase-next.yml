@@ -1,0 +1,20 @@
+name: langlands-phase-next
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  run-phase:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run phase-next
+        run: |
+          set -E -o pipefail; set +H; umask 022
+          bash scripts/langlands/run_phase_next.sh || true
+      - name: Upload analysis artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: langlands-analysis
+          path: |
+            analysis/**
+            !analysis/**/*.tmp
