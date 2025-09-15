@@ -1,0 +1,10 @@
+{
+  "fft_bsd": {
+    "rank1_flag": false,
+    "d1_analytic": -0.9258063798726386,
+    "d2_analytic": 305.0433224899832,
+    "hann_window": true,
+    "zero_pad": 128,
+    "freq_resolution": 0.0078125
+  }
+}
