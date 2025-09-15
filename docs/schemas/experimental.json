@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["provenance","data"],
+  "properties": {
+    "provenance": {
+      "type": "object",
+      "required": ["commit","run_id","timestamp","machine","tau_print","merkle_root"],
+      "properties": {
+        "commit":      {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "run_id":      {"type": "string"},
+        "timestamp":   {"type": "string", "format": "date-time"},
+        "machine":     {"type": "string"},
+        "tau_print":   {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "merkle_root": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "data": {"type": "object"}
+  }
+}
