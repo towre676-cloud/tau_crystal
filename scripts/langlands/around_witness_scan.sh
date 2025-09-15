@@ -26,7 +26,7 @@ if [ -x scripts/langlands/theta_scan_wide.sh ]; then
 fi
 
 rows=$([ -f "$OUT" ] && wc -l < "$OUT" 2>/dev/null || echo 0)
-[ "$rows" -le 1 ] && bash scripts/langlands/theta_scan_proxy.sh
+[ "$rows" -le 1 ] && bash scripts/langlands/theta_scan_proxy2.sh
 
 rows_after=$([ -f "$OUT" ] && wc -l < "$OUT" 2>/dev/null || echo 0)
 echo "[atlas] wrote $OUT (rows before=$rows_before after=$rows_after)"
