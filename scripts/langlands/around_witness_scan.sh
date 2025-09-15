@@ -19,3 +19,6 @@ export S_MIN="$Slo" S_MAX="$Shi" S_STEP="$stepS" T_MIN="$Tlo" T_MAX="$Thi" T_STE
 echo "[atlas] scanning S=[${S_MIN},${S_MAX}] T=[${T_MIN},${T_MAX}] step=(${S_STEP},${T_STEP})"
 bash scripts/langlands/theta_scan_wide.sh .tau_ledger .tau_ledger/demo || true
 echo "[atlas] wrote analysis/bash_theta_scan.tsv"
+
+# fallback if theta_scan_wide.sh missing or fails
+[ -x scripts/langlands/theta_scan_wide.sh ] && bash scripts/langlands/theta_scan_wide.sh .tau_ledger .tau_ledger/demo || bash scripts/langlands/theta_scan_proxy.sh
