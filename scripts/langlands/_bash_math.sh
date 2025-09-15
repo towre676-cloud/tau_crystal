@@ -1,29 +1,8 @@
 #!/usr/bin/env bash
-set -Eeuo pipefail; set +H
-MICRO=1000000
-
-# Convert decimal string in [0,1] to integer micro-units (base 10 only)
-dec_to_micro(){
-  v="${1:-0}"
-  case "$v" in "" ) v="0";; .* ) v="0${v}";; esac
-  A="${v%%.*}"; B="${v#*.}"
-  [ "$v" = "$A" ] && B="0"
-  # keep only digits; pad/truncate to 6
-  B="${B%%[^0-9]*}"
-  while [ "${#B}" -lt 6 ]; do B="${B}0"; done
-  B="${B:0:6}"
-  # force base-10 with 10# on both parts
-  echo $(( 10#${A}*MICRO + 10#${B} ))
-}
-
-micro_clamp01(){
-  x=$(( ${1:-0} )); if [ "$x" -lt 0 ]; then x=0; fi; if [ "$x" -gt $MICRO ]; then x=$MICRO; fi; echo "$x"
-}
-
-# Integer sqrt (Newton) on nonnegative integers
-isqrt(){
-  n=$(( ${1:-0} )); if [ "$n" -lt 2 ]; then echo "$n"; return; fi
-  x=$n; y=$(( (x + 1) / 2 ))
-  while [ "$y" -lt "$x" ]; do x=$y; y=$(( (x + n / x) / 2 )); done
-  echo "$x"
-}
+set -E -o pipefail; set +H; umask 022
+MICRO=${MICRO:-1000000}
+dec_to_micro(){ v="${1:-0}"; case "$v" in "" ) v="0";; .* ) v="0${v}";; esac; A="${v%%.*}"; B="${v#*.}"; B="${B%%[!0-9]*}"; echo $(( 10#${A}*MICRO + 10#${B} )); }
+clamp_micro(){ x="$1"; [ "$x" -lt 0 ] && x=0; [ "$x" -gt "$MICRO" ] && x="$MICRO"; echo "$x"; }
+isqrt(){ n="${1:-0}"; [ "$n" -le 0 ] && { echo 0; return; }; x="$n"; y=$(( (x + 1) / 2 )); while [ "$y" -lt "$x" ]; do x="$y"; y=$(( (x + n / x) / 2 )); done; echo "$x"; }
+abs(){ a="$1"; case "$a" in -*) echo "${a#-}";; *) echo "$a";; esac; }
+read_kv(){ f="$1"; k="$2"; awk -v k="$k" -F= '$1==k{gsub(/\r/,"",$2); gsub(/^[[:space:]]+|[[:space:]]+$/,"",$2); print $2}' "$f" 2>/dev/null | head -n1; }
