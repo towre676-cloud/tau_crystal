@@ -45,22 +45,16 @@ modular_check(){
   [ "$diff" -le "$tol" ]
 }
 theta_scan(){
-  # widened, env-configurable theta grid (micro-units)
+  # sweep S in {0.70..1.00 step .05}, T in {0..50000 step 10000} micro-units
   A="${1:?}"; B="${2:?}"; out="${3:-analysis/bash_theta_scan.tsv}"
   mkdir -p "$(dirname "$out")"; : > "$out"; printf "%s\n" "S_micro\tT_micro\tdiff\tmA\tmB\tnA\tnB" >> "$out"
-  # Hecke mean of A once
-  read sA nA < <(dir_signature hecke "$A"); mA=$(( sA / (nA>0?nA:1) ))
-  # Grid from env or defaults: S in [0.50,1.20] step 0.02; T in [0,150000] step 5000
-  S_MIN=${S_MIN:-500000}; S_MAX=${S_MAX:-1200000}; S_STEP=${S_STEP:-20000}
-  T_MIN=${T_MIN:-0};      T_MAX=${T_MAX:-150000};  T_STEP=${T_STEP:-5000}
-  S=$S_MIN; while [ "$S" -le "$S_MAX" ]; do
-    T=$T_MIN; while [ "$T" -le "$T_MAX" ]; do
-      read sB nB < <(dir_signature theta "$B" "$S" "$T"); mB=$(( sB / (nB>0?nB:1) ))
+  read sA nA < <(dir_signature hecke "$A"); mA=$(mean_micro "$sA" "$nA")
+  for S in 700000 750000 800000 850000 900000 950000 1000000; do
+    for T in 0 10000 20000 30000 40000 50000; do
+      read sB nB < <(dir_signature theta "$B" "$S" "$T"); mB=$(mean_micro "$sB" "$nB")
       d=$(( mA>mB ? mA-mB : mB-mA ))
       printf "%d\t%d\t%d\t%d\t%d\t%d\t%d\n" "$S" "$T" "$d" "$mA" "$mB" "$nA" "$nB" >> "$out"
-      T=$(( T + T_STEP ))
     done
-    S=$(( S + S_STEP ))
   done
   echo "$out"
 }
