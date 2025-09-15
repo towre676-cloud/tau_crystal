@@ -18,3 +18,10 @@ jobs:
           path: |
             analysis/**
             !analysis/**/*.tmp
+      - name: Summary
+        run: |
+          echo "## Langlands Phase-Next" >> $GITHUB_STEP_SUMMARY
+          echo "*UTC $(date -u +%Y-%m-%dT%H:%M:%SZ)*" >> $GITHUB_STEP_SUMMARY
+          [ -f analysis/morse_crit.tsv ] && echo "Morse points: $(wc -l < analysis/morse_crit.tsv)" >> $GITHUB_STEP_SUMMARY || true
+          [ -f analysis/feq_report.txt ] && tail -n +1 analysis/feq_report.txt >> $GITHUB_STEP_SUMMARY || true
+          [ -f analysis/ramanujan.tsv ] && tail -n 5 analysis/ramanujan.tsv >> $GITHUB_STEP_SUMMARY || true
