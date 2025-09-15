@@ -6,7 +6,7 @@ def _canon(p):
     s=Path(p).read_text(encoding="utf-8",errors="replace"); i=s.find("{")
     obj,_=json.JSONDecoder().raw_decode(s[i:])
     Path(p).write_text(json.dumps(obj,sort_keys=True,separators=(",",":"))+"\\n",encoding="utf-8")
-p=".tau_ledger/discovery/confirm_double_zero.json"; _canon(p)
+p=".tau_ledger/discovery/confirm_double_zero_stable.json" if Path(".tau_ledger/discovery/confirm_double_zero_stable.json").exists() else ".tau_ledger/discovery/confirm_double_zero.json"; _canon(p)
 W=json.load(open(p,encoding="utf-8"))["confirm"]
 plotdir=Path(".tau_ledger/discovery/plots"); plotdir.mkdir(parents=True,exist_ok=True)
 ts=np.linspace(0.1,8.0,200); vals=[abs(np.sin(t)) for t in ts]
