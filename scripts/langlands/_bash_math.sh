@@ -6,3 +6,6 @@ clamp_micro(){ x="$1"; [ "$x" -lt 0 ] && x=0; [ "$x" -gt "$MICRO" ] && x="$MICRO
 isqrt(){ n="${1:-0}"; [ "$n" -le 0 ] && { echo 0; return; }; x="$n"; y=$(( (x + 1) / 2 )); while [ "$y" -lt "$x" ]; do x="$y"; y=$(( (x + n / x) / 2 )); done; echo "$x"; }
 abs(){ a="$1"; case "$a" in -*) echo "${a#-}";; *) echo "$a";; esac; }
 read_kv(){ f="$1"; k="$2"; awk -v k="$k" -F= '$1==k{gsub(/\r/,"",$2); gsub(/^[[:space:]]+|[[:space:]]+$/,"",$2); print $2}' "$f" 2>/dev/null | head -n1; }
+
+# compatibility shim: older callers expect micro_clamp01 (clamp to [0,MICRO])
+micro_clamp01(){ clamp_micro "$1"; }
