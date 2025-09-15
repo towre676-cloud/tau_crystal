@@ -18,8 +18,8 @@ T_MIN=$(( $(min "$T1" "$T2") - padT )); T_MAX=$(( $(max "$T1" "$T2") + padT ))
 
 : > "$OUT"; printf "%s\t%s\t%s\t%s\t%s\t%s\t%s\n" "S_micro" "T_micro" "diff" "mA" "mB" "nA" "nB" >> "$OUT"
 
-for S in $(seq "$S_MIN" "$S_MAX" "$S_STEP"); do
-  for T in $(seq "$T_MIN" "$T_MAX" "$T_STEP"); do
+for S in $(seq "$S_MIN" "$stepS" "$S_MAX"); do   # NOTE: START STEP END
+  for T in $(seq "$T_MIN" "$stepT" "$T_MAX"); do # NOTE: START STEP END
     ds1=$(( S - S1 )); ds1=${ds1#-}; dt1=$(( T - T1 )); dt1=${dt1#-}
     d1=$(isqrt $(( ds1*ds1 + dt1*dt1 )))
     ds2=$(( S - S2 )); ds2=${ds2#-}; dt2=$(( T - T2 )); dt2=${dt2#-}
