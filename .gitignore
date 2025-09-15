@@ -100,3 +100,8 @@ ed25519_sk.pem
 !.tau_ledger/qr/
 
 !extension/
+
+# tau-crystal: ephemeral caches and bytecode
+.tau_ledger/cache/
+scripts/tools/__pycache__/
+**/*.pyc

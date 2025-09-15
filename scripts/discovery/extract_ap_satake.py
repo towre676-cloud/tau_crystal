@@ -91,6 +91,8 @@ def main():
   canonical_write(AP_OUT, json.dumps({"ap":ap_prime,"provenance":{}},sort_keys=True,separators=(",",":"))+"\\n")
   canonical_write(SA_OUT, json.dumps({"satake":{str(k):v for k,v in obj["satake"].items()},"provenance":{}},sort_keys=True,separators=(",",":"))+"\\n")
   # combined file for validation
-  pathlib.Path(".tau_ledger/langlands/combined_ap_satake.json").write_text(txt,encoding="utf-8")
+  import os, tempfile
+    _dst=".tau_ledger/langlands/combined_ap_satake.json"
+    _tmp=_dst+".tmp"; Path(_tmp).write_text(txt, encoding="utf-8"); os.replace(_tmp,_dst)
   print(".tau_ledger/langlands/combined_ap_satake.json")
 if __name__=="__main__": main()
