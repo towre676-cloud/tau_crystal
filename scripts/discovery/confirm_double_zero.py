@@ -48,7 +48,7 @@ def scan_critical_zeros(Lam, t_grid):
         last, last_t = v, t
     return sorted(zs)
 
-def scan_sym2_outside(L_sym2, rects, step=0.05, thresh=1e-8):
+def scan_sym2_outside(L_sym2, rects, step=0.02, thresh=1e-12):
     hits = []
     for (x0,x1,y0,y1) in rects:
         xs = np.arange(x0, x1+1e-12, step)
@@ -92,7 +92,7 @@ def main():
 
     # Sym^2 outside-strip scans
     rects = [(1.1,3.0,0.0,3.0), (-2.0,-0.1,0.0,3.0)]
-    hits  = scan_sym2_outside(L_sym2, rects, step=0.05, thresh=1e-8)
+    hits  = scan_sym2_outside(L_sym2, rects, step=0.02, thresh=1e-12)
 
     obj = {
       "confirm":{
@@ -100,7 +100,7 @@ def main():
         "params":{"N":N,"k":k,"epsilon":eps,"Q":Q,"gamma":gamma,
                   "num_ap":len(ap),"num_sat":len(sat)},
         "symmetry_scores": sym_scores,
-        "turing_count_0T": count,
+        "turing_count_0T": float(count),
         "critical_line_zeros_gl2": zeros_gl2,
         "sym2_outside_hits": hits,
         "notes": "Shift heuristics used; refine with exact archimedean parameters for final pass."
