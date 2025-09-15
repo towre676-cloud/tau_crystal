@@ -10,7 +10,8 @@ if ! git show-ref --verify --quiet refs/heads/garden; then
 fi
 mkdir -p .garden
 if [ ! -d ".garden/.git" ]; then
-  git worktree add -f .garden garden
+git show-ref --verify --quiet refs/heads/garden || git branch garden
+if git -C .garden rev-parse --is-inside-work-tree >/dev/null 2>&1; then :; else git worktree add -f .garden garden; fi
 fi
 
 # ---- derive metadata for sharding ----

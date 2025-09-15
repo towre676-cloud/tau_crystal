@@ -6,7 +6,8 @@ cd "$ROOT" || exit 1
 
 # ensure worktree
 if ! git show-ref --verify --quiet refs/heads/garden; then git branch garden 2>/dev/null || git checkout -b garden; fi
-[ -d .garden/.git ] || git worktree add -f .garden garden
+git show-ref --verify --quiet refs/heads/garden || git branch garden
+if git -C .garden rev-parse --is-inside-work-tree >/dev/null 2>&1; then :; else git worktree add -f .garden garden; fi
 
 IDX=".garden/index.jsonl"
 [ -s "$IDX" ] || { echo "[garden:render] missing $IDX"; exit 0; }
