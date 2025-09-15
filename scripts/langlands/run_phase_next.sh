@@ -20,3 +20,7 @@ fi
 [ -x scripts/langlands/generate_monograph.sh ] && bash scripts/langlands/generate_monograph.sh || true
 [ -x scripts/langlands/update_ledger.sh ] && bash scripts/langlands/update_ledger.sh || true
 echo "[phase-next] done    UTC=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+[ -x scripts/langlands/around_witness_scan.sh ] && bash scripts/langlands/around_witness_scan.sh || true
+[ -x scripts/langlands/morse_analysis.sh ] && bash scripts/langlands/morse_analysis.sh || true
+[ -x scripts/langlands/basins_map.sh ] && bash scripts/langlands/basins_map.sh || true
+[ -x scripts/langlands/atlas_line.sh ] && bash scripts/langlands/atlas_line.sh || true
