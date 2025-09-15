@@ -1,18 +1,14 @@
-import io,sys,json
-def repair(s):
-  try: json.loads(s); return s
-  except: pass
-  depth=end=0; inq=esc=False
-  for i,ch in enumerate(s):
-    if inq:
-      esc = (not esc and ch=="\\\\" )
-      if not esc and ch=="\\"": inq=False
-      continue
-    if ch=="\\"": inq=True
-    elif ch in "{[": depth+=1
-    elif ch in "}]": depth=max(0,depth-1)
-    if depth==0: end=i+1
-  return s[:end] if end else s
-for p in sys.argv[1:]:
-  t=io.open(p,"r",encoding="utf-8").read(); io.open(p,"w",encoding="utf-8").write(repair(t))
-  print("repaired",p)
+import sys, json, pathlib
+def first_object_text(s:str)->str:
+    i=s.find("{")
+    if i<0: return ""
+    obj,_=json.JSONDecoder().raw_decode(s[i:])
+    return json.dumps(obj, sort_keys=True, separators=(",",":")) + "\n"
+def main(p):
+    t=pathlib.Path(p).read_text(encoding="utf-8", errors="replace")
+    txt=first_object_text(t)
+    if not txt: raise SystemExit(f"[repair] no JSON object in {p}")
+    pathlib.Path(p).write_text(txt, encoding="utf-8")
+    print("[repair]", p, "bytes=", len(txt))
+if __name__=="__main__":
+    for p in sys.argv[1:]: main(p)
