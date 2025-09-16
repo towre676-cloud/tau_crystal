@@ -66,6 +66,10 @@ if [ -n "${L_real:-}" ] && [ -n "${L_imag:-}" ] && [ "${L_real}" != "NaN" ] && [
   [ "$laurent_pass" = "1" ] || fused_pass=0
 fi
 fused_bool=false; [ "$fused_pass" = "1" ] && fused_bool=true
+an_source=$(awk -v key=source -v def="" -f scripts/tools/read_kv2.awk analysis/arith_nonce.tsv 2>/dev/null)
+if [ -n "$an_source" ] && [ "$an_source" != "none" ]; then
+  [ "$laurent_pass" = "1" ] || fused_pass=0
+fi
 
 # 8) Optional ts from chain tip
 ts=""; [ -s ".tau_ledger/chain/CHAIN" ] && ts=$(tail -n1 .tau_ledger/chain/CHAIN | awk "{print \$1}" | tr -d "\r\n") || true
