@@ -32,3 +32,6 @@ echo "[phase-next] done    UTC=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 [ -x scripts/langlands/zero_depletion.sh ]   && bash scripts/langlands/zero_depletion.sh   || true
 [ -x scripts/langlands/satake_direction.sh ] && bash scripts/langlands/satake_direction.sh || true
 [ -x scripts/langlands/micro_conductor.sh ]  && bash scripts/langlands/micro_conductor.sh  || true
+
+# tau_crystal: hecke ledger smoke (warning-only; CI should call run_phase_next_strict.sh)
+[ -x scripts/langlands/smoke_hecke_ledger.sh ] && bash scripts/langlands/smoke_hecke_ledger.sh || echo "[smoke] (non-fatal in dev)"
