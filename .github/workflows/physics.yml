@@ -24,3 +24,11 @@ jobs:
           name: physics
           path: .tau_ledger/physics/*.json
           if-no-files-found: ignore
+
+      # BEGIN rollups
+      - name: Rollups
+        if: always()
+        shell: bash
+        run: |
+          bash scripts/langlands/rollups.sh || true
+      # END rollups
