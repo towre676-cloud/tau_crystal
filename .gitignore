@@ -106,3 +106,7 @@ ed25519_sk.pem
 scripts/tools/__pycache__/
 **/*.pyc
 .garden/
+
+# allow committing Satake polar plot SVGs
+!analysis/plots/
+!analysis/plots/*.svg
