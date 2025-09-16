@@ -110,3 +110,7 @@ scripts/tools/__pycache__/
 # allow committing Satake polar plot SVGs
 !analysis/plots/
 !analysis/plots/*.svg
+.tmp_ed25519*.pem
+analysis/passport_sig.tsv
+analysis/cp_residual.tsv
+analysis/arith_nonce.tsv
