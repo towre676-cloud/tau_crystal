@@ -27,3 +27,8 @@ echo "[phase-next] done    UTC=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 [ -x scripts/langlands/morse_analysis.sh ] && bash scripts/langlands/morse_analysis.sh || true
 [ -x scripts/langlands/basins_map.sh ] && bash scripts/langlands/basins_map.sh || true
 [ -x scripts/langlands/atlas_line.sh ] && bash scripts/langlands/atlas_line.sh || true
+
+# tau_crystal: microscope wiring
+[ -x scripts/langlands/zero_depletion.sh ]   && bash scripts/langlands/zero_depletion.sh   || true
+[ -x scripts/langlands/satake_direction.sh ] && bash scripts/langlands/satake_direction.sh || true
+[ -x scripts/langlands/micro_conductor.sh ]  && bash scripts/langlands/micro_conductor.sh  || true
