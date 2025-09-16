@@ -1,10 +1,10 @@
 # Atlas
 
-- Total snapshots: **22**
+- Total snapshots: **26**
 - Rank ≥ 2 candidates: **0**
 - Simple-zero (sign change) snapshots: **3**
-- Laurent unit pass: **11**
-- Median L0: **1.84904**  |  Adaptive τ(L0): 10% **0.01077506403116542**, 5% **0**
+- Laurent unit pass: **13**
+- Median L0: **1.94167**  |  Adaptive τ(L0): 10% **0.01077506403116542**, 5% **0**
 
 ## Files
 - `atlas/index.tsv` — all snapshots

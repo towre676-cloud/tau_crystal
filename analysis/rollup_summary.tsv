@@ -1,8 +1,8 @@
-discovery_hits	13
+discovery_hits	15
 discovery_best_mean_r	0.120226
 rank2_candidates	0
-median_L0	1.849041370968822
+median_L0	1.94166834291466
 adaptive_tau_L0_10pct	0.01077506403116542
 adaptive_tau_L0_5pct	0
-sec_diff_var	4.111287914902761
-spectral_ratio_mean	2.43177
+sec_diff_var	5.429575993653195
+spectral_ratio_mean	2.23665
