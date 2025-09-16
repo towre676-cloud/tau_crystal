@@ -114,3 +114,4 @@ scripts/tools/__pycache__/
 analysis/passport_sig.tsv
 analysis/cp_residual.tsv
 analysis/arith_nonce.tsv
+.tmp_*.pem
