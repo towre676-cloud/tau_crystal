@@ -1,0 +1,3 @@
+ts	fused_pass	laurent_pass	rank_guess	sign_changes	L0	slope_avg	curve_avg	dom_p	dom_ratio	fe_consistency	mean_r	N	k	tested	seed_prefix
+ca52f1ee23fc76cd														
+2025-09-16T23:25:17Z	true	true	NA	0	0.4713580493488316	0.7798414728876116	2.591006075501511	2	0.1339027019711994	1.001622385200655	0.139870	800000	79	25
