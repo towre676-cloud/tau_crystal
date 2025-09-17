@@ -1,0 +1,33 @@
+{
+  "curve": {
+    "label": "11a1",
+    "conductor": 11,
+    "a": {
+      "a1": 1,
+      "a2": -1,
+      "a3": 0,
+      "a4": -10,
+      "a6": -20
+    }
+  },
+  "invariants": {
+    "b2": -3,
+    "b4": -20,
+    "b6": -80,
+    "b8": -40,
+    "delta": -151640
+  },
+  "panel": {
+    "path": "analysis/atlas/11a1/ap.tsv",
+    "primes_evaluated": 43,
+    "pmax": 199
+  },
+  "checks": {
+    "hasse_ok": true
+  },
+  "numerics": {
+    "L1": "nan",
+    "Lhalf": "nan",
+    "tail_upper_bound": "nan"
+  }
+}
