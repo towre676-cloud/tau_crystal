@@ -103,3 +103,9 @@ zkdiff demo 04:16:46Z
 ![physics-lattice](https://img.shields.io/github/actions/workflow/status/towre676-cloud/tau_crystal/physics.yml?label=physics-lattice)
 ![genius-dark](https://img.shields.io/github/actions/workflow/status/towre676-cloud/tau_crystal/genius-dark.yml?label=genius-dark)
 
+
+## Quick links
+
+- [Sealed witness: Dummy’s User Guide](docs/guides/dummys-user-guide-sealed.md)
+- [Download sealed verifier (Linux, static)](https://github.com/towre676-cloud/tau_crystal/releases/latest/download/tau_verify-x86_64-unknown-linux-musl)
+
