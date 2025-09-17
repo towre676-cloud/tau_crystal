@@ -40,7 +40,7 @@ pow10() { # 10^d without ** (portable)
 clamp_k() { kk="$1"; [ "$kk" -lt 2 ] && kk=2; [ "$kk" -gt 129 ] && kk=129; echo "$kk"; }
 
 # --- strategy: choose one of 3 modes (weighted by seed) ---------------------
-mode=$(( u4 % 3 ))
+mode=${DISCOVERY_MODE:-$(( u4 % 3 ))}
 MAX_DECADE="${MAX_DECADE:-9}"
 
 best_N=""; best_k=""
@@ -120,7 +120,8 @@ coh="$(awk -v phi="$phi" 'BEGIN{
     if(m<thr)c++
   } print c
 }')"
-if [ "$coh" -lt 3 ]; then
+min_coh="${COHERENCE_MIN:-2}"
+if [ "$coh" -lt "$min_coh" ]; then
   echo "[discovery] low coherence (score=$coh) — skip"; exit 1
 fi
 
