@@ -11,10 +11,10 @@ jobs:
         run: bash scripts/spec/spec_guard.sh
       - name: Runner attestation
         run: bash scripts/ops/attest_env.sh
-      - name: Strict assurance
+      - name: Strict assurance (Bash)
         run: bash scripts/ops/assure_strict.sh
-      - name: Offline verify
-        run: bash scripts/ops/verify_offline.sh
+      - name: Offline verify (receipt-only)
+        run: bash scripts/ops/verify_against_receipt.sh
       - name: Install elan
         run: |
           set -Eeuo pipefail
@@ -26,3 +26,7 @@ jobs:
           set -Eeuo pipefail
           lake build verify-chain
           ./build/bin/verify-chain
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3
+      - name: Sealed binary verifier
+        run: bash scripts/ops/verify_release_binary.sh
