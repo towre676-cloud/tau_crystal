@@ -106,6 +106,9 @@ zkdiff demo 04:16:46Z
 
 ## Quick links
 
+- [Monograph: Hecke 11a1](docs/guides/hecke-11a1-monograph.md)
+
+
 - [Hecke 11a1 (real): receipts](analysis/hecke_11a1.tsv)
 
 
