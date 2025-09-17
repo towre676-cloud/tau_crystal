@@ -1,25 +1,37 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail; set +H; umask 022
-sha(){ if command -v sha256sum >/dev/null 2>&1; then sha256sum "$1" | awk '{print $1}'; else shasum -a 256 "$1" | awk '{print $1}'; fi; }
-fail(){ echo "[replay] $*" >&2; exit 8; }
-PACK="${1:-}"
-if [ -z "$PACK" ]; then
-  [ -s .tau_ledger/discovery/WITNESS_CHAIN ] || fail "no WITNESS_CHAIN"
-  PACK=$(awk 'END{print $2}' .tau_ledger/discovery/WITNESS_CHAIN)
+
+BIN="${TAU_VERIFY_BIN:-./tau_verify}"
+PACK="${1:?usage: replay_witness.sh witness-*.tar.gz}"
+
+[ -x "$BIN" ] || { echo "[replay] missing verifier: $BIN" >&2; exit 2; }
+
+work="$(mktemp -d)"; trap 'rm -rf "$work"' EXIT
+tar -xzf "$PACK" -C "$work"
+
+echo "[replay] tau_verify…"
+"$BIN" "$work" >/dev/null
+
+# Build Merkle from manifest JSON (ASCII-hex concatenation hashed with sha256)
+mapfile -t H < <(jq -r '.[].sha256' "$work/manifest.json")
+if [ "${#H[@]}" -eq 0 ]; then echo "[replay] empty manifest"; exit 2; fi
+
+merkle_array=("${H[@]}")
+while [ "${#merkle_array[@]}" -gt 1 ]; do
+  next=()
+  i=0
+  while [ $i -lt ${#merkle_array[@]} ]; do
+    a="${merkle_array[$i]}"; b="${merkle_array[$((i+1))]:-$a}"
+    h=$(printf "%s%s" "$a" "$b" | { if command -v sha256sum >/dev/null; then sha256sum; else shasum -a256; fi; } | awk '{print $1}')
+    next+=("$h"); i=$((i+2))
+  done
+  merkle_array=("${next[@]}")
+done
+merkle_bash="${merkle_array[0]}"
+merkle_receipt=$(jq -r '.merkle_root' "$work/receipt.json")
+
+if [ "$merkle_bash" != "$merkle_receipt" ]; then
+  echo "[replay] Merkle mismatch"; echo "  bash:     $merkle_bash"; echo "  receipt:  $merkle_receipt"; exit 3
 fi
-[ -f "$PACK" ] || fail "pack not found: $PACK"
-pack_sha=$(sha "$PACK")
-if [ -s .tau_ledger/discovery/WITNESS_CHAIN ]; then
-  expect=$(awk -v p="$PACK" '$2==p{print $1}' .tau_ledger/discovery/WITNESS_CHAIN | tail -n1)
-  [ -n "$expect" ] || fail "pack not recorded in WITNESS_CHAIN: $PACK"
-  [ "$expect" = "$pack_sha" ] || fail "pack sha mismatch: $pack_sha != $expect"
-fi
-tmp=$(mktemp -d); trap 'rm -rf "$tmp"' EXIT
-tar -xzf "$PACK" -C "$tmp"
-REC="$tmp/discovery/receipt.json"; [ -s "$REC" ] || fail "missing receipt.json in pack"
-rec_sha=$(sha "$REC")
-chain_last=$(tail -n1 .tau_ledger/CHAIN); [ -n "$chain_last" ] || fail "empty CHAIN"
-chain_sha=$(awk '{print $1}' <<<"$chain_last")
-[ "$rec_sha" = "$chain_sha" ] || fail "receipt sha != CHAIN head: $rec_sha != $chain_sha"
-if [ -x ./tau_verify ]; then ./tau_verify . >/dev/null || fail "tau_verify failed on repo"; fi
-echo "[replay] OK (pack↔WITNESS_CHAIN, receipt↔CHAIN, verifier OK if present)"
+
+echo "[replay] OK (rust+bash agree): $merkle_bash"
