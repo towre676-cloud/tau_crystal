@@ -106,6 +106,9 @@ zkdiff demo 04:16:46Z
 
 ## Quick links
 
+- [Hecke 11a1 (real): receipts](analysis/hecke_11a1.tsv)
+
+
 - [Sealed witness: Dummy’s User Guide](docs/guides/dummys-user-guide-sealed.md)
 - [Download sealed verifier (Linux, static)](https://github.com/towre676-cloud/tau_crystal/releases/latest/download/tau_verify-x86_64-unknown-linux-musl)
 
