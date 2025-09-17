@@ -10,7 +10,6 @@ tau_invariants() {
   printf "%s\t%s\t%s\t%s\t%s\n" "$b2" "$b4" "$b6" "$b8" "$delta"
 }
 
-# normalize modulo p to [0,p)
 modp(){ local x="$1" p="$2"; x=$(( x % p )); [ "$x" -lt 0 ] && x=$((x+p)); printf "%d" "$x"; }
 
 powmod(){
@@ -32,23 +31,17 @@ legendre(){
   case "$t" in 1) echo 1;; 0) echo 0;; *) echo -1;; esac
 }
 
-# p-adic valuation v_p(n) for nonzero integer n
 vp(){
   local n="$1" p="$2" v=0 s
   [ "$n" -lt 0 ] && n=$(( -n ))
   [ "$n" -eq 0 ] && { echo 99; return; }
-  while :; do
-    s=$(( n % p ))
-    [ "$s" -ne 0 ] && break
-    v=$((v+1)); n=$(( n / p ))
-  done
+  while :; do s=$(( n % p )); [ "$s" -ne 0 ] && break; v=$((v+1)); n=$(( n / p )); done
   echo "$v"
 }
 
-# quick primality (trial division) for small p
 is_prime(){ local n="$1" i; [ "$n" -lt 2 ] && return 1; for ((i=2;i*i<=n;i++)); do ((n%i))||return 1; done; return 0; }
 
-# Count points over F_p for y^2 + a1xy + a3y = x^3 + a2x^2 + a4x + a6  (p odd)
+# Count points for y^2 + a1xy + a3y = x^3 + a2x^2 + a4x + a6 over F_p (p odd)
 count_points_mod_p(){
   local a1="$1" a2="$2" a3="$3" a4="$4" a6="$5" p="$6"
   local x RHS B D chi sum=0
@@ -65,36 +58,29 @@ count_points_mod_p(){
   printf "%d" $(( sum + 1 ))
 }
 
-# Minimal reduction class at p (coarse): good / mult / add  (p≥5 only reliable)
 reduction_class(){
   local p="$1" b2="$2" b4="$3" b6="$4" b8="$5" delta="$6"
   local vd=$(vp "$delta" "$p")
   if [ "$vd" -eq 0 ]; then echo good; return; fi
-  # multiplicative iff v_p(Δ)=1 on minimal model
   if [ "$vd" -eq 1 ]; then echo mult; return; fi
   echo add
 }
 
-# Local root number at p≥5 for multiplicative reduction ONLY (conservative):
-# w_p = -1 (split) if c6 is a square mod p; +1 (non-split) otherwise.
 local_root_number_mul_pge5(){
-  local p="$1" c6="$2"
+  local p="$1" c6="$2" cls="$3"
   [ "$p" -lt 5 ] && { echo unknown; return; }
-  local cls="$3"
   [ "$cls" != "mult" ] && { echo unknown; return; }
   local sq=$(legendre "$c6" "$p")
-  [ "$sq" -eq 1 ] && { echo "-1"; return; }  # split ⇒ w_p = -1
-  [ "$sq" -eq -1 ] && { echo "+1"; return; } # non-split ⇒ w_p = +1
+  [ "$sq" -eq 1 ]  && { echo "-1"; return; }  # split
+  [ "$sq" -eq -1 ] && { echo "+1"; return; }  # non-split
   echo unknown
 }
 
-# Aggregate parity when *all* finite places known: w = w_∞ * Π w_p, with w_∞ = -1 for E/Q
 aggregate_root_number(){
-  local list="$1"   # lines "p w_p" with w_p in {+1,-1} only
-  local w=-1
+  local list="$1" w=-1  # w_∞ = -1 for E/Q
   while read -r p wp; do
     [ -z "$p" ] && continue
-    [ "$wp" = "+1" ] && w=$((w*1)) || { [ "$wp" = "-1" ] && w=$((w*-1)); }
+    [ "$wp" = "+1" ] && : || [ "$wp" = "-1" ] && w=$((w*-1))
   done <<< "$list"
   echo "$w"
 }
