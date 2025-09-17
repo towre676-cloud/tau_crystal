@@ -1,21 +1,22 @@
 name: assure
 on:
-  push: { branches: ["**"] }
-  pull_request: {}
+  pull_request:
+  push:
 jobs:
-  assure:
+  strict:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run τ-Crystal assure
-        run: |
-          set -euo pipefail
-          chmod +x scripts/assure.sh
-          RECEIPT="$(scripts/assure.sh)"
-          echo "RECEIPT=$RECEIPT" >> "$GITHUB_ENV"
-          sed -n '1,4p' "$RECEIPT"
-      - name: Upload receipt
+      - name: Runner attestation
+        run: bash scripts/ops/attest_env.sh
+      - name: Spec guard
+        run: bash scripts/spec/spec_guard.sh
+      - name: Strict assurance
+        run: bash scripts/ops/assure_strict.sh
+      - name: Offline verify
+        run: bash scripts/ops/verify_offline.sh
+      - name: Upload attestations
         uses: actions/upload-artifact@v4
         with:
-          name: tau-receipt
-          path: ${{ env.RECEIPT }}
+          name: tau-attest
+          path: .tau_ledger/attest/*.json
