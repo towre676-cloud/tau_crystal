@@ -1,0 +1,38 @@
+name: release
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: write
+  id-token: write   # for cosign
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-unknown-linux-musl
+      - name: Install musl-tools
+        run: sudo apt-get update && sudo apt-get install -y musl-tools
+      - name: Build static binary
+        run: |
+          cd tools/offline_verifier
+          cargo build --release --target x86_64-unknown-linux-musl
+          strip target/x86_64-unknown-linux-musl/release/tau_verify
+          mv target/x86_64-unknown-linux-musl/release/tau_verify ../../tau_verify-x86_64-unknown-linux-musl
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3
+      - name: Sign binary
+        run: |
+          cosign sign-blob --yes tau_verify-x86_64-unknown-linux-musl \
+            --output-certificate tau_verify-x86_64-unknown-linux-musl.cert \
+            --output-signature tau_verify-x86_64-unknown-linux-musl.sig
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            tau_verify-x86_64-unknown-linux-musl
+            tau_verify-x86_64-unknown-linux-musl.sig
+            tau_verify-x86_64-unknown-linux-musl.cert
+            cosign.pub
