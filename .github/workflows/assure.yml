@@ -22,6 +22,12 @@ jobs:
           bash /tmp/elan.sh -y --default-toolchain stable
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
       - name: Lean verify-chain
+      - name: Red-team spine
+        run: bash scripts/spec/redteam_spine.sh
+      - name: Two-clone reproducibility
+        run: bash scripts/spec/repro_matrix.sh
+      - name: Promote best discovery (if any)
+        run: bash scripts/discovery/promote_best.sh || true
         run: |
           set -Eeuo pipefail
           lake build verify-chain
