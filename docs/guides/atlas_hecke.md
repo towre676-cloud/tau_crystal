@@ -17,3 +17,23 @@ To add a curve (minimal model), run:
 
 `bash scripts/atlas/add_curve.sh N label a1 a2 a3 a4 a6` then `bash scripts/atlas/build_atlas.sh`.
 
+
+## Example Usage
+
+List rows with prime counts:
+jq -r '.label + " (N=" + (.conductor|tostring) + "): " + (.panel.primes_evaluated|tostring) + " primes"' analysis/atlas/atlas_hecke.jsonl
+
+python
+Copy code
+
+Find curves with any Hasse issues:
+jq -r 'select(.flags.hasse_ok==false) | .label + " (worst r=" + (.checks.hasse.max_ratio|tostring) + " at p=" + (.checks.hasse.worst_p|tostring) + ")"' analysis/atlas/atlas_hecke.jsonl
+
+css
+Copy code
+
+Filter parity-eligible central zeros (Tier-A heuristic):
+jq -r 'select(.flags.candidate_central_zero==true) | .label' analysis/atlas/atlas_hecke.jsonl
+
+bash
+Copy code
