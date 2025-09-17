@@ -19,3 +19,5 @@ Extras:
 See the [Dummy’s User Guide](dummys-user-guide.md) for a start-to-finish walk-through.
 
 **Start here:** [Sealed witness: Dummy’s User Guide](/sealed)
+
+**Deep dive:** [Hecke 11a1 — Monograph](/monograph/11a1)
