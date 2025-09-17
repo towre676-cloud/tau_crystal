@@ -106,6 +106,9 @@ zkdiff demo 04:16:46Z
 
 ## Quick links
 
+- [Atlas — Hecke data](docs/guides/atlas_hecke.md)
+
+
 - [Monograph: Hecke 11a1](docs/guides/hecke-11a1-monograph.md)
 
 
