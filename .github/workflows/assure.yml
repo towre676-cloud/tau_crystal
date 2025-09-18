@@ -37,6 +37,12 @@ jobs:
       - name: Two-clone reproducibility
         run: bash scripts/spec/repro_matrix.sh
       - name: Promote best discovery (if any)
+      - name: 3-of-3 consensus (bash/lean/rust)
+        run: TAU_REQUIRE_TRIPLE=1 bash scripts/ops/consensus_check.sh
+      - name: Replay latest witness (sealed verifier)
+        run: bash scripts/ops/replay_witness.sh --latest || true
+      - name: Enrich atlas (parity + dual-scale numerics)
+        run: bash scripts/atlas/post_enrich.sh
         run: bash scripts/discovery/promote_best.sh || true
         run: |
           set -Eeuo pipefail
