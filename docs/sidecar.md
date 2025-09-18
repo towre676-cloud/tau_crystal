@@ -1,0 +1,5 @@
+# Side-Car Packs
+
+A side-car pack is a tar.gz with exactly two entries, `side_car.json` and `payload.bin`. The JSON must satisfy the canonical schema `schemas/side-car-v1.json` with `schema="side-car-v1"` and record the SHA-256 digest and byte length of `payload.bin`, along with a minimal provenance block. A valid pack is one whose JSON validates and whose recorded digest matches the bytes of `payload.bin` exactly. Anything else is rejected. The acceptance contract is therefore cryptographic rather than conventional; the grammar is the policy.
+
+Importing a pack into the corridor requires strict verification and a ledger mark. CI runs `scripts/sidecar/side_car_verify.sh --strict <pack>`; only if the verifier exits zero will the system append a single line to `analysis/atlas.jsonl` of type `SIDECAR_IMPORT`, naming the pack hash, schema version, and timestamp. This makes federation mechanical: acceptance is defined by schema and bytes, recorded as an append-only receipt, and guarded in CI so that no looser form can slip through later.
