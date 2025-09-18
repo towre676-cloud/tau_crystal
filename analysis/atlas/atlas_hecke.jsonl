@@ -1,0 +1,68 @@
+{
+  "label": "11a1",
+  "conductor": 11,
+  "coeffs": {
+    "a1": 1,
+    "a2": -1,
+    "a3": 0,
+    "a4": -10,
+    "a6": -20
+  },
+  "parity": {
+    "root_number": "null"
+  },
+  "panel": {
+    "path": "analysis/atlas/11a1/ap.tsv",
+    "primes_evaluated": 43,
+    "pmax": 199
+  },
+  "numeric": {
+    "L_half": {
+      "value": null,
+      "stable": null,
+      "tail_upper": null
+    }
+  },
+  "checks": {
+    "hasse_ok": false
+  },
+  "consensus": {
+    "bash": true,
+    "lean": true,
+    "offline": true
+  }
+}
+{
+  "label": "37a1",
+  "conductor": 37,
+  "coeffs": {
+    "a1": 0,
+    "a2": 0,
+    "a3": 1,
+    "a4": -1,
+    "a6": 0
+  },
+  "parity": {
+    "root_number": "null"
+  },
+  "panel": {
+    "path": "analysis/atlas/37a1/ap.tsv",
+    "primes_evaluated": 44,
+    "pmax": 199
+  },
+  "numeric": {
+    "L_half": {
+      "value": null,
+      "stable": null,
+      "tail_upper": null
+    }
+  },
+  "checks": {
+    "hasse_ok": false
+  },
+  "consensus": {
+    "bash": true,
+    "lean": true,
+    "offline": true
+  }
+}
