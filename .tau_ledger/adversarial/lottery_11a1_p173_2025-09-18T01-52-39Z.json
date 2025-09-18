@@ -1,0 +1,7 @@
+{
+  "schema":"taucrystal/adversarial_recount/v1",
+  "label":"11a1","p":173,"index":37,
+  "ap_ref":18,"ap_awk":18,"ap_py":18,
+  "agree_dual":true,"agree_ref":true,
+  "commit":"2b5019d7f5da","ts":"2025-09-18T01:52:39Z"
+}
