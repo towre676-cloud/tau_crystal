@@ -1,0 +1,8 @@
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/witness/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/data/atlas.jsonl
+  Cache-Control: public, max-age=60
