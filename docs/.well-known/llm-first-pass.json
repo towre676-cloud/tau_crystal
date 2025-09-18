@@ -1,3 +1,4 @@
 {
-  "llm_start_here": "https://raw.githubusercontent.com/towre676-cloud/tau_crystal/main/LLM_START_HERE.txt"
+  "llm_start_here": "https://raw.githubusercontent.com/towre676-cloud/tau_crystal/main/LLM_START_HERE.txt",
+  "zip_sha256_url": "https://github.com/towre676-cloud/tau_crystal/releases/download/export-repo-261da4bb9294/tau_crystal-261da4bb9294.zip.sha256"
 }
