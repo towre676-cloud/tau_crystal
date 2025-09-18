@@ -23,11 +23,36 @@
     "pmax": 199
   },
   "checks": {
-    "hasse_ok": true
+    "hasse": {
+      "violations": 0,
+      "max_ratio": 0.857868,
+      "worst_p": 197
+    },
+    "parity": {
+      "root_number": 1,
+      "locals": [
+        {
+          "p": 5,
+          "w": "unknown"
+        },
+        {
+          "p": 17,
+          "w": "+1"
+        }
+      ]
+    }
   },
   "numerics": {
-    "L1": "nan",
-    "Lhalf": "nan",
-    "tail_upper_bound": "nan"
+    "Lhalf": 1.659629960E-7,
+    "L1": 2.1044324184558376,
+    "two_scale_agree": {
+      "half": false,
+      "one": false
+    },
+    "tail_proxy": {
+      "half": 343.512198,
+      "one": 7.829150,
+      "method": "panel_truncation_awk"
+    }
   }
 }

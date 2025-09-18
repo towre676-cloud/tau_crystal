@@ -1,0 +1,8 @@
+{
+  "method": "point_counting_mod_p",
+  "primes_evaluated": 43,
+  "hasse": {
+    "max_ratio": 0.857868,
+    "worst_p": 197
+  }
+}
