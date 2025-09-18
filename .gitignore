@@ -115,3 +115,6 @@ analysis/passport_sig.tsv
 analysis/cp_residual.tsv
 analysis/arith_nonce.tsv
 .tmp_*.pem
+_exports/*.zip
+_exports/llm_message_*.txt
+_scratch/
