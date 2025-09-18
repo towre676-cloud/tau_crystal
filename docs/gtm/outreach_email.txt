@@ -1,0 +1,12 @@
+Subject: Tamper-evident integrity without blockchain overhead
+
+Hi <First Name> —
+
+When your team needs to prove that a build, dataset, or filing is exactly what was approved, today’s logs and screenshots are slow and disputable. We deliver a receipt-first integrity layer that turns each run into a tamper-evident chain and the repository into a single Merkle-rooted manifest. Fetch is commit-pinned, verification is offline, and the first divergent step is trivial to localize. It is blockchain-grade assurance without the blockchain.
+
+If you have one lane that creates audit drag or release risk, we can bind it end-to-end in two weeks and measure the reduction in time-to-evidence. If the evidentiary story is not cleaner and faster, do not expand. If it is, standardize it.
+
+Would you be open to a brief call to scope a pilot around your highest-friction lane?
+
+Best,
+Your Name
