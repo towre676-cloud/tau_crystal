@@ -1,4 +1,6 @@
 [![Plan: FREE](https://img.shields.io/badge/plan-FREE-blue?style=flat-square)](./.tau_plan_roots.env)
+
+A plain first-pass entry for language models is available in `LLM_START_HERE.txt` and `docs/LLM_START_HERE.md`.
 [![CI](https://img.shields.io/github/actions/workflow/status/towre676-cloud/tau_crystal.git/verify.yml?style=flat-square)](https://github.com/towre676-cloud/tau_crystal.git/actions)
 [![Attestation](https://img.shields.io/badge/attestation-ledger-green?style=flat-square)](./.tau_ledger/attestation.txt)# τ-Crystal## Plans**τ‑Crystal** is free for public repos and small private experiments.  
 **Pro** ($12k/year) turns it into an org-grade verification spine:- Organization-wide SSO and policy enforcement
