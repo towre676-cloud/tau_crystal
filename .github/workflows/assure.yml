@@ -42,6 +42,12 @@ jobs:
       - name: Replay latest witness (sealed verifier)
         run: bash scripts/ops/replay_witness.sh --latest || true
       - name: Enrich atlas (parity + dual-scale numerics)
+      - name: Poison canary
+        run: bash scripts/spec/poison_check.sh
+      - name: Adversarial re-count lottery
+        run: bash scripts/atlas/adversarial_lottery.sh
+      - name: Enrich atlas (mirror + adversarial verdicts)
+        run: bash scripts/atlas/post_enrich.sh
         run: bash scripts/atlas/post_enrich.sh
         run: bash scripts/discovery/promote_best.sh || true
         run: |
