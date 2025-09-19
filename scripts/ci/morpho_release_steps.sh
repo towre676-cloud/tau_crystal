@@ -7,6 +7,11 @@ PACK="$(scripts/morpho/latest_complete_pack.sh 2>/dev/null || true)"
 scripts/morpho/after_publish.sh "$PACK" || exit 3
 REC="$PACK/corridor.receipt.tsv"; GLB="$PACK/global.L"
 [ -f "$REC" ] && [ -f "$GLB" ] || { echo "missing receipt/global.L"; echo "::endgroup::"; exit 0; }
+
+# Geometry strict gate: soft by default; set HARD=1 to require pass
+GATE_MODE="soft"; [ "${HARD:-0}" = "1" ] && GATE_MODE="hard"
+scripts/morpho/geom_gate.sh "$GATE_MODE" "$PACK" || { echo "strict gate blocked release"; echo "::endgroup::"; exit 0; }
+
 ROOT="$(awk '$1=="ROOT"{print $2}' "$REC" | head -n1)"
 [ -n "$ROOT" ] || { echo "receipt missing ROOT"; echo "::endgroup::"; exit 0; }
 TAG="morpho-pack-${ROOT:0:12}"
