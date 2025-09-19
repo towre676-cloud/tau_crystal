@@ -1,36 +1,30 @@
 name: morpho-ci
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
 jobs:
-  run-morpho:
+  morpho:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Show tree (sanity)
+      - name: Show face outputs if present
         run: |
           set -euo pipefail
-          git status -s || true
-          find . -maxdepth 3 -type d -name "morpho" -print || true
-      - name: Run morpho analyzer (guarded)
-        shell: bash
-        run: |
-          set -euo pipefail
-          bash scripts/ci/morpho_ci.sh
-          bash scripts/morpho/emit_face_public.sh || true
-      - name: Upload receipts and reports
+          for f in analysis/morpho/output/FACE.txt analysis/morpho/output/face2.txt; do
+            [ -s "$f" ] && { echo "----- $f -----"; sed -n "1,999999p" "$f"; } || true
+          done
+          for f in analysis/morpho/public/FACE.txt analysis/morpho/public/face2.txt; do
+            [ -s "$f" ] && { echo "----- $f -----"; sed -n "1,999999p" "$f"; } || true
+          done
+      - name: Upload morpho-receipts
         uses: actions/upload-artifact@v4
         with:
-          retention-days: 365
           name: morpho-receipts
+          retention-days: 365
           path: |
-            analysis/morpho/output/morpho_report.json
-            analysis/morpho/output/morpho_report.md
-            analysis/morpho/ledger/*.jsonl
+            analysis/morpho/output/FACE.txt
+            analysis/morpho/output/face2.txt
             analysis/morpho/public/FACE.txt
             analysis/morpho/public/face2.txt
-            analysis/morpho/public/face_public_*.tar
-          if-no-files-found: warn
+            analysis/morpho/public/coin_id.txt
