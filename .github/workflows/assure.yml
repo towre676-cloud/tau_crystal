@@ -1,5 +1,9 @@
+on: { workflow_dispatch: {, workflow_dispatch: {}} }
 name: assure
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
 jobs:
   strict:
     runs-on: ubuntu-latest

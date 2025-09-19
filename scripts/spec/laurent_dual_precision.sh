@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+set -Eeuo pipefail
+IFS=$'
+	'
+
+#!/usr/bin/env bash
 set -Eeuo pipefail; set +H; umask 022
 die(){ echo "[laurent:dual] $*" >&2; exit 6; }
 [ -s analysis/laurent_ring.tsv ] || die "missing analysis/laurent_ring.tsv"
