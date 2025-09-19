@@ -139,3 +139,5 @@ _scratch/
 !analysis/morpho/**/*.csv
 !analysis/morpho/**/*.tsv
 !analysis/morpho/**/*.txt
+analysis/morpho/input/
+analysis/morpho/output/
