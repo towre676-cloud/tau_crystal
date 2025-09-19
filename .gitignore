@@ -143,3 +143,4 @@ analysis/morpho/input/
 analysis/morpho/output/
 !analysis/morpho/output/*
 !analysis/morpho/public/*
+.tau_ledger/geom/_archive/
