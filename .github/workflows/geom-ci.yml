@@ -1,0 +1,57 @@
+name: geom-ci
+on: [push, pull_request]
+jobs:
+  run-geom:
+    runs-on: ubuntu-latest
+    defaults: { run: { shell: bash } }
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y graphviz
+          git config --global core.autocrlf input
+          chmod +x scripts/geom/*.sh || true
+      - name: Seed demo TSVs
+        run: |
+          mkdir -p analysis/geom
+          [ -s analysis/geom/left.tsv ]  || { echo -e "# x\ty\n0.30\t0.00\n0.00\t0.40\n-0.25\t-0.10" > analysis/geom/left.tsv; }
+          [ -s analysis/geom/right.tsv ] || { echo -e "# x\ty\n-0.30\t0.00\n0.00\t0.40\n0.25\t-0.10" > analysis/geom/right.tsv; }
+          [ -s analysis/geom/front_A.tsv ] || { echo -e "# x\ty\n-0.50\t0.00\n0.50\t0.00\n0.00\t0.60" > analysis/geom/front_A.tsv; }
+          cp -f analysis/geom/front_A.tsv analysis/geom/front_B.tsv
+      - name: Clean receipts for CI run
+        run: |
+          mkdir -p .tau_ledger/geom/_ci_archive
+          mv .tau_ledger/geom/*.json .tau_ledger/geom/_ci_archive/ 2>/dev/null || true
+      - name: Generate receipts (ops → infer)
+        run: |
+          set -euo pipefail
+          L="analysis/geom/left.tsv"
+          R="analysis/geom/right.tsv"
+          A1="analysis/geom/front_A.tsv"
+          A2="analysis/geom/front_B.tsv"
+          B="analysis/geom/front_B.tsv"
+          SYM_REC=$(scripts/geom/op.sh symmetry "$L" "$R" 0.0200)
+          STB_REC=$(scripts/geom/op.sh stability "$A1" "$A2" 0.0500)
+          ANCH_REC=$(scripts/geom/infer.sh anchor "$SYM_REC" "$STB_REC")
+          SIM_REC=$(scripts/geom/op.sh similar "$A1" "$B" 0.0150)
+          VER_REC=$(scripts/geom/infer.sh verify "$ANCH_REC" "$SIM_REC")
+          echo "Receipts:"; echo "$SYM_REC"; echo "$STB_REC"; echo "$ANCH_REC"; echo "$SIM_REC"; echo "$VER_REC"
+      - name: Judge + render + strict
+        run: |
+          scripts/geom/judge.sh .tau_ledger/geom
+          scripts/geom/render_graph.sh analysis/geom/proof.dot || true
+          scripts/geom/strict_ci.sh .tau_ledger/geom
+      - name: Calibrate (suggest)
+        run: |
+          scripts/geom/calibrate.sh symmetry  0.0010 0.0300 8 0.95 || true
+          scripts/geom/calibrate.sh stability 0.0010 0.1000 8 0.95 || true
+          scripts/geom/calibrate.sh similar   0.0010 0.0300 8 0.95 || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: geom-proof
+          path: |
+            analysis/geom/transcript.tsv
+            analysis/geom/proof.dot
+            analysis/geom/proof.dot.png
+          if-no-files-found: warn
