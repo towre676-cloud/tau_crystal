@@ -1,0 +1,68 @@
+on: { workflow_dispatch: {, workflow_dispatch: {}} }
+name: assure
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  strict:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: PANIC sentinel
+        run: test ! -s PANIC || { echo "::error file=PANIC::panic asserted"; exit 2; }
+      - name: Spec guard
+        run: bash scripts/spec/spec_guard.sh
+      - name: Runner attestation
+        run: bash scripts/ops/attest_env.sh
+      - name: Strict assurance (Bash)
+        run: bash scripts/ops/assure_strict.sh
+      - name: Offline verify (receipt-only)
+        run: bash scripts/ops/verify_against_receipt.sh
+      - name: Install elan
+        run: |
+          set -Eeuo pipefail
+          curl -fsSL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o /tmp/elan.sh
+          bash /tmp/elan.sh -y --default-toolchain stable
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+      - name: Lean verify-chain
+      - name: Lock reciprocity witnesses
+        run: bash scripts/ops/reciprocity_lock.sh
+      - name: Reciprocity pair gate
+        run: bash scripts/spec/reciprocity_gate.sh
+      - name: Triple consensus (bash/lean/rust)
+        run: TAU_REQUIRE_TRIPLE=1 bash scripts/spec/triple_consensus.sh
+      - name: Double-zero prefilter
+        run: bash scripts/atlas/flag_double_zero.sh
+      - name: Triple consensus (bash/lean/rust)
+        run: TAU_REQUIRE_TRIPLE=1 bash scripts/spec/triple_consensus.sh
+      - name: Double-zero prefilter
+        run: bash scripts/atlas/flag_double_zero.sh
+      - name: Build Tier-A Atlas (Hecke panel)
+        run: bash scripts/atlas/build_atlas.sh
+      - name: Red-team spine
+        run: bash scripts/spec/redteam_spine.sh
+      - name: Two-clone reproducibility
+        run: bash scripts/spec/repro_matrix.sh
+      - name: Promote best discovery (if any)
+      - name: 3-of-3 consensus (bash/lean/rust)
+        run: TAU_REQUIRE_TRIPLE=1 bash scripts/ops/consensus_check.sh
+      - name: Replay latest witness (sealed verifier)
+        run: bash scripts/ops/replay_witness.sh --latest || true
+      - name: Enrich atlas (parity + dual-scale numerics)
+      - name: Poison canary
+        run: bash scripts/spec/poison_check.sh
+      - name: Adversarial re-count lottery
+        run: bash scripts/atlas/adversarial_lottery.sh
+      - name: Enrich atlas (mirror + adversarial verdicts)
+        run: bash scripts/atlas/post_enrich.sh
+        run: bash scripts/atlas/post_enrich.sh
+        run: bash scripts/discovery/promote_best.sh || true
+        run: |
+          set -Eeuo pipefail
+          lake build verify-chain
+          ./build/bin/verify-chain
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3
+      - name: Sealed binary verifier
+        run: bash scripts/ops/verify_release_binary.sh
