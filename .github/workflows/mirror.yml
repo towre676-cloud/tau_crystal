@@ -1,5 +1,6 @@
 name: mirror-world
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'scripts/atlas/**'
