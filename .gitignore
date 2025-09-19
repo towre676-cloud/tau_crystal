@@ -142,3 +142,4 @@ _scratch/
 analysis/morpho/input/
 analysis/morpho/output/
 !analysis/morpho/output/*
+!analysis/morpho/public/*
