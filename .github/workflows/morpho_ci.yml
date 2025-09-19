@@ -1,0 +1,31 @@
+name: morpho-ci
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  run-morpho:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Show tree (sanity)
+        run: |
+          set -euo pipefail
+          git status -s || true
+          find . -maxdepth 3 -type d -name "morpho" -print || true
+      - name: Run morpho analyzer (guarded)
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/ci/morpho_ci.sh
+      - name: Upload receipts and reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: morpho-receipts
+          path: |
+            analysis/morpho/output/morpho_report.json
+            analysis/morpho/output/morpho_report.md
+            analysis/morpho/ledger/*.jsonl
+          if-no-files-found: warn
