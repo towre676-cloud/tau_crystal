@@ -1,0 +1,20 @@
+name: spec-guard
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  spec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Laurent dual-precision consistency
+        run: bash scripts/spec/laurent_dual_precision.sh
+      - name: 3-of-3 consensus gate
+        run: bash scripts/spec/consensus_gate.sh
+      - name: Emit metrics ledger
+        run: bash scripts/ops/emit_metrics.sh
+      - name: Replay latest witness pack (best-effort)
+        run: bash scripts/ops/replay_witness.sh || true

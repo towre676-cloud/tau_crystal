@@ -1,0 +1,8 @@
+{
+  "schema": "taucrystal/evolver/v1",
+  "id": "evolver-20250914T151255Z",
+  "params": {
+    "opt_level": "O0",
+    "cache_size": 672
+  }
+}

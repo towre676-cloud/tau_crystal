@@ -1,0 +1,9 @@
+name: panic-sentinel
+on: [push, pull_request]
+jobs:
+  tripwire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fail if PANIC file present
+        run: test ! -s PANIC || { echo "::error file=PANIC::panic asserted"; exit 2; }

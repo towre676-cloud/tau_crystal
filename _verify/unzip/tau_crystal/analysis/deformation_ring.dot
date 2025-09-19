@@ -1,0 +1,4 @@
+graph G {
+  "reciprocity_best" [label="reciprocity_best\nS=294000\nT=-176000"];
+  "reciprocity_second" [label="reciprocity_second\nS=322190\nT=-191381"];
+}

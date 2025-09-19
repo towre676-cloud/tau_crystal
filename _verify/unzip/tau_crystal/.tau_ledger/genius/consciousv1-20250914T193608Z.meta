@@ -1,0 +1,6 @@
+schema: taucrystal/conscious/v1
+id: consciousv1-20250914T193608Z
+utc: 20250914T193608Z
+mean: 0.666668666668
+variance: 0.097222555557
+is_deterministic: 0
