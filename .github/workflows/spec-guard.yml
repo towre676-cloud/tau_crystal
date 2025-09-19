@@ -1,3 +1,6 @@
+env:
+  SOFT_PASS: true
+
 name: spec-guard
 on:
   workflow_dispatch:
@@ -19,7 +22,7 @@ jobs:
           set -Eeuo pipefail
           if [ -x scripts/spec/laurent_dual_precision.sh ]; then
             echo "::group::spec laurent_dual_precision"
-            bash scripts/spec/laurent_dual_precision.sh || { echo "::warning::spec script failed; soft-passing for now"; }
+            bash scripts/spec/laurent_dual_precision.sh || { if [ "${SOFT_PASS:-true}" = "true" ]; then echo "::warning::spec script failed; soft-passing for now"; else exit 1; fi; }
             echo "::endgroup::"
           else
             echo "::notice::scripts/spec/laurent_dual_precision.sh not found; skipping"
