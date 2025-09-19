@@ -121,3 +121,21 @@ _scratch/
 !.secrets/*
 !analysis/morpho/ledger/*
 !analysis/morpho/thumbs/*
+# allow full morpho tree (override global media ignores)
+!analysis/morpho/
+!analysis/morpho/**
+!analysis/morpho/input/
+!analysis/morpho/output/
+!analysis/morpho/manifest.tsv
+!analysis/morpho/**/*.jpg
+!analysis/morpho/**/*.jpeg
+!analysis/morpho/**/*.png
+!analysis/morpho/**/*.heic
+!analysis/morpho/**/*.HEIC
+!analysis/morpho/**/*.svg
+!analysis/morpho/**/*.pdf
+!analysis/morpho/**/*.md
+!analysis/morpho/**/*.json
+!analysis/morpho/**/*.csv
+!analysis/morpho/**/*.tsv
+!analysis/morpho/**/*.txt
