@@ -118,6 +118,6 @@ analysis/arith_nonce.tsv
 _exports/*.zip
 _exports/llm_message_*.txt
 _scratch/
-analysis/morpho/input/
-analysis/morpho/output/
-analysis/morpho/manifest.tsv
+!.secrets/*
+!analysis/morpho/ledger/*
+!analysis/morpho/thumbs/*
