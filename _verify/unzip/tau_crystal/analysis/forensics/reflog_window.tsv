@@ -1,0 +1,152 @@
+2025-09-12T22:42:21-04:00	ce96061 HEAD@{2025-09-12T22:42:21-04:00}: commit: ci: force explicit receipt path; non-fatal picker; upload
+2025-09-12T22:42:08-04:00	87f75fc HEAD@{2025-09-12T22:42:08-04:00}: checkout: moving from tau-receipt-test to tau-receipt-test
+2025-09-12T22:40:21-04:00	87f75fc HEAD@{2025-09-12T22:40:21-04:00}: commit: ci: make receipt picker non-fatal; always upload if found
+2025-09-12T22:40:15-04:00	77fe3cb HEAD@{2025-09-12T22:40:15-04:00}: checkout: moving from tau-receipt-test to tau-receipt-test
+2025-09-12T22:37:49-04:00	77fe3cb HEAD@{2025-09-12T22:37:49-04:00}: commit: ci: robust receipt path + upload
+2025-09-12T22:37:40-04:00	40ef2b7 HEAD@{2025-09-12T22:37:40-04:00}: checkout: moving from tau-receipt-test to tau-receipt-test
+2025-09-12T22:28:46-04:00	40ef2b7 HEAD@{2025-09-12T22:28:46-04:00}: commit: ci: run marketplace action and upload receipt
+2025-09-12T22:28:38-04:00	7ef5eda HEAD@{2025-09-12T22:28:38-04:00}: checkout: moving from tau-receipt-test to tau-receipt-test
+2025-09-12T22:04:52-04:00	7ef5eda HEAD@{2025-09-12T22:04:52-04:00}: commit: ci: test with monorepo action tag v1.0.12
+2025-09-12T22:04:50-04:00	2519860 HEAD@{2025-09-12T22:04:50-04:00}: checkout: moving from tau-receipt-test to tau-receipt-test
+2025-09-12T21:59:57-04:00	2519860 HEAD@{2025-09-12T21:59:57-04:00}: commit: ci: robust receipt finder (outputs or scan) + upload
+2025-09-12T21:59:48-04:00	75b5dc2 HEAD@{2025-09-12T21:59:48-04:00}: checkout: moving from tau-receipt-test to tau-receipt-test
+2025-09-12T21:57:55-04:00	75b5dc2 HEAD@{2025-09-12T21:57:55-04:00}: commit: ci: compute receipt path (output or default) and upload
+2025-09-12T21:57:46-04:00	c9b388a HEAD@{2025-09-12T21:57:46-04:00}: checkout: moving from tau-receipt-test to tau-receipt-test
+2025-09-12T21:56:10-04:00	c9b388a HEAD@{2025-09-12T21:56:10-04:00}: commit: ci: use outputs.receipt and upload it
+2025-09-12T21:56:02-04:00	3dae76e HEAD@{2025-09-12T21:56:02-04:00}: checkout: moving from tau-receipt-test to tau-receipt-test
+2025-09-12T21:54:54-04:00	3dae76e HEAD@{2025-09-12T21:54:54-04:00}: commit: ci: upload tau receipt reliably (always, with fallback path)
+2025-09-12T21:54:46-04:00	4726e34 HEAD@{2025-09-12T21:54:46-04:00}: checkout: moving from tau-receipt-test to tau-receipt-test
+2025-09-12T21:53:01-04:00	4726e34 HEAD@{2025-09-12T21:53:01-04:00}: commit: ci: always upload tau receipt for local verify
+2025-09-12T21:52:54-04:00	8ecd5df HEAD@{2025-09-12T21:52:54-04:00}: checkout: moving from tau-receipt-test to tau-receipt-test
+2025-09-12T21:46:14-04:00	8ecd5df HEAD@{2025-09-12T21:46:14-04:00}: checkout: moving from tau-receipt-test to tau-receipt-test
+2025-09-12T21:42:44-04:00	8ecd5df HEAD@{2025-09-12T21:42:44-04:00}: commit: ci: emit tau receipt for local verify demo
+2025-09-12T21:42:37-04:00	104a824 HEAD@{2025-09-12T21:42:37-04:00}: checkout: moving from clean-20250912-231857 to tau-receipt-test
+2025-09-12T19:27:51-04:00	104a824 HEAD@{2025-09-12T19:27:51-04:00}: commit: chore: Marketplace cleanup (single root action.yml, no workflows)
+2025-09-12T19:18:59-04:00	47a9c0a HEAD@{2025-09-12T19:18:59-04:00}: checkout: moving from rescue-workflows-20250912-231836 to clean-20250912-231857
+2025-09-12T19:18:43-04:00	c3466c5 HEAD@{2025-09-12T19:18:43-04:00}: commit: rescue: restore workflows from 47a9c0a04af4a115c44f214e4fc224bafd8b8ef3 (20250912-231836)
+2025-09-12T19:18:42-04:00	db2550b HEAD@{2025-09-12T19:18:42-04:00}: reset: moving to HEAD
+2025-09-12T19:18:41-04:00	db2550b HEAD@{2025-09-12T19:18:41-04:00}: checkout: moving from main to rescue-workflows-20250912-231836
+2025-09-12T19:16:58-04:00	db2550b HEAD@{2025-09-12T19:16:58-04:00}: checkout: moving from main to main
+2025-09-12T19:15:45-04:00	db2550b HEAD@{2025-09-12T19:15:45-04:00}: checkout: moving from main to main
+2025-09-12T19:14:48-04:00	db2550b HEAD@{2025-09-12T19:14:48-04:00}: checkout: moving from docs/publish-monographs to main
+2025-09-12T19:14:46-04:00	8043c46 HEAD@{2025-09-12T19:14:46-04:00}: reset: moving to HEAD
+2025-09-12T19:12:32-04:00	8043c46 HEAD@{2025-09-12T19:12:32-04:00}: commit: ci: YAML parse fixes (concurrency stub, env spacing, hashFiles, output indent); normalize EOL/tabs; dedupe job key
+2025-09-12T18:40:16-04:00	760cd4d HEAD@{2025-09-12T18:40:16-04:00}: commit: ci: fix YAML syntax errors (concurrency stub, hashFiles, PUSH_BEFORE spacing)
+2025-09-12T18:19:59-04:00	91e202c HEAD@{2025-09-12T18:19:59-04:00}: commit: chore: remove workflows from action repo for Marketplace
+2025-09-12T18:12:14-04:00	47a9c0a HEAD@{2025-09-12T18:12:14-04:00}: commit: action: require wrapper-digest enforcement inside composite
+2025-09-12T17:55:01-04:00	f4304fc HEAD@{2025-09-12T17:55:01-04:00}: commit: action: embed wrapper-digest step (writes action_wrapper_sha into manifest/receipt)
+2025-09-12T17:32:18-04:00	e8323b6 HEAD@{2025-09-12T17:32:18-04:00}: commit: action hardening: wrapper digest in receipts, pure-bash verifier, outputs schema, v0 branch badge hook
+2025-09-12T15:40:59-04:00	404ec97 HEAD@{2025-09-12T15:40:59-04:00}: commit: feat(action): add composite action, self-test workflow, and usage docs
+2025-09-12T15:05:53-04:00	ed9b21c HEAD@{2025-09-12T15:05:53-04:00}: commit: wire pav.awk + tau_fuse; enforce receipt spec; stage receipt deltas
+2025-09-12T15:00:50-04:00	adbc223 HEAD@{2025-09-12T15:00:50-04:00}: commit: scripts: fuse signals without /dev/fd; awk+sort to align by time
+2025-09-12T15:00:43-04:00	8de3a1e HEAD@{2025-09-12T15:00:43-04:00}: commit: scripts: make pav.awk fd-safe and actually compute diagnostics
+2025-09-12T14:58:03-04:00	befe9cd HEAD@{2025-09-12T14:58:03-04:00}: commit: scripts: add tau_adapter.sh to orchestrate sweep→fuse→receipt
+2025-09-12T14:57:51-04:00	3ed5838 HEAD@{2025-09-12T14:57:51-04:00}: commit: scripts: add spec_guard.sh to enforce tau_class/provenance/operator tokens
+2025-09-12T14:57:39-04:00	831d309 HEAD@{2025-09-12T14:57:39-04:00}: commit: scripts: add ensemble τ fuse via PAV over multi-signal series
+2025-09-12T14:57:24-04:00	ae75872 HEAD@{2025-09-12T14:57:24-04:00}: commit: scripts: add K/ω sweep with stability score and calibration receipt
+2025-09-12T14:56:59-04:00	6c2a891 HEAD@{2025-09-12T14:56:59-04:00}: commit: scripts: add pav.awk isotonic fuse for ensemble τ
+2025-09-12T14:56:45-04:00	51a0b01 HEAD@{2025-09-12T14:56:45-04:00}: commit: docs: publish τ-axioms (admissible class) as prose
+2025-09-12T14:52:30-04:00	9819806 HEAD@{2025-09-12T14:52:30-04:00}: commit: ci: add receipt_guard workflow to call scripts/tau_verify.sh
+2025-09-11T21:01:40-04:00	523bb20 HEAD@{2025-09-11T21:01:40-04:00}: commit: ci: add red-PR maintenance scripts (B6 by commit/check, B7 ping, B8 rollup)
+2025-09-11T18:08:49-04:00	1b23957 HEAD@{2025-09-11T18:08:49-04:00}: commit: ci: trigger action selftest
+2025-09-11T17:43:31-04:00	a6bc625 HEAD@{2025-09-11T17:43:31-04:00}: commit: action: composite wrapper + self-test + docs snippet
+2025-09-11T17:31:28-04:00	f684ded HEAD@{2025-09-11T17:31:28-04:00}: commit: action: composite wrapper + self-test + docs snippet
+2025-09-11T17:29:16-04:00	3035054 HEAD@{2025-09-11T17:29:16-04:00}: commit: action: composite wrapper + self-test + docs snippet
+2025-09-11T17:13:27-04:00	d58c075 HEAD@{2025-09-11T17:13:27-04:00}: commit: action: add τ-Crystal composite action + self-test
+2025-09-11T15:41:24-04:00	413d82c HEAD@{2025-09-11T15:41:24-04:00}: commit: ci(actionlint): use 'latest DIR' syntax across workflows
+2025-09-11T15:41:11-04:00	effda84 HEAD@{2025-09-11T15:41:11-04:00}: commit: chore: ignore/remove ci_fast.yml backups
+2025-09-11T15:37:39-04:00	c2c954d HEAD@{2025-09-11T15:37:39-04:00}: commit: ci(actionlint): replace '-b ./bin' with 'latest ./bin'
+2025-09-11T15:33:29-04:00	957aef3 HEAD@{2025-09-11T15:33:29-04:00}: commit: ci(ci-fast): restore from backup
+2025-09-11T15:31:08-04:00	bd56e59 HEAD@{2025-09-11T15:31:08-04:00}: commit: ci(fast-path): mixed proof -> fallback
+2025-09-11T15:31:04-04:00	cb3b3a8 HEAD@{2025-09-11T15:31:04-04:00}: commit: ci(fast-path): engine-only proof
+2025-09-11T15:30:47-04:00	d24a54a HEAD@{2025-09-11T15:30:47-04:00}: commit: ci(ci-fast): treat mixed changes as fallback; root-only stays root fast-path
+2025-09-11T15:21:47-04:00	9d71bc7 HEAD@{2025-09-11T15:21:47-04:00}: commit: ci(fast-path): mixed probe (root+engine)
+2025-09-11T15:21:42-04:00	0fa23a4 HEAD@{2025-09-11T15:21:42-04:00}: commit: ci(fast-path): engine-only probe
+2025-09-11T15:19:43-04:00	c7991e7 HEAD@{2025-09-11T15:19:43-04:00}: commit: ci(fast-path): mixed probe (root + engine)
+2025-09-11T15:19:38-04:00	a37882d HEAD@{2025-09-11T15:19:38-04:00}: commit: ci(fast-path): engine-only probe
+2025-09-11T15:17:08-04:00	1277a4f HEAD@{2025-09-11T15:17:08-04:00}: commit: ci: paths-ignore + summary + cache-key notices
+2025-09-11T15:11:05-04:00	cd6bce9 HEAD@{2025-09-11T15:11:05-04:00}: commit: ci: add cache restore/save to ci_fast, ci_prewarm, ci_bench
+2025-09-11T15:07:26-04:00	852d26b HEAD@{2025-09-11T15:07:26-04:00}: commit: ci: add clean ci_prewarm workflow
+2025-09-11T15:07:13-04:00	9bbdda3 HEAD@{2025-09-11T15:07:13-04:00}: commit: ci: add clean ci_fast workflow with auto module/root fast-path
+2025-09-11T15:04:40-04:00	1680920 HEAD@{2025-09-11T15:04:40-04:00}: commit: ci: add minimal ci_bench workflow
+2025-09-11T15:04:28-04:00	abde96e HEAD@{2025-09-11T15:04:28-04:00}: commit: ci: add setup_lean helper
+2025-09-11T15:01:12-04:00	4a0ecc4 HEAD@{2025-09-11T15:01:12-04:00}: commit: ci: fix YAML (remove stray 0++ concurrency; clean fast/prewarm workflows)
+2025-09-11T14:52:44-04:00	df2a7d6 HEAD@{2025-09-11T14:52:44-04:00}: commit: ci: tune TESTS_PER_SHARD=120 and MATRIX_MAX_SHARDS=6
+2025-09-11T14:52:34-04:00	5b20555 HEAD@{2025-09-11T14:52:34-04:00}: commit: ci(fast-path): mixed change to force full path
+2025-09-11T14:50:49-04:00	e867a6d HEAD@{2025-09-11T14:50:49-04:00}: commit: ci(fast-path): probe engine-only change to trigger module fast path
+2025-09-11T14:49:28-04:00	cc0ba48 HEAD@{2025-09-11T14:49:28-04:00}: commit: tooling: add ci_fast_print helper
+2025-09-11T14:49:14-04:00	3b0483d HEAD@{2025-09-11T14:49:14-04:00}: commit: ci(fast-path): add ci-fast to engine/
+2025-09-11T14:26:06-04:00	fc5da3e HEAD@{2025-09-11T14:26:06-04:00}: commit: tooling: add portable make wrapper for Git Bash
+2025-09-11T14:25:55-04:00	dd45118 HEAD@{2025-09-11T14:25:55-04:00}: commit: ci(fast-path): normalize LF, set SHELL, and prep ci-fast hygiene
+2025-09-11T12:38:11-04:00	ccedb2d HEAD@{2025-09-11T12:38:11-04:00}: commit: ci: demo fast-path (root-only change)
+2025-09-11T12:36:48-04:00	0bc006a HEAD@{2025-09-11T12:36:48-04:00}: commit: ci(fast-path): support repo-root Makefile:ci-fast and print module scan
+2025-09-11T12:29:23-04:00	36602d6 HEAD@{2025-09-11T12:29:23-04:00}: commit: ci: add fast-path module run (Makefile:ci-fast), tunable .github/ci.env, keep dynamic sharding & summary
+2025-09-11T12:22:45-04:00	f0707d7 HEAD@{2025-09-11T12:22:45-04:00}: commit: ci: add PR summary (changed stacks, test count, shard total) to visualize speedups per run
+2025-09-11T12:22:15-04:00	d18a1ea HEAD@{2025-09-11T12:22:15-04:00}: commit: ci: add PR summary (changed stacks, test count, shard total) to visualize speedups per run
+2025-09-11T12:21:49-04:00	508d071 HEAD@{2025-09-11T12:21:49-04:00}: commit: ci: add PR summary (changed stacks, test count, shard total) to visualize speedups per run
+2025-09-11T12:19:27-04:00	537dc8d HEAD@{2025-09-11T12:19:27-04:00}: commit: ci(python/rust): install dev deps for testmon/xdist; upload nextest JUnit; preserve dynamic sharding & stack skipping
+2025-09-11T12:15:48-04:00	d78b76c HEAD@{2025-09-11T12:15:48-04:00}: commit: ci(test-speed): add nextest CI profile; ensure pytest-xdist & pytest-testmon in dev requirements
+2025-09-11T12:13:22-04:00	c05a6ed HEAD@{2025-09-11T12:13:22-04:00}: commit: ci: job-level skip when nothing changed; pytest-testmon; cargo-nextest; keep dynamic sharding & caches
+2025-09-11T12:08:11-04:00	2523e74 HEAD@{2025-09-11T12:08:11-04:00}: commit: ci: dynamic sharding from test count + cache restore-keys; keep stack-skipping via paths-filter
+2025-09-11T12:03:06-04:00	23276a1 HEAD@{2025-09-11T12:03:06-04:00}: commit: ci: skip entire language stacks when untouched via dorny/paths-filter; keep sharding & caches
+2025-09-11T11:56:57-04:00	b829f54 HEAD@{2025-09-11T11:56:57-04:00}: commit: ci: nightly cache warmer to keep deps & build caches hot (improves first-run latency)
+2025-09-11T11:56:52-04:00	0b8c494 HEAD@{2025-09-11T11:56:52-04:00}: commit: ci: push toward 10x — fix shard helper, 8-way sharding, cargo-chef deps cache, pytest xdist, GHA Docker cache
+2025-09-11T11:52:43-04:00	c4b2d02 HEAD@{2025-09-11T11:52:43-04:00}: commit: ci(heavy): add Rust sccache, Go build-cache, and Docker Buildx cache; keep path filters + sharding
+2025-09-11T11:48:08-04:00	97a6b36 HEAD@{2025-09-11T11:48:08-04:00}: commit: ci: add heavy workflow with path filtering, warm caches, and sharded test skeleton; add shard helper
+2025-09-11T11:38:51-04:00	63b3885 HEAD@{2025-09-11T11:38:51-04:00}: commit: ci: collapse branch-protection gh api call to single line; avoid -F split errors; clear hints
+2025-09-11T11:36:07-04:00	89dec9f HEAD@{2025-09-11T11:36:07-04:00}: commit: ci: harden branch-protection helper (API headers, dual contexts, clear hints)
+2025-09-11T11:33:44-04:00	1a3bc03 HEAD@{2025-09-11T11:33:44-04:00}: commit: guardrails: pre-push spec_guard; optional branch protection via gh; keep LF+format invariants
+2025-09-11T11:31:15-04:00	83a1ad0 HEAD@{2025-09-11T11:31:15-04:00}: commit: docs: add spec-guard badge to README and CI explainer prose
+2025-09-11T11:29:42-04:00	b13f566 HEAD@{2025-09-11T11:29:42-04:00}: commit: docs: finalize v1.2 spec (ordering, vector, τ-recipe, TCB, protocol); remove aside; CI guard wired
+2025-09-11T11:28:00-04:00	e283ef5 HEAD@{2025-09-11T11:28:00-04:00}: commit: chore: enforce LF for chain.head via .gitattributes
+2025-09-11T11:26:22-04:00	cfec395 HEAD@{2025-09-11T11:26:22-04:00}: commit: ci(spec-guard): build demo manifest+receipt in CI before running guard
+2025-09-11T11:21:35-04:00	75cdf22 HEAD@{2025-09-11T11:21:35-04:00}: commit: ci(spec-guard): enforce monograph v1.2 invariants (test-vector hash, chain-head format, merkle equality)
+2025-09-11T00:07:46-04:00	a62bf82 HEAD@{2025-09-11T00:07:46-04:00}: commit: chore(docs): tighten key-order adjective
+2025-09-11T00:01:25-04:00	cfaaace HEAD@{2025-09-11T00:01:25-04:00}: commit: chore(docs): canonicalize monograph; clarify canonical key order and ingress env mapping
+2025-09-10T23:39:52-04:00	05ade8a HEAD@{2025-09-10T23:39:52-04:00}: commit: ci: normalize top-level concurrency (fast)
+2025-09-10T23:39:50-04:00	7411a8e HEAD@{2025-09-10T23:39:50-04:00}: commit: ci: normalize top-level concurrency (prewarm)
+2025-09-10T23:12:20-04:00	7166eba HEAD@{2025-09-10T23:12:20-04:00}: commit: ci: swap lean-action → elan bootstrap; grant bench publish perms
+2025-09-10T23:10:45-04:00	0513f3a HEAD@{2025-09-10T23:10:45-04:00}: commit: ci: disable noisy workflows (keep ci-fast, ci-bench, ci-prewarm, ci-lint, codeql)
+2025-09-10T22:06:47-04:00	a9465f0 HEAD@{2025-09-10T22:06:47-04:00}: commit: ci: warm cache
+2025-09-10T21:26:11-04:00	3164590 HEAD@{2025-09-10T21:26:11-04:00}: commit: ci(lint): safe actionlint installer + minimal lint workflow
+2025-09-10T21:18:23-04:00	b9db0ee HEAD@{2025-09-10T21:18:23-04:00}: commit: ci: trigger ci-fast
+2025-09-10T21:09:00-04:00	fccdcd3 HEAD@{2025-09-10T21:09:00-04:00}: commit: ci: add nightly prewarm workflow and harden ci-fast (paths-ignore, restore-keys, echo key)
+2025-09-10T21:08:46-04:00	c01f7d3 HEAD@{2025-09-10T21:08:46-04:00}: commit: ci(fast): add paths-ignore + restore-keys, print cache key
+2025-09-10T21:03:20-04:00	95a07f7 HEAD@{2025-09-10T21:03:20-04:00}: commit: ci: stabilize cache key fallback (lean-toolchain + lakefile.lean) for first-run reuse
+2025-09-10T21:00:46-04:00	45c62d4 HEAD@{2025-09-10T21:00:46-04:00}: commit: ci: fast cached build workflow (restore->build->save, cancel dupes)
+2025-09-10T20:57:46-04:00	64d7a93 HEAD@{2025-09-10T20:57:46-04:00}: commit: ci: add cold/warm bench workflow with cache and docs update
+2025-09-10T20:19:23-04:00	eee927a HEAD@{2025-09-10T20:19:23-04:00}: commit: stabilize: fix request-note/preimage writers, add CI speed reporter, patch tau_gate prompt-sim bypass, enforce LF
+2025-09-10T18:37:24-04:00	13397a9 HEAD@{2025-09-10T18:37:24-04:00}: commit: bench: update local runs + publish medians
+2025-09-10T18:25:55-04:00	fc09625 HEAD@{2025-09-10T18:25:55-04:00}: commit: tidy: remove accidental CACBE preimage from manifest + sidecars (no chain edits)
+2025-09-10T17:54:58-04:00	ae8a74d HEAD@{2025-09-10T17:54:58-04:00}: commit: bench: make-less runner; Lakefile duplicate guard; Windows-safe fallbacks
+2025-09-10T17:41:44-04:00	024024c HEAD@{2025-09-10T17:41:44-04:00}: commit: ingress/docs: add write_request_note.sh; document .tau_ledger mirroring; add Golden diff; cross-link audit & monograph
+2025-09-10T17:23:09-04:00	01c758e HEAD@{2025-09-10T17:23:09-04:00}: commit: docs(monograph): pocket-sized framework state (2025-09-10)
+2025-09-10T17:02:28-04:00	4a0b36b HEAD@{2025-09-10T17:02:28-04:00}: commit: docs(audit): ground-truth monograph at 7e3fa2c (2025-06-11), no bullets
+2025-09-10T16:55:59-04:00	50d8bf3 HEAD@{2025-09-10T16:55:59-04:00}: commit: docs(audit): ground-truth monograph for tau-Crystal at main (2025-09-10)
+2025-09-10T16:51:22-04:00	5040be7 HEAD@{2025-09-10T16:51:22-04:00}: commit: docs/bin: align binder to receipts/, add pointers to ground-truth audit
+2025-09-10T16:46:00-04:00	4d31fc7 HEAD@{2025-09-10T16:46:00-04:00}: commit: docs: document canonical request ingress and manifest note
+2025-09-10T16:37:36-04:00	9f2a092 HEAD@{2025-09-10T16:37:36-04:00}: commit: bin: add bind_request.sh sidecar (writes .tau_ledger/<stem>.sha256 and preimage.path)
+2025-09-10T16:34:23-04:00	d7fcd01 HEAD@{2025-09-10T16:34:23-04:00}: commit: docs: monograph on request preimage canon and digest
+2025-09-10T16:32:07-04:00	190b85f HEAD@{2025-09-10T16:32:07-04:00}: commit: gitignore: unignore scripts/bin; track save_request_preimage.sh
+2025-09-10T15:19:49-04:00	40ccfa4 HEAD@{2025-09-10T15:19:49-04:00}: commit: verify: use ASCII-canonical hashing for contract; doc canonicalization detail
+2025-09-10T14:47:54-04:00	e808d3b HEAD@{2025-09-10T14:47:54-04:00}: commit: tools: finish canonical hasher, add receipt_set_contract, allow override in verifier; embed contract_path in TM receipts
+2025-09-10T14:44:25-04:00	753743e HEAD@{2025-09-10T14:44:25-04:00}: commit: tools: canonical JSON verifier suite; docs: canonical check; CI: verify receipts
+2025-09-10T14:34:45-04:00	92a820d HEAD@{2025-09-10T14:34:45-04:00}: commit: docs: What’s new, tanh mapping note, bash-only repro guide; add GAP shim
+2025-09-10T14:21:06-04:00	4117578 HEAD@{2025-09-10T14:21:06-04:00}: commit: Complete residuals_20250910_181553Z: summary+README+manifest+bundle
+2025-09-10T14:16:02-04:00	26e807f HEAD@{2025-09-10T14:16:02-04:00}: commit: Campaign: residuals_20250910_181553Z (grid with TM sum-rule pre-gate)
+2025-09-10T14:06:57-04:00	8965d77 HEAD@{2025-09-10T14:06:57-04:00}: commit: Add campaign artifact bundle (force-add over ignore)
+2025-09-10T14:03:56-04:00	b842ef0 HEAD@{2025-09-10T14:03:56-04:00}: commit: Residuals campaign: bundle + manifest + monograph
+2025-09-10T14:00:22-04:00	63e7818 HEAD@{2025-09-10T14:00:22-04:00}: commit: Campaign: residuals_20250910_173422Z (frozen receipts + summary + README)
+2025-09-10T13:58:48-04:00	d10c828 HEAD@{2025-09-10T13:58:48-04:00}: commit: Campaign bundle: residuals_20250910_173422Z (summary, README, artifacts)
+2025-09-10T13:57:47-04:00	88e89e5 HEAD@{2025-09-10T13:57:47-04:00}: commit: Campaign: residuals_20250910_173422Z (frozen receipts + summary)
+2025-09-10T11:56:40-04:00	3b64cf2 HEAD@{2025-09-10T11:56:40-04:00}: commit: docs: publish additional monographs
+2025-09-10T11:56:39-04:00	db2550b HEAD@{2025-09-10T11:56:39-04:00}: checkout: moving from main to docs/publish-monographs
+2025-09-10T11:56:38-04:00	db2550b HEAD@{2025-09-10T11:56:38-04:00}: checkout: moving from feat/soliton-core to main
+2025-09-10T11:56:35-04:00	db2550b HEAD@{2025-09-10T11:56:35-04:00}: checkout: moving from main to feat/soliton-core
+2025-09-10T11:56:26-04:00	db2550b HEAD@{2025-09-10T11:56:26-04:00}: checkout: moving from feat/soliton-core to main
+2025-09-09T18:01:38-04:00	db2550b HEAD@{2025-09-09T18:01:38-04:00}: checkout: moving from main to feat/soliton-core
+2025-09-09T18:00:02-04:00	db2550b HEAD@{2025-09-09T18:00:02-04:00}: Branch: renamed refs/heads/main to refs/heads/main
+2025-09-09T17:58:25-04:00	db2550b HEAD@{2025-09-09T17:58:25-04:00}: Branch: renamed refs/heads/main to refs/heads/main
+2025-09-09T17:58:23-04:00	db2550b HEAD@{2025-09-09T17:58:23-04:00}: commit: feat(tau_crystal): add Soliton core with proof; CI; sanitize .gitignore
+2025-09-09T17:48:39-04:00	ad55f30 HEAD@{2025-09-09T17:48:39-04:00}: Branch: renamed refs/heads/demo/cache-hit-20250908-191920 to refs/heads/main
+2025-09-09T17:33:22-04:00	ad55f30 HEAD@{2025-09-09T17:33:22-04:00}: reset: moving to HEAD

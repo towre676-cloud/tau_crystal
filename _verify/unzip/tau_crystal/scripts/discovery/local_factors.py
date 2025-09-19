@@ -1,0 +1,74 @@
+import json, os
+from typing import Dict, Tuple
+
+def _load_json(p: str):
+    try:
+        with open(p, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+def load_params():
+    # Prefer *_stable.json first; then originals; then aux
+    search_order = [
+        ".tau_ledger/langlands/combined_ap_satake_stable.json",
+        ".tau_ledger/langlands/ap_stable.json",
+        ".tau_ledger/langlands/satake_stable.json",
+        ".tau_ledger/langlands/combined_ap_satake.json",
+        ".tau_ledger/langlands/ap.json",
+        ".tau_ledger/langlands/satake.json",
+        ".tau_ledger/langlands/L_tau.json",
+        ".tau_ledger/langlands/rank.json",
+        ".tau_ledger/experimental/fft_bsd.json",
+    ]
+
+    data = {}
+    for path in search_order:
+        if os.path.isfile(path):
+            obj = _load_json(path)
+            if isinstance(obj, dict):
+                data.update(obj)
+
+    ap = data.get("ap") or data.get("hecke_ap") or {}
+    sat = data.get("satake") or {}
+
+    if isinstance(ap, dict):
+        try:
+            ap = {int(k): float(v) for k, v in ap.items()}
+        except Exception:
+            ap = {}
+    else:
+        ap = {}
+
+    if isinstance(sat, dict):
+        try:
+            sat = {int(k): tuple(v) for k, v in sat.items()}
+        except Exception:
+            sat = {}
+    else:
+        sat = {}
+
+    N = int(data.get("level", data.get("N", 1)) or 1)
+    k = int(data.get("weight", data.get("k", 0)) or 0)
+    eps = data.get("epsilon", data.get("sign", 1))
+    try:
+        eps = int(1 if eps in (None, "", 0) else eps)
+    except Exception:
+        eps = 1
+    Q = float(data.get("conductor", data.get("Q", N)))
+    gamma = str(data.get("gamma_type", "R"))
+
+    return {"ap": ap, "satake": sat, "N": N, "k": k, "epsilon": eps, "Q": Q, "gamma": gamma}
+
+def satake_from_ap(ap: Dict[int, float], p: int, k: int = 0, chi: int = 1) -> Tuple[complex, complex] | None:
+    a = ap.get(p)
+    if a is None:
+        return None
+    c = (p ** (k - 1)) * chi
+    disc = a * a - 4 * c
+    if disc >= 0:
+        r = disc ** 0.5
+        return ( (a + r) / 2.0, (a - r) / 2.0 )
+    else:
+        r = complex(0.0, (-disc) ** 0.5)
+        return ( (a + r) / 2.0, (a - r) / 2.0 )

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "τ-Crystal Side-Car Pack (v1) JSON",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema": {"type":"string","const":"side-car-v1"},
+    "version": {"type":"integer","minimum":1},
+    "payload_sha256": {"type":"string","pattern":"^[a-f0-9]{64}$"},
+    "payload_bytes": {"type":"integer","minimum":0},
+    "payload_mime": {"type":"string"},
+    "meta": {
+      "type":"object",
+      "additionalProperties": false,
+      "properties": {
+        "source":{"type":"string"},
+        "producer":{"type":"string"},
+        "ts":{"type":"string"}
+      },
+      "required": ["source","producer","ts"]
+    }
+  },
+  "required": ["schema","version","payload_sha256","payload_bytes","meta"]
+}

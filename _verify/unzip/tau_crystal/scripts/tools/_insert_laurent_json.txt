@@ -1,0 +1,7 @@
+printf "%s" ",\"laurent\":{" >> "$OUT_FUSED"
+printf "%s" "\"re\":${L_real:-0}" >> "$OUT_FUSED"
+printf "%s" ",\"im\":${L_imag:-0}" >> "$OUT_FUSED"
+printf "%s" ",\"K_k\":${L_K:-0}" >> "$OUT_FUSED"
+printf "%s" ",\"q\":${L_q:-0}" >> "$OUT_FUSED"
+printf "%s" ",\"pass\":$laurent_bool" >> "$OUT_FUSED"
+printf "%s" "}" >> "$OUT_FUSED"

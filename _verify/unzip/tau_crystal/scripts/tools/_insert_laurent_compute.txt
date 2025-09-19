@@ -1,0 +1,8 @@
+bash scripts/laurent/laurent_ring.sh || true
+L_real=$(awk "END{print \$1}" analysis/laurent_ring.tsv 2>/dev/null || echo "")
+L_imag=$(awk "END{print \$2}" analysis/laurent_ring.tsv 2>/dev/null || echo "")
+L_K=$(awk   "END{print \$3}" analysis/laurent_ring.tsv 2>/dev/null || echo "")
+L_q=$(awk   "END{print \$4}" analysis/laurent_ring.tsv 2>/dev/null || echo "")
+m2=$(awk -v a="${L_real:-0}" -v b="${L_imag:-0}" "BEGIN{printf \"%.16g\", a*a+b*b}")
+laurent_pass=0; awk -v m="$m2" "BEGIN{d=m-1;if(d<0)d=-d; exit !(d<1e-12)}"; [ $? -eq 0 ] && laurent_pass=1 || laurent_pass=0
+laurent_bool=false; [ "$laurent_pass" = "1" ] && laurent_bool=true

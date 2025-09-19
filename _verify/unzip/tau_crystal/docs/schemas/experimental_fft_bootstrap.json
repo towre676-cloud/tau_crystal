@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#", "type": "object",
+  "required": ["provenance","fft_bsd","bootstrap_mu"],
+  "properties": {
+    "provenance": {
+      "type": "object",
+      "required": ["commit","run_id","timestamp","machine","tau_print","merkle_root"],
+      "properties": {
+        "commit":      {"type":"string","pattern":"^[0-9a-f]{40}$"},
+        "run_id":      {"type":"string"},
+        "timestamp":   {"type":"string","format":"date-time"},
+        "machine":     {"type":"string"},
+        "tau_print":   {"type":"string","pattern":"^[0-9a-f]{64}$"},
+        "merkle_root": {"type":"string","pattern":"^[0-9a-f]{64}$"}
+      }
+    },
+    "fft_bsd": {
+      "type":"object",
+      "required": ["rank1_flag","d1_analytic","d2_analytic","hann_window","zero_pad","freq_resolution"],
+      "properties": {
+        "rank1_flag":{"type":"boolean"},
+        "d1_analytic":{"type":"number"},
+        "d2_analytic":{"type":"number"},
+        "hann_window":{"type":"boolean"},
+        "zero_pad":{"type":"integer"},
+        "freq_resolution":{"type":"number"}
+      }
+    },
+    "bootstrap_mu": {
+      "type":"object",
+      "required": ["mu_slope","bias_corrected","ci_lower","ci_upper","B","seed"],
+      "properties": {
+        "mu_slope":{"type":"number"},
+        "bias_corrected":{"type":"number"},
+        "ci_lower":{"type":"number"},
+        "ci_upper":{"type":"number"},
+        "B":{"type":"integer"},
+        "seed":{"type":"integer"}
+      }
+    }
+  }
+}

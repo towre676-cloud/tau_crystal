@@ -1,0 +1,12 @@
+{
+  "duration_sec": 0.000407,
+  "exception": null,
+  "label": "ci-math",
+  "result_repr_sha256": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91",
+  "schema": "taucrystal/jupyter_cell/v1",
+  "source_sha256": "43d592bcf50f11c44d4bf6f4a03f9931d878f378e427691f55d81b5839bbd192",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "a9ac0c3ac83c40e1b4c3416066d63d324ee9f8c144641dfeed72d140b6557245",
+  "utc": "20250913T151115Z",
+  "witness_sha256": "80b7cfaa944a6992c5356b8d2872e33f81267e787e50bddb804112bcd5c26680"
+}
