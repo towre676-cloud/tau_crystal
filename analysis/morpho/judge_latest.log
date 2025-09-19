@@ -1,0 +1,4 @@
+=== judge_latest 2025-09-19T21:31:56Z ===
+[pick] using cert: analysis/morpho/certificates/cert_20250919T213155Z.json
+judge: OK — cert_20250919T213155Z.json verified (H_BAR=0.34788239; locals=2)
+[done] judge exit=0
