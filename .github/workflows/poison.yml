@@ -1,9 +1,16 @@
 env:
+  SOFT_PASS: ${{ inputs.SOFT_PASS }}
   SOFT_PASS: true
 
 name: poison-canary
 on:
   workflow_dispatch:
+    inputs:
+      SOFT_PASS:
+        description: Soft-pass failing steps
+        required: false
+        default: true
+        type: boolean
   push:
     branches: ["**"]
   pull_request:
