@@ -1,0 +1,25 @@
+import Std
+namespace Tools
+namespace CLI
+
+structure Args where
+  tau    : Float
+  qVals  : List Float
+  runId  : String
+  out    : String
+  audit  : Bool
+deriving Repr
+
+/-- Minimal stub parser: returns reasonable defaults.
+    (We can wire a real argv parser later.) -/
+def parse (_argv : List String) : Args :=
+  { tau := 1.25
+  , qVals := [0.0, 0.5, 1.0, 2.0]
+  , runId := "demo-run"
+  , out := "manifest.json"
+  , audit := true
+  }
+
+end CLI
+end Tools
+

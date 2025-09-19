@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# tau_verify.sh — safe local witness verifier (used by composite)
+set -Eeuo pipefail; set +H
+manifest="${1:-}"
+[ -n "$manifest" ] || { echo "[err] $0: operation failed; check input and try again
+if [ ! -f "$manifest" ]; then
+  echo "::error file=$manifest::manifest not found"
+  echo "error"; exit 0
+fi
+status="ok"
+if [ -x scripts/spec_guard.sh ]; then
+  if ! bash scripts/spec_guard.sh; then status="mismatch"; fi
+fi
+echo "$status"
+exit 0

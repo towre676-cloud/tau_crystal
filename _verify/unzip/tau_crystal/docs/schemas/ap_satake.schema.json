@@ -1,0 +1,10 @@
+{
+  "$schema":"http://json-schema.org/draft-07/schema#", "type":"object",
+  "required":["provenance","ap","satake","meta"],
+  "properties":{
+    "provenance":{"type":"object"},
+    "ap":{"type":"object","patternProperties":{"^[0-9]+$":{"type":"number"}}},
+    "satake":{"type":"object","patternProperties":{"^[0-9]+$":{"type":"array","items":{"type":"number"},"minItems":2,"maxItems":2}}},
+    "meta":{"type":"object","properties":{"k":{"type":"integer"},"N":{"type":"integer"},"sources":{"type":"array","items":{"type":"string"}}}}
+  }
+}

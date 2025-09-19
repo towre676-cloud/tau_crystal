@@ -1,0 +1,3 @@
+## Operational Appendix
+
+In practice, opens \(U \subset \mathbb{S}\) correspond to guarded subtrees of `/scripts`. A receipt is a global section **only if** the spectral‑gap guard passes and the Debye‑cap recursion bound holds across coverings. Our CI Hecke operators are the workflow runs; Frobenius at a point \(x\) is “advance the run number and re‑execute under the same lattice parameters.” Under this operational reading, “nowhere‑vanishing” refers to the **τ‑guard policy** in force—either Γ is excluded (acoustic case) or a small on‑site pinning \(K_0>0\) is applied—yielding a positive **operational** gap for receipts.

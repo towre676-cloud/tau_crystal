@@ -1,0 +1,1 @@
+(fusion not present; update scripts/assure.sh when the executable emits a manifest)
