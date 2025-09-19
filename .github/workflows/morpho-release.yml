@@ -1,9 +1,12 @@
 name: morpho-release
 on:
+  workflow_dispatch:
   push:
-    tags:
-      - 'morpho-pack-*'
-  workflow_dispatch: {}
+    branches: [ main ]
+    paths:
+      - scripts/morpho/**
+      - scripts/ci/morpho_release_steps.sh
+      - analysis/morpho/**
 
 jobs:
   release:
@@ -11,26 +14,11 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v4
-
-      - name: locate latest pack + monographs
-        id: find
-        shell: bash
-        run: |
-          P=$(ls -1dt analysis/morpho/packs/run_* 2>/dev/null | head -n 1 || true)
-          echo "pack=$P" >> "$GITHUB_OUTPUT"
-          test -f docs/monographs/craniofacial_certificate.pdf && echo "pdf=docs/monographs/craniofacial_certificate.pdf" >> "$GITHUB_OUTPUT"
-          test -f docs/monographs/craniofacial_certificate.rtf && echo "rtf=docs/monographs/craniofacial_certificate.rtf" >> "$GITHUB_OUTPUT"
-
-      - name: create release
-        uses: softprops/action-gh-release@v2
         with:
-          draft: false
-          generate_release_notes: true
-          files: |
-            ${{ steps.find.outputs.pdf }}
-            ${{ steps.find.outputs.rtf }}
-            ${{ steps.find.outputs.pack }}/**
+          fetch-depth: 0
+      - name: Morpho publish + stamp + tag + release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/ci/morpho_release_steps.sh
