@@ -1,3 +1,6 @@
+env:
+  SOFT_PASS: true
+
 name: hecke-11a1
 on:
   workflow_dispatch:
@@ -18,7 +21,7 @@ jobs:
         run: |
           set -Eeuo pipefail
           if [ -x scripts/math/curve_11a1.sh ]; then
-            bash scripts/math/curve_11a1.sh || { echo "::warning::curve_11a1 failed; soft-passing"; }
+            bash scripts/math/curve_11a1.sh || { if [ "${SOFT_PASS:-true}" = "true" ]; then echo "::warning::curve_11a1 failed; soft-passing"; else exit 1; fi; }
           else
             echo "::notice::scripts/math/curve_11a1.sh missing; skipping"
           fi

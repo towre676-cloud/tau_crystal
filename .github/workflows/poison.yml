@@ -1,3 +1,6 @@
+env:
+  SOFT_PASS: true
+
 name: poison-canary
 on:
   workflow_dispatch:
@@ -18,7 +21,7 @@ jobs:
         run: |
           set -Eeuo pipefail
           if [ -x scripts/poison-refresh.sh ]; then
-            bash scripts/poison-refresh.sh || { echo "::warning::poison refresh failed; soft-passing"; }
+            bash scripts/poison-refresh.sh || { if [ "${SOFT_PASS:-true}" = "true" ]; then echo "::warning::poison refresh failed; soft-passing"; else exit 1; fi; }
           else
             echo "::notice::scripts/poison-refresh.sh missing; skipping"
           fi
