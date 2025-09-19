@@ -1,0 +1,15 @@
+glabella: 0.00 0.60
+nasion: 0.00 0.55
+pronasale: 0.00 0.20
+subnasale: 0.00 0.10
+labrale_superius: 0.00 0.05
+stomion: 0.00 0.00
+labrale_inferius: 0.00 -0.05
+pogonion: 0.00 -0.25
+zygion_l: -0.55 0.10
+zygion_r: 0.55 0.10
+gonion_l: -0.45 -0.15
+gonion_r: 0.45 -0.15
+alare_l: -0.18 0.17
+alare_r: 0.18 0.17
+tragion_l: -0.65 0.15
