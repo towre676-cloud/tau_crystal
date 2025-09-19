@@ -24,6 +24,7 @@ jobs:
       - name: Upload receipts and reports
         uses: actions/upload-artifact@v4
         with:
+          retention-days: 365
           name: morpho-receipts
           path: |
             analysis/morpho/output/morpho_report.json
