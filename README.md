@@ -150,3 +150,9 @@ Run: `scripts/morpho/run_face.sh`
 - Root anchor: [corridor.receipt.tsv](corridor.receipt.tsv)
 - Companion index: [analysis/geom/canonical_companions.tsv](analysis/geom/canonical_companions.tsv)
 - Frozen determinants: [analysis/arith/FROZEN.hashes.tsv](analysis/arith/FROZEN.hashes.tsv)
+
+### Scope & Assumptions
+- **Instrument-only posture**: We do *not* claim an intrinsic facial→arithmetic link.
+- **Meaningfulness is gated** by M1–M8 with replication:
+  [docs/instrumentation/MEANINGFULNESS.md](docs/instrumentation/MEANINGFULNESS.md)
+- **Boundary charter**: [docs/instrumentation/SCOPE_AND_ASSUMPTIONS.md](docs/instrumentation/SCOPE_AND_ASSUMPTIONS.md)
