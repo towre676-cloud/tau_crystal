@@ -22,7 +22,7 @@ def l1FromDelta (p : String) : IO Int := do
   let s := ls.foldl
     (fun acc line =>
       let cols := splitCols line
-      let v := if cols.length ≥ 2 then parseIntOr0 (cols.get! 1) else 0
+      let v := if cols.length ≥ 2 then parseIntOr0 (cols[1]!) else 0
       acc + absInt v) 0
   pure s
 
@@ -31,7 +31,7 @@ def findKV (key : String) (ls : List String) : Int :=
     if acc ≠ 0 then acc
     else
       let cs := splitCols l
-      if cs.length ≥ 2 && cs.get! 0 = key then parseIntOr0 (cs.get! 1) else 0) 0
+      if cs.length ≥ 2 && cs[0]! = key then parseIntOr0 (cs[1]!) else 0) 0
 
 def loadTau (p : String) : IO (Int × Int) := do
   let ls ← readLines p
@@ -63,8 +63,8 @@ def main (argv : List String) : IO UInt32 := do
   if argv.length < 4 then
     IO.eprintln "usage: prove_v2 .tau_ledger/delta.tsv .tau_ledger/src_leaf.tsv .tau_ledger/dst_leaf.tsv .tau_ledger/tau_cert.tsv"
     return 2
-  let deltaP := argv.get! 0
-  let tauP   := argv.get! 3
+  let deltaP := argv[0]!
+  let tauP   := argv[3]!
   let l1 ← Tau.l1FromDelta deltaP
   let (td, lb) ← Tau.loadTau tauP
   let (ok, msg) := Tau.decide l1 td lb
