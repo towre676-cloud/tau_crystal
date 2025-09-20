@@ -1,6 +1,6 @@
 import TauProofs.Leaf
 import Mathlib.Data.Int.Basic
-import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Algebra.BigOperators
 
 namespace TauProofs
 
@@ -8,10 +8,10 @@ open scoped BigOperators
 
 variable {β : Type*}
 
-/-- Keep τ as a plain functional for now; we can upgrade to AddMonoidHom later. -/
+/-- Keep τ as a plain functional for now (can upgrade later). -/
 abbrev TauFunctional (β : Type*) := FreeAbelianGroup β → Int
 
-/-- L1 seminorm placeholder on a chosen finite support (to be defined/proved). -/
+/-- L1 seminorm placeholder on a chosen support (to define later). -/
 axiom l1Norm (S : Finset β) : FreeAbelianGroup β → Nat
 
 /-- Lipschitz inequality for τ (statement stub). -/
