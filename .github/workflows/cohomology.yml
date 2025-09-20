@@ -1,0 +1,15 @@
+name: cohomology
+on:
+  push:
+    paths:
+      - ".tau_ledger/**"
+      - "Tau/**"
+      - "scripts/coho/**"
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cohomology Obstruction
+        run: |
+          bash scripts/coho/morphism_live.sh .tau_ledger/last_run_A.json .tau_ledger/last_run_B.json
