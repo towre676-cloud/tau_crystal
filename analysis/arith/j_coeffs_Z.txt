@@ -1,0 +1,2 @@
+# Placeholder: integer coefficients for polynomial j(r) = sum_{|alpha|<=4} c_alpha r^alpha
+# Freeze & hash in prereg. Do not change post-preregistration.

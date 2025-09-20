@@ -1,0 +1,2 @@
+protocol_sha256=0fbb2c88979e0b88ef564a104fa385ee25a65d831b0084aac3a186a0694ddc03
+protocol_bytes=1851

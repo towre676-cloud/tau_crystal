@@ -1,0 +1,2 @@
+# Placeholder: fixed list of 4-tuple indices for cross-ratios (freeze & hash in prereg)
+# Example line: i j k l
