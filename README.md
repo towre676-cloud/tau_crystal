@@ -122,3 +122,8 @@ zkdiff demo 04:16:46Z
 
 ### Craniofacial Certificate
 Run: `scripts/morpho/run_face.sh`
+
+## Canonical Mathematical Truths (Geometric Proof Ledger)
+- Canonical statements: [analysis/geom/canonical_truths.txt](analysis/geom/canonical_truths.txt)
+- Receipt: [analysis/geom/canonical_truths.receipt.tsv](analysis/geom/canonical_truths.receipt.tsv)
+- Intent binding: [analysis/geom/canonical_truths.intent.receipt.tsv](analysis/geom/canonical_truths.intent.receipt.tsv)
