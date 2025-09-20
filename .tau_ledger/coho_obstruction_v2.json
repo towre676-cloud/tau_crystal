@@ -1,0 +1,13 @@
+{
+  \cohomology_v2\: {
+    	imestamp\: \2025-09-20T15:32:22Z\,
+    \src\: {\id\: \synthetic_A_20250920T152536Z\, nv\: \runner-A@toolchain-1\, oot\: \\},
+    \dst\: {\id\: \synthetic_B_20250920T152536Z\, nv\: \runner-B@toolchain-1\, oot\: \\},
+    \leaf_vector_src_tsv\: \.tau_ledger/src_leaf.tsv\,
+    \leaf_vector_dst_tsv\: \.tau_ledger/dst_leaf.tsv\,
+    \morphism_map_tsv\: \.tau_ledger/morphism_map.tsv\,
+    \delta_vector_tsv\: \.tau_ledger/delta.tsv\,
+    	au_cert_tsv\: \.tau_ledger/tau_cert.tsv\,
+    \lambda_bound\: 1
+  }
+}
