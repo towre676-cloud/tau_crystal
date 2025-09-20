@@ -23,7 +23,8 @@ def pushforward (φ : α → β) : FreeAbelianGroup α →+ FreeAbelianGroup β 
 lemma pushforward_comp (φ : α → β) (ψ : β → γ) :
     (pushforward ψ).comp (pushforward φ) = pushforward (ψ ∘ φ) := by
   ext a
-  simp [pushforward_on_basis, Function.comp]
+  -- Unfold pushforward to lifts; then `lift_of` twice, on both sides.
+  simp [pushforward, Function.comp]
 
 /-- Delta on lists. -/
 def deltaList (φ : α → β) (Src : List α) (Dst : List β) : FreeAbelianGroup β :=
