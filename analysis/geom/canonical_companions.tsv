@@ -1,0 +1,3 @@
+type	path	sha256
+canonical	analysis/geom/canonical_truths.txt	e25c0cd7f0119a82933cfd06b648896e48f9c0f923ac160521e3db3fbc131ba9
+explanation	docs/monographs/canonical_truths_explained.md	ccdfa37eb2c69b37b17ae76e421d92e1e6a40f57796fc5c11ff32ef12f927143

@@ -127,3 +127,5 @@ Run: `scripts/morpho/run_face.sh`
 - Canonical statements: [analysis/geom/canonical_truths.txt](analysis/geom/canonical_truths.txt)
 - Receipt: [analysis/geom/canonical_truths.receipt.tsv](analysis/geom/canonical_truths.receipt.tsv)
 - Intent binding: [analysis/geom/canonical_truths.intent.receipt.tsv](analysis/geom/canonical_truths.intent.receipt.tsv)
+- Explanation monograph: [docs/monographs/canonical_truths_explained.md](docs/monographs/canonical_truths_explained.md)
+- Companion index: [analysis/geom/canonical_companions.tsv](analysis/geom/canonical_companions.tsv)
