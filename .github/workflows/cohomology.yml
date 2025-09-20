@@ -7,8 +7,13 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    env:
+      COHO_TOL: "0"
     steps:
       - uses: actions/checkout@v4
-      - name: Leaf-module obstruction (v2)
-        run: |
-          bash scripts/coho/run_all_v2.sh .tau_ledger/last_run_A.json .tau_ledger/last_run_B.json .tau_ledger/morphism_pairs.tsv .tau_ledger/per_leaf_tau.tsv 0
+      - name: Run v2 pipeline
+        run: bash scripts/coho/run_all_v2.sh .tau_ledger/last_run_A.json .tau_ledger/last_run_B.json .tau_ledger/morphism_pairs.tsv .tau_ledger/per_leaf_tau.tsv 0
+      - name: Generate delta report
+        run: bash scripts/coho/report_v2.sh && cat .tau_ledger/delta_report.md
+      - name: Gate on ||Δ||₁
+        run: bash scripts/coho/gate_v2.sh "$COHO_TOL"
