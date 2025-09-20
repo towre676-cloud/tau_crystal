@@ -9,14 +9,14 @@ theorem cocycleList
   (φ : α → β) (ψ : β → γ)
   (A : List α) (B : List β) (C : List γ) :
   deltaList (ψ ∘ φ) A C = (pushforward ψ) (deltaList φ A B) + deltaList ψ B C := by
-  -- Expand RHS, then cancel (a - b) + (b - c) = a - c, then use pushforward composition
+  -- Expand and cancel (a - b) + (b - c) = a - c, then use pushforward composition.
   have h_sum :
       (pushforward ψ) (deltaList φ A B) + deltaList ψ B C
       =
       (pushforward ψ) ((pushforward φ) (unitOnList A)) - unitOnList C := by
-    -- expand both deltas and push map through sub as add+neg
-    -- (a - b) + (b - c) = a - c
-    simpa [deltaList, sub_eq_add_neg] using
+    -- expand both deltas and use (x - y) + (y - z) = x - z
+    simpa [deltaList, sub_eq_add_neg, add_comm, add_left_comm, add_assoc]
+      using
       (sub_add_sub_cancel
         ((pushforward ψ) ((pushforward φ) (unitOnList A)))
         ((pushforward ψ) (unitOnList B))
@@ -25,17 +25,15 @@ theorem cocycleList
       (pushforward (ψ ∘ φ)) (unitOnList A)
       =
       (pushforward ψ) ((pushforward φ) (unitOnList A)) := by
-    -- from pushforward_comp, specialize at unitOnList A
-    have := congrArg (fun f => f (unitOnList A)) (pushforward_comp (φ := φ) (ψ := ψ))
-    -- ((ψ)∘(φ)) on unit equals ψ₊(φ₊(unit))
-    -- but `pushforward_comp` gives (ψ₊ ∘ φ₊) = (ψ∘φ)₊, so rewrite:
+    -- specialize the hom equality at unitOnList A
+    have := congrArg (fun (f : FreeAbelianGroup α →+ FreeAbelianGroup γ) =>
+                        f (unitOnList A))
+                      (pushforward_comp (φ := φ) (ψ := ψ))
     simpa using this.symm
-  -- Now rewrite RHS to Δ_{ψ∘φ}
   calc
     deltaList (ψ ∘ φ) A C
         = (pushforward (ψ ∘ φ)) (unitOnList A) - unitOnList C := rfl
     _   = (pushforward ψ) ((pushforward φ) (unitOnList A)) - unitOnList C := by simpa [h_comp]
-    _   = (pushforward ψ) (deltaList φ A B) + deltaList ψ B C := by
-          simpa [h_sum]  -- invert the equality from h_sum
+    _   = (pushforward ψ) (deltaList φ A B) + deltaList ψ B C := by simpa [h_sum]
 
 end TauProofs
