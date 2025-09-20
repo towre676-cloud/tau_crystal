@@ -141,3 +141,7 @@ Run: `scripts/morpho/run_face.sh`
 
 ### Instrument Capabilities
 - **Equations of Capability:** [docs/instrumentation/CAPABILITIES.md](docs/instrumentation/CAPABILITIES.md)
+
+### Meaningfulness & Validation
+- **Criteria (M1–M8):** [docs/instrumentation/MEANINGFULNESS.md](docs/instrumentation/MEANINGFULNESS.md)
+- **Validation Protocol:** [docs/instrumentation/PROTOCOL_VALIDATION.md](docs/instrumentation/PROTOCOL_VALIDATION.md)
