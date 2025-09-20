@@ -1,0 +1,5 @@
+id	name	license_or_consent	path_to_landmarks_tsv	status
+ls3d	LS3D-W-Geometry	CC-BY-NC-4.0	analysis/morpho/ref/datasets/ls3d_landmarks.tsv	READY
+fw	FaceWarehouse	Research-EULA	<PUT/PATH/TO/facewarehouse_74pts.tsv>	PENDING
+micc	MICC-Florence	Academic	<PUT/PATH/TO/micc_9pts.tsv>	PENDING
+frgc	FRGC-shape-only	NIST-OK	<PUT/PATH/TO/frgc_shape_8pts.tsv>	PENDING
