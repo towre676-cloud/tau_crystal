@@ -3,13 +3,12 @@ on:
   push:
     paths:
       - ".tau_ledger/**"
-      - "Tau/**"
       - "scripts/coho/**"
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Cohomology Obstruction
+      - name: Leaf-module obstruction (v2)
         run: |
-          bash scripts/coho/morphism_live.sh .tau_ledger/last_run_A.json .tau_ledger/last_run_B.json
+          bash scripts/coho/run_all_v2.sh .tau_ledger/last_run_A.json .tau_ledger/last_run_B.json .tau_ledger/morphism_pairs.tsv .tau_ledger/per_leaf_tau.tsv 0
