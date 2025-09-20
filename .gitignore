@@ -144,3 +144,6 @@ analysis/morpho/output/
 !analysis/morpho/output/*
 !analysis/morpho/public/*
 .tau_ledger/geom/_archive/
+analysis/geom/input/
+!analysis/geom/proof_tree.tsv
+!receipts/geom/
