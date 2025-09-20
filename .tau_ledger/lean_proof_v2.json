@@ -5,6 +5,11 @@
     "delta_l1_norm": 0,
     "tau_drift_abs": 0,
     "lambda": 0,
+    "pairs_count": 0,
+    "mapped_src_count": 0,
+    "mapped_dst_count": 0,
+    "unmatched_src": 0,
+    "unmatched_dst": 0,
     "mock": false
   }
 }
