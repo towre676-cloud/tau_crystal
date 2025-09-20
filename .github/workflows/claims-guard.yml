@@ -1,0 +1,12 @@
+name: claims-guard
+on:
+  push: { branches: [ main ] }
+  pull_request:
+  workflow_dispatch: {}
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enforce claim boundary (instrument-only unless M1–M8 PASS)
+        run: scripts/validation/guard_claim.sh
