@@ -11,9 +11,9 @@ for f in "$DELTA" "$SRC" "$DST" "$TAU"; do
   [ -f "$f" ] || { echo "::error::missing $f"; exit 1; }
 done
 
-echo "Building Lean proof..."
+echo "Building Lean (default target)..."
 if command -v lake >/dev/null 2>&1; then
-  lake build prove_v2 || { echo "::error::lake build failed"; exit 1; }
+  lake build || { echo "::error::lake build failed"; exit 1; }
   echo "Running Lean verification..."
   lake exe prove_v2 "$DELTA" "$SRC" "$DST" "$TAU"
   exit $?

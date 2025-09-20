@@ -1,7 +1,10 @@
 import Lake
 open Lake DSL
 
-package «tau_crystal»
+package tau
 
-lean_lib «TauCrystal» where
-  globs := #[.submodules `TauCrystal]
+lean_lib Tau
+
+@[default_target]
+lean_exe «prove_v2» where
+  root := `Tau.ProveV2
