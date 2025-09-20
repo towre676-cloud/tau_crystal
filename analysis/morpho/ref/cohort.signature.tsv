@@ -1,0 +1,5 @@
+ROWS\t0
+COLS\t
+MEAN_SHA256\t01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b *analysis/morpho/ref/cohort_mean.tsv
+VAR_SHA256\t01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b *analysis/morpho/ref/cohort_var_diag.tsv
+SIG_SHA256\t6a13fa7e35ece35f131a5baad6e7d9690a7a3a05e53df520873eb097c5126d77 *analysis/morpho/ref/cohort.signature.tsv
