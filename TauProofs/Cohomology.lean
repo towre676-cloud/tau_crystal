@@ -4,9 +4,9 @@ namespace TauProofs
 
 open scoped BigOperators
 
-variable {α β γ : Type _}
+variable {α β γ : Type*}
 
-/-- Cocycle law (statement only; proof comes next). -/
+/-- Cocycle law (statement only; proof added later). -/
 axiom cocycle
   (φ : α → β) (ψ : β → γ)
   (A : Finset α) (B : Finset β) (C : Finset γ) :
