@@ -31,9 +31,9 @@ def verifyObstruction (lam : Nat) (tau : TauFunctional)
     if l1 = 0 then (drift = 0)
     else (Int.natAbs drift ≤ lam * l1)
   if ok then
-    if l1 = 0 then (true, "VERIFIED: Δ=0, τ conserved")
-    else            (true, "VERIFIED: |Δτ| ≤ λ‖Δ‖₁")
+    if l1 = 0 then (true, "VERIFIED: DELTA=0, tau conserved")
+    else            (true, "VERIFIED: |dTau| <= lambda * L1")
   else
-    (false, "FAILED: |Δτ| > λ‖Δ‖₁")
+    (false, "FAILED: |dTau| > lambda * L1")
 
 end Tau
