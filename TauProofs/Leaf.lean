@@ -1,6 +1,6 @@
 import Mathlib.GroupTheory.FreeAbelianGroup
 import Mathlib.Data.Finset.Basic
-import Mathlib.Algebra.BigOperators.Basic
+import Mathlib.Algebra.BigOperators
 
 namespace TauProofs
 
