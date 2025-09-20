@@ -3,6 +3,7 @@ set +H; set -euo pipefail
 MAN=${1:-"analysis/geom/ls3dw_mat_manifest.tsv"}
 PAR=${2:-"analysis/geom/ls3dw_params.tsv"}
 outdir="analysis/geom"; mkdir -p "$outdir"
+bash scripts/geom/geometric_proof.sh "/c/Users/Cody/Downloads/LS3D-W/LS3D-W"
 anchor="$outdir/anchor.receipt"; proof="$outdir/proof_tree.tsv"
 code_hash_A=$(sha256sum "scripts/geom/make_manifest.sh" 2>/dev/null | awk "{print \$1}")
 code_hash_B=$(sha256sum "scripts/geom/run_anchor_verify.sh" | awk "{print \$1}")
