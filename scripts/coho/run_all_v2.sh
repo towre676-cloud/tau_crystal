@@ -12,3 +12,5 @@ git add "$OUT" .tau_ledger/src_leaf.tsv .tau_ledger/dst_leaf.tsv .tau_ledger/mor
 git commit -m "coho-v2: group-valued leaf obstruction + tau Lipschitz cert + corridor/CHAIN stamp" 2>/dev/null || : 
 git push origin main 2>/dev/null || : 
 echo "coho v2 complete: $OUT"
+scripts/coho/report_v2.sh >/dev/null || : 
+git add .tau_ledger/delta_report.md 2>/dev/null || : 
