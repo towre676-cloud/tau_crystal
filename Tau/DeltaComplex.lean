@@ -5,36 +5,34 @@ structure LeafMorphism where
   srcSupport : List LeafID
   dstSupport : List LeafID
   map        : LeafID → LeafID
-  -- In this minimal build we do not enforce membership proofs.
 
 def unitOn (xs : List LeafID) : LeafGroup :=
   fun x => if x ∈ xs then 1 else 0
 
-def applyMorphism (φ : LeafMorphism) (f : LeafGroup) : LeafGroup :=
-  fun y => φ.srcSupport.foldl (fun acc x => if φ.map x = y then acc + f x else acc) 0
+def applyMorphism (phi : LeafMorphism) (f : LeafGroup) : LeafGroup :=
+  fun y => phi.srcSupport.foldl (fun acc x => if phi.map x = y then acc + f x else acc) 0
 
-def computeDelta (φ : LeafMorphism) : LeafGroup :=
-  applyMorphism φ (unitOn φ.srcSupport) + (- unitOn φ.dstSupport)
+def computeDelta (phi : LeafMorphism) : LeafGroup :=
+  applyMorphism phi (unitOn phi.srcSupport) + (- unitOn phi.dstSupport)
 
 structure TauFunctional where
-  eval     : LeafGroup → Int
-  additive : Bool := true  -- placeholder flag; pure-IO build doesn’t depend on it
+  eval : LeafGroup → Int
 
-def tauDrift (φ : LeafMorphism) (τ : TauFunctional) (src dst : LeafGroup) : Int :=
-  let push := applyMorphism φ src
-  τ.eval dst - τ.eval push
+def tauDrift (phi : LeafMorphism) (tau : TauFunctional) (src dst : LeafGroup) : Int :=
+  let push := applyMorphism phi src
+  tau.eval dst - tau.eval push
 
-def verifyObstruction (λb : Nat) (τ : TauFunctional)
-  (φ : LeafMorphism) (src dst : LeafGroup) : Bool × String :=
-  let δ    := computeDelta φ
-  let δ₁   := leafGroupL1Norm δ φ.dstSupport
-  let drift := tauDrift φ τ src dst
+def verifyObstruction (lam : Nat) (tau : TauFunctional)
+  (phi : LeafMorphism) (src dst : LeafGroup) : Bool × String :=
+  let delta : LeafGroup := computeDelta phi
+  let l1    : Nat       := leafGroupL1Norm delta phi.dstSupport
+  let drift : Int       := tauDrift phi tau src dst
   let ok :=
-    if δ₁ = 0 then (drift = 0)
-    else (Int.natAbs drift ≤ λb * δ₁)
+    if l1 = 0 then (drift = 0)
+    else (Int.natAbs drift ≤ lam * l1)
   if ok then
-    if δ₁ = 0 then (true, "VERIFIED: Δ=0, τ conserved")
-    else (true, "VERIFIED: |Δτ| ≤ λ‖Δ‖₁")
+    if l1 = 0 then (true, "VERIFIED: Δ=0, τ conserved")
+    else            (true, "VERIFIED: |Δτ| ≤ λ‖Δ‖₁")
   else
     (false, "FAILED: |Δτ| > λ‖Δ‖₁")
 
