@@ -1,0 +1,10 @@
+{
+  "lean_proof_v2": {
+    "verified": true,
+    "message": "VERIFIED: DELTA=0, tau conserved",
+    "delta_l1_norm": 0,
+    "tau_drift_abs": 0,
+    "lambda": 0,
+    "mock": false
+  }
+}
