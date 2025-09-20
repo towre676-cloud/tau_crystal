@@ -1,4 +1,4 @@
-name: companion-guard
+name: frozen-guard
 on:
   push: { branches: [ main ] }
   pull_request:
@@ -8,5 +8,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify canonical companions
-        run: scripts/geom/guard_companions.sh
+      - name: Verify frozen determinants
+        run: scripts/arith/guard_frozen.sh

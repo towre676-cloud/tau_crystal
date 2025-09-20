@@ -145,3 +145,8 @@ Run: `scripts/morpho/run_face.sh`
 ### Meaningfulness & Validation
 - **Criteria (M1–M8):** [docs/instrumentation/MEANINGFULNESS.md](docs/instrumentation/MEANINGFULNESS.md)
 - **Validation Protocol:** [docs/instrumentation/PROTOCOL_VALIDATION.md](docs/instrumentation/PROTOCOL_VALIDATION.md)
+
+### Corridor Receipt & Guards
+- Root anchor: [corridor.receipt.tsv](corridor.receipt.tsv)
+- Companion index: [analysis/geom/canonical_companions.tsv](analysis/geom/canonical_companions.tsv)
+- Frozen determinants: [analysis/arith/FROZEN.hashes.tsv](analysis/arith/FROZEN.hashes.tsv)
