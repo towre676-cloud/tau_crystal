@@ -1,14 +1,17 @@
-/-!
-  TauProofs: mathlib-backed skeleton for formal theorems.
-  This compiles and can be extended with actual proofs.
--/
-import Mathlib
+/-! Cohomology skeleton: cocycle law statement. -/
+import TauProofs.Leaf
+import Mathlib.Algebra.Group.Defs
 
 namespace TauProofs
 
--- placeholder theorem stubs to keep the target building
-theorem cocycleLaw_stub : True := trivial
-theorem lipschitz_stub  : True := trivial
-theorem conservative_stub : True := trivial
+open scoped BigOperators
+
+variable {α β γ : Type _}
+
+/-- Cocycle law (statement only for now). -/
+axiom cocycle
+  (φ : α → β) (ψ : β → γ)
+  (A : Finset α) (B : Finset β) (C : Finset γ) :
+  delta (ψ ∘ φ) A C = (pushforward ψ) (delta φ A B) + delta ψ B C
 
 end TauProofs
