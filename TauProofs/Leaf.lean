@@ -3,7 +3,7 @@ import Mathlib.Data.List.Basic
 
 namespace TauProofs
 
-variable {α β : Type*}
+variable {α β γ : Type*}
 
 @[simp] def e (a : α) : FreeAbelianGroup α :=
   FreeAbelianGroup.of a
@@ -19,5 +19,11 @@ def pushforward (φ : α → β) : FreeAbelianGroup α →+ FreeAbelianGroup β 
 
 def deltaList (φ : α → β) (Src : List α) (Dst : List β) : FreeAbelianGroup β :=
   (pushforward φ) (unitOnList Src) - unitOnList Dst
+
+/-- Composition of pushforwards is pushforward of composition. -/
+lemma pushforward_comp (φ : α → β) (ψ : β → γ) :
+    (pushforward ψ).comp (pushforward φ) = pushforward (ψ ∘ φ) := by
+  -- ext on the free abelian group basis
+  ext a; simp [pushforward_on_basis, Function.comp]
 
 end TauProofs
