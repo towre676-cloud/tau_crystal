@@ -1,0 +1,8 @@
+ID	a04a4a638a8cf0ea0dc862f336c42e07f547788effc7e06425dcb159e453ce71
+TS	2025-09-20T03:32:04Z
+ANCHOR=TRUE
+VERIFY=TRUE
+MAN	analysis/geom/ls3dw_mat_manifest.tsv
+PAR	analysis/geom/ls3dw_params.tsv
+CODE_A	82b1141543851a0f625cdc99edb1a5a4b7abbe28ba625fa28be3a99ceae61bc2
+CODE_B	b276d9b9edec250737565e981c78c17a4ab3339c715cdcb4c4b59cf407226e09
