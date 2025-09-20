@@ -72,10 +72,10 @@ def main (argv : List String) : IO UInt32 := do
   if argv.length < 4 then
     IO.eprintln "usage: prove_v2 .tau_ledger/delta.tsv .tau_ledger/src_leaf.tsv .tau_ledger/dst_leaf.tsv .tau_ledger/tau_cert.tsv"
     return 2
-  let deltaP := argv.get! 0
-  let srcP   := argv.get! 1
-  let dstP   := argv.get! 2
-  let tauP   := argv.get! 3
+  let deltaP := argv[0]!
+  let srcP   := argv[1]!
+  let dstP   := argv[2]!
+  let tauP   := argv[3]!
   let pairsP := ".tau_ledger/morphism_pairs.tsv"
 
   -- core metrics
