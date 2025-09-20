@@ -5,6 +5,7 @@ on:
       - ".tau_ledger/**"
       - "scripts/coho/**"
       - "Tau/**"
+
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -12,23 +13,32 @@ jobs:
       COHO_TOL: "0"
     steps:
       - uses: actions/checkout@v4
+
       - name: Install Lean 4 (elan + lake)
         run: |
           curl -sSL https://github.com/leanprover/elan/releases/latest/download/elan-init.sh | sh -s -- -y
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
       - name: Run v2 pipeline
         run: bash scripts/coho/run_all_v2.sh .tau_ledger/last_run_A.json .tau_ledger/last_run_B.json .tau_ledger/morphism_pairs.tsv .tau_ledger/per_leaf_tau.tsv 0
+
       - name: Generate delta report
         run: bash scripts/coho/report_v2.sh && cat .tau_ledger/delta_report.md
+
       - name: Lean proof verification
         run: bash scripts/coho/prove_v2.sh
+
+      - name: Stamp Lean witness hash
+        run: bash scripts/coho/stamp_witness.sh .tau_ledger/lean_proof_v2.json
+
       - name: Gate on ||Δ||₁
         run: bash scripts/coho/gate_v2.sh "$COHO_TOL"
-      - name: Commit proof certificates
+
+      - name: Commit proof certificates and stamps
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .tau_ledger/lean_proof_v2.json .tau_ledger/.lean_verified 2>/dev/null || true
-          git commit -m "ci: lean proof certificate" 2>/dev/null || true
+          git add corridor.receipt.tsv .tau_ledger/CHAIN .tau_ledger/CHAIN/COHO.chain.tsv 2>/dev/null || true
+          git commit -m "ci: lean witness stamped (sha256=${WITNESS_SHA:-unknown})" 2>/dev/null || true
           git push 2>/dev/null || true
