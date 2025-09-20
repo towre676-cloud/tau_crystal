@@ -1,5 +1,6 @@
 import Tau.LeafGroup
 import Tau.DeltaComplex
+import System
 
 namespace Tau
 
@@ -12,7 +13,8 @@ def splitCols (line : String) : List String :=
   line.split (fun c => c = '\t' || c = ' ')
 
 def readLines (p : String) : IO (List String) := do
-  let c ← IO.FS.readFile p
+  let fp := System.FilePath.mk p
+  let c  ← IO.FS.readFile fp
   pure <| c.splitOn "\n" |>.filter (fun l => l.trim ≠ "")
 
 def l1FromDelta (p : String) : IO Int := do
@@ -20,7 +22,7 @@ def l1FromDelta (p : String) : IO Int := do
   let s := ls.foldl
     (fun acc line =>
       let cols := splitCols line
-      let v := if cols.length >= 2 then parseIntOr0 (cols.get! 1) else 0
+      let v := if cols.length >= 2 then parseIntOr0 (cols[1]!) else 0
       acc + absInt v) 0
   pure s
 
@@ -29,7 +31,7 @@ def findKV (key : String) (ls : List String) : Int :=
     if acc ≠ 0 then acc
     else
       let cs := splitCols l
-      if cs.length >= 2 && cs.get! 0 = key then parseIntOr0 (cs.get! 1) else 0) 0
+      if cs.length >= 2 && cs[0]! = key then parseIntOr0 (cs[1]!) else 0) 0
 
 def loadTau (p : String) : IO (Int × Int) := do
   let ls ← readLines p
@@ -39,10 +41,11 @@ def readLeafSupport (p : String) : IO (List String) := do
   let ls ← readLines p
   let out := ls.foldl (fun acc line =>
     let cs := splitCols line
-    if cs.length >= 2 then acc.append [cs.get! 1] else acc) []
+    if cs.length >= 2 then acc.append [cs[1]!] else acc) []
   pure out
 
-def fileExists (p : String) : IO Bool := IO.FS.fileExists p
+def fileExists (p : String) : IO Bool := do
+  System.FilePath.pathExists (System.FilePath.mk p)
 
 def listContains (l : List String) (s : String) : Bool :=
   l.any (fun x => decide (x = s))
@@ -57,10 +60,11 @@ def readPairs (p : String) : IO (List (String × String)) := do
     let ls ← readLines p
     pure <| ls.foldl (fun acc line =>
       let cs := splitCols line
-      if cs.length >= 2 then acc ++ [(cs.get! 0, cs.get! 1)] else acc) []
+      if cs.length >= 2 then acc ++ [(cs[0]!, cs[1]!)] else acc) []
 
 def writeJson (path : String) (payload : String) : IO Unit := do
-  IO.FS.writeFile path payload
+  let fp := System.FilePath.mk path
+  IO.FS.writeFile fp payload
 
 def decide (l1 td lb : Int) : (Bool × String) :=
   if l1 = 0 && td = 0 then (true, "VERIFIED: DELTA=0, tau conserved")
@@ -114,6 +118,5 @@ def main (argv : List String) : IO UInt32 := do
     "  }\n" ++
     "}\n"
 
-  let out := ".tau_ledger/lean_proof_v2.json"
-  ← Tau.writeJson out payload
+  let _ ← Tau.writeJson ".tau_ledger/lean_proof_v2.json" payload
   return (if ok then 0 else 1)
