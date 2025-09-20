@@ -138,3 +138,6 @@ Run: `scripts/morpho/run_face.sh`
 - Fixed artifacts (freeze & hash):
   - [analysis/arith/canonical_cr_indices.txt](analysis/arith/canonical_cr_indices.txt)
   - [analysis/arith/j_coeffs_Z.txt](analysis/arith/j_coeffs_Z.txt)
+
+### Instrument Capabilities
+- **Equations of Capability:** [docs/instrumentation/CAPABILITIES.md](docs/instrumentation/CAPABILITIES.md)
