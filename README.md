@@ -129,3 +129,12 @@ Run: `scripts/morpho/run_face.sh`
 - Intent binding: [analysis/geom/canonical_truths.intent.receipt.tsv](analysis/geom/canonical_truths.intent.receipt.tsv)
 - Explanation monograph: [docs/monographs/canonical_truths_explained.md](docs/monographs/canonical_truths_explained.md)
 - Companion index: [analysis/geom/canonical_companions.tsv](analysis/geom/canonical_companions.tsv)
+
+## Langlands under Instrumentation
+- **No new arithmetic claims.** We instrument access to classical `\mathcal{M}_{1,1}(\mathbb{Q})`.
+- Protocol: [docs/instrumentation/PROTOCOL.md](docs/instrumentation/PROTOCOL.md)
+- Instrument doc: [docs/instrumentation/INSTRUMENT.md](docs/instrumentation/INSTRUMENT.md)
+- Schemas: [schemas/rational_invariants.csv](schemas/rational_invariants.csv)
+- Fixed artifacts (freeze & hash):
+  - [analysis/arith/canonical_cr_indices.txt](analysis/arith/canonical_cr_indices.txt)
+  - [analysis/arith/j_coeffs_Z.txt](analysis/arith/j_coeffs_Z.txt)
