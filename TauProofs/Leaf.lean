@@ -1,17 +1,15 @@
 import Mathlib.GroupTheory.FreeAbelianGroup
-import Mathlib.Data.Finset.Basic
-import Mathlib.Algebra.BigOperators
+import Mathlib.Data.List.Basic
 
 namespace TauProofs
 
-open scoped BigOperators
-
 variable {α β : Type*}
 
-@[simp] def e (a : α) : FreeAbelianGroup α := FreeAbelianGroup.of a
+@[simp] def e (a : α) : FreeAbelianGroup α :=
+  FreeAbelianGroup.of a
 
-def unitOn (S : Finset α) : FreeAbelianGroup α :=
-  ∑ a in S, e a
+def unitOnList (L : List α) : FreeAbelianGroup α :=
+  L.foldl (fun acc a => acc + e a) 0
 
 def pushforward (φ : α → β) : FreeAbelianGroup α →+ FreeAbelianGroup β :=
   FreeAbelianGroup.lift (fun a => e (φ a))
@@ -19,7 +17,7 @@ def pushforward (φ : α → β) : FreeAbelianGroup α →+ FreeAbelianGroup β 
 @[simp] lemma pushforward_on_basis (φ : α → β) (a : α) :
   pushforward φ (e a) = e (φ a) := rfl
 
-def delta (φ : α → β) (Src : Finset α) (Dst : Finset β) : FreeAbelianGroup β :=
-  (pushforward φ) (unitOn Src) - unitOn Dst
+def deltaList (φ : α → β) (Src : List α) (Dst : List β) : FreeAbelianGroup β :=
+  (pushforward φ) (unitOnList Src) - unitOnList Dst
 
 end TauProofs
