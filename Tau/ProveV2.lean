@@ -1,6 +1,5 @@
 import Tau.LeafGroup
 import Tau.DeltaComplex
-import System
 
 namespace Tau
 
@@ -13,8 +12,7 @@ def splitCols (line : String) : List String :=
   line.split (fun c => c = '\t' || c = ' ')
 
 def readLines (p : String) : IO (List String) := do
-  let fp := System.FilePath.mk p
-  let c  ← IO.FS.readFile fp
+  let c ← IO.FS.readFile (System.FilePath.mk p)
   pure <| c.splitOn "\n" |>.filter (fun l => l.trim ≠ "")
 
 def l1FromDelta (p : String) : IO Int := do
@@ -44,27 +42,24 @@ def readLeafSupport (p : String) : IO (List String) := do
     if cs.length >= 2 then acc.append [cs[1]!] else acc) []
   pure out
 
-def fileExists (p : String) : IO Bool := do
-  System.FilePath.pathExists (System.FilePath.mk p)
+-- Safe optional read for morphism_pairs.tsv (no need for fileExists)
+def readPairs (p : String) : IO (List (String × String)) := do
+  try
+    let ls ← readLines p
+    pure <| ls.foldl (fun acc line =>
+      let cs := splitCols line
+      if cs.length >= 2 then acc ++ [(cs[0]!, cs[1]!)] else acc) []
+  catch _ =>
+    pure []
+
+def writeJson (path : String) (payload : String) : IO Unit := do
+  IO.FS.writeFile (System.FilePath.mk path) payload
 
 def listContains (l : List String) (s : String) : Bool :=
   l.any (fun x => decide (x = s))
 
 def uniq (l : List String) : List String :=
   l.foldl (fun acc x => if listContains acc x then acc else acc ++ [x]) []
-
-def readPairs (p : String) : IO (List (String × String)) := do
-  let ok ← fileExists p
-  if !ok then pure []
-  else
-    let ls ← readLines p
-    pure <| ls.foldl (fun acc line =>
-      let cs := splitCols line
-      if cs.length >= 2 then acc ++ [(cs[0]!, cs[1]!)] else acc) []
-
-def writeJson (path : String) (payload : String) : IO Unit := do
-  let fp := System.FilePath.mk path
-  IO.FS.writeFile fp payload
 
 def decide (l1 td lb : Int) : (Bool × String) :=
   if l1 = 0 && td = 0 then (true, "VERIFIED: DELTA=0, tau conserved")
@@ -87,7 +82,7 @@ def main (argv : List String) : IO UInt32 := do
   let l1 ← Tau.l1FromDelta deltaP
   let (td, lb) ← Tau.loadTau tauP
 
-  -- supports + pairs
+  -- supports + pairs (pairs optional)
   let srcSupp ← Tau.readLeafSupport srcP
   let dstSupp ← Tau.readLeafSupport dstP
   let pairs   ← Tau.readPairs pairsP
