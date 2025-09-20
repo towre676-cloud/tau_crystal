@@ -2,14 +2,12 @@ import TauProofs.Leaf
 
 namespace TauProofs
 
-open scoped BigOperators
-
 variable {α β γ : Type*}
 
-/-- Cocycle law (statement only; proof to be added). -/
-axiom cocycle
+/-- Cocycle law (list form; proof added next). -/
+axiom cocycleList
   (φ : α → β) (ψ : β → γ)
-  (A : Finset α) (B : Finset β) (C : Finset γ) :
-  delta (ψ ∘ φ) A C = (pushforward ψ) (delta φ A B) + delta ψ B C
+  (A : List α) (B : List β) (C : List γ) :
+  deltaList (ψ ∘ φ) A C = (pushforward ψ) (deltaList φ A B) + deltaList ψ B C
 
 end TauProofs
