@@ -4,9 +4,14 @@ import Tau.DeltaComplex
 namespace Tau
 
 def parseIntOr0 (s : String) : Int :=
-  match s.trim.toInt? with | some i => i | none => 0
+  match s.trim.toInt? with
+  | some i => i
+  | none   => 0
 
 def absInt (x : Int) : Int := if x < 0 then -x else x
+
+def splitCols (line : String) : List String :=
+  line.split (fun c => c = '\t' || c = ' ')
 
 def readLines (p : String) : IO (List String) := do
   let c ← IO.FS.readFile p
@@ -16,22 +21,17 @@ def l1FromDelta (p : String) : IO Int := do
   let ls ← readLines p
   let s := ls.foldl
     (fun acc line =>
-      let cols := line.split (fun c => c = '\t' || c = ' ')
-      let v :=
-        if h : 1 < cols.length then
-          parseIntOr0 (cols.get ⟨1, h⟩)
-        else 0
+      let cols := splitCols line
+      let v := if cols.length ≥ 2 then parseIntOr0 (cols.get! 1) else 0
       acc + absInt v) 0
   pure s
 
-partial def findKV (key : String) (ls : List String) : Int :=
-  match ls with
-  | [] => 0
-  | l :: t =>
-    let cols := l.split (fun c => c = '\t' || c = ' ')
-    let v :=
-      if cols.length ≥ 2 && cols.get! 0 = key then parseIntOr0 (cols.get! 1) else 0
-    if v ≠ 0 then v else findKV key t
+def findKV (key : String) (ls : List String) : Int :=
+  ls.foldl (fun acc l =>
+    if acc ≠ 0 then acc
+    else
+      let cs := splitCols l
+      if cs.length ≥ 2 && cs.get! 0 = key then parseIntOr0 (cs.get! 1) else 0) 0
 
 def loadTau (p : String) : IO (Int × Int) := do
   let ls ← readLines p
@@ -53,21 +53,21 @@ def writeJson (path : String) (ok : Bool) (msg : String) (l1 td lb : Int) : IO U
   IO.FS.writeFile path s
 
 def decide (l1 td lb : Int) : (Bool × String) :=
-  if l1 = 0 && td = 0 then (true, "VERIFIED: Δ=0, τ conserved")
-  else if td ≤ lb * (if l1 < 0 then -l1 else l1) then (true, "VERIFIED: |Δτ| ≤ λ‖Δ‖₁")
-  else (false, "FAILED: |Δτ| > λ‖Δ‖₁")
+  if l1 = 0 && td = 0 then (true, "VERIFIED: DELTA=0, tau conserved")
+  else if td ≤ lb * (if l1 < 0 then -l1 else l1) then (true, "VERIFIED: |dTau| <= lambda * L1")
+  else (false, "FAILED: |dTau| > lambda * L1")
 
 end Tau
 
 def main (argv : List String) : IO UInt32 := do
   if argv.length < 4 then
     IO.eprintln "usage: prove_v2 .tau_ledger/delta.tsv .tau_ledger/src_leaf.tsv .tau_ledger/dst_leaf.tsv .tau_ledger/tau_cert.tsv"
-    pure 2
+    return 2
   let deltaP := argv.get! 0
   let tauP   := argv.get! 3
   let l1 ← Tau.l1FromDelta deltaP
   let (td, lb) ← Tau.loadTau tauP
   let (ok, msg) := Tau.decide l1 td lb
   IO.println msg
-  ← Tau.writeJson ".tau_ledger/lean_proof_v2.json" ok msg l1 td lb
-  pure <| if ok then 0 else 1
+  let _ ← Tau.writeJson ".tau_ledger/lean_proof_v2.json" ok msg l1 td lb
+  return (if ok then 0 else 1)
