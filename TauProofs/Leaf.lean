@@ -1,11 +1,12 @@
 import Mathlib.GroupTheory.FreeAbelianGroup
 import Mathlib.Data.Finset.Basic
+import Mathlib.Algebra.BigOperators.Basic
 
 namespace TauProofs
 
 open scoped BigOperators
 
-variable {α β : Type _}
+variable {α β : Type*}
 
 @[simp] def e (a : α) : FreeAbelianGroup α := FreeAbelianGroup.of a
 
