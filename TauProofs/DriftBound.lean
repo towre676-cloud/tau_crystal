@@ -15,8 +15,7 @@ structure DriftCertificate (β : Type*) where
   perBound : ∀ b ∈ S, Int.natAbs (τ (of b)) ≤ Λ
   bound    : Int.natAbs (τ (unitFromList S)) ≤ Λ * S.length
 
-/-- Build a `DriftCertificate` directly from pointwise bounds using
-    the Lipschitz lemma over lists. -/
+/-- Build a `DriftCertificate` from pointwise bounds via the Lipschitz lemma. -/
 def DriftCertificate.mkFromList
   {β : Type*} (τ : TauFunctional β) (Λ : Nat)
   (S : List β) (h : ∀ b ∈ S, Int.natAbs (τ (of b)) ≤ Λ) :
@@ -27,7 +26,6 @@ def DriftCertificate.mkFromList
   , τ := τ
   , perBound := h
   , bound := by
-      -- Reuse the proven Lipschitz inequality.
       simpa using lipschitz_unitFromList (β:=β) τ Λ S h
   }
 
