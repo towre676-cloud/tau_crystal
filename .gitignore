@@ -60,3 +60,7 @@ docs/**/*.svg
 !schemas/
 !docs/
 
+
+# Allow discovery receipts despite ignoring .tau_ledger
+!.tau_ledger/discovery/
+!.tau_ledger/discovery/*
