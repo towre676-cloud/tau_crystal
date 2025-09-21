@@ -336,6 +336,19 @@
             .achievements-table th, .achievements-table td { padding: 12px 8px; }
         }
     </style>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <style>
+      /* Accessibility & perf refinements */
+      @media (prefers-reduced-motion: reduce) {
+        * { animation: none !important; transition: none !important; }
+      }
+      .achievements-table th[scope="col"] { position: sticky; top: 0; z-index: 11; }
+      .achievements-table td:first-child, .achievements-table th[scope="row"] {
+        position: sticky; left: 0; background: #fff; z-index: 9;
+      }
+      /* Tiny header tweak on very small screens */
+      @media (max-width: 480px) { .header h1 { font-size: 2rem; } }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -355,23 +368,26 @@
             </div>
             <div style="overflow-x: auto;">
                 <table class="achievements-table">
+                    <caption style="caption-side: top; padding: 10px; font-weight: 600; text-align:left;">
+                        Archive of effective height bounds and rational point determinations
+                    </caption>
                     <thead>
                         <tr>
-                            <th style="width:15%">Curve</th>
-                            <th style="width:12%">Genus & Type</th>
-                            <th style="width:15%">Height Bound</th>
-                            <th style="width:18%">Rational Points</th>
-                            <th style="width:20%">Obstruction Atlas Methods</th>
-                            <th style="width:12%">Verification</th>
-                            <th style="width:8%">Year</th>
+                            <th scope="col" style="width:15%">Curve</th>
+                            <th scope="col" style="width:12%">Genus & Type</th>
+                            <th scope="col" style="width:15%">Height Bound</th>
+                            <th scope="col" style="width:18%">Rational Points</th>
+                            <th scope="col" style="width:20%">Obstruction Atlas Methods</th>
+                            <th scope="col" style="width:12%">Verification</th>
+                            <th scope="col" style="width:8%">Year</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>
+                            <th scope="row">
                                 <div class="curve-name">X<sub>NS</sub><sup>+</sup>(13)</div>
                                 <div class="math-expression">y² = x⁸ + 14x⁴ + 1</div>
-                            </td>
+                            </th>
                             <td>
                                 <span class="genus-badge genus-3">Genus 3</span>
                                 <div style="font-size: 0.8rem; color: #666; margin-top: 4px;">Shimura Curve</div>
@@ -398,10 +414,10 @@
                             <td style="font-weight: 600;">2024</td>
                         </tr>
                         <tr>
-                            <td>
+                            <th scope="row">
                                 <div class="curve-name">X₀(37)<sup>+</sup></div>
                                 <div class="math-expression">y² = x⁶ - 2x⁵ + 2x⁴ - 2x² + x + 1</div>
-                            </td>
+                            </th>
                             <td>
                                 <span class="genus-badge genus-2">Genus 2</span>
                                 <div style="font-size: 0.8rem; color: #666; margin-top: 4px;">Atkin-Lehner</div>
@@ -428,10 +444,10 @@
                             <td style="font-weight: 600;">2024</td>
                         </tr>
                         <tr>
-                            <td>
+                            <th scope="row">
                                 <div class="curve-name">X₀(73)<sup>+</sup></div>
                                 <div class="math-expression">y² = x⁸ - 4x⁷ + 2x⁶ + 4x⁵ - 3x⁴ - 4x³ + 2x² + 4x + 1</div>
-                            </td>
+                            </th>
                             <td>
                                 <span class="genus-badge genus-3">Genus 3</span>
                                 <div style="font-size: 0.8rem; color: #666; margin-top: 4px;">Atkin-Lehner</div>
@@ -458,10 +474,10 @@
                             <td style="font-weight: 600;">2024</td>
                         </tr>
                         <tr style="opacity: 0.7; font-style: italic;">
-                            <td>
+                            <th scope="row">
                                 <div class="curve-name">X₀(97)<sup>+</sup></div>
                                 <div class="math-expression">Degree-10 polynomial</div>
-                            </td>
+                            </th>
                             <td>
                                 <span class="genus-badge genus-4">Genus 4</span>
                                 <div style="font-size: 0.8rem; color: #666; margin-top: 4px;">Atkin-Lehner</div>
@@ -503,8 +519,13 @@
             </div>
             <div style="padding: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; margin: 20px; border-radius: 20px;">
                 <h3 style="margin-bottom: 20px; font-size: 1.5rem;">The Universal Obstruction Atlas Formula</h3>
+                <figure aria-label="Illustrative bound formula for modular curves">
                 <div style="font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; background: rgba(255,255,255,0.15); padding: 25px; border-radius: 15px; backdrop-filter: blur(10px);">
                     max<sub>P∈X₀(p)⁺(ℚ)</sub> ĥ(P) = (√p · log p) / (2π^g) × ∏<sub>σ</sub> L(1,f<sub>σ</sub>)/τ(σ) × δ<sub>Sha</sub>⁻¹ × δ<sub>Arakelov</sub>⁻¹ × 2⁻ᵏ
+                <figcaption style="margin-top:10px; font-size:0.9rem; opacity:0.85;">
+                  Illustrative expression pending peer‑reviewed derivation; displayed numerics reflect example parameter choices.
+                </figcaption>
+                </figure>
                 </div>
                 <div style="margin-top: 20px; font-size: 1rem; opacity: 0.9;">
                     <strong>Where:</strong> p = prime level, g = genus, L(1,f<sub>σ</sub>) = special L-values, τ(σ) = Gauss sums,<br>
@@ -548,37 +569,37 @@
                 <table class="achievements-table">
                     <thead>
                         <tr>
-                            <th style="width:10%">Layer</th>
-                            <th style="width:25%">Obstruction Type</th>
-                            <th style="width:25%">Removal Mechanism</th>
-                            <th style="width:20%">Mathematical Structure</th>
-                            <th style="width:20%">Improvement Factor</th>
+                            <th scope="col" style="width:10%">Layer</th>
+                            <th scope="col" style="width:25%">Obstruction Type</th>
+                            <th scope="col" style="width:25%">Removal Mechanism</th>
+                            <th scope="col" style="width:20%">Mathematical Structure</th>
+                            <th scope="col" style="width:20%">Improvement Factor</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><span class="height-bound bound-good">1</span></td>
+                            <th scope="row"><span class="height-bound bound-good">1</span></th>
                             <td><strong>Regulator Unknown</strong><br><span style="font-size: 0.8rem; color: #666;">Periods are transcendental</span></td>
                             <td><span class="method-tag tag-rm">Real Multiplication</span><br><span style="font-size: 0.8rem;">det(Reg) = √D_F/Ω_A</span></td>
                             <td>Modular curves X₀(p)⁺ with<br>RM by ℚ(√p)</td>
                             <td><span class="complexity-indicator" style="font-weight:600;">÷10⁶</span></td>
                         </tr>
                         <tr>
-                            <td><span class="height-bound bound-great">2</span></td>
+                            <th scope="row"><span class="height-bound bound-great">2</span></th>
                             <td><strong>Sha Non-trivial</strong><br><span style="font-size: 0.8rem; color: #666;">2-primary obstructions</span></td>
                             <td><span class="method-tag tag-sha">Kolyvagin Theory</span><br><span style="font-size: 0.8rem;">Rank 0 + L(1) ≠ 0</span></td>
                             <td>RM abelian varieties<br>analytic rank 0</td>
                             <td><span class="complexity-indicator" style="font-weight:600;">÷8</span></td>
                         </tr>
                         <tr>
-                            <td><span class="height-bound bound-excellent">3</span></td>
+                            <th scope="row"><span class="height-bound bound-excellent">3</span></th>
                             <td><strong>Archimedean Error</strong><br><span style="font-size: 0.8rem; color: #666;">Green function integrals</span></td>
                             <td><span class="method-tag tag-arakelov">Cusp Heights = 0</span><br><span style="font-size: 0.8rem;">Manin-Drinfeld theorem</span></td>
                             <td>All rational points<br>are cusps</td>
                             <td><span class="complexity-indicator" style="font-weight:600;">÷1.3</span></td>
                         </tr>
                         <tr>
-                            <td><span class="height-bound bound-excellent">4</span></td>
+                            <th scope="row"><span class="height-bound bound-excellent">4</span></th>
                             <td><strong>Exponential Search</strong><br><span style="font-size: 0.8rem; color: #666;">Classical enumeration</span></td>
                             <td><span class="method-tag tag-quantum">Quantum Amplification</span><br><span style="font-size: 0.8rem;">√|T| Grover iterations</span></td>
                             <td>Finite torsion groups<br>|T| ≤ p³</td>
