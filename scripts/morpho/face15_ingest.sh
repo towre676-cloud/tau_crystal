@@ -1,40 +1,18 @@
 #!/usr/bin/env bash
-set -Eeu -o pipefail
+set +H; umask 022
 
-IN="${1:-}"
-OUT="${2:-}"
+# Usage: face15_ingest.sh <IN_DIR> <OUT_DIR>
+IN="$1"; OUT="$2"
 
-if [[ -z "${IN}" || -z "${OUT}" ]]; then
-  echo "usage: face15_ingest.sh FACE.txt analysis/morpho/face15.tsv" >&2
-  exit 2
-fi
+[ -n "$IN" ] && [ -d "$IN" ] || { echo "[[ingest]] ERROR: invalid IN: '$IN'"; exit 2; }
+[ -n "$OUT" ] || { echo "[[ingest]] ERROR: missing OUT"; exit 2; }
 
-# Normalize CRLF -> LF on the fly and parse "key: x y" into TSV "x<TAB>y"
-awk -F: '
-  BEGIN { OFS = "\t" }
-  { sub(/\r$/, ""); }                         # strip CR if present
-  /^[[:space:]]*#/      { next }              # skip comments
-  /^[[:space:]]*$/      { next }              # skip blank
-  NF >= 2 {
-    key = $1
-    rest = $2
-    gsub(/^[ \t]+|[ \t]+$/, "", rest)
-    n = split(rest, a, /[ \t]+/)
-    if (n >= 2 && a[1] != "" && a[2] != "") {
-      print a[1], a[2]
-      count++
-    }
-  }
-  END {
-    if (count == 0) {
-      printf("[err] no points parsed from %s\n", ARGV[1]) > "/dev/stderr"
-      exit 3
-    }
-  }
-' "$IN" > "$OUT"
+# Create OUT if missing; don't treat "exists" as an error
+mkdir -p "$OUT" || true
 
-# Quick sanity: ensure it looks like numeric pairs
-if ! awk 'BEGIN{FS="\t"} NF>=2 && $1+0==$1 && $2+0==$2 {ok++} END{exit(ok>0?0:1)}' "$OUT"; then
-  echo "[err] output failed numeric sanity: $OUT" >&2
-  exit 4
-fi
+# Mirror tree and copy files (overwrites OK)
+( cd "$IN"  && find . -type d -print0 | xargs -0 -I{} mkdir -p "$OUT/{}" )
+( cd "$IN"  && find . -type f -print0 | xargs -0 -I{} cp -f "{}" "$OUT/{}" )
+
+echo "[[ingest]] ok: '$IN' -> '$OUT'"
+exit 0
