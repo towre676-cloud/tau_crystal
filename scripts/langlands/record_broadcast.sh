@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
-set +H
-umask 022
-COR="analysis/validation/corridor.receipt.tsv"
-TXID="$1"; BLK="$2"
-[ -z "$TXID" ] && { echo "usage: $0 <txid> <block_height_or_hash>" >&2; exit 2; }
-touch "$COR"
-awk '{sub(/\r$/,""); print}' "$COR" > "$COR.tmp" && mv "$COR.tmp" "$COR"
-sed -i "/^txid=/d" "$COR" 2>/dev/null || true
-sed -i "/^block=/d" "$COR" 2>/dev/null || true
-printf "txid=%s\n" "$TXID" >> "$COR"
-[ -n "$BLK" ] && printf "block=%s\n" "$BLK" >> "$COR" || true
-echo "updated $COR with txid and block"
+set -euo pipefail; set +H
+TXID="${1:?usage: record_broadcast.sh <txid> <block>}"
+BLK="${2:?usage: record_broadcast.sh <txid> <block>}"
+F="analysis/validation/corridor.receipt.tsv"
+touch "$F"
+TMP="$(mktemp)"
+awk -v tx="$TXID" -v bk="$BLK" 'BEGIN{t=0;b=0}{if(/^txid=/){print "txid="tx; t=1} else if(/^block=/){print "block="bk; b=1} else {print}} END{if(!t) print "txid="tx; if(!b) print "block="bk}' "$F" > "$TMP"
+mv "$TMP" "$F"
