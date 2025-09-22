@@ -1,0 +1,6 @@
+level	1
+weight	12
+accelerator	eta
+convergence_rate	-1.73
+sturm_bound	2
+passport_sha256	UNSET

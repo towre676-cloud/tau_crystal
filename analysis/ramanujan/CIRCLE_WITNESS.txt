@@ -1,0 +1,5 @@
+n = 1000000
+p(n) ≈ 147108529207802 ± 0.5
+Major arcs: 24-term η-product approximation
+Minor arcs: explicit exponential tail bound
+SHA-256: UNSET
