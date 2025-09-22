@@ -1,0 +1,112 @@
+name: Season 1 CI
+
+on:
+  push:
+    paths:
+      - "docs/season1/**"
+      - "kernel_contract.tsv"
+      - ".github/workflows/season1-ci.yml"
+  pull_request:
+    paths:
+      - "docs/season1/**"
+      - "kernel_contract.tsv"
+      - ".github/workflows/season1-ci.yml"
+  workflow_dispatch:
+
+jobs:
+  season1-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Print tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          ls -la
+          echo
+          tree -a -L 3 || true
+
+      - name: Verify required files exist
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in \
+            docs/season1/cast.tsv \
+            docs/season1/README.md \
+            docs/season1/schema/season1.schema.json \
+            kernel_contract.tsv
+          do
+            [ -f "$f" ] || { echo "Missing file: $f" >&2; exit 1; }
+          done
+          echo "OK: required files present"
+
+      - name: Validate JSON schema (bash + jq only)
+        shell: bash
+        run: |
+          set -euo pipefail
+          schema='docs/season1/schema/season1.schema.json'
+          # must contain literal "$schema"
+          grep -F '"$schema"' "$schema" >/dev/null || { echo 'Missing literal "$schema" key' >&2; exit 1; }
+          # must parse as JSON
+          jq empty "$schema"
+          echo 'OK: schema parses and has literal "$schema"'
+
+      - name: TSV sanity checks (cast.tsv)
+        shell: bash
+        run: |
+          set -euo pipefail
+          f="docs/season1/cast.tsv"
+          # header must be exactly 5 tab-separated columns
+          head -n1 "$f" | awk -F'\t' 'NF!=5{print "Bad header column count: " NF; exit 1}'
+          # each data row must also be 5 columns
+          if [ "$(wc -l < "$f")" -gt 1 ]; then
+            tail -n +2 "$f" | awk -F'\t' 'NF!=5{print "Bad row at file line " NR+1 " has " NF " columns"; exit 1}'
+          fi
+          echo "OK: cast.tsv columns are consistent (5)"
+
+      - name: TSV sanity checks (kernel_contract.tsv)
+        shell: bash
+        run: |
+          set -euo pipefail
+          f="kernel_contract.tsv"
+          head -n1 "$f" | awk -F'\t' 'NF!=5{print "Bad header column count: " NF; exit 1}'
+          if [ "$(wc -l < "$f")" -gt 1 ]; then
+            tail -n +2 "$f" | awk -F'\t' 'NF!=5{print "Bad row at file line " NR+1 " has " NF " columns"; exit 1}'
+          fi
+          echo "OK: kernel_contract.tsv columns are consistent (5)"
+
+      - name: Print tails for review
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "----- docs/season1/schema/season1.schema.json (tail) -----"
+          tail -n 50 docs/season1/schema/season1.schema.json || true
+          echo
+          echo "----- docs/season1/cast.tsv (head) -----"
+          head -n 20 docs/season1/cast.tsv || true
+          echo
+          echo "----- kernel_contract.tsv (head) -----"
+          head -n 20 kernel_contract.tsv || true
+
+      - name: Optional budget consistency (bash + jq only)
+        shell: bash
+        run: |
+          set -euo pipefail
+          f="analysis/season1_finale.json"
+          if [ -f "$f" ]; then
+            rho=$(jq -r '.rho_R // empty' "$f")
+            bud=$(jq -r '.pf_gap_budget_hint // empty' "$f")
+            if [ -z "${rho:-}" ] || [ -z "${bud:-}" ]; then
+              echo "finale missing rho_R/pf_gap_budget_hint" >&2; exit 1
+            fi
+            # compare with awk for portability
+            diff=$(awk -v r="$rho" -v b="$bud" 'BEGIN{printf "%.12f", (1.0 - r) - b}')
+            awk -v d="$diff" 'BEGIN{exit (d<0?-d:d)<=1e-9 ? 0 : 1}' || { echo "budget mismatch: pf_gap_budget_hint != 1 - rho_R (Δ=$diff)"; exit 1; }
+            echo "OK: finale budget equals 1 - rho_R"
+          else
+            echo "analysis/season1_finale.json not present; skipping budget check"
+          fi
