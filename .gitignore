@@ -75,3 +75,6 @@ certs/**/_fusion_out/
 !certs/**/README*.md
 .garden/
 certs/**/spectral_kernel/*.json
+
+# ignore witness tarballs
+.tau_ledger/discovery/
