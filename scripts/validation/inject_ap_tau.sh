@@ -7,9 +7,10 @@ REC="${2:-analysis/validation/SIGNED_DATASET.receipt.tsv}"
 MAP="$(mktemp)"; TMP="$(mktemp)"
 header="$(head -n1 "$CSV")"; IFS=, read -r -a H <<<"$header"; [ "${#H[@]}" -ge 2 ] || { echo "bad header"; exit 1; }
 tail -n +2 "$CSV" | while IFS=, read -r -a F; do
-  [ "${#F[@]}" -ge 1 ] || continue; face="${F[0]}"; [ -n "$face" ] || continue; tokens="";
-  for ((i=1;i<${#H[@]};i++)); do p="${H[$i]}"; v="${F[$i]:-}"; if [ -n "$v" ]; then tokens="$tokens ap_tau_p${p}:${v}"; fi; done
-  printf "%s\t%s\n" "$face" "${tokens# }" >> "$MAP"
+  [ "${#F[@]}" -ge 1 ] || continue
+  face="${F[0]}"; [ -n "$face" ] || continue
+  toks=""; for ((i=1;i<${#H[@]};i++)); do p="${H[$i]}"; v="${F[$i]:-}"; [ -n "$v" ] && toks="$toks ap_tau_p${p}:${v}"; done
+  printf "%s\t%s\n" "$face" "${toks# }" >> "$MAP"
 done
-awk -F"\t" -vOFS="\t" -v MAP="$MAP" 'BEGIN{while((getline<MAP)>0){m[$1]=$2}}{k=$1; line=$0; gsub(/(^|[ \t])ap_tau_p[0-9]+:-?[0-9]+/,"",line); if(k in m && m[k]!=""){line=line"\t"m[k]} print line}' "$REC" > "$TMP"
+awk -F"\t" -vOFS="\t" -v MAP="$MAP" 'BEGIN{while((getline<MAP)>0){m[$1]=$2}}{k=$1; gsub(/(^|[ \t])ap_tau_p[0-9]+:-?[0-9]+/,""); if(k in m && m[k]!=""){$0=$0"\t"m[k]} print}' "$REC" > "$TMP"
 mv "$TMP" "$REC"; rm -f "$MAP"

@@ -1,5 +1,5 @@
 time	2025-09-22T04:45:15Z
-dataset	analysis/validation/SIGNED_DATASET.bin
-sha256	6218d32e786b37749fc9a5a3e921c4f6fd33ed94edfa8be2479b9d3cd5e1b076
-op_return_hex	6a206218d32e786b37749fc9a5a3e921c4f6fd33ed94edfa8be2479b9d3cd5e1b076
-broadcast_instructions	use your wallet to push OP_RETURN with this data
+dataset	analysis/validation/SIGNED_DATASET.bin	ap_tau_p2:-24 ap_tau_p3:252 ap_tau_p4:-1472 ap_tau_p5:4830 ap_tau_p7:-16744 ap_tau_p9:-113643 ap_tau_p11:534612 ap_tau_p13:-577738 ap_tau_p17:-6905934 ap_tau_p19:10661420 ap_tau_p23:18643272 ap_tau_p25:-25499225 ap_tau_p29:NA ap_tau_p31:NA ap_tau_p37:NA
+sha256	6218d32e786b37749fc9a5a3e921c4f6fd33ed94edfa8be2479b9d3cd5e1b076	ap_tau_p2:-24 ap_tau_p3:252 ap_tau_p4:-1472 ap_tau_p5:4830 ap_tau_p7:-16744 ap_tau_p9:-113643 ap_tau_p11:534612 ap_tau_p13:-577738 ap_tau_p17:-6905934 ap_tau_p19:10661420 ap_tau_p23:18643272 ap_tau_p25:-25499225 ap_tau_p29:NA ap_tau_p31:NA ap_tau_p37:NA
+op_return_hex	6a206218d32e786b37749fc9a5a3e921c4f6fd33ed94edfa8be2479b9d3cd5e1b076	ap_tau_p2:-24 ap_tau_p3:252 ap_tau_p4:-1472 ap_tau_p5:4830 ap_tau_p7:-16744 ap_tau_p9:-113643 ap_tau_p11:534612 ap_tau_p13:-577738 ap_tau_p17:-6905934 ap_tau_p19:10661420 ap_tau_p23:18643272 ap_tau_p25:-25499225 ap_tau_p29:NA ap_tau_p31:NA ap_tau_p37:NA
+broadcast_instructions	use your wallet to push OP_RETURN with this data	ap_tau_p2:-24 ap_tau_p3:252 ap_tau_p4:-1472 ap_tau_p5:4830 ap_tau_p7:-16744 ap_tau_p9:-113643 ap_tau_p11:534612 ap_tau_p13:-577738 ap_tau_p17:-6905934 ap_tau_p19:10661420 ap_tau_p23:18643272 ap_tau_p25:-25499225 ap_tau_p29:NA ap_tau_p31:NA ap_tau_p37:NA
