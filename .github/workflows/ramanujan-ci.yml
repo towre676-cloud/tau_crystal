@@ -1,0 +1,18 @@
+name: ramanujan-ci
+on:
+  push:
+    paths:
+      - 'scripts/ramanujan/**'
+      - 'ramanujan/**'
+  workflow_dispatch: {}
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bash checks
+        run: |
+          set +H; umask 022
+          bash scripts/ramanujan/register_object.sh Delta cusp 12 1 trivial 'discriminant form'
+          bash scripts/ramanujan/check_tau_hecke.sh ramanujan/data/tau_small.tsv 100
+          THRESHOLD=1e-6 bash scripts/ramanujan/mock_defect_norm.sh ramanujan/data/mock_grid.tsv
