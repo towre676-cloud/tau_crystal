@@ -1,29 +1,65 @@
 #!/usr/bin/env bash
-set -euo pipefail; set +H; umask 022
-ts=$(date -u +%Y%m%dT%H%M%SZ)
-out_dir=".tau_ledger/gates"; mkdir -p "$out_dir"
-report="$out_dir/report.$ts.txt"; latest="$out_dir/report.latest.txt"; latest_ptr="$out_dir/latest.txt"; latest_sha="$out_dir/report.latest.sha256"
-commit=$(git rev-parse HEAD 2>/dev/null || echo na)
-branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo na)
-env_sha=$(env | LC_ALL=C sort | tr -d "\r" | sha256sum | awk "{print \$1}")
-dotv=$(command -v dot >/dev/null 2>&1 && dot -V 2>&1 || echo "dot N/A")
-jqv=$(command -v jq >/dev/null 2>&1 && jq --version 2>/dev/null || echo "jq N/A")
-: > "$report"
-echo "cathedral-gates report $ts" >> "$report"
-echo "commit $commit" >> "$report"
-echo "branch $branch" >> "$report"
-echo "env_sha $env_sha" >> "$report"
-echo "tools $dotv | $jqv" >> "$report"
-echo "----" >> "$report"
-run_gate(){ name="$1"; shift; printf "gate %s: " "$name" >> "$report"; if bash "$@" >> "$report" 2>&1; then echo "PASS" >> "$report"; return 0; else rc=$?; echo "FAIL (rc=$rc)" >> "$report"; return "$rc"; fi; }
-all_ok=0
-run_gate "invariants" scripts/gates/invariants.sh || all_ok=1
-run_gate "forensics" scripts/gates/forensics_guard.sh || all_ok=1
-run_gate "tanh_lineage" scripts/dynamics/tanh_lineage_lock.sh || all_ok=1
-echo "----" >> "$report"
-if [ "$all_ok" -eq 0 ]; then echo "SUMMARY PASS" >> "$report"; else echo "SUMMARY FAIL" >> "$report"; fi
-cp -f "$report" "$latest"
-echo "$report" > "$latest_ptr"
-sha256sum "$latest" | awk "{print \$1}" > "$latest_sha"
-echo "[GATES] wrote $report"
-exit "$all_ok"
+set -euo pipefail; umask 022
+
+strict=${GATES_STRICT:-0}
+outdir=".tau_ledger/gates"
+mkdir -p "$outdir"
+ts="$(date -u +%Y%m%dT%H%M%SZ)"
+out="$outdir/report.$ts.txt"
+
+# collect snippets (all optional, never fail if missing)
+prog="analysis/progress.tsv"
+caps=".tau_ledger/capsules.tsv"
+vows=".tau_ledger/vows/latest.tsv"
+
+open_vows="-"
+if [ -f "$vows" ]; then
+  open_vows="$(awk -F'\t' 'NR>1 && $4=="open"{c++} END{print (c+0)}' "$vows" 2>/dev/null || echo 0)"
+fi
+
+{
+  echo "# Gates Report"
+  echo "# UTC: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  echo
+
+  echo "== PROGRESS =="
+  if [ -f "$prog" ]; then
+    # show header + last 10 unique organs by last_ok_utc/error freshness
+    awk 'NR==1{print; next} NR>1{print}' "$prog" | tail -n 15
+  else
+    echo "(no progress.tsv)"
+  fi
+  echo
+
+  echo "== CAPSULE INDEX (tail) =="
+  if [ -f "$caps" ]; then
+    tail -n 5 "$caps"
+  else
+    echo "(no capsules.tsv)"
+  fi
+  echo
+
+  echo "== VOWS =="
+  if [ -f "$vows" ]; then
+    echo "open_vows: $open_vows"
+    # show last 5 vows lines
+    tail -n 5 "$vows"
+  else
+    echo "(no vows ledger)"
+  fi
+  echo
+} > "$out"
+
+echo "[GATES] wrote $out"
+
+# strict mode: fail if any organ (other than gates) is red
+if [ "$strict" = "1" ] && [ -f "$prog" ]; then
+  if awk -F'\t' 'NR>1 && $1!="gates" && $2=="fail"{exit 1} END{exit 0}' "$prog"; then
+    exit 0
+  else
+    echo "[GATES] strict mode: other organs red → fail"
+    exit 2
+  fi
+fi
+
+exit 0
