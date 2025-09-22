@@ -1,63 +1,53 @@
 #!/usr/bin/env bash
-# seal_capsule.sh <capsule_dir>
 set -euo pipefail; umask 022
-dir="${1:?capsule_dir}"; [ -d "$dir" ] || { echo "[CAPSEAL] not a dir: $dir"; exit 2; }
+source scripts/capsule/merkle_lib.sh
 
-# boundary (idempotent)
-b="$dir/boundary.txt"; sig="$dir/boundary.sig"
-if [ ! -f "$b" ]; then
-  echo "capsule=$(basename "$dir") UTC=$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$b"
-fi
-if [ ! -f "$sig" ]; then
-  sha=$(sha256sum "$b" | awk '{print $1}')
-  printf "%s  %s\n" "$sha" "$(basename "$b")" > "$sig"
-fi
+caps_dir="analysis/capsules"; mkdir -p "$caps_dir" .tau_ledger
 
-# collect files (exclude receipt itself)
-mapfile -t rels < <(LC_ALL=C find "$dir" -type f ! -name 'capsule.receipt.json' -printf '%P\n' | LC_ALL=C sort)
+arg1="${1:-auto}"
+arg2="${2:-}"
 
-# compute leaf hashes
-leaves=()
-for rel in "${rels[@]}"; do
-  h=$(sha256sum "$dir/$rel" | awk '{print $1}')
-  leaves+=("$h")
-done
-
-# fold to a single root (if none, use 64 zeros)
-if [ ${#leaves[@]} -eq 0 ]; then
-  root=$(printf '0%.0s' {1..64})
+if [[ "$arg1" == */* ]]; then
+  # directory mode: arg1 is a capsule dir path
+  capsule="$(realpath -m "$arg1")"
+  family="$(basename "$capsule" | sed 's/-[0-9TZ]*$//')"
+  capsule_basename="$(basename "$capsule")"
 else
-  layer=("${leaves[@]}")
-  while :; do
-    if [ ${#layer[@]} -eq 1 ]; then
-      root="${layer[0]}"
-      break
-    fi
-    next=()
-    i=0
-    while [ $i -lt ${#layer[@]} ]; do
-      if [ $((i+1)) -lt ${#layer[@]} ]; then
-        pair="${layer[$i]}${layer[$((i+1))]}"
-      else
-        pair="${layer[$i]}"
-      fi
-      h=$(printf '%s' "$pair" | sha256sum | awk '{print $1}')
-      next+=("$h")
-      i=$((i+2))
-    done
-    layer=("${next[@]}")
-  done
+  # family mode
+  family="$arg1"
+  if [ -n "$arg2" ]; then
+    capsule_basename="$arg2"
+  else
+    ts="$(date -u +%Y%m%dT%H%M%SZ)"
+    capsule_basename="${family}-${ts}"
+  fi
+  capsule="$caps_dir/$capsule_basename"
 fi
 
-utc="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-rec="$dir/capsule.receipt.json"
-# minimal stable JSON
-printf '{\n  "capsule":"%s",\n  "utc":"%s",\n  "merkle_root":"%s"\n}\n' \
-  "$(basename "$dir")" "$utc" "$root" > "$rec"
-echo "[CAPSEAL] merkle_root=$root"
+mkdir -p "$capsule"
 
-# global index
-idx=".tau_ledger/capsules.tsv"; mkdir -p "$(dirname "$idx")"
-family="$(basename "$dir" | cut -d- -f1)"
-printf "%s\t%s\t%s\t%s\n" "$family" "$(basename "$dir")" "$root" "$rec" >> "$idx"
-echo "[CAPSEAL] indexed $family $(basename "$dir")"
+btxt="$capsule/boundary.txt"
+bsig="$capsule/boundary.sig"
+if [ ! -f "$btxt" ]; then
+  {
+    printf "Capsule: %s\n" "$capsule_basename"
+    printf "Family:  %s\n" "$family"
+    printf "UTC:     %s\n" "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+    printf "Policy:  contents exclude capsule.receipt.json\n"
+  } > "$btxt"
+fi
+sha256sum "$btxt" | awk '{print $1}' > "$bsig"
+
+root="$(merkle__dir_root "$capsule")"
+utc="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+printf '{\n  "capsule":"%s",\n  "utc":"%s",\n  "merkle_root":"%s"\n}\n' "$capsule_basename" "$utc" "$root" > "$capsule/capsule.receipt.json"
+
+idx=".tau_ledger/capsules.tsv"
+: > "${idx}.tmp.$$"
+awk -v OFS='\t' -v f="$family" -v c="$capsule_basename" '!(NF && $1==f && $2==c){print $0}' "$idx" 2>/dev/null | sed '/^$/d' >> "${idx}.tmp.$$"
+printf "%s\t%s\t%s\t%s/capsule.receipt.json\n" "$family" "$capsule_basename" "$root" "$capsule" >> "${idx}.tmp.$$"
+mv "${idx}.tmp.$$" "$idx"
+
+echo "merkle_root=$root"
+echo "[CAPSEAL] indexed $family $capsule_basename"
+echo "[CAP] wrote $capsule"
