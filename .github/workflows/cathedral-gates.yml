@@ -20,3 +20,10 @@ jobs:
         run: bash scripts/dynamics/tanh_lineage_lock.sh
       - name: Provenance map
         run: bash scripts/meta/build_provenance_map.sh
+      - name: Gates report → ledger
+        run: bash scripts/gates/gen_gates_report.sh
+      - name: Upload gates report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gates-report
+          path: .tau_ledger/gates/report.*.txt
