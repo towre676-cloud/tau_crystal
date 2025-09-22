@@ -1,19 +1,18 @@
-n\ttau(n)
-2	NA
-3	NA
-5	NA
-7	NA
-11	NA
-13	NA
-17	NA
-19	NA
-23	NA
-29	NA
-31	NA
-37	NA
-4	NA
-6	NA
-8	NA
-9	NA
-10	NA
-12	NA
+n	kind	tau	one_plus_p11_mod_691	note
+# ---- primes (first dozen) ----
+2	prime	-24	667	filled from WP/OEIS
+3	prime	252	252	filled from WP/OEIS
+5	prime	4830	684	filled from WP/OEIS
+7	prime	-16744	531	filled from WP/OEIS
+11	prime	534612	469	filled from WP/OEIS
+13	prime	-577738	629	filled from WP/OEIS
+17	prime	-6905934	611	filled from OEIS
+19	prime	10661420	672	filled from OEIS
+23	prime	18643272	92	filled from OEIS
+29	prime	NA	173	placeholder (fill later)
+31	prime	NA	366	placeholder (fill later)
+37	prime	NA	622	placeholder (fill later)
+# ---- a couple of small composites ----
+4	composite	-1472	NA	2^2; from WP/OEIS
+9	composite	-113643	NA	3^2; from WP/OEIS
+25	composite	-25499225	NA	5^2; from OEIS
