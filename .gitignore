@@ -64,3 +64,12 @@ docs/**/*.svg
 # Allow discovery receipts despite ignoring .tau_ledger
 !.tau_ledger/discovery/
 !.tau_ledger/discovery/*
+
+# === repo hygiene (added 2025-09-22T00:17:10Z) ===
+logs/
+*.stderr
+*.bak.*
+trace.json
+certs/**/_fusion_out/
+!certs/**/MANIFEST.json
+!certs/**/README*.md
