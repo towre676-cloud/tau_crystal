@@ -6,3 +6,4 @@ broadcast_instructions	use your wallet to push OP_RETURN with this data
 dataset_bin	analysis/validation/SIGNED_DATASET.bin
 receipt	analysis/validation/SIGNED_DATASET.receipt.tsv
 DONE	2025-09-22T04:45:15Z
+WITNESS_SHA=8087f763b36f262416753048a7e72325d2d06005179638a4229263dbec141bd7
