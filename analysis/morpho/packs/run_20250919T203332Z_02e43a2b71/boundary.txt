@@ -1,0 +1,2 @@
+PRIVATE images/
+PUBLIC cert_main.json

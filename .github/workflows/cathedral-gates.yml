@@ -1,0 +1,22 @@
+name: cathedral-gates
+on:
+  push:
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install deps
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y graphviz jq
+      - name: Keystone gates
+        run: bash scripts/gates/invariants.sh
+      - name: Forensics guard
+        run: bash scripts/gates/forensics_guard.sh
+      - name: Tanh lineage lock
+        run: bash scripts/dynamics/tanh_lineage_lock.sh
+      - name: Provenance map
+        run: bash scripts/meta/build_provenance_map.sh
