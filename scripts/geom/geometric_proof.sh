@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+set -euo pipefail
+ROOT="${1:-LS3D-W}"
+[ -d "$ROOT" ] || { echo "::notice::no LS3D-W dataset; skipping geometric_proof"; exit 0; }
+#!/usr/bin/env bash
 set +H; set -euo pipefail
 DATA_ROOT=${1:-"/c/Users/Cody/Downloads/LS3D-W/LS3D-W"}
 OUTDIR="analysis/geom"; CAN="$OUTDIR/canonical"; SYM="$OUTDIR/symmetry.tsv"; STAB="$OUTDIR/stability.tsv"; ANC="$OUTDIR/anchors.tsv"; BIN="$OUTDIR/binary.tsv"

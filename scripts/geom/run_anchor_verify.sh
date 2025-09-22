@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+set -euo pipefail
+LS3DW_HOME="${LS3DW_HOME:-LS3D-W}"
+[ -d "$LS3DW_HOME" ] || { echo "::notice::no LS3D-W dataset; skipping anchor+verify"; exit 0; }
+#!/usr/bin/env bash
 set +H; set -euo pipefail
 MAN=${1:-"analysis/geom/ls3dw_mat_manifest.tsv"}
 PAR=${2:-"analysis/geom/ls3dw_params.tsv"}
