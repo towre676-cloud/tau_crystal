@@ -1,0 +1,5 @@
+FROM sagemath/sage:10.2
+WORKDIR /ramanujan
+COPY analysis/ramanujan/FROZEN_ETA.txt .
+COPY scripts/ramanujan/ ./scripts/
+RUN sage scripts/validate_all.sage
