@@ -11,6 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Bash checks
+          bash scripts/ramanujan/gen_eta_pentagonal.sh 300
+          bash scripts/ramanujan/verify_eta_identity.sh ramanujan/data/eta_left.tsv ramanujan/data/eta_right.tsv 1 1
         run: |
           set +H; umask 022
           bash scripts/ramanujan/register_object.sh Delta cusp 12 1 trivial 'discriminant form'
