@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+source scripts/ops/seed_init.sh
 set -euo pipefail; umask 022
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
@@ -39,7 +40,7 @@ run_canon() {
 echo "=== OPS hammer start ($(date -u +%Y-%m-%dT%H:%M:%SZ)) ==="
 
 # 1) vows stamp (always runs)
-run_canon vows        bash scripts/meta/vows_stamp.sh
+run_canon vows        bash scripts/gates/vows_gate.sh
 
 # 2) vows aging gate (new)
 run_canon vows_age    bash scripts/gates/vows_age_gate.sh
@@ -69,4 +70,11 @@ echo; echo "=== Progress table ==="; bash scripts/meta/progress_print.sh || true
 if grep -q -E '	fail	' analysis/progress.tsv; then
   echo "[OPS] one or more organs are red; exiting 1"
   exit 1
+fi
+
+# --- capsules verify (Merkle + boundary) ---
+if bash scripts/gates/capsules_verify_gate.sh; then
+  bash scripts/meta/progress_update.sh capsules_verify ok "-"
+else
+  bash scripts/meta/progress_update.sh capsules_verify fail "[CAPVERIFY] mismatch or boundary error"
 fi
