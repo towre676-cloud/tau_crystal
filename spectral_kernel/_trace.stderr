@@ -1,9 +1,0 @@
-✖ [2/4] Running Spectral.plumbing
-error: no such file or directory (error code: 2)
-  file: C:\Users\Cody\Desktop\tau_crystal\tau_crystal\spectral_kernel\Spectral\plumbing.lean
-✖ [4/4] Running plumbing:exe
-error: bad imports (see the 'Spectral.plumbing' job for details)
-Some required targets logged failures:
-- Spectral.plumbing
-- plumbing:exe
-error: build failed

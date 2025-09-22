@@ -1,9 +1,0 @@
-✖ [2/4] Running Spectral.face_plumbing
-error: no such file or directory (error code: 2)
-  file: C:\Users\Cody\Desktop\tau_crystal\tau_crystal\spectral_kernel\Spectral\face_plumbing.lean
-✖ [4/4] Running face_plumbing:exe
-error: bad imports (see the 'Spectral.face_plumbing' job for details)
-Some required targets logged failures:
-- Spectral.face_plumbing
-- face_plumbing:exe
-error: build failed
