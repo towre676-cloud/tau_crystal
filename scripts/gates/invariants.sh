@@ -17,7 +17,18 @@ check_norm analysis/normalized/L_tau.norm.json analysis/normalized/L_tau.norm.no
 atlas_dir="analysis/atlas/11a1"; ledger_json=".tau_ledger/langlands/ap.json"
 if [ -f "$atlas_dir/ap.tsv" ] && [ -f "$ledger_json" ]; then
   a=$(cut -f1,2 "$atlas_dir/ap.tsv" | LC_ALL=C sort | tr -d "\r")
-  l=$(jq -r ".ap[] | @tsv" "$ledger_json" | LC_ALL=C sort | tr -d "\r")
+  l=$(jq -r '
+    .ap as $ap |
+    if ($ap|type)=="array" then
+      if ($ap|length>0 and ($ap[0]|type)=="array") then
+        $ap[] | @tsv
+      elif ($ap|length>0 and ($ap[0]|type)=="object" and ($ap[0]|has("p") and $ap[0]|has("a"))) then
+        $ap[] | [.p,.a] | @tsv
+      else empty end
+    elif ($ap|type)=="object" then
+      to_entries | .[] | [(.key|tonumber), .value] | @tsv
+    else empty end
+  ' "$ledger_json" | LC_ALL=C sort | tr -d "\r")
   if ! diff -u <(printf "%s\n" "$a") <(printf "%s\n" "$l") >/dev/null; then echo "[ATLAS] ap.tsv vs ledger differ"; fail=1; else echo "[ATLAS] ap.tsv == ledger"; fi
 else echo "[ATLAS] skip (missing atlas or ledger)"; fi
 dot -V >/dev/null 2>&1 || { echo "[PROOF] graphviz dot not found"; fail=1; }
