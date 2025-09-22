@@ -1,0 +1,18 @@
+character\trole\tprop_or_scene\tlog_field\tsemantics
+Ari Four\tA4 control map\tGraph cart / adjacency\tlambda_pf\tPF heartbeat strength of corridor M
+Perrin Flo\tPF right eigenvector\tEigen ribbon r\tr\tright eigenvector entries used in Π=rℓᵀ
+Pia\tPF left eigenvector\tDoorframe marks ℓ\tl\tleft eigenvector entries used in Π=rℓᵀ
+Doobie\tDoob split\tAcetate Π+R overlay\tPi|R\tM=Π+R, with centering ℓᵀR=0 and Rr=0
+Roxy’s Dial\tspectral radius meter\tBrass dial at 0.62\trho_R\tsize of the wiggle’s echo, budget=1-ρ
+Budget Card\tgap to calm\tYellow 0.38 card\tpf_gap_budget_hint\titeration budget 1-ρ(R) exposed to stack
+Preston Conditioner\tspectrum shaper\tChebyshev stencils\tprecond\tpreconditioning family applied (chebyshev|neumann|…)
+Whitney White\tresidual normalizer\tWhitening brushes\ttr_Sigma0|wres_norm\tresidual whitening and baseline covariance trace
+Chevy\tChebyshev accelerator\tStride toggle rack\tchebyshev_k\tdegree/stride count tuned to smoothed band
+Greta M. Res\tKrylov memory\tNotebook with bends\tsolver|iters|restarts\tGMRES selection with iteration counts
+Bo Franx\tloop cop\tSmith normal form board\tbf_trivial\tBowen–Franks gate, no ghost loops permitted
+Katy K.T.\tlegality gate\tConstraint stencil\tkkt_ok\tKKT feasibility/legal bounds satisfied
+Casey O’SOS\tcertificate finisher\tPlaque stamper\tsos_certified\tSOS/dual certificate blob issued
+Ken Ness\tbalance pass\tMoment‑map seesaw\tkn_mu_norm\tKempf–Ness moment norm at closure
+Atlas\tobstruction librarian\tRed atlas\tobstruction|early_exit\tobstruction code and graceful bailout path
+Echo Norm\tfinish line\tTolerance ruler\t tol|replay_ok|checksum\texplicit stop rule and replay guard
+Sandy Sparse\tscalability steward\tSparse LED grid\tdomain|nnz|n\tproblem class and size for scale sanity
