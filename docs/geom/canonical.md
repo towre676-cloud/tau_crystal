@@ -1,2 +1,2 @@
 # Canonical SHA and Merkle Notes
-This is a placeholder canonical document; CI will replace/validate as needed.
+(placeholder) CI validates/updates this as proofs land.
