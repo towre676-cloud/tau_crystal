@@ -78,3 +78,7 @@ certs/**/spectral_kernel/*.json
 
 # ignore witness tarballs
 .tau_ledger/discovery/
+validation/work/
+validation/input/
+validation/input_norm/
+*.bak

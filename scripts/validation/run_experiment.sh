@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail; set +H
-IN_DIR="${IN_DIR:-validation/input}"; LIST="validation/work/dataset_rows.txt"; mkdir -p "$(dirname "$LIST")"; : > "$LIST"
+IN_DIR="${IN_DIR:-validation/input}"
 i=0; for f in "$IN_DIR"/*.tsv; do [ -e "$f" ] || continue; i=$((i+1)); id=$(printf "face%03d" "$i"); rowfile=$(bash scripts/validation/face_to_ap_safe.sh "$f" "$id"); cat "$rowfile" >> "$LIST"; [ $i -ge 50 ] && break; done
 [ $i -ge 50 ] || echo "WARNING: only $i faces found; proceeding."
 OUTBIN="analysis/validation/SIGNED_DATASET.bin"; RECEIPT="analysis/validation/SIGNED_DATASET.receipt.tsv"

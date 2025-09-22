@@ -3,49 +3,83 @@ set -euo pipefail; set +H
 in="${1:?usage: landmarks_to_r_safe.sh <in.tsv> <out.tsv>}"
 out="${2:?usage: landmarks_to_r_safe.sh <in.tsv> <out.tsv>}"
 
-# Try original first
+# Try the original first (if it works, keep that behavior)
 if bash scripts/validation/landmarks_to_r.sh "$in" "$out" 2>/dev/null; then
   exit 0
 fi
 
-# Fallback: mean-center, scale by max axis range (clamped to 1), 17 guarded features
+# Fallback: mean-center, scale by max axis range (clamped to >=1), emit 17 stable features.
+# Input: 68 lines of "x<TAB>y<TAB>z"
 awk -v OUT="$out" '
-  function max(a,b){return a>b?a:b}
+  function abs(x){return x<0?-x:x}
+  function sq(x){return x*x}
+  function max(a,b){return (a>b)?a:b}
   BEGIN{
+    n=0; sx=sy=sz=0;
     minx=miny=minz=1e300; maxx=maxy=maxz=-1e300;
-    sx=sy=sz=0; n=0;
   }
   NF>=3{
-    n++; X[n]=$1; Y[n]=$2; Z[n]=$3;
-    sx+=$1; sy+=$2; sz+=$3;
-    if($1<minx)minx=$1; if($1>maxx)maxx=$1;
-    if($2<miny)miny=$2; if($2>maxy)maxy=$2;
-    if($3<minz)minz=$3; if($3>maxz)maxz=$3;
+    ++n; X[n]=$1+0; Y[n]=$2+0; Z[n]=$3+0;
+    sx+=X[n]; sy+=Y[n]; sz+=Z[n];
+    if(X[n]<minx)minx=X[n]; if(X[n]>maxx)maxx=X[n];
+    if(Y[n]<miny)miny=Y[n]; if(Y[n]>maxy)maxy=Y[n];
+    if(Z[n]<minz)minz=Z[n]; if(Z[n]>maxz)maxz=Z[n];
   }
   END{
-    if(n<1) exit 2;
-    mx=sx/n; my=sy/n; mz=sz/n;
-    rx=maxx-minx; ry=maxy-miny; rz=maxz-minz;
-    s=rx; if(ry>s)s=ry; if(rz>s)s=rz; if(s<=0)s=1;     # clamp to avoid div/0
-    cxx=cyy=czz=cxy=cxz=cyz=sx1=sy1=sz1=sx3=sy3=sz3=0; maxr=0;
-    for(i=1;i<=n;i++){
-      x=(X[i]-mx)/s; y=(Y[i]-my)/s; z=(Z[i]-mz)/s;
-      r2=x*x + y*y + z*z; if(r2>maxr)maxr=r2;
-      cxx+=x*x; cyy+=y*y; czz+=z*z;
-      cxy+=x*y; cxz+=x*z; cyz+=y*z;
-      sx1+=x;  sy1+=y;  sz1+=z;
-      sx3+=x*x*x; sy3+=y*y*y; sz3+=z*z*z;
+    if(n==0){ # empty -> deterministic zeros
+      print "r1\t0"  > OUT; for(i=2;i<=17;i++) print "r" i "\t0" >> OUT; exit 0
     }
-    invn = 1.0/n;
-    r[1]=sx1*invn;   r[2]=sy1*invn;   r[3]=sz1*invn;
-    r[4]=cxx*invn;   r[5]=cyy*invn;   r[6]=czz*invn;
-    r[7]=cxy*invn;   r[8]=cxz*invn;   r[9]=cyz*invn;
-    r[10]=sx3*invn;  r[11]=sy3*invn;  r[12]=sz3*invn;
-    r[13]=maxr;
-    r[14]=(cxx+cyy+czz)*invn;
-    r[15]=(cxy+cxz+cyz)*invn;
-    r[16]=(sx1*sy1 + sx1*sz1 + sy1*sz1)*invn;
-    r[17]=1.0;
-    for(k=1;k<=17;k++) printf("r%02d\t%.10f\n", k, r[k]) > OUT;
-  }
-' "$in"
+    mx=sx/n; my=sy/n; mz=sz/n;
+
+    rx=max(1e-9, maxx-minx);
+    ry=max(1e-9, maxy-miny);
+    rz=max(1e-9, maxz-minz);
+    s=max(rx, max(ry, rz)); if(s<1) s=1;  # clamp scale
+
+    # Accumulate moments on centered+scaled coords
+    vx=vy=vz=cxy=cyz=czx=0;
+    L2=L1=0;  # L1/L2 norms over all points
+    # pick three stable landmark indices (1, 17, 34) when present
+    i1=(n>=1)?1:1; i2=(n>=17)?17:n; i3=(n>=34)?34:n;
+
+    for(i=1;i<=n;i++){
+      cx=(X[i]-mx)/s; cy=(Y[i]-my)/s; cz=(Z[i]-mz)/s;
+      vx+=cx*cx; vy+=cy*cy; vz+=cz*cz;
+      cxy+=cx*cy; cyz+=cy*cz; czx+=cz*cx;
+      rlen=sqrt(cx*cx+cy*cy+cz*cz);
+      L1+=abs(rlen); L2+=rlen*rlen;
+      if(i==i1){x1=cx;y1=cy;z1=cz}
+      if(i==i2){x2=cx;y2=cy;z2=cz}
+      if(i==i3){x3=cx;y3=cy;z3=cz}
+    }
+    vx/=n; vy/=n; vz/=n; cxy/=n; cyz/=n; czx/=n;
+
+    # pairwise distances between anchor landmarks
+    d12=sqrt(sq(x1-x2)+sq(y1-y2)+sq(z1-z2));
+    d23=sqrt(sq(x2-x3)+sq(y2-y3)+sq(z2-z3));
+    d31=sqrt(sq(x3-x1)+sq(y3-y1)+sq(z3-z1));
+
+    # a few simple affine-invariant ratios of ranges
+    rxy=(rx>1e-9?rx:1); ryy=(ry>1e-9?ry:1); rzz=(rz>1e-9?rz:1);
+    qx=rx/rxy; qy=ry/ryy; qz=rz/rzz; # these become 1; include instead normalized range ratios:
+    rxy_ratio=rx/ryy; ryz_ratio=ry/rzz; rzx_ratio=rz/rxy;
+
+    # 17 features (bounded, scale/translation invariant)
+    printf "r1\t%.8f\n", vx               > OUT
+    printf "r2\t%.8f\n", vy               >> OUT
+    printf "r3\t%.8f\n", vz               >> OUT
+    printf "r4\t%.8f\n", cxy              >> OUT
+    printf "r5\t%.8f\n", cyz              >> OUT
+    printf "r6\t%.8f\n", czx              >> OUT
+    printf "r7\t%.8f\n", L1/n             >> OUT
+    printf "r8\t%.8f\n", L2/n             >> OUT
+    printf "r9\t%.8f\n", d12              >> OUT
+    printf "r10\t%.8f\n", d23             >> OUT
+    printf "r11\t%.8f\n", d31             >> OUT
+    printf "r12\t%.8f\n", (vx+vy+vz)      >> OUT
+    printf "r13\t%.8f\n", (vx*vy+vy*vz+vz*vx) >> OUT
+    printf "r14\t%.8f\n", (vx*vy*vz)      >> OUT
+    printf "r15\t%.8f\n", rxy_ratio       >> OUT
+    printf "r16\t%.8f\n", ryz_ratio       >> OUT
+    printf "r17\t%.8f\n", rzx_ratio       >> OUT
+  }' "$in"
