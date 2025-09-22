@@ -1,0 +1,15 @@
+name: self-test
+on:
+  push:
+  pull_request:
+jobs:
+  say-hi:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Echo env
+        run: |
+          echo "hello from $GITHUB_WORKFLOW on $GITHUB_REF"
+          uname -a
+          git --version
