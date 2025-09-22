@@ -1,2 +1,2 @@
 # index | expression | SturmBound | witness SHA-256
-1 | Euler Pentagonal (η product vs pentagonal sum) | 6 | sha256:37cb38ab9697fb02dcd0113d012e445c8dc3a681fc75a97cd578179d417ea07d
+1 | Euler Pentagonal (η product vs pentagonal sum) | 6 | sha256:f4c2aa50579163df4c4102746f9de86e8cd18f3534538ad72dcf06183cc9bcf2
