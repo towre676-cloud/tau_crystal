@@ -73,3 +73,5 @@ trace.json
 certs/**/_fusion_out/
 !certs/**/MANIFEST.json
 !certs/**/README*.md
+.garden/
+certs/**/spectral_kernel/*.json
