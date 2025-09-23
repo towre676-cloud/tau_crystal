@@ -1,0 +1,2 @@
+n	g	h	k_claim	factors	comment
+modulus (int>1)	base (int)	target (int)	claimed discrete log k (int>=0)	coprime factorization of n, e.g. 5*11	free text

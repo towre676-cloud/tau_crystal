@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+set -euo pipefail; set +H
+
+ROOT="${ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+cd "$ROOT" || exit 1
+
+PY311="$ROOT/.py311/python.exe"
+PYTHON_BIN="${PYTHON_BIN:-}"
+if [ -z "${PYTHON_BIN}" ]; then
+  if [ -x "$PY311" ]; then PYTHON_BIN="$PY311";
+  elif command -v python3 >/dev/null 2>&1; then PYTHON_BIN="$(command -v python3)";
+  elif command -v python >/dev/null 2>&1; then PYTHON_BIN="$(command -v python)";
+  else echo "[tau] no python found"; exit 1; fi
+fi
+
+cmd="${1:-}"; shift || true
+
+usage(){
+  echo "tau face:ingest <in_dir> <out_dir>"
+  echo "tau face:metrics <in_dir> <out_dir>"
+  echo "tau lfunc:run [--curve 11a1] [--cutoff 997]"
+  echo "tau sheaf:cocycle"
+  echo "tau chain:assure"
+  echo "tau qr:gen"
+  echo "tau seal:verify <file.tar.gz>"
+  echo "tau patch:receipt"
+}
+
+case "$cmd" in
+  face:ingest)
+    IN="${1:-}"; OUT="${2:-}"
+    [ -n "$IN" ] && [ -n "$OUT" ] || { echo "[tau] usage: tau face:ingest <in_dir> <out_dir>"; exit 2; }
+    bash scripts/morpho/face15_ingest.sh "$IN" "$OUT"
+  ;;
+  face:metrics)
+    IN="${1:-}"; OUT="${2:-}"
+    [ -n "$IN" ] && [ -n "$OUT" ] || { echo "[tau] usage: tau face:metrics <in_dir> <out_dir>"; exit 2; }
+    bash scripts/morpho/face15_metrics.sh "$IN" "$OUT"
+  ;;
+  lfunc:run)
+    CURVE="11a1"; CUTOFF="997"
+    while [ $# -gt 0 ]; do
+      case "$1" in
+        --curve) CURVE="${2:-}"; shift 2;;
+        --cutoff) CUTOFF="${2:-}"; shift 2;;
+        *) echo "[tau] unknown arg: $1"; exit 2;;
+      esac
+    done
+    if [ -f "scripts/langlands/completed_L.py" ]; then
+      "$PYTHON_BIN" scripts/langlands/completed_L.py --curve "$CURVE" --cutoff "$CUTOFF"
+    else
+      echo "[tau] missing scripts/langlands/completed_L.py"; exit 1
+    fi
+  ;;
+  sheaf:cocycle)
+    if [ -x scripts/meta/tau_sheaf_reflect.sh ]; then
+      bash scripts/meta/tau_sheaf_reflect.sh
+    else
+      echo "[tau] missing scripts/meta/tau_sheaf_reflect.sh"; exit 1
+    fi
+  ;;
+  chain:assure)
+    if [ -x scripts/assure.sh ]; then bash scripts/assure.sh; else echo "[tau] missing scripts/assure.sh"; exit 1; fi
+  ;;
+  qr:gen)
+    if [ -x scripts/meta/qr_witness.sh ]; then bash scripts/meta/qr_witness.sh; else echo "[tau] missing scripts/meta/qr_witness.sh"; exit 1; fi
+  ;;
+  seal:verify)
+    TARBALL="${1:-}"; [ -n "$TARBALL" ] || { echo "[tau] usage: tau seal:verify <file.tar.gz>"; exit 2; }
+    if [ -x scripts/meta/verify_tarball_seal.sh ]; then bash scripts/meta/verify_tarball_seal.sh "$TARBALL"; else echo "[tau] missing scripts/meta/verify_tarball_seal.sh"; exit 1; fi
+  ;;
+  patch:receipt)
+    if [ -x scripts/langlands/patch_receipt.sh ]; then bash scripts/langlands/patch_receipt.sh; else echo "[tau] missing scripts/langlands/patch_receipt.sh"; exit 1; fi
+  ;;
+  help|"") usage ;;
+  *) echo "[tau] unknown command: $cmd"; usage; exit 2;;
+esac

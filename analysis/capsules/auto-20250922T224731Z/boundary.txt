@@ -1,0 +1,4 @@
+Capsule: auto-20250922T224731Z
+Family:  auto
+UTC:     2025-09-22T22:47:32Z
+Policy:  contents exclude capsule.receipt.json

@@ -8,3 +8,6 @@ if command -v column >/dev/null 2>&1; then
 else
   cat "$f"
 fi
+
+# post-fix capsules_verify via deterministic verifier
+bash .tau_ledger/capsules/.progress_hook.sh || true

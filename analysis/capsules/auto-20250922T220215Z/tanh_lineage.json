@@ -1,0 +1,10 @@
+{
+  "tau_norm_sha": "085f8e374ca4f0ba6ee955093738b55ae3f2a66679bf45952b9c18af463bc031",
+  "basins_tsv_sha": "c791490341c606ef390839f3124a852c5e9c0c31a419e6cb68d909b522859f0e",
+  "next_surface_tsv_sha": "26539f4cf98ca28f2dac5cba4a8861811297c687c8c6f375b0907d6df9c1c663",
+  "morse_crit_tsv_sha": "87c902451a9d858a47bafeb09c914563e0d4e96a85e9c8558d9cab50318cbfbc",
+  "hysteresis_summary_path": ".tau_ledger/hysteresis/box-CM-D23/summary.json",
+  "hysteresis_summary_sha": "21e06b74df937562ad6d4ee09d6513bfcf2764268fe4db220db68a49c9cda8d4",
+  "entropy_entv1_path": ".tau_ledger/entropy/entv1-20250914T023136Z.json",
+  "entropy_entv1_sha": "3e0ee0df760df0f5cb7696a18acfbd38664c6b7f1f3b8a30fdcac50bf1cbc622"
+}

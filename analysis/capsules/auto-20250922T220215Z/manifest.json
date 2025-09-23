@@ -1,0 +1,11 @@
+{
+  "capsule":"auto-20250922T220215Z",
+  "created":"2025-09-22T22:02:16Z",
+  "files":[
+  {"file":"double_zero.json","sha":"986d3400fdfa8e4d747eb79ea91c0622cbeb74ce6877af40718016a78d807d75"},
+  {"file":"confirm_double_zero_stable.json","sha":"0d9ffb177da31d8bfd6d59907df7eb421d62a6c13f3d4b25986b19e87d70a38d"},
+  {"file":"atlas_11a1_ap.tsv","sha":"8056e2704d5e564904314a5851d0b1b6403f9d4b8c7ffb35bccd6f11121a11d4"},
+  {"file":"ledger_ap.json","sha":"3545c8a20005d8161241bfc85992f79a60616b5821f3948a4310125755cd4ee4"},
+  {"file":"geom_proof.dot","sha":"024a8379f3bfdc4223676143eb43e90e439d966bf6e230c3472df9bcfdc05a86"},
+  {"file":"tanh_lineage.json","sha":"b31ca808d9250953ba5ea5e0bd6db41794bb416d0bf7d4ae2d7d1a889d2f5e32"}
+]}

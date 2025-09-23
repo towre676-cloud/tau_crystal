@@ -1,0 +1,6 @@
+protobuf==4.25.3
+typing_extensions>=4.8.0
+absl-py>=1.4.0
+attrs>=23
+flatbuffers>=23
+numpy==1.26.4
