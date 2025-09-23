@@ -1,0 +1,1 @@
+Intent: Canonical invariants (quotient geometry, L-functions, receipts).

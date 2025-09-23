@@ -1,0 +1,18 @@
+character	role	prop_or_scene	log_field	semantics
+Ari Four	A4 control map	Graph cart / adjacency	lambda_pf	PF heartbeat strength of corridor M
+Perrin Flo	PF right eigenvector	Eigen ribbon r	r	right eigenvector entries used in Π=rℓᵀ
+Pia	PF left eigenvector	Doorframe marks ℓ	l	left eigenvector entries used in Π=rℓᵀ
+Doobie	Doob split	Acetate Π+R overlay	Pi|R	M=Π+R, with centering ℓᵀR=0 and Rr=0
+Roxy’s Dial	spectral radius meter	Brass dial at 0.62	rho_R	size of the wiggle’s echo, budget=1-ρ
+Budget Card	gap to calm	Yellow 0.38 card	pf_gap_budget_hint	iteration budget 1-ρ(R) exposed to stack
+Preston Conditioner	spectrum shaper	Chebyshev stencils	precond	preconditioning family applied (chebyshev|neumann|…)
+Whitney White	residual normalizer	Whitening brushes	tr_Sigma0|wres_norm	residual whitening and baseline covariance trace
+Chevy	Chebyshev accelerator	Stride toggle rack	chebyshev_k	degree/stride count tuned to smoothed band
+Greta M. Res	Krylov memory	Notebook with bends	solver|iters|restarts	GMRES selection with iteration counts
+Bo Franx	loop cop	Smith normal form board	bf_trivial	Bowen–Franks gate, no ghost loops permitted
+Katy K.T.	legality gate	Constraint stencil	kkt_ok	KKT feasibility/legal bounds satisfied
+Casey O’SOS	certificate finisher	Plaque stamper	sos_certified	SOS/dual certificate blob issued
+Ken Ness	balance pass	Moment‑map seesaw	kn_mu_norm	Kempf–Ness moment norm at closure
+Atlas	obstruction librarian	Red atlas	obstruction|early_exit	obstruction code and graceful bailout path
+Echo Norm	finish line	Tolerance ruler	 tol|replay_ok|checksum	explicit stop rule and replay guard
+Sandy Sparse	scalability steward	Sparse LED grid	domain|nnz|n	problem class and size for scale sanity

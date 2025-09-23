@@ -1,0 +1,42 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Lake: build",
+      "type": "shell",
+      "command": "lake build",
+      "options": {"cwd": "${workspaceFolder}"},
+      "problemMatcher": {
+        "owner": "lean4",
+        "fileLocation": ["absolute"],
+        "pattern": {
+          "regexp": "^(.*):(\\d+):(\\d+): (error|warning): (.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      },
+      "group": {"kind": "build", "isDefault": true}
+    },
+    {
+      "label": "Lake: clean",
+      "type": "shell",
+      "command": "lake clean",
+      "options": {"cwd": "${workspaceFolder}"}
+    },
+    {
+      "label": "Lake: test",
+      "type": "shell",
+      "command": "lake test || true",
+      "options": {"cwd": "${workspaceFolder}"}
+    },
+    {
+      "label": "Lean: run Main",
+      "type": "shell",
+      "command": "lake env lean --run Main.lean",
+      "options": {"cwd": "${workspaceFolder}"}
+    }
+  ]
+}

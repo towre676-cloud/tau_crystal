@@ -1,0 +1,85 @@
+# Core build & cache outputs
+.lake/
+build/
+lake-packages/
+dist/
+
+# Lean & tool churn files
+lake-manifest.json
+*.olean
+*.ilean
+
+# Python / Node / generic caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+node_modules/
+.pnpm-store/
+
+# Local scratch, exports, deploys, artifacts
+_scratch/
+_exports/
+deploy/
+artifacts/
+site/witness/
+
+# Receipts & witnesses (default ignore; allow JSON certs/manifests)
+.tau_ledger/**
+!.tau_ledger/
+!.tau_ledger/*.json
+!.tau_ledger/**/README.md
+.tau_ledger/discovery/
+.tau_ledger/logs/
+
+# Analysis inputs/outputs (privacy-first)
+analysis/**/input/
+analysis/**/output/
+analysis/geom/input/
+analysis/morpho/input/
+analysis/morpho/output/
+
+# Keys, secrets, lockfiles, backups
+*.pem
+*.key
+*.bak
+.tmp_*
+*.tar.gz
+analysis/geom/canonical_truths.lock
+
+# Generated docs & images (keep source; ignore compiled artifacts)
+docs/**/*.pdf
+docs/**/*.png
+docs/**/*.svg
+
+# Allowlisted source trees
+!Tau/
+!TauProofs/
+!.github/
+!scripts/
+!schemas/
+!docs/
+
+
+# Allow discovery receipts despite ignoring .tau_ledger
+!.tau_ledger/discovery/
+!.tau_ledger/discovery/*
+
+# === repo hygiene (added 2025-09-22T00:17:10Z) ===
+logs/
+*.stderr
+*.bak.*
+trace.json
+certs/**/_fusion_out/
+!certs/**/MANIFEST.json
+!certs/**/README*.md
+.garden/
+certs/**/spectral_kernel/*.json
+
+# ignore witness tarballs
+.tau_ledger/discovery/
+validation/work/
+validation/input/
+validation/input_norm/
+*.bak
+.py311_site/

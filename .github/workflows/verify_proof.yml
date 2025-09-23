@@ -1,0 +1,22 @@
+name: verify_proof
+on:
+  push:
+    paths:
+      - ".tau_ledger/**"
+      - "Tau/**"
+      - "TauProofs/**"
+      - "lakefile.lean"
+  pull_request:
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+      - name: Build
+        run: lake build
+      - name: Verify runtime certificate
+        run: bash scripts/coho/prove_v2.sh

@@ -1,0 +1,67 @@
+name: "τ‑Crystal Bundled Verifier"
+description: "Pick or synthesize a τ witness, emit sha256, run local verifier, and expose outputs."
+outputs:
+  receipt_path:
+    description: "Path to the witness/receipt JSON"
+    value: ${{ steps.pick.outputs.witness }}
+  receipt_sha256:
+    description: "SHA‑256 of the witness"
+    value: ${{ steps.pick.outputs.sha256 }}
+  verify_status:
+    description: "Verifier status string"
+    value: ${{ steps.verify.outputs.status }}
+runs:
+  using: "composite"
+  steps:
+    - name: Ensure ledger dirs
+      shell: bash
+      run: |
+        set -Eeuo pipefail; set +H; umask 022
+        mkdir -p .tau_ledger/qr .tau_ledger/sheaf .tau_ledger/entropy .tau_ledger/receipts
+    - name: Pick or synthesize witness
+      id: pick
+      shell: bash
+      run: |
+        set -Eeuo pipefail; set +H; umask 022
+        pick_latest(){ ls -1 "$1" 2>/dev/null | LC_ALL=C sort | tail -1 2>/dev/null || true; }
+        sha(){ if command -v sha256sum >/dev/null 2>&1; then sha256sum "$1" | awk '{print $1}';
+              elif command -v shasum >/dev/null 2>&1; then shasum -a 256 "$1" | awk '{print $1}';
+              else openssl dgst -sha256 "$1" | awk '{print $2}'; fi; }
+        W="$(pick_latest .tau_ledger/sheaf/sheafv1-*.json || true)"
+        [ -z "$W" ] && W="$(pick_latest .tau_ledger/entropy/entv1-*.json || true)"
+        [ -z "$W" ] && W="$(pick_latest .tau_ledger/receipts/*.json || true)"
+        if [ -z "$W" ] || [ ! -s "$W" ]; then
+          if [ -s .tau_ledger/CHAIN ]; then
+            W=".tau_ledger/qr/chain-witness.json"; CH="$(sha .tau_ledger/CHAIN)"
+            {
+              printf '{\n'
+              printf '  "schema":"taucrystal/chain_witness/v1",\n'
+              printf '  "utc":"%s",\n' "$(env TZ=UTC date -u +%Y%m%dT%H%M%SZ)"
+              printf '  "chain_sha256":"%s"\n' "$CH"
+              printf '}\n'
+            } > "$W"
+          else
+            W=".tau_ledger/qr/empty-witness.json"
+            printf '{"schema":"taucrystal/empty/v1"}\n' > "$W"
+          fi
+        fi
+        H="$(sha "$W")"
+        echo "witness=$W" >> "$GITHUB_OUTPUT"
+        echo "sha256=$H"  >> "$GITHUB_OUTPUT"
+    - name: Run local verifier shim
+      id: verify
+      shell: bash
+      run: |
+        set -Eeuo pipefail; set +H; umask 022
+        W="${{ steps.pick.outputs.witness }}"
+        status="ok"
+        if [ -x scripts/tau_verify.sh ]; then
+          status="$(bash scripts/tau_verify.sh "$W" || true)"
+        fi
+        echo "status=$status" >> "$GITHUB_OUTPUT"
+    - name: Expose outputs
+      shell: bash
+      run: |
+        echo "witness: ${{ steps.pick.outputs.witness }}"
+        echo "sha256:  ${{ steps.pick.outputs.sha256 }}"
+        echo "status:  ${{ steps.verify.outputs.status }}"

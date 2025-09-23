@@ -1,0 +1,10 @@
+{
+  "capsule_id": "TBD-ID",
+  "payload": "artifacts/your_bundle.zip",
+  "expected_sha256": "TBD-SHA256-HEX",
+  "size_bytes": 0,
+  "sealed_utc": "TBD-YYYY-MM-DDTHH:MM:SSZ",
+  "seller_pubkey": "PUBKEY_SHA256_TBD",
+  "method": "sha256+sig+optional_notary",
+  "notes": "Self-verifiable: buyer can recompute SHA-256 and verify signature independently."
+}

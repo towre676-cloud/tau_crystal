@@ -1,0 +1,227 @@
+ce9606181ed34be9e4b4d82baf79041049ed78e3\t2025-09-12T22:42:21-04:00\tCody\ttowre676@gmail.com\torigin/tau-receipt-test, tau-receipt-test\tci: force explicit receipt path; non-fatal picker; upload
+87f75fc36dc9720542149c9720ef1c07509f9805\t2025-09-12T22:40:21-04:00\tCody\ttowre676@gmail.com\t\tci: make receipt picker non-fatal; always upload if found
+77fe3cb61efcbd40993eea240b715cec72c10495\t2025-09-12T22:37:49-04:00\tCody\ttowre676@gmail.com\t\tci: robust receipt path + upload
+40ef2b756ce43e70bf8c16dd3e9cc84096bc16ab\t2025-09-12T22:28:46-04:00\tCody\ttowre676@gmail.com\t\tci: run marketplace action and upload receipt
+7ef5eda9ed06be8a3623f311980ce6c08802c49e\t2025-09-12T22:04:52-04:00\tCody\ttowre676@gmail.com\t\tci: test with monorepo action tag v1.0.12
+2519860e210175fcebc3dc62c47e2792e40f96e6\t2025-09-12T21:59:57-04:00\tCody\ttowre676@gmail.com\t\tci: robust receipt finder (outputs or scan) + upload
+75b5dc203fec5ef03d870f55563b5ba9a7f730b3\t2025-09-12T21:57:55-04:00\tCody\ttowre676@gmail.com\t\tci: compute receipt path (output or default) and upload
+c9b388a51da6f75cb3a8b9564da54a93135126fc\t2025-09-12T21:56:10-04:00\tCody\ttowre676@gmail.com\t\tci: use outputs.receipt and upload it
+3dae76e1769b79c95ca824db7309dbad0f5ee0cf\t2025-09-12T21:54:54-04:00\tCody\ttowre676@gmail.com\t\tci: upload tau receipt reliably (always, with fallback path)
+4726e34788ccb392565049703df72720cbf0ffed\t2025-09-12T21:53:01-04:00\tCody\ttowre676@gmail.com\t\tci: always upload tau receipt for local verify
+8ecd5df275204506dd7a3a504557254c7d4d64e5\t2025-09-12T21:42:44-04:00\tCody\ttowre676@gmail.com\t\tci: emit tau receipt for local verify demo
+104a824e52b658fa99faa21a5b290dd51287c9dd\t2025-09-12T19:27:51-04:00\tCody\ttowre676@gmail.com\ttag: v1.0.9, tag: v1.0.8, tag: v1.0.7, tag: v1.0.12, tag: v1.0.11, tag: v1.0.10, tag: v1, clean-20250912-231857\tchore: Marketplace cleanup (single root action.yml, no workflows)
+c3466c50d741a8d76a60af9bb648ae874ef057de\t2025-09-12T19:18:43-04:00\tCody\ttowre676@gmail.com\trescue-workflows-20250912-231836\trescue: restore workflows from 47a9c0a04af4a115c44f214e4fc224bafd8b8ef3 (20250912-231836)
+8043c460074ccb026e7ef19068e46cff1699339a\t2025-09-12T19:12:32-04:00\tCody\ttowre676@gmail.com\torigin/docs/publish-monographs, docs/publish-monographs\tci: YAML parse fixes (concurrency stub, env spacing, hashFiles, output indent); normalize EOL/tabs; dedupe job key
+760cd4daa473e2ea715ba7f8e09a085caecc7c16\t2025-09-12T18:40:16-04:00\tCody\ttowre676@gmail.com\t\tci: fix YAML syntax errors (concurrency stub, hashFiles, PUSH_BEFORE spacing)
+91e202cb650354a25b1a57826706ae959730b767\t2025-09-12T18:19:59-04:00\tCody\ttowre676@gmail.com\ttag: v1.0.6, origin/v0, v0\tchore: remove workflows from action repo for Marketplace
+47a9c0a04af4a115c44f214e4fc224bafd8b8ef3\t2025-09-12T18:12:14-04:00\tCody\ttowre676@gmail.com\ttag: v1.0.5\taction: require wrapper-digest enforcement inside composite
+f4304fcf3984700e5e6a3037bf767ec4b979a3af\t2025-09-12T17:55:01-04:00\tCody\ttowre676@gmail.com\ttag: v1.0.4\taction: embed wrapper-digest step (writes action_wrapper_sha into manifest/receipt)
+e8323b6fc86b54e5ea9063cbe8a0b9f970069cc7\t2025-09-12T17:32:18-04:00\tCody\ttowre676@gmail.com\t\taction hardening: wrapper digest in receipts, pure-bash verifier, outputs schema, v0 branch badge hook
+404ec976f3e5d423e2dd69b9ec2ea74f06dc5c14\t2025-09-12T15:40:59-04:00\tCody\ttowre676@gmail.com\ttag: v1.0.3, tag: v1.0.2, tag: v1.0.1\tfeat(action): add composite action, self-test workflow, and usage docs
+ed9b21cd41d33962eba6cb87e8873178613d66aa\t2025-09-12T15:05:53-04:00\tCody\ttowre676@gmail.com\t\twire pav.awk + tau_fuse; enforce receipt spec; stage receipt deltas
+adbc223a126d110a891628f34421f8e53d03092f\t2025-09-12T15:00:50-04:00\tCody\ttowre676@gmail.com\t\tscripts: fuse signals without /dev/fd; awk+sort to align by time
+8de3a1e44b617ff1c9310c6b42d8fb7c047b6fd2\t2025-09-12T15:00:43-04:00\tCody\ttowre676@gmail.com\t\tscripts: make pav.awk fd-safe and actually compute diagnostics
+befe9cd4fdc98f2b2fdb2c2f2afd28d19e8eb78f\t2025-09-12T14:58:03-04:00\tCody\ttowre676@gmail.com\t\tscripts: add tau_adapter.sh to orchestrate sweep→fuse→receipt
+3ed58386e187255a048ff9069ea456ba7efe3184\t2025-09-12T14:57:51-04:00\tCody\ttowre676@gmail.com\t\tscripts: add spec_guard.sh to enforce tau_class/provenance/operator tokens
+831d30971456cbe0161fd3d46ca851c88088e758\t2025-09-12T14:57:39-04:00\tCody\ttowre676@gmail.com\t\tscripts: add ensemble τ fuse via PAV over multi-signal series
+ae758724e9c1549c3ae38dbda966209f958df59e\t2025-09-12T14:57:24-04:00\tCody\ttowre676@gmail.com\t\tscripts: add K/ω sweep with stability score and calibration receipt
+6c2a89191aab37f5ba4327157a6d0345ee729c02\t2025-09-12T14:56:59-04:00\tCody\ttowre676@gmail.com\t\tscripts: add pav.awk isotonic fuse for ensemble τ
+51a0b01b45d03acd419abb09c696c1a8f3f7f241\t2025-09-12T14:56:45-04:00\tCody\ttowre676@gmail.com\t\tdocs: publish τ-axioms (admissible class) as prose
+9819806f471dc2acb21f2d6a9525a234d69a7312\t2025-09-12T14:52:30-04:00\tCody\ttowre676@gmail.com\t\tci: add receipt_guard workflow to call scripts/tau_verify.sh
+523bb204ab7114ebb5fbee58a7732f5265e8491f\t2025-09-11T21:01:40-04:00\tCody\ttowre676@gmail.com\t\tci: add red-PR maintenance scripts (B6 by commit/check, B7 ping, B8 rollup)
+1b239574c6add2a207dbe20c5a5275d1328046eb\t2025-09-11T18:08:49-04:00\tCody\ttowre676@gmail.com\t\tci: trigger action selftest
+a6bc625b591b0dc85b2d55fcf79e8a896ebfd35a\t2025-09-11T17:43:31-04:00\tCody\ttowre676@gmail.com\t\taction: composite wrapper + self-test + docs snippet
+f684dedd2868000da0b3b4f5c1973236549871a4\t2025-09-11T17:31:28-04:00\tCody\ttowre676@gmail.com\t\taction: composite wrapper + self-test + docs snippet
+3035054c40c0f20336b90a0b73af87158452f878\t2025-09-11T17:29:16-04:00\tCody\ttowre676@gmail.com\t\taction: composite wrapper + self-test + docs snippet
+d58c075a7a4874d6ac3c36dfbb71a708d68dc76f\t2025-09-11T17:13:27-04:00\tCody\ttowre676@gmail.com\t\taction: add τ-Crystal composite action + self-test
+413d82cc8d8a04ad430e1b2f41dd97a1eb14d1b3\t2025-09-11T15:41:24-04:00\tCody\ttowre676@gmail.com\t\tci(actionlint): use 'latest DIR' syntax across workflows
+effda84affdef75168e02259112e74393f35e121\t2025-09-11T15:41:11-04:00\tCody\ttowre676@gmail.com\t\tchore: ignore/remove ci_fast.yml backups
+c2c954d0cfce518366feff91dd8137eca2694c0c\t2025-09-11T15:37:39-04:00\tCody\ttowre676@gmail.com\t\tci(actionlint): replace '-b ./bin' with 'latest ./bin'
+957aef35c13206df0dd3075e8d938dd7ed32690e\t2025-09-11T15:33:29-04:00\tCody\ttowre676@gmail.com\t\tci(ci-fast): restore from backup
+bd56e59745cbb4d423bdd5b7d15f73f113325c27\t2025-09-11T15:31:08-04:00\tCody\ttowre676@gmail.com\t\tci(fast-path): mixed proof -> fallback
+cb3b3a82634776067ac895c12c1a0908b8077a59\t2025-09-11T15:31:04-04:00\tCody\ttowre676@gmail.com\t\tci(fast-path): engine-only proof
+d24a54a79a74229570c33cc7b2c4b26a28392c5d\t2025-09-11T15:30:47-04:00\tCody\ttowre676@gmail.com\t\tci(ci-fast): treat mixed changes as fallback; root-only stays root fast-path
+9d71bc7dc90324279537a4dbab7a1e33290e8bca\t2025-09-11T15:21:47-04:00\tCody\ttowre676@gmail.com\t\tci(fast-path): mixed probe (root+engine)
+0fa23a4754d5c0bf23d5eb81eca01a1a3e5daeac\t2025-09-11T15:21:42-04:00\tCody\ttowre676@gmail.com\t\tci(fast-path): engine-only probe
+c7991e77c790e862d029a294d283eabb12118d18\t2025-09-11T15:19:43-04:00\tCody\ttowre676@gmail.com\t\tci(fast-path): mixed probe (root + engine)
+a37882d02dd46e885376daacf1a23b168091799c\t2025-09-11T15:19:38-04:00\tCody\ttowre676@gmail.com\t\tci(fast-path): engine-only probe
+1277a4f81f330487949ea26a7133fb4bc2ccfb45\t2025-09-11T15:17:08-04:00\tCody\ttowre676@gmail.com\t\tci: paths-ignore + summary + cache-key notices
+cd6bce98a4ab7658df935240caf4b955d313689d\t2025-09-11T15:11:05-04:00\tCody\ttowre676@gmail.com\t\tci: add cache restore/save to ci_fast, ci_prewarm, ci_bench
+852d26b7b401368ee5f36be7b4dfc08d083de70a\t2025-09-11T15:07:26-04:00\tCody\ttowre676@gmail.com\t\tci: add clean ci_prewarm workflow
+9bbdda3b6ee345ff12232a286257ead83a1e75aa\t2025-09-11T15:07:13-04:00\tCody\ttowre676@gmail.com\t\tci: add clean ci_fast workflow with auto module/root fast-path
+168092073389cc884aca858e37ee59690e6405e2\t2025-09-11T15:04:40-04:00\tCody\ttowre676@gmail.com\t\tci: add minimal ci_bench workflow
+abde96e6121ae82f3f299543218d1ceefa640f7d\t2025-09-11T15:04:28-04:00\tCody\ttowre676@gmail.com\t\tci: add setup_lean helper
+4a0ecc4c7f26f87ff6b213622bb62607cd0ff727\t2025-09-11T15:01:12-04:00\tCody\ttowre676@gmail.com\t\tci: fix YAML (remove stray 0++ concurrency; clean fast/prewarm workflows)
+df2a7d6541c8f7105c2172e199e90ff3d25a94d1\t2025-09-11T14:52:44-04:00\tCody\ttowre676@gmail.com\t\tci: tune TESTS_PER_SHARD=120 and MATRIX_MAX_SHARDS=6
+5b2055586484072d0d1e9a4700be47a23c2a083e\t2025-09-11T14:52:34-04:00\tCody\ttowre676@gmail.com\t\tci(fast-path): mixed change to force full path
+e867a6dfca01ce6c78d49747188783cdfb4a813a\t2025-09-11T14:50:49-04:00\tCody\ttowre676@gmail.com\t\tci(fast-path): probe engine-only change to trigger module fast path
+cc0ba48b9f9746bf8c86c40cb5ef207824d17911\t2025-09-11T14:49:28-04:00\tCody\ttowre676@gmail.com\t\ttooling: add ci_fast_print helper
+3b0483db627e3eeab7b400a5b4378d1530ae7365\t2025-09-11T14:49:14-04:00\tCody\ttowre676@gmail.com\t\tci(fast-path): add ci-fast to engine/
+fc5da3ecfe110eb2a81d57554105e1e88b0f01a5\t2025-09-11T14:26:06-04:00\tCody\ttowre676@gmail.com\t\ttooling: add portable make wrapper for Git Bash
+dd45118ab03ac6b78ebff53bf6e187116167155f\t2025-09-11T14:25:55-04:00\tCody\ttowre676@gmail.com\t\tci(fast-path): normalize LF, set SHELL, and prep ci-fast hygiene
+ccedb2dabf946eff2dab5dcad0b7a6aa259eb83d\t2025-09-11T12:38:11-04:00\tCody\ttowre676@gmail.com\t\tci: demo fast-path (root-only change)
+0bc006a835c7f23a15d060f23882c9be09373e4d\t2025-09-11T12:36:48-04:00\tCody\ttowre676@gmail.com\t\tci(fast-path): support repo-root Makefile:ci-fast and print module scan
+36602d653534efb38ea024e6496ff81eca0bff00\t2025-09-11T12:29:23-04:00\tCody\ttowre676@gmail.com\t\tci: add fast-path module run (Makefile:ci-fast), tunable .github/ci.env, keep dynamic sharding & summary
+f0707d748d52f7ab1e9166678f6906d9131b3dcc\t2025-09-11T12:22:45-04:00\tCody\ttowre676@gmail.com\t\tci: add PR summary (changed stacks, test count, shard total) to visualize speedups per run
+d18a1ea98cda3e09fb1eec0093e21dc5d2a76379\t2025-09-11T12:22:15-04:00\tCody\ttowre676@gmail.com\t\tci: add PR summary (changed stacks, test count, shard total) to visualize speedups per run
+508d0710a68e616a1946314839e808bc716784e3\t2025-09-11T12:21:49-04:00\tCody\ttowre676@gmail.com\t\tci: add PR summary (changed stacks, test count, shard total) to visualize speedups per run
+537dc8dbf4e8138e7eaf4ea811e866bbc4709a42\t2025-09-11T12:19:27-04:00\tCody\ttowre676@gmail.com\t\tci(python/rust): install dev deps for testmon/xdist; upload nextest JUnit; preserve dynamic sharding & stack skipping
+d78b76c54708d6a1737174234134843f309c3a08\t2025-09-11T12:15:48-04:00\tCody\ttowre676@gmail.com\t\tci(test-speed): add nextest CI profile; ensure pytest-xdist & pytest-testmon in dev requirements
+c05a6edcc8fb46870118ab9d34f25401e8713286\t2025-09-11T12:13:22-04:00\tCody\ttowre676@gmail.com\t\tci: job-level skip when nothing changed; pytest-testmon; cargo-nextest; keep dynamic sharding & caches
+2523e749b219551735e1955a705b9a474f3d9455\t2025-09-11T12:08:11-04:00\tCody\ttowre676@gmail.com\t\tci: dynamic sharding from test count + cache restore-keys; keep stack-skipping via paths-filter
+23276a11ef6d555414e45c59b30a300f483a8b7b\t2025-09-11T12:03:06-04:00\tCody\ttowre676@gmail.com\t\tci: skip entire language stacks when untouched via dorny/paths-filter; keep sharding & caches
+b829f54b6f737b43c0c8121464556788f982ba6b\t2025-09-11T11:56:57-04:00\tCody\ttowre676@gmail.com\t\tci: nightly cache warmer to keep deps & build caches hot (improves first-run latency)
+0b8c4941d024734384ab09abeb9c9c05276c87cd\t2025-09-11T11:56:52-04:00\tCody\ttowre676@gmail.com\t\tci: push toward 10x — fix shard helper, 8-way sharding, cargo-chef deps cache, pytest xdist, GHA Docker cache
+c4b2d02c802e5928fde54aba79c8b780cbc1cabd\t2025-09-11T11:52:43-04:00\tCody\ttowre676@gmail.com\t\tci(heavy): add Rust sccache, Go build-cache, and Docker Buildx cache; keep path filters + sharding
+97a6b36e55dba583071ecada8fb014ca25618158\t2025-09-11T11:48:08-04:00\tCody\ttowre676@gmail.com\t\tci: add heavy workflow with path filtering, warm caches, and sharded test skeleton; add shard helper
+63b38859403e4b30bd5af2fc76f61b27e96fc48e\t2025-09-11T11:38:51-04:00\tCody\ttowre676@gmail.com\t\tci: collapse branch-protection gh api call to single line; avoid -F split errors; clear hints
+89dec9fc127bd7f105e88a8240cb759e50f160af\t2025-09-11T11:36:07-04:00\tCody\ttowre676@gmail.com\t\tci: harden branch-protection helper (API headers, dual contexts, clear hints)
+1a3bc0319f3037bada5e3ad9f2a2c718cc97cf89\t2025-09-11T11:33:44-04:00\tCody\ttowre676@gmail.com\t\tguardrails: pre-push spec_guard; optional branch protection via gh; keep LF+format invariants
+83a1ad067e129f33cbc0c982ccc4167f91ef479a\t2025-09-11T11:31:15-04:00\tCody\ttowre676@gmail.com\t\tdocs: add spec-guard badge to README and CI explainer prose
+b13f566ef76b4072bad6f88fe4ab208f67aea562\t2025-09-11T11:29:42-04:00\tCody\ttowre676@gmail.com\t\tdocs: finalize v1.2 spec (ordering, vector, τ-recipe, TCB, protocol); remove aside; CI guard wired
+e283ef5f19ed882dd57c383aad0afc3071f0f627\t2025-09-11T11:28:00-04:00\tCody\ttowre676@gmail.com\t\tchore: enforce LF for chain.head via .gitattributes
+cfec39541a506d8575acdf5caa5862e197ca1893\t2025-09-11T11:26:22-04:00\tCody\ttowre676@gmail.com\t\tci(spec-guard): build demo manifest+receipt in CI before running guard
+75cdf22ce82c495c0d3315599443ce9a9e34fbae\t2025-09-11T11:21:35-04:00\tCody\ttowre676@gmail.com\t\tci(spec-guard): enforce monograph v1.2 invariants (test-vector hash, chain-head format, merkle equality)
+a62bf826ea653d161015aa166173d9367d429028\t2025-09-11T00:07:46-04:00\tCody\ttowre676@gmail.com\t\tchore(docs): tighten key-order adjective
+cfaaace5b7cc59a175833ecd476d599732d07a42\t2025-09-11T00:01:25-04:00\tCody\ttowre676@gmail.com\t\tchore(docs): canonicalize monograph; clarify canonical key order and ingress env mapping
+05ade8a775d78f52d74b36eda5020bcdd4d733f3\t2025-09-10T23:39:52-04:00\tCody\ttowre676@gmail.com\t\tci: normalize top-level concurrency (fast)
+7411a8e45cd96b000d72a02066eb1d1a1f614338\t2025-09-10T23:39:50-04:00\tCody\ttowre676@gmail.com\t\tci: normalize top-level concurrency (prewarm)
+7166eba47f0fea09f4a57e38fea51214dfb34bf5\t2025-09-10T23:12:20-04:00\tCody\ttowre676@gmail.com\t\tci: swap lean-action → elan bootstrap; grant bench publish perms
+0513f3ace9e9d142e25557e4364e1b53ebc29d63\t2025-09-10T23:10:45-04:00\tCody\ttowre676@gmail.com\t\tci: disable noisy workflows (keep ci-fast, ci-bench, ci-prewarm, ci-lint, codeql)
+a9465f00595c9f01280c880d3659d4bc92f2d625\t2025-09-10T22:06:47-04:00\tCody\ttowre676@gmail.com\t\tci: warm cache
+3164590ba7693dc6d7f9d93c240b3f05cdced1e4\t2025-09-10T21:26:11-04:00\tCody\ttowre676@gmail.com\t\tci(lint): safe actionlint installer + minimal lint workflow
+b9db0ee499f5a8cb2ba5918a21380cf006829d40\t2025-09-10T21:18:23-04:00\tCody\ttowre676@gmail.com\t\tci: trigger ci-fast
+fccdcd3b7a049aa31e4a35e3d34b1609824afbfb\t2025-09-10T21:09:00-04:00\tCody\ttowre676@gmail.com\t\tci: add nightly prewarm workflow and harden ci-fast (paths-ignore, restore-keys, echo key)
+c01f7d3a0800bc2df4afe4525ac3c246387a00e7\t2025-09-10T21:08:46-04:00\tCody\ttowre676@gmail.com\t\tci(fast): add paths-ignore + restore-keys, print cache key
+95a07f74712b34c50af76a1c5ef504d387455bee\t2025-09-10T21:03:20-04:00\tCody\ttowre676@gmail.com\t\tci: stabilize cache key fallback (lean-toolchain + lakefile.lean) for first-run reuse
+45c62d49318bb245815baccffa6b3dd449e8107b\t2025-09-10T21:00:46-04:00\tCody\ttowre676@gmail.com\t\tci: fast cached build workflow (restore->build->save, cancel dupes)
+64d7a93fcfbf9d4bba977be2541ca49e02f9f61c\t2025-09-10T20:57:46-04:00\tCody\ttowre676@gmail.com\t\tci: add cold/warm bench workflow with cache and docs update
+eee927a5a51fbc359782ae02bcce0b4ad511f819\t2025-09-10T20:19:23-04:00\tCody\ttowre676@gmail.com\t\tstabilize: fix request-note/preimage writers, add CI speed reporter, patch tau_gate prompt-sim bypass, enforce LF
+13397a942c2badff15575c7a21bc3df50e4b27bd\t2025-09-10T18:37:24-04:00\tCody\ttowre676@gmail.com\t\tbench: update local runs + publish medians
+fc09625a3df33abb01b8392f1a18776ac8fdbf70\t2025-09-10T18:25:55-04:00\tCody\ttowre676@gmail.com\t\ttidy: remove accidental CACBE preimage from manifest + sidecars (no chain edits)
+ae8a74d469855c06061dec1fd70ad1567ab44eed\t2025-09-10T17:54:58-04:00\tCody\ttowre676@gmail.com\t\tbench: make-less runner; Lakefile duplicate guard; Windows-safe fallbacks
+024024c4c5e1c9c958bb784d024a2676841ff64c\t2025-09-10T17:41:44-04:00\tCody\ttowre676@gmail.com\t\tingress/docs: add write_request_note.sh; document .tau_ledger mirroring; add Golden diff; cross-link audit & monograph
+01c758e04115bea95d5b9152aba33a3c6a3dc91b\t2025-09-10T17:23:09-04:00\tCody\ttowre676@gmail.com\t\tdocs(monograph): pocket-sized framework state (2025-09-10)
+4a0b36b2a5b718de7372ff1637138c6e00b73248\t2025-09-10T17:02:28-04:00\tCody\ttowre676@gmail.com\t\tdocs(audit): ground-truth monograph at 7e3fa2c (2025-06-11), no bullets
+50d8bf344422193070b73c908d71124a9a1850df\t2025-09-10T16:55:59-04:00\tCody\ttowre676@gmail.com\t\tdocs(audit): ground-truth monograph for tau-Crystal at main (2025-09-10)
+5040be72a8cf185cca7f0a2f3592d1636bfcf49e\t2025-09-10T16:51:22-04:00\tCody\ttowre676@gmail.com\t\tdocs/bin: align binder to receipts/, add pointers to ground-truth audit
+4d31fc796d0a17a6fa2960ed41dbdc4cb0151acd\t2025-09-10T16:46:00-04:00\tCody\ttowre676@gmail.com\t\tdocs: document canonical request ingress and manifest note
+9f2a092d1eb4271a5d58fe6d2a181809d48156ef\t2025-09-10T16:37:36-04:00\tCody\ttowre676@gmail.com\t\tbin: add bind_request.sh sidecar (writes .tau_ledger/<stem>.sha256 and preimage.path)
+d7fcd014e27e9c214c1f7a8e4cfc665171ff1ce2\t2025-09-10T16:34:23-04:00\tCody\ttowre676@gmail.com\t\tdocs: monograph on request preimage canon and digest
+190b85f2f5fe8e9da9e75ceb663b0fa3360fd7ac\t2025-09-10T16:32:07-04:00\tCody\ttowre676@gmail.com\t\tgitignore: unignore scripts/bin; track save_request_preimage.sh
+40ccfa404c59fe622450757bb16b98114ae2c9fb\t2025-09-10T15:19:49-04:00\tCody\ttowre676@gmail.com\t\tverify: use ASCII-canonical hashing for contract; doc canonicalization detail
+e808d3bb7055d99bfb04f04ec55a70f44b316840\t2025-09-10T14:47:54-04:00\tCody\ttowre676@gmail.com\t\ttools: finish canonical hasher, add receipt_set_contract, allow override in verifier; embed contract_path in TM receipts
+753743ed1454b42684ae6186c78ac89d18ec168d\t2025-09-10T14:44:25-04:00\tCody\ttowre676@gmail.com\t\ttools: canonical JSON verifier suite; docs: canonical check; CI: verify receipts
+92a820de81e1eefd93dd05361b14ddca4ab23d2c\t2025-09-10T14:34:45-04:00\tCody\ttowre676@gmail.com\t\tdocs: What’s new, tanh mapping note, bash-only repro guide; add GAP shim
+41175783c9c40b7f943c73e7640c433e97246698\t2025-09-10T14:21:06-04:00\tCody\ttowre676@gmail.com\t\tComplete residuals_20250910_181553Z: summary+README+manifest+bundle
+26e807fcfac900462dd4296b78362195659d25f8\t2025-09-10T14:16:02-04:00\tCody\ttowre676@gmail.com\ttag: residuals_20250910_181553Z\tCampaign: residuals_20250910_181553Z (grid with TM sum-rule pre-gate)
+8965d77f183644b39c950662500d7d85cf066dfc\t2025-09-10T14:06:57-04:00\tCody\ttowre676@gmail.com\t\tAdd campaign artifact bundle (force-add over ignore)
+b842ef06a181e5bae238533e1e2486e10c679538\t2025-09-10T14:03:56-04:00\tCody\ttowre676@gmail.com\t\tResiduals campaign: bundle + manifest + monograph
+63e78186705559dc71371473d3cdc0243040d08b\t2025-09-10T14:00:22-04:00\tCody\ttowre676@gmail.com\ttag: residuals-2025-09-10-r1\tCampaign: residuals_20250910_173422Z (frozen receipts + summary + README)
+d10c828eaa6ba4d2bbb20cf70416c3e8f093f722\t2025-09-10T13:58:48-04:00\tCody\ttowre676@gmail.com\t\tCampaign bundle: residuals_20250910_173422Z (summary, README, artifacts)
+88e89e58efaf4c2fd3421ca7009135c91a92ce8f\t2025-09-10T13:57:47-04:00\tCody\ttowre676@gmail.com\ttag: residuals-2025-09-10\tCampaign: residuals_20250910_173422Z (frozen receipts + summary)
+3b64cf2d1d2b80a148aed17f53af78e9ff3b6306\t2025-09-10T11:56:40-04:00\tCody\ttowre676@gmail.com\t\tdocs: publish additional monographs
+db2550b632650b3f388ffe12e531a654d5d0bea4\t2025-09-09T17:58:23-04:00\tCody\ttowre676@gmail.com\torigin/feat/soliton-core, feat/soliton-core\tfeat(tau_crystal): add Soliton core with proof; CI; sanitize .gitignore
+ad55f30d1650677cf8380cf71c5eea0551a4539b\t2025-09-09T00:34:38-04:00\tCody\ttowre676@gmail.com\ttag: v1.2.0, origin/demo/cache-hit-20250908-191920\tdocs: trigger three-streams (deps+blake3)
+49958f1611d54b42b35a0a5870acef78de2887e3\t2025-09-09T00:34:00-04:00\tCody\ttowre676@gmail.com\t\tfix(hash.sh): remove stray ""; prefer blake3 (b3sum or python blake3)
+ef470bf0b1651760b5679cb045df3cc6d4c98a16\t2025-09-09T00:24:34-04:00\tCody\ttowre676@gmail.com\t\tchore: ignore local artifact dir
+36d4c26be0048c199e7f08bfd1fbca5ace70251a\t2025-09-09T00:23:23-04:00\tCody\ttowre676@gmail.com\t\tdocs: trigger three-streams
+d70872f7cedbe32d7fc15cae0ce224836cfb5426\t2025-09-09T00:23:13-04:00\tCody\ttowre676@gmail.com\t\tci(three-streams): capture receipt once; export outputs reliably
+6dd86eca1f0ded34b363b2b18429dccc8f61f8e2\t2025-09-09T00:19:05-04:00\tCody\ttowre676@gmail.com\t\tci: trigger three-streams
+abf812482c7e0aa0ecba43dcdd461aca9c74c71c\t2025-09-09T00:17:40-04:00\tCody\ttowre676@gmail.com\t\tci: add three-streams (receipt→tlog→OTS) with LF-only bash helpers
+f32c5e0e9d29b5f7931f005a8f7e3b17d1ee62da\t2025-09-08T23:58:28-04:00\tCody\ttowre676@gmail.com\t\tchore: CODEOWNERS for CI/scripts
+0d27708ed1a38ef1dd00c6e9fa013c56b1c3cc73\t2025-09-08T23:58:09-04:00\tCody\ttowre676@gmail.com\t\tdocs: trigger receipt (hardened)
+cb9edc80a85d950a149fe6a8c1df95a6528d6f53\t2025-09-08T23:58:06-04:00\tCody\ttowre676@gmail.com\t\tci: stable grammar hash; bash defaults; concurrency; job summary; robust receipt fetch; LF for .lean
+1a009b8ce33be446d3500af009d40e648f43f0cc\t2025-09-08T23:29:55-04:00\tCody\ttowre676@gmail.com\t\tdocs: retrigger hardened receipt workflow
+fac3242daa21f5c5864c1a482586119ea6a50705\t2025-09-08T23:29:47-04:00\tCody\ttowre676@gmail.com\t\tci: harden receipt workflow (pre-chmod, invoke via bash, always upload)
+9ca54e5159f82b459c2c4ffd4fdc5f895645b8fc\t2025-09-08T23:29:09-04:00\tCody\ttowre676@gmail.com\t\tci: make hash helpers executable (+x) and LF-only
+360273e800b93f6ca87e0fbb9fad768aab1b3d0d\t2025-09-08T22:55:22-04:00\tCody\ttowre676@gmail.com\t\tci: wire receipt->tlog->anchor; embed grammar hash; cache-key hint
+fd923100d8faf33051123be4d9330e03cfb1e1d4\t2025-09-08T22:28:52-04:00\tCody\ttowre676@gmail.com\t\tci: reinstall lean-remote-cache (always upload receipt)
+cdaf1a88d6a5666c9f05cdd19ecec077b41cca10\t2025-09-08T22:00:54-04:00\tCody\ttowre676@gmail.com\t\tdocs: trigger receipt-only workflow (hardened writes)
+e02858b808e5e7e1fbbe3c81267265f7aee8fbca\t2025-09-08T22:00:52-04:00\tCody\ttowre676@gmail.com\t\ttools: add verify_last_receipt.sh (stable artifact fetch)
+8066adce3492d4d394812541bd48b1bd8c5b971f\t2025-09-08T22:00:50-04:00\tCody\ttowre676@gmail.com\t\tci: minimal receipt-only workflow (always uploads receipt)
+0fc850f913dca04561ecda97ec35898daf00924f\t2025-09-08T22:00:48-04:00\tCody\ttowre676@gmail.com\t\tci(guard): CR check + yamllint + actionlint
+98fbfdb8a0fd72102e34bb311191d764490172c2\t2025-09-08T22:00:46-04:00\tCody\ttowre676@gmail.com\t\tchore: install pre-commit guard (LF + shell sanity)
+54af36dde23069a85871df8f0660cec91919e7ba\t2025-09-08T22:00:43-04:00\tCody\ttowre676@gmail.com\t\tchore: add tools/safe_write.sh (write firewall)
+2efe267297c857ac436671c6983db41d6b80c4a1\t2025-09-08T22:00:41-04:00\tCody\ttowre676@gmail.com\t\tchore: add .editorconfig (LF, UTF-8, newline at EOF)
+4154394ac8c680348cacd68bd13bcb4cb688389d\t2025-09-08T22:00:39-04:00\tCody\ttowre676@gmail.com\t\tchore: enforce LF for .sh/.yml via .gitattributes
+a412b4893fb743408b3d76eaeb58f64e71f66187\t2025-09-08T21:53:34-04:00\tCody\ttowre676@gmail.com\t\tdocs: trigger receipt-only workflow
+f5afb6d3dad907c0d69649ae8d1f8dfab236459e\t2025-09-08T21:16:35-04:00\tCody\ttowre676@gmail.com\t\tdocs: trigger run (receipt-only path)
+1161202dac338efe3b33438cd2448d96f19e8e6b\t2025-09-08T21:14:45-04:00\tCody\ttowre676@gmail.com\t\tci: guarded build + chmod; always upload receipt
+ddad0eb72caf269f298503f3bf3d78361b321de4\t2025-09-08T21:12:07-04:00\tCody\ttowre676@gmail.com\t\tci: fix upload step; always publish receipt
+9626c9c1b031faf87110f75d3c33db4f20156793\t2025-09-08T21:10:34-04:00\tCody\ttowre676@gmail.com\t\tci: fix receipt-only workflow (always upload)
+5bdb1ba9b51f3734658bbcf1b419a5f0b7445312\t2025-09-08T21:06:30-04:00\tCody\ttowre676@gmail.com\t\tci: minimal receipt-only workflow (always upload)
+523cca4869ed3eec61ba6f84e0833d6132b6cf7b\t2025-09-08T21:04:45-04:00\tCody\ttowre676@gmail.com\t\tci: full remote-cache workflow; chmod+CRLF fixes; always-upload receipt
+124948bc5ce021580d1b5113fa36f5953b2fae8d\t2025-09-08T21:03:08-04:00\tCody\ttowre676@gmail.com\t\tdocs: retrigger workflow
+0aa53858bc3498c7f424bab4a9c18432fb600ad3\t2025-09-08T21:03:04-04:00\tCody\ttowre676@gmail.com\t\tci: chmod scripts in CI, run via bash, synthesize receipt on failure
+2e8c551bea84ea09c6ceed3ace966d4345ad046b\t2025-09-08T20:59:10-04:00\tCody\ttowre676@gmail.com\t\tci: remote cache + parallel Lean build + always-upload receipt
+0f7479a18153e2f089e51c47fd247917f8127524\t2025-09-08T20:53:57-04:00\tCody\ttowre676@gmail.com\t\tdocs: trigger lean-remote-cache
+f347963747da697f68c55526bbbaa9d08b57a6f9\t2025-09-08T20:53:55-04:00\tCody\ttowre676@gmail.com\torigin/feat/prime-smartcache-20250908-191920, feat/prime-smartcache-20250908-191920\tci: trigger lean-remote-cache
+85927ca0f3717a2660d8455b523f5e4d6a54ec1f\t2025-09-08T20:53:49-04:00\tCody\ttowre676@gmail.com\t\tci: remote S3/MinIO cache + parallel Lean build; always-upload receipt
+443246e156d997a8c5450f4ec6c1e673f8485a17\t2025-09-08T20:30:49-04:00\tCody\ttowre676@gmail.com\t\tci: add ensure_deps.sh (Ubuntu-only deps, safe on Windows)
+0608b610aa0db09c2ba42af7619dde9670341819\t2025-09-08T20:04:04-04:00\tCody\ttowre676@gmail.com\t\tci: add actionlint (syntax guard for workflows)
+3f7f25ea136c4e372cc398b9051a50f06e3add31\t2025-09-08T19:45:21-04:00\tCody\ttowre676@gmail.com\t\ttools: robust receipt fetcher (no --jq; safe RID formatting)
+4c2162b50f558cd10eb3bfd5af83e6fbec055068\t2025-09-08T19:43:05-04:00\tCody\ttowre676@gmail.com\t\tdocs: retrigger receipt-only workflow
+b9b12c173cb34a5516a052c25b3aebe07b4e0800\t2025-09-08T19:43:02-04:00\tCody\ttowre676@gmail.com\t\tci: retrigger receipt-only workflow
+53ba67c3832df83b25ce07e64c8fdc5e9649070c\t2025-09-08T19:42:56-04:00\tCody\ttowre676@gmail.com\t\ttools: receipt fetcher (workflow arg; defaults to receipt.yml)
+e99fad2988c32a1f2597229fe6f91eff0ada78f9\t2025-09-08T19:42:47-04:00\tCody\ttowre676@gmail.com\t\tci: add tiny receipt-only workflow (no container)
+8ca8ebc59df43feb83bac2bb8e745127f5713fc7\t2025-09-08T19:18:22-04:00\tCody\ttowre676@gmail.com\t\ttools: robust verify_last_receipt.sh (no jq dep, no float IDs, fallbacks)
+31e273e75d64369484c74eb9d4b4dac16ec82171\t2025-09-08T19:15:05-04:00\tCody\ttowre676@gmail.com\t\tdocs: retrigger PR (no job container)
+f5326db86d9efd030b15960f64678531d45358e9\t2025-09-08T19:15:02-04:00\tCody\ttowre676@gmail.com\t\tci: retrigger prime (no job container)
+4a222fccfd863432f33acf1d9d49d63e89a5a958\t2025-09-08T17:15:32-04:00\tCody\ttowre676@gmail.com\t\tci: temporarily disable smart-ci (container pull was killing job)
+5adb7f4391772723bfa2246ca45bfe8ee42f0e61\t2025-09-08T17:06:45-04:00\tCody\ttowre676@gmail.com\t\tci: retrigger prime
+57dd0fd76064598f1ab64dee9a06dfa3d8c361c0\t2025-09-08T17:06:44-04:00\tCody\ttowre676@gmail.com\t\tci: minimal smart-ci (ubuntu-latest, mathlib cache, always-upload receipt); add tools
+6dbea0c3b280840a1daedf9355e8d49767140ddf\t2025-09-08T16:43:56-04:00\tCody\ttowre676@gmail.com\t\tdocs: retrigger PR without job container
+a9eaa193d25e5330cbbedbda123d383c24b20e1b\t2025-09-08T16:43:51-04:00\tCody\ttowre676@gmail.com\t\tci: retrigger prime without job container
+6fe2bf8071e01ac29d5cfa53c1756215d6a75fc1\t2025-09-08T16:41:44-04:00\tCody\ttowre676@gmail.com\t\tdocs: retrigger PR after image fix
+2f2d40b42631dc362379b4f4c49c0d4e5783fef1\t2025-09-08T16:41:40-04:00\tCody\ttowre676@gmail.com\t\tci: retrigger prime after image fix
+6558fc774abc1d34b57dd0f3b2cddefce496e6f7\t2025-09-08T16:35:28-04:00\tCody\ttowre676@gmail.com\t\tci: fix container image (ghcr.io/leanprover/lean:latest)
+21a5c799e5e1b788d9232d27c17fdf4668ee47f4\t2025-09-08T16:34:45-04:00\tCody\ttowre676@gmail.com\t\tdocs: retrigger PR after container fix
+8f7dd9c11e027b5759a7af72f7311b463130e5d5\t2025-09-08T16:34:41-04:00\tCody\ttowre676@gmail.com\t\tci: retrigger prime after container fix
+49e5d0bf8e3bff659aa607c0cfc2ea70d898b619\t2025-09-08T16:34:29-04:00\tCody\ttowre676@gmail.com\t\tci: fix container image (ghcr.io/leanprover/lean:latest)
+67c4f59f1d57ef8b9aca6ec2e15bc86d8f474bb0\t2025-09-08T16:20:59-04:00\tCody\ttowre676@gmail.com\t\tdocs: retrigger PR after workflow update (always-upload receipt)
+93d9381e5a35ecedfad52eafa8bc205716953870\t2025-09-08T16:20:54-04:00\tCody\ttowre676@gmail.com\t\tci: containerized Lean + deps + always-upload receipt artifact
+6f8f60e3c88d8f39b355f9eae3164678d4a10f71\t2025-09-08T15:58:40-04:00\tCody\ttowre676@gmail.com\t\tdocs: retrigger after adding always-upload receipt
+0617e0203040e85ddd0abc8e5f4380bdd1caa3f1\t2025-09-08T15:58:36-04:00\tCody\ttowre676@gmail.com\t\tci: always upload receipt artifact
+2958b4220fa33cde51723ea1010142bb4ae989a4\t2025-09-08T15:58:24-04:00\tCody\ttowre676@gmail.com\t\tdocs: retrigger after adding always-upload receipt
+2dfa7fd17c947808d5d1bba2ab7090f32a66e7e8\t2025-09-08T15:58:20-04:00\tCody\ttowre676@gmail.com\t\tci: always upload receipt artifact
+7cd14c613de4a547b2e65cf1029d8e9093c33e8f\t2025-09-08T15:39:25-04:00\tCody\ttowre676@gmail.com\t\tdocs: retrigger PR after workflow rebuild
+ae2fc9d6ce02120ada2bd130c3d3f02d4b3b99e3\t2025-09-08T15:39:22-04:00\tCody\ttowre676@gmail.com\t\tci: retrigger prime after workflow rebuild
+db1d912d1dd4059f434e095997e129cf5c202ab8\t2025-09-08T15:39:19-04:00\tCody\ttowre676@gmail.com\t\tci: rebuild smart-ci.yml; fix tmp-dir collision; synthesize+upload receipt/summary
+416cbfe7ab9c932c54e33b9845d966d64a6e5738\t2025-09-08T15:39:17-04:00\tCody\ttowre676@gmail.com\t\tci: rebuild smart-ci.yml; fix tmp-dir collision; synthesize+upload receipt/summary
+cca0eade0afc05c9c00c4090a9eab1cb0ed7478d\t2025-09-08T15:33:49-04:00\tCody\ttowre676@gmail.com\t\tdocs: retrigger PR after synth-artifact fallback
+96264584c0e66644f22df8c5c022848b16677f92\t2025-09-08T15:33:46-04:00\tCody\ttowre676@gmail.com\t\tci: retrigger prime after synth-artifact fallback
+ca198ef55b1b4ab9db5eeda932eb16a9488fbd91\t2025-09-08T15:31:28-04:00\tCody\ttowre676@gmail.com\t\tdocs: retrigger PR after deps install
+bd8521727b2bd7810c448fd45f09cc7149709b03\t2025-09-08T15:31:24-04:00\tCody\ttowre676@gmail.com\t\tci: retrigger prime after deps install
+930610204155ed06cb3f5c533dad8c177ea10112\t2025-09-08T15:31:16-04:00\tCody\ttowre676@gmail.com\t\ttools: simplify verify_last_receipt.sh; remove unsupported GH JSON fields
+9028777f5e07710b985e90fb70500af6b7b16ad3\t2025-09-08T15:31:15-04:00\tCody\ttowre676@gmail.com\t\tci: install python/curl/openssl in container; resilient artifact upload
+e60efbf8ddc6148cc8e1529dea6ed4bbaeab96e3\t2025-09-08T15:31:13-04:00\tCody\ttowre676@gmail.com\t\ttools: simplify verify_last_receipt.sh; remove unsupported GH JSON fields
+bc8fa774deee4200371bd68dbf153a30893184b5\t2025-09-08T15:31:11-04:00\tCody\ttowre676@gmail.com\t\tci: install python/curl/openssl in container; resilient artifact upload
+e49d1f4b33f32191a1c7f5da238f92a066645b27\t2025-09-08T15:27:28-04:00\tCody\ttowre676@gmail.com\t\ttools: robust verify_last_receipt.sh (name/file-path fallback + branch latest)
+b1f559c3231ebcbf1d9a69325de387467a7eecc1\t2025-09-08T15:23:06-04:00\tCody\ttowre676@gmail.com\t\ttools: add verify_last_receipt.sh (download artifact + verify)
+a8c640199ae994d84dcdcb75fb7ea078c7199c1a\t2025-09-08T15:23:01-04:00\tCody\ttowre676@gmail.com\t\tci: upload receipt+summary artifacts; PR comment via API
+f0bf86a9ac60c39617b5c43faabb53a4c4e456f3\t2025-09-08T15:19:27-04:00\tCody\ttowre676@gmail.com\t\tdocs: touch to demonstrate SmartCache HIT
+a0e5ec47b457cbeb448db5a83c28f3eb8db67dbe\t2025-09-08T15:19:22-04:00\tCody\ttowre676@gmail.com\t\tci: prime GHCR layer (guaranteed change)
+1447dd27a1b28a80c9c4111fc7577d92b9365d21\t2025-09-08T15:19:06-04:00\tCody\ttowre676@gmail.com\torigin/feat/promise-restore-20250908-191554, feat/promise-restore-20250908-191554\tverify: allow-list pubkey.pem for verifier
+9f5c1ed6a5f0f11ba72c6860622616949db4488a\t2025-09-08T15:18:53-04:00\tCody\ttowre676@gmail.com\t\tverify: add Ed25519 pubkey
+551d661ca6ef95fe7b4eb258bede6236896b689d\t2025-09-08T15:15:55-04:00\tCody\ttowre676@gmail.com\t\tci: GHCR hydrate/publish + signed receipts + containerized Linux; add one-command verifier
+82c3c01516c6df865dc5d321b0555464de078c38\t2025-09-08T14:55:16-04:00\tCody\ttowre676@gmail.com\torigin/chore/disable-smartcache-20250908-182948, chore/disable-smartcache-20250908-182948\tdocs: surface speed wins at top (badge, quick start, benchmark link)
+207c5d72506b030fc29302080af297c7a0da6c86\t2025-09-08T14:52:57-04:00\tCody\ttowre676@gmail.com\t\tci: containerized Lean (Linux-only) + Mathlib cache; skip elan setup
+3d517e8a10166fb7fe68964f3d251a5dd713efd8\t2025-09-08T14:48:55-04:00\tCody\ttowre676@gmail.com\t\tci: minimal Lean cache keyed by Mathlib SHA (no registries)
+4be6e0cce6e74a0bf23ce85eb37a57844e0cb070\t2025-09-08T13:57:12-04:00\tCody\ttowre676@gmail.com\torigin/feat/energy-autofit, feat/energy-autofit\tchore: scoped no-heredoc scanner for CI surfaces; replace pre-commit hook
+f93f5f6489f9953aa9c6ec65ba303f1c875a9ac9\t2025-09-08T13:51:25-04:00\tCody\ttowre676@gmail.com\t\tci: no-heredoc hardening; single-line runs; safe verifier quoting
+8948d3c5c51a259bc50763a27b2720f76898cee2\t2025-09-08T13:41:59-04:00\tCody\ttowre676@gmail.com\t\tdocs+ci: add SmartCache Quick Start, finalize action/workflow, smoke trigger
+92fe59d13d99746197c53f4ebe476699da533df0\t2025-09-08T13:39:49-04:00\tCody\ttowre676@gmail.com\t\tfeat(ci): Mathlib-aware SmartCache action + GHCR hydrate + lake manifest verify
+bc2357ae67c5468f77f8bf29699d7ae0e14da29c\t2025-09-08T12:44:31-04:00\tCody\ttowre676@gmail.com\t\tdocs: add Lean CI SmartCache README without heredocs
+a1b9d32b6d67d3c479efa9ee9f9d5ad29b2fad07\t2025-09-08T12:37:14-04:00\tCody\ttowre676@gmail.com\t\tfeat(action): Lean CI with SmartCache (keyed to mathlib rev)
+7b0cbf44ae22bcfff60f4077dbf68723bca4fdeb\t2025-09-08T12:31:25-04:00\tCody\ttowre676@gmail.com\t\tfeat(action): add publishable composite action (Tau Lean CI)
+a242b27f341c22391c62ad738b54465eea7a1974\t2025-09-08T12:27:21-04:00\tCody\ttowre676@gmail.com\t\tci: add tiny smoke workflow
+553edaa3f68883e72ea354d3abd43a30f4cd5902\t2025-09-08T12:26:58-04:00\tCody\ttowre676@gmail.com\t\tchore: remove stray assure-empty.txt
+8ccccfb19cae84b67bd3ebc00a1a5d6b7c7e3119\t2025-09-08T12:22:21-04:00\tCody\ttowre676@gmail.com\t\tdocs/ci: remove assure badge; retire dead CI refs
+190ad069cedbb05c4b3b397aaa583e1067d4f2bc\t2025-09-08T12:20:15-04:00\tCody\ttowre676@gmail.com\t\tci: disable assure/census (no consumers)
+b21cc57ed5883734da51d1476ff636e62fbaa121\t2025-09-08T12:09:05-04:00\tCody\ttowre676@gmail.com\t\tci: guard receipt print; make census non-fatal; add -x
+0eabf637aa7cb0adc7bdf02ff8991b83ace2fb54\t2025-09-08T12:04:12-04:00\tCody\ttowre676@gmail.com\t\tci: don’t fail assure/census; add -x
+4402ae2bfcab35f7504abbebd8bc444f6a5fb445\t2025-09-08T11:26:25-04:00\tCody\ttowre676@gmail.com\t\tci: make assure & census warn-only and add debug to surface root cause
+c55387ac2f61836231220cd4e5bdd7f496377c1a\t2025-09-08T11:05:49-04:00\tCody\ttowre676@gmail.com\t\tci: assure/census — install jq, setup-python, and force bash for script runs
+c6534917d2db980866ae93311711045d4ee6d9f6\t2025-09-08T11:01:06-04:00\tCody\ttowre676@gmail.com\t\tci: add setup-python + force bash for assure/census
+c6b2bd9ba0ccf9e065a2fcb7e7070c60649d74d0\t2025-09-08T10:53:46-04:00\tCody\ttowre676@gmail.com\t\tci: make all scripts executable for Ubuntu runners

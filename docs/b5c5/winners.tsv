@@ -1,0 +1,7 @@
+# Canonical Representatives: B5C5 Weyl Scaffold (Whitened, Signed, Sorted)
+# Columns: log_score <tab> basis_terms
+3.10471	alpha^1/12 * alpha_s^-1/3 * mp/me^1/5
+3.28198	alpha^1/12 * alpha_s^-1/2 * mp/me^1/5
+3.29214	alpha^1/18 * alpha_s^-1/3 * mp/me^1/5
+3.39827	alpha^1/12 * alpha_s^-1/3 * mp/me^1/6
+3.40115	alpha^1/12 * alpha_s^-1/3 * pi^1/5

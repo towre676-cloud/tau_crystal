@@ -1,0 +1,6 @@
+# tau_crystal ledger noise
+.tau_ledger/last_run_*.json
+.tau_ledger/*.counts
+.tau_ledger/*.push
+.tau_ledger/.env_*.txt
+.tau_ledger/CHAIN.d/

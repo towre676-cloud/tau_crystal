@@ -1,0 +1,24 @@
+name: fusion
+on: { push: { branches: ["**"] }, workflow_dispatch: {} }
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lean
+        run: |
+          set -eux
+          curl -L https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+      - name: Run fusion
+      - name: Collect morphometry
+        run: |
+          set -euxo pipefail
+          bash scripts/morphometry/collect.sh
+        shell: bash
+        run: |
+          set -euxo pipefail
+          bash scripts/plumbing/box_build.sh box-FUSE-D23 -23 1 || true
+          bash scripts/fusion/run_all.sh
+          ls -la _fusion_out
+          sed -n "1,200p" _fusion_out/MANIFEST.json

@@ -1,0 +1,54 @@
+{
+  "curve": {
+    "label": "37a1",
+    "conductor": 37,
+    "a": {
+      "a1": 0,
+      "a2": 0,
+      "a3": 1,
+      "a4": -1,
+      "a6": 0
+    }
+  },
+  "invariants": {
+    "b2": 0,
+    "b4": -2,
+    "b6": 1,
+    "b8": -1,
+    "delta": 37
+  },
+  "panel": {
+    "path": "analysis/atlas/37a1/ap.tsv",
+    "primes_evaluated": 44,
+    "pmax": 199
+  },
+  "checks": {
+    "hasse": {
+      "violations": 0,
+      "max_ratio": 0.875648,
+      "worst_p": 193
+    },
+    "parity": {
+      "root_number": 1,
+      "locals": [
+        {
+          "p": 37,
+          "w": "-1"
+        }
+      ]
+    }
+  },
+  "numerics": {
+    "Lhalf": 2.1901E-12,
+    "L1": 0.0619005372839328,
+    "two_scale_agree": {
+      "half": false,
+      "one": false
+    },
+    "tail_proxy": {
+      "half": 343.512198,
+      "one": 7.829150,
+      "method": "panel_truncation_awk"
+    }
+  }
+}

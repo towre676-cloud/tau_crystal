@@ -1,0 +1,7 @@
+[acceleration]
+sturm_full_threshold = 2.0
+lazy_verify_fraction = 0.3
+
+[defect]
+promotion_threshold = 1e-6
+non_modular_confidence = 0.999

@@ -1,0 +1,8 @@
+window_start\t2025-09-08T00:00:00
+window_end_exclusive\t2025-09-13T00:00:00
+commits_in_window\t226
+reflog_events_in_window\t152
+unpushed_commits\t1419
+stash_events_in_window\t0
+working_tree_mtimes_in_window\t60
+dangling_commits_in_window\t4

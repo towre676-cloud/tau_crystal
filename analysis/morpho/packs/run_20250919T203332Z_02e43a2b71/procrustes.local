@@ -1,0 +1,7 @@
+MOD=procrustes
+SRC=analysis/morpho/input/landmarks_20250919T202911Z.csv
+SHA256=1379e6191c34ab49fcca8e1fa5c680c23d0400fdfc436d38dc4e39f1e095c684
+EVEN=+nan
+ODD=+nan
+H=+nan
+TIME=20250919T202912Z

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -E -o pipefail; set +H; umask 022
+src="${1:-analysis/bash_theta_scan.tsv}"; out="analysis/morse_crit.tsv"; svg="analysis/plots/morse.svg"
+[ -s "$src" ] || { echo "[morse] skip: $src missing"; exit 0; }
+: > "$out"; printf "%s\n" "S_micro\tT_micro\tdiff\tclass" >> "$out"
+awk 'NR==1{next} {s=$1;t=$2;d=$3;D[s FS t]=d; S[s]=1; T[t]=1} END{split("",xs); split("",ys); i=0; for(k in S) xs[++i]=k; asort(xs); j=0; for(k in T) ys[++j]=k; asort(ys); for(a=1;a<=length(xs);a++) for(b=1;b<=length(ys);b++){s=xs[a]; t=ys[b]; key=s FS t; if(!(key in D)) continue; d=D[key]; kU=s FS ys[b-1]; kD=s FS ys[b+1]; kL=xs[a-1] FS t; kR=xs[a+1] FS t; du=(kU in D?D[kU]:d); dd=(kD in D?D[kD]:d); dl=(kL in D?D[kL]:d); dr=(kR in D?D[kR]:d); gt=0; lt=0; if(du>d) gt++; else if(du<d) lt++; if(dd>d) gt++; else if(dd<d) lt++; if(dl>d) gt++; else if(dl<d) lt++; if(dr>d) gt++; else if(dr<d) lt++; cls="saddle"; if(gt==4) cls="min"; else if(lt==4) cls="max"; print s "\t" t "\t" d "\t" cls; }}' "$src" >> "$out"
+: > "$svg"; printf "%s\n" "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1200\" height=\"800\"><rect x=\"0\" y=\"0\" width=\"1200\" height=\"800\" fill=\"white\"/>" >> "$svg"
+awk 'NR==1{next} {Xs[NR]=$1; Ys[NR]=$2; C[NR]=$4; if(minS==""||$1<minS) minS=$1; if($1>maxS) maxS=$1; if(minT==""||$2<minT) minT=$2; if($2>maxT) maxT=$2} END{for(i=2;i<=NR;i++){s=Xs[i]; t=Ys[i]; cls=C[i]; xs=(maxS==minS?0.5:(s-minS)/(maxS-minS)); ys=(maxT==minT?0.5:(t-minT)/(maxT-minT)); X=int(50+xs*1100); Y=int(750-ys*700); col="#000000"; r=3; if(cls=="min"){col="#008000"; r=5} else if(cls=="max"){col="#b00000"; r=5} else if(cls=="saddle"){col="#ff9900"; r=4} print "<circle cx=\"" X "\" cy=\"" Y "\" r=\"" r "\" fill=\"" col "\"/>"}}' "$out" >> "$svg"
+printf "%s\n" "</svg>" >> "$svg"; echo "[morse] wrote $out and $svg"
