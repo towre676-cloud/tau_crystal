@@ -1,0 +1,6 @@
+{
+  "recommendations": [
+    "leanprover.lean4",
+    "shardulm94.trailing-spaces"
+  ]
+}
