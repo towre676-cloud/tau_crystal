@@ -1,0 +1,22 @@
+{
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "editor.renderWhitespace": "boundary",
+  "editor.rulers": [100],
+  "editor.formatOnSave": true,
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.profiles.windows": {
+    "Git Bash": {
+      "path": "C:\\\\Program Files\\\\Git\\\\bin\\\\bash.exe",
+      "args": ["-l"],
+      "env": {"MSYS2_ARG_CONV_EXCL": "*"}
+    }
+  },
+  "lean4.input.eagerReplacementEnabled": true,
+  "lean4.infoView.allErrors": true,
+  "lean4.server.logging.enabled": false,
+  "lean4.delay.startup": false,
+  "lean4.memoryLimit": 4096,
+  "editor.stickyScroll.enabled": true,
+  "workbench.editor.enablePreview": false
+}
