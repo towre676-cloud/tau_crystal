@@ -1,0 +1,15 @@
+Affidavit of Hash and Custody — Capsule auto-20250922T220241Z
+
+I, ________________________, being duly sworn, state:
+1) I am the affiant and custodian of records for ________________________.
+2) The artifact identified below was produced by our build; all gates were green at sealing.
+   File:    analysis/capsules/auto-20250922T220241Z/auto-20250922T220241Z.tar.gz
+   SHA-256: d94ba6cb3f347bfceb1cf00b4e4174811f128ee6bad2de7526e464c3e500f3aa
+   Size:    36276625 bytes
+   Sealed:  2025-09-23T18:17:07Z UTC
+3) Chain of custody: deterministic build → gates verified → archive sealed → hash recorded → this affidavit prepared.
+
+Affiant signature: ____________________  Date: __________
+Affiant name/title: ____________________  Address: ____________________________
+
+Notary acknowledgment (jurisdiction, seal, date/time): _______________________
