@@ -45,3 +45,17 @@ bash scripts/ops/next_hammer.sh && bash scripts/meta/progress_print.sh
 You’ll see a full-status table. If you’re curious, open the latest capsule directory and inspect the receipt. If you’re not, the table is already your witness.
 
 _Last updated: 2025-09-22T20:05:29Z UTC_
+## Verify a Capsule (OpenSSL, no internet)
+Requirements: `openssl`, `sha256sum`.
+
+```bash
+# 1) Check the hash
+sha256sum auto-20250922T220241Z.tar.gz | awk '{print $1}' \
+ | diff -u - auto-20250922T220241Z.tar.gz.sha256
+
+# 2) Check the receipt hash matches
+ | sed 's/.*ed25519_openssl://' | tr -d '\r' | openssl base64 -d -A > sig.bin
+
+openssl pkeyutl -verify -pubin -inkey seller_ed25519.pub.pem -rawin \
+  -sigfile sig.bin -in auto-20250922T220241Z.tar.gz && echo "Signature OK"
+```

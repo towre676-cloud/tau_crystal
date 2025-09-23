@@ -1,0 +1,6 @@
+Hash Statement – Capsule auto-20250922T220241Z
+SHA-256: d94ba6cb3f347bfceb1cf00b4e4174811f128ee6bad2de7526e464c3e500f3aa
+File:    analysis/capsules/auto-20250922T220241Z/auto-20250922T220241Z.tar.gz
+Size:    36276625 bytes
+Sealed:  2025-09-23T16:10:47Z UTC (gates verified)
+Affiant: Your Name, Title, Address, City ST

@@ -1,0 +1,3 @@
+cover_id	kernel	pair01	pair02	pair12	triple_ok	class	hash_U01		hash_U02		hash_U12
+cover_demo_ok	CA_stub	ok (sym)	ok (sym)	ok (sym)	ok	H1=0	046f90fecccad3621ba1acd71fe38e6ee64f06f8cae419a95f87a06c44e98985	046f90fecccad3621ba1acd71fe38e6ee64f06f8cae419a95f87a06c44e98985	046f90fecccad3621ba1acd71fe38e6ee64f06f8cae419a95f87a06c44e98985
+cover_demo_fail	CA_stub	ok (sym)	ok (sym)	ok (sym)	FAIL	H1!=0	5760c6262f72f9c1ed74f11c9e5d47cc9d1d6ff78babca99c7ba7ce39c1a0708	c042af184d1faf838e958139327c63c16e67947d772dc39b21d98ff5eced8867	9764dbed1d8710ac8bf4abe6678f4f279ebf192340ac94ba38ff28aa0570b399
