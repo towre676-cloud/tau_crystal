@@ -1,0 +1,65 @@
+name: τ‑Crystal CI
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+  workflow_dispatch:
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Cache Lake artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            .lake
+            lake-packages
+            .elan
+          key: lake-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lakefile.lean') }}
+          restore-keys: |
+            lake-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}-
+      - name: Install Lean toolchain (elan)
+        shell: bash
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -o elan-init.sh
+          bash elan-init.sh -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+          echo "ELAN_HOME=$HOME/.elan" >> $GITHUB_ENV
+      - name: Set Lean toolchain from repo
+        shell: bash
+        run: |
+          TOOLCHAIN=$(cat lean-toolchain | tr -d '\r')
+          elan toolchain install "$TOOLCHAIN"
+          elan default "$TOOLCHAIN"
+          elan which lean
+      - name: Lake prewarm
+        shell: bash
+        run: |
+          lake -Kenv=dev update || true
+      - name: Build (lake build)
+        shell: bash
+        run: |
+          lake build
+      - name: Sanity run (optional)
+        if: ${{ hashFiles('Main.lean') != '' }}
+        shell: bash
+        run: |
+          lake env lean --run Main.lean || true
+      - name: Upload receipts (if any)
+        if: ${{ hashFiles('.tau_ledger/**') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau_ledger
+          path: .tau_ledger
+      - name: Upload logs (if any)
+        if: ${{ hashFiles('analysis/**') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: analysis
+          path: analysis
