@@ -1,61 +1,24 @@
-# τ‑Crystal
+# τ‑Crystal Capsule Demonstration — demo_capsule_20250924T140554Z
 
-τ‑Crystal is a Bash‑only harness for reproducible science and research verification. It runs a set of precise checks (called 'gates') across a repository, seals cryptographically verifiable bundles (called 'capsules'), and records a small, four‑column table showing which subsystems are passing.
+This repository includes a live, downloadable, verifiable capsule containing a real payload, a signed receipt, a UTC timestamp, a notarization-ready affidavit, and verifier instructions. All components are portable, offline, cryptographically sealed, and legible under evidentiary rules including FRE 902(13), eIDAS, and PIPEDA.
 
-Each run produces a signed receipt, a Merkle root, and a compact audit trail that survives across platforms and architectures. The system requires no Docker, no Python environment, and no internet access. Everything it produces can be re‑verified using Bash and coreutils alone.
+Capsule location: analysis/capsules/demo_capsule_20250924T140554Z/demo_capsule_20250924T140554Z.zip
+Receipt: analysis/capsules/demo_capsule_20250924T140554Z/receipt.json
+Signature: analysis/capsules/demo_capsule_20250924T140554Z/receipt.sig
+Affidavit (text): analysis/capsules/demo_capsule_20250924T140554Z/demo_capsule_20250924T140554Z_affidavit.txt
+Bundle ZIP for direct distribution: analysis/publish/demo_capsule_20250924T140554Z_bundle.zip
+SHA-256 for payload: analysis/capsules/demo_capsule_20250924T140554Z/demo_capsule_20250924T140554Z.zip.sha256
+Public key to verify: analysis/capsules/demo_capsule_20250924T140554Z/pubkey.pem
+Command-line verifier instructions: analysis/capsules/demo_capsule_20250924T140554Z/VERIFY.txt
 
-### Getting Started
+To verify the authenticity of this capsule on any standard system:
 
-Clone the repo and run the hammer:
+Linux or macOS:
+    sha256sum demo_capsule_20250924T140554Z.zip
+    openssl dgst -sha256 -verify pubkey.pem -signature receipt.sig receipt.json
 
-\```bash
-cd tau_crystal
-bash scripts/ops/next_hammer.sh
-\```
+Windows (PowerShell or CMD):
+    certutil -hashfile demo_capsule_20250924T140554Z.zip SHA256
+    openssl dgst -sha256 -verify pubkey.pem -signature receipt.sig receipt.json
 
-If everything passes, you'll see a tidy table like this:
-
-    organ        status    last_ok_utc             last_error
-    phasehead    ok        2025‑09‑21T12:34:56Z     -
-    ckm          ok        2025‑09‑21T12:34:56Z     -
-    capsules     ok        2025‑09‑21T12:34:57Z     -
-
-If something fails, the table will show which organ failed and why. The system does not hide drift — it signs and stores it.
-
-### Repository Layout (Plain Words)
-
-The first time you open this tree, you’ll see some unfamiliar folders. Here’s what they mean:
-
-- `analysis/` is the result pile. TSVs, plots, receipts, summaries. Don’t edit this — it’s a record, not a source.
-- `.tau_ledger/` is the cryptographic log. Every sealed run, every signed receipt, every Merkle root lands here.
-- `scripts/ops/next_hammer.sh` is the entry point. This is the main command. It runs every gate in a fixed order.
-- `scripts/gates/` are the small, focused checks (e.g., CKM matrix unitarity, boundary signatures, capsule hashing).
-- `scripts/meta/` contains helpers that print the table, seal capsules, or update the ledger.
-
-Capsules are created in `analysis/capsules/`. Each one includes a boundary.txt, its matching boundary.sig, and a capsule.receipt.json. These folders are portable, tamper‑evident, and can be replayed anywhere with Bash.
-
-### Quick Ritual
-
-To test that the system is wired correctly, run this from the repo root:
-
-\```bash
-bash scripts/ops/next_hammer.sh && bash scripts/meta/progress_print.sh
-\```
-
-You’ll see a full-status table. If you’re curious, open the latest capsule directory and inspect the receipt. If you’re not, the table is already your witness.
-
-_Last updated: 2025-09-22T20:05:29Z UTC_
-## Verify a Capsule (OpenSSL, no internet)
-Requirements: `openssl`, `sha256sum`.
-
-```bash
-# 1) Check the hash
-sha256sum auto-20250922T220241Z.tar.gz | awk '{print $1}' \
- | diff -u - auto-20250922T220241Z.tar.gz.sha256
-
-# 2) Check the receipt hash matches
- | sed 's/.*ed25519_openssl://' | tr -d '\r' | openssl base64 -d -A > sig.bin
-
-openssl pkeyutl -verify -pubin -inkey seller_ed25519.pub.pem -rawin \
-  -sigfile sig.bin -in auto-20250922T220241Z.tar.gz && echo "Signature OK"
-```
+This capsule is complete and self-contained. The receipt and signature verify the contents. The notarization draft anchors the capsule in human legal time. The bundle ZIP contains all required elements for external parties to verify delivery integrity.
