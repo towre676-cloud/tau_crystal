@@ -83,3 +83,5 @@ validation/input/
 validation/input_norm/
 *.bak
 .py311_site/
+.secrets
+*.sig

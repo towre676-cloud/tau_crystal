@@ -1,0 +1,14 @@
+Affidavit of Sealing — Capsule demo_capsule_20250924T140554Z
+
+I, ________________________, affirm under oath:
+
+That on 2025-09-24T14:06:08Z UTC,
+I created the file: demo_capsule_20250924T140554Z.zip
+With SHA-256: 6c4bd72be2980bef6a2f7b248b79ba7380f59640e8adb81c117bc40edeaf8ee9
+And size in bytes: 10240
+
+This affidavit certifies the sealing of this artifact.
+Signed before a notary public:
+
+__________________________ (sign)
+__________________________ (notary stamp / ID)
