@@ -1,0 +1,6 @@
+[Unit]
+Description=Start Yak-Furby when config exists
+[Path]
+PathExists=%h/tau_crystal/tau_crystal/.yakfurby/cfg/node.conf
+[Install]
+WantedBy=multi-user.target
