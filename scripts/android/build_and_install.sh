@@ -8,6 +8,11 @@ APP="$BASE/mobile/android/comcapsule"
 PKG="io.capsule.seal"
 ACT="com.capsule.MainActivity"
 APK="$APP/app/build/outputs/apk/debug/app-debug.apk"
+if ! command -v java >/dev/null 2>&1; then
+  for d in "/c/Program Files/Android/Android Studio/jbr" "C:\Users\Cody\AppData\Local/Programs/Android Studio/jbr" "/c/Program Files/Android/Android Studio/jre" "C:\Users\Cody\AppData\Local/AndroidStudio/jbr"; do
+    if [ -x "$d/bin/java.exe" ] || [ -x "$d/bin/java" ]; then export JAVA_HOME="$d"; export PATH="$JAVA_HOME/bin:$PATH"; break; fi
+  done
+fi
 
 # ADB detection (Git Bash/Windows safe)
 ADB="${LOCALAPPDATA:-}/Android/Sdk/platform-tools/adb.exe"
