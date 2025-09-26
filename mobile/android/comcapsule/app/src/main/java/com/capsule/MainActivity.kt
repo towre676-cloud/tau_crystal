@@ -2,37 +2,40 @@ package com.capsule
 
 import android.app.Activity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import java.io.File
+import android.widget.TextView
+import android.view.ViewGroup
+import android.view.Gravity
+import android.content.pm.PackageManager
 
 class MainActivity : Activity() {
-
-  private fun writeFile(dir: File, name: String, text: String) {
+  private fun provenance(tag: String) {
     try {
-      if (!dir.exists()) dir.mkdirs()
-      File(dir, name).writeText(text)
-      Log.i("ZipFlow", "WROTE: " + name + " -> " + dir.absolutePath)
-    } catch (t: Throwable) {
-      Log.e("ZipFlow", "FAILED: " + name + " -> " + (t.message ?: "?"), t)
+      val pm = packageManager
+      val p = pm.getPackageInfo(packageName, 0)
+      Log.i("Capsule", "[$tag] pkg=$packageName code=${p.longVersionCode} name=${p.versionName} cls=${this::class.java.name}")
+    } catch (e: PackageManager.NameNotFoundException) {
+      Log.w("Capsule", "[$tag] package info lookup failed", e)
     }
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    val box = File(getExternalFilesDir("capsule_user"), "")
-    val pkg = applicationContext.packageName
-    writeFile(box, "hello.txt", "hello from " + pkg + "\n")
-    writeFile(box, "boot.txt", "boot ok\n")
+    provenance("onCreate")
+    val tv = TextView(this).apply {
+      text = "Capsule — witness zero"
+      textSize = 20f
+      gravity = Gravity.CENTER
+      layoutParams = ViewGroup.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.MATCH_PARENT
+      )
+    }
+    setContentView(tv)
   }
 
   override fun onResume() {
     super.onResume()
-    val box = File(getExternalFilesDir("capsule_user"), "")
-    Handler(Looper.getMainLooper()).postDelayed({
-      writeFile(box, "hello2.txt", "hello2 from resume\n")
-      writeFile(box, "keep.txt", "keep\n")
-    }, 1200)
+    provenance("onResume")
   }
 }
