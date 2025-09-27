@@ -85,3 +85,6 @@ validation/input_norm/
 .py311_site/
 .secrets
 *.sig
+# τ-Reflection artifacts
+analysis/
+.tau_ledger/
