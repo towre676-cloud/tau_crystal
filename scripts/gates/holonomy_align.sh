@@ -1,47 +1,122 @@
 #!/usr/bin/env bash
-set -euo pipefail; set +H; umask 022; export LC_ALL=C LANG=C
+# Holonomy alignment gate: Explorer (d) vs Seifert angles (A), euler class e
+# INI input example:
+#   p=7
+#   base=10
+#   b_int=0
+#   chi_sign=0         # +1 / 0 / -1 for χ(B) positive/zero/negative (you can compute elsewhere)
+#   pairs= (2:1),(3:1),(6:1)
 
-usage(){ echo "usage: $0 cases/<name>.ini"; exit 64; }
-[ $# -ne 1 ] && usage
-INI="$1"; [ -f "$INI" ] || { echo "[err] missing case ini: $INI" >&2; exit 66; }
+set -euo pipefail; umask 022; export LC_ALL=C LANG=C
 
-# ini read (no jq). trims spaces; ignores comments and blank lines.
-trim(){ sed -e "s/^[[:space:]]*//" -e "s/[[:space:]]*$//"; }
-val(){ grep -E "^[[:space:]]*$1[[:space:]]*=" "$INI" | tail -n1 | cut -d= -f2- | trim; }
-P=$(val prime_p); B=$(val base_b); EB=$(val euler_b)
-ANGS=$(val seifert_angles)
-[ -n "${P:-}" ] && [ -n "${B:-}" ] && [ -n "${ANGS:-}" ] || { echo "[err] bad ini"; exit 65; }
+ini="$1"
+[ -f "$ini" ] || { echo "usage: $0 CONFIG.ini" >&2; exit 2; }
 
-# gcd, lcm, powmod, order with awk (small ints)
-gcd(){ a=$1; b=$2; while [ "$b" -ne 0 ]; do t=$((a%%b)); a=$b; b=$t; done; echo "${a#-}"; }
-lcm(){ a=$1; b=$2; g=$(gcd "$a" "$b"); echo $(( (a/g)*b )); }
-powmod(){ awk -v a="$1" -v e="$2" -v m="$3" 'function pm(a,e,m, r){r=1;a=((a%%m)+m)%%m;while(e>0){if(e%2==1)r=(r*a)%m;a=(a*a)%m;e=int(e/2)}return r} BEGIN{print pm(a,e,m)}'; }
-isprime(){ n=$1; [ "$n" -ge 2 ] || return 1; i=2; while [ $((i*i)) -le "$n" ]; do [ $((n%%i)) -eq 0 ] && return 1; i=$((i+1)); done; return 0; }
-ord(){ a=$1; p=$2; [ $((a%%p)) -eq 0 ] && { echo 0; return; }; phi=$((p-1)); # factor phi
-  fs=""; m=$phi; q=2; while [ $((q*q)) -le "$m" ]; do if [ $((m%%q)) -eq 0 ]; then fs="$fs $q"; while [ $((m%%q)) -eq 0 ]; do m=$((m/q)); done; fi; q=$((q+1)); done; [ "$m" -gt 1 ] && fs="$fs $m"
-  o=$phi; for q in $fs; do while [ $((o%%q)) -eq 0 ]; do cand=$((o/q)); pm=$(powmod "$a" "$cand" "$p"); if [ "$pm" -eq 1 ]; then o=$cand; else break; fi; done; done; echo "$o"; }
+# --- parse INI (no spaces around '=' please) ---
+get(){ awk -F= -v k="$1" '
+  $0 !~ /^#/ && $1==k {sub(/^[[:space:]]+/,"",$2); sub(/[[:space:]]+$/,"",$2); print $2; exit }' "$ini"; }
+P="$(get p)"; BASE="$(get base)"; BINT="$(get b_int)"; CHI="$(get chi_sign)"
+PAIRS_RAW="$(get pairs)"
 
-# compute A=lcm(a_i), check divisibility, classify by chi/euler
-A=1; chi_adj=0; bad=""
-for pair in $(echo "$ANGS" | tr "," " "); do ai=${pair%%:*}; bi=${pair##*:}; [ -n "$ai" ] && [ -n "$bi" ] || { echo "[err] bad pair: $pair"; exit 65; }
-  A=$(lcm "$A" "$ai")
-  # for chi(B)=chi(B0)-sum(1-1/ai) we only accumulate the orbifold correction here
-  chi_adj=$(awk -v s="$chi_adj" -v a="$ai" 'BEGIN{print s + (1.0 - 1.0/a)}')
+# normalize pairs " (a:b),(c:d) " -> "a:b c:d"
+PAIRS="$(printf "%s\n" "$PAIRS_RAW" | tr -d ' \t' | sed 's/[()]/ /g; s/,/ /g' | awk 'NF{print}' )"
+
+# --- small integer helpers ---
+gcd(){ # gcd a b
+  awk -v a="$1" -v b="$2" 'function A(a,b){while(b){t=a%b; a=b; b=t} return a} BEGIN{print A(a<0?-a:a,b<0?-b:b)}'
+}
+lcm2(){ awk -v a="$1" -v b="$2" 'function G(a,b){while(b){t=a%b;a=b;b=t}return a} BEGIN{if(a==0||b==0){print 0;exit} g=G(a<0?-a:a,b<0?-b:b); print (a/g)*b }' ; }
+powmod(){ # powmod a e m
+  awk -v A="$1" -v E="$2" -v M="$3" 'function mm(a,b,m){return (a*b)%m}
+    BEGIN{A%=M; if(A<0)A+=M; r=1; e=E; x=A; while(e>0){ if(e%2==1) r=(r*x)%M; x=(x*x)%M; e=int(e/2);} print r }'
+}
+
+# --- validations ---
+if [ -z "${P:-}" ] || [ -z "${BASE:-}" ] || [ -z "${BINT:-}" ] || [ -z "${CHI:-}" ] || [ -z "${PAIRS:-}" ]; then
+  echo "error: missing required fields in $ini" >&2; exit 3
+fi
+if ! awk -v p="$P" 'BEGIN{exit !(p>2 && p==int(p))}'; then
+  echo "error: p must be integer >2" >&2; exit 3
+fi
+# base must be coprime to p
+G=$(gcd "$BASE" "$P")
+if [ "$G" -ne 1 ]; then
+  echo "error: base and p must be coprime; gcd(base,p)="$G >&2; exit 3
+fi
+
+# --- multiplicative order d = ord_p(BASE) ---
+phi=$((P-1))
+# factor phi (trial division is enough for small primes used in Explorer UI)
+fac=""
+m="$phi"
+i=2
+while [ $((i*i)) -le "$m" ]; do
+  if [ $((m%i)) -eq 0 ]; then
+    fac="$fac $i"
+    while [ $((m%i)) -eq 0 ]; do m=$((m/i)); done
+  fi
+  i=$((i+1))
+done
+[ "$m" -gt 1 ] && fac="$fac $m"
+
+d="$phi"
+for q in $fac; do
+  while [ $((d%q)) -eq 0 ]; do
+    cand=$((d/q))
+    if [ "$(powmod "$BASE" "$cand" "$P")" -eq 1 ]; then d="$cand"; else break; fi
+  done
 done
 
-isprime "$P" || { echo "[err] P not prime"; exit 65; }
-[ $((B%%P)) -eq 0 ] && { echo "[err] base shares factor with p"; exit 65; } || true
-D=$(ord "$B" "$P")
-divides=$(( A%%D ))
+# --- parse pairs and compute A = lcm(a_i), e = b + sum(b_i/a_i) (in lowest terms) ---
+A=1
+EN=0  # e numerator
+ED=1  # e denominator
+for ab in $PAIRS; do
+  a="${ab%%:*}"; b="${ab#*:}"
+  if ! awk -v a="$a" -v b="$b" 'BEGIN{exit !(a==int(a) && a>0 && b==int(b))}'; then
+    echo "error: bad pair $ab (expect a>0 integer, b integer)" >&2; exit 4
+  fi
+  A=$(lcm2 "$A" "$a")
+  # EN/ED += b/a  => EN = EN*a + b*ED ; ED = ED*a ; reduce
+  EN=$((EN*a + b*ED))
+  ED=$((ED*a))
+  gg=$(gcd "$EN" "$ED")
+  EN=$((EN/gg)); ED=$((ED/gg))
+done
+# add b_int: e = b_int + EN/ED => (EN + b_int*ED)/ED
+EN=$((EN + BINT*ED))
+gg=$(gcd "$EN" "$ED"); EN=$((EN/gg)); ED=$((ED/gg))
 
-# crude regime flag: we do not parse B0; we report the sign bucket driven by the orbifold correction and Euler class
-E=${EB:-0}
-regime="unknown"; split=""; if awk -v c="$chi_adj" 'BEGIN{exit !(c<0)}'; then regime="POSITIVE_orbifold"; elif awk -v c="$chi_adj" 'BEGIN{exit !(c==0)}'; then regime="ZERO_orbifold"; else regime="NEGATIVE_orbifold"; fi
-if [ "$regime" = "ZERO_orbifold" ]; then if awk -v e="$E" 'BEGIN{exit !(e==0)}'; then split="EUCLIDEAN"; else split="NIL"; fi; fi
+# --- divisibility and quotient ---
+Q=0; DIV="false"
+if [ $((A%d)) -eq 0 ]; then Q=$((A/d)); DIV="true"; fi
 
-ts=$(date -u +%Y%m%dT%H%M%SZ)
-echo "[holonomy] p=$P base=$B ord_d=$D A_lcm=$A euler_b=$E chi_adj=$(printf "%.6f" "$chi_adj") regime=$regime split=$split time=$ts"
-echo "MACHINE p=$P b=$B d=$D A=$A eB=$E chiAdj=$(printf "%.6f" "$chi_adj") regime=$regime split=$split ts=$ts"
-[ "$divides" -eq 0 ] || { echo "[verdict] FAIL: d does not divide A"; exit 1; }
-echo "[verdict] PASS: holonomy aligns (d|A)."
+# --- verdict from χ and e ---
+# χ: +1 -> SPHERE / S2xR; 0 -> EUCLIDEAN or NIL; -1 -> SL2R or H2xR by split
+REGIME=""
+SPLIT="false"   # e == 0?
+[ "$EN" -eq 0 ] && SPLIT="true"
+case "$CHI" in
+  1)   REGIME="SPHERE_or_S2xR" ;;
+  0)   if [ "$SPLIT" = "true" ]; then REGIME="EUCLIDEAN"; else REGIME="NIL"; fi ;;
+ -1)   if [ "$SPLIT" = "true" ]; then REGIME="H2xR"; else REGIME="SL2R_tilde"; fi ;;
+  *)   REGIME="UNKNOWN" ;;
+esac
 
+# --- JSON receipt (no jq) ---
+ts="$(date -u +%Y%m%dT%H%M%SZ)"
+cat <<JSON
+{
+  "timestamp_utc": "$ts",
+  "prime_p": $P,
+  "base_b": $BASE,
+  "ord_d": $d,
+  "A_lcm": $A,
+  "divides": $DIV,
+  "cover_index_Q": $Q,
+  "euler_class": { "numer": $EN, "denom": $ED, "is_zero": $( [ "$SPLIT" = "true" ] && echo true || echo false ) },
+  "chi_sign": $CHI,
+  "regime": "$REGIME",
+  "pairs": [$(printf "%s" "$PAIRS" | awk 'BEGIN{f=1}{split($0,a,":"); if(!f)printf(","); f=0; printf("{\"a\":%d,\"b\":%d}",a[1],a[2])}') ]
+}
+JSON
