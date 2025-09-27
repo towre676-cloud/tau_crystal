@@ -1,0 +1,14 @@
+name: cheby-moments
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/ops/cheby_demo.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cheby-moments-${{ github.run_id }}
+          path: .cache/cheby_example.json
