@@ -1,0 +1,12 @@
+code\tseverity\tcount\tattention
+HEREDOC\t3\t0\t0
+NO_ROOT_CD\t3\t0\t0
+NO_STRICT\t3\t0\t0
+BAD_VAR\t3\t0\t0
+UNQUOTED\t3\t0\t0
+CRLF\t2\t0\t0
+NONASCII\t2\t0\t0
+YAML_Q\t2\t0\t0
+MAKE_TAB\t2\t0\t0
+ADB_CONV\t2\t0\t0
+LONG_PASTE\t2\t0\t0
