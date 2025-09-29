@@ -27,3 +27,12 @@ snapshot:
 
 rewind:
 	bash scripts/timefold/rewind_to_snapshot.sh "$(S)" "$(L)"
+entropy:
+	bash scripts/entropy/witness_entropy_score.sh
+# === Entropy quick ===
+GLOB ?=
+LIMIT ?=
+.PHONY: entropy-quick
+entropy-quick:
+	@bash scripts/entropy/witness_entropy_quick.sh '$(GLOB)' '$(LIMIT)'
+	@echo "CSV → analysis/entropy/witness_quick.csv"
