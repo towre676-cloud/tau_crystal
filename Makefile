@@ -13,3 +13,13 @@ N ?= 20
 entropy-report:
 	@sed -i 's/\r$$//' scripts/entropy/report_quick_top.sh || true
 	@bash scripts/entropy/report_quick_top.sh "$(N)"
+# === Entropy deep report ===
+# Usage:
+#   make entropy-report-deep
+#   N=50 SORT_FIELD=H8_est make entropy-report-deep
+N ?= 30
+SORT_FIELD ?= cr_gz
+.PHONY: entropy-report-deep
+entropy-report-deep:
+	@sed -i 's/\r$$//' scripts/entropy/report_deep_outliers.sh || true
+	@bash scripts/entropy/report_deep_outliers.sh "$(N)" "$(SORT_FIELD)"
