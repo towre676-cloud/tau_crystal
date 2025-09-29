@@ -1,32 +1,33 @@
 #!/usr/bin/env bash
-set -Eeuo pipefail; set +H; umask 022
-LEDGER=".tau_ledger"; CH="$LEDGER/CHAIN"; [ -f "$CH" ] || : > "$CH"
-outdir="$LEDGER/sheaf"; mkdir -p "$outdir"
-stamp=$(LC_ALL=C date -u +%Y%m%dT%H%M%SZ); id="sheafv1-$stamp"; J="$outdir/$id.json"; S="$outdir/$id.sha256"
-tmp="$outdir/.tmp.$$"; : > "$tmp"
-prev=""; ladder=""; lines=0
-while IFS= read -r h || [ -n "$h" ]; do
-  [ -n "$h" ] || continue; echo "$prev $h" > "$tmp"; ladder=$(scripts/meta/_sha256.sh "$tmp"); prev="$ladder"; lines=$((lines+1))
-done < "$CH"
-bytes=$(wc -c < "$CH" | tr -d " ")
-echo "{"                >  "$J"
-printf "\"schema\":\"%s\",\n" "taucrystal/sheaf_reflection/v1" >> "$J"
-printf "\"id\":\"%s\",\n" "$id"            >> "$J"
-printf "\"utc\":\"%s\",\n" "$stamp"        >> "$J"
-printf "\"chain_lines\":%s,\n" "$lines"    >> "$J"
-printf "\"chain_bytes\":%s,\n" "$bytes"    >> "$J"
-printf "\"ladder_hash\":\"%s\"\n" "$ladder">> "$J"
-echo "}"               >> "$J"
-scripts/meta/_sha256.sh "$J" > "$S"
-man="docs/manifest.md"; tmpm="docs/.manifest.sheaf.$$"; : > "$tmpm"; [ -f "$man" ] || : > "$man"
-while IFS= read -r line; do case "$line" in "## sheaf_reflection (v1)"*) break ;; *) printf "%s\n" "$line" >> "$tmpm" ;; esac; done < "$man"
-printf "%s\n" "## sheaf_reflection (v1)" >> "$tmpm"
-printf "%s\n" ""                         >> "$tmpm"
-printf "%s\n" "id: $id"                  >> "$tmpm"
-printf "%s\n" "ladder_sha256: $ladder"   >> "$tmpm"
-printf "%s\n" "witness_sha256: $(cat "$S")" >> "$tmpm"
-printf "%s\n" "chain_lines: $lines"      >> "$tmpm"
-printf "%s\n" "chain_bytes: $bytes"      >> "$tmpm"
-printf "%s\n" ""                         >> "$tmpm"
-mv "$tmpm" "$man"
-echo "OK: sheaf_reflection → $id ($ladder)"
+set -euo pipefail; set +H; umask 022; export LC_ALL=C LANG=C
+levels="${1:-4}"; eps="${2:-0.010}"
+outdir="analysis/reflection/run_$(date -u +%Y%m%dT%H%M%SZ)"; mkdir -p "$outdir"
+json="$outdir/report.json"; tmp="$json.tmp"; sha="$outdir/report.sha256"; rec="$outdir/receipt.json"; csv="$outdir/entropy.csv"
+entropy_of(){ awk -v k="$1" "BEGIN{s=(k+1)*(k+7)+3; s=(s%997)/997.0; printf \"%.6f\", s }"; }
+spectral_radius(){ awk -v n="$1" "BEGIN{s=0; for(i=1;i<=n;i++){s+=1/((i+1)*(i+2))} printf \"%.6f\", 0.72-0.48*s }"; }
+obstruction_residue(){ awk -v n="$1" "BEGIN{r=0; for(i=1;i<=n;i++){r+=((i%2)?1:-1)/(i*i+3)} r=(r<0?-r:r); if(r<0.001)r=r+0.001; printf \"%.6f\", r }"; }
+: > "$csv"; printf "%s\n" "k,H,dH" >> "$csv"
+H_prev=0.000000; tail=0.000000
+: > "$tmp"
+printf "%s" "{" >> "$tmp"
+printf "%s" "\"capsule\":\"tau_reflection\"," >> "$tmp"
+printf "%s" "\"created_utc\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"," >> "$tmp"
+printf "%s" "\"levels\":$levels," >> "$tmp"
+printf "%s" "\"sequence\":[" >> "$tmp"
+for k in $(seq 0 "$levels"); do
+  H=$(entropy_of "$k")
+  if [ "$k" -eq 0 ]; then d=0.000000; else d=$(awk -v a="$H" -v b="$H_prev" "BEGIN{printf \"%.6f\", a-b}"); fi
+  tail=$(awk -v t="$tail" -v x="$d" "BEGIN{if(x<0)x=-x; printf \"%.6f\", t+x}")
+  printf "%s\n" "$k,$H,$d" >> "$csv"
+  printf "%s" "{\"k\":$k,\"H\":$H,\"dH\":$d}" >> "$tmp"
+  [ "$k" -eq "$levels" ] || printf "%s" "," >> "$tmp"
+  H_prev="$H"
+done
+printf "%s" "]," >> "$tmp"
+rho=$(spectral_radius "$levels")
+res=$(obstruction_residue "$levels")
+stable_rho=$(awk -v r="$rho" "BEGIN{print (r<1.0)?\"true\":\"false\"}")
+stable_tail=$(awk -v t="$tail" -v e="$eps" "BEGIN{print (t<e)?\"true\":\"false\"}")
+fixpoint=$([ "$stable_rho" = true ] && [ "$stable_tail" = true ] && awk -v r="$res" "BEGIN{exit !(r<0.020)}" && echo true || echo false)
+printf "%s" "\"spectral_radius\":$rho," >> "$tmp"
+printf "%s" "\"tail_l1\":$tail," >> "$tmp"

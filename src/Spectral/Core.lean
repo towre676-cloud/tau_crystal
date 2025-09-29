@@ -1,4 +1,7 @@
 import Spectral.Kernel.Minimal
+variable {C : Type u} [Category C]
+variable {J : GrothendieckTopology Cᵒᵖ}
+import Spectral.Kernel.Minimal
 namespace Spectral
 
 open Spectral.Kernel
@@ -55,3 +58,4 @@ def emitCohortTrace (C : Cohort) : String :=
   }
 
 end Spectral
+import Mathlib.CategoryTheory.Sites.Sheaf
