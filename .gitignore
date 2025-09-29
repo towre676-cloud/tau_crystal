@@ -95,3 +95,10 @@ analysis/
 !.tau_ledger/manifest_checks/
 !.tau_ledger/ci/signed_runner/
 !.tau_ledger/arith/
+
+# τ‑Crystal: track curated receipts only
+.tau_ledger/*
+!.tau_ledger/.gitkeep
+!.tau_ledger/manifest_checks/
+!.tau_ledger/ci/signed_runner/
+!.tau_ledger/arith/
