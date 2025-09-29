@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail; set +H; umask 022; export LC_ALL=C LANG=C
+LEDGER=".tau_ledger"; mkdir -p "$LEDGER/receipts"
+if [ "$#" -ge 1 ] && [ "$1" = "run" ]; then shift; fi
+cmd="$*"; echo "[tcrystal] instrumenting: $cmd" >&2
+tmpout="$(mktemp)"; eval "$cmd" > "$tmpout"
+if command -v sha256sum >/dev/null 2>&1; then sha=$(sha256sum "$tmpout"|awk "{print \$1}");
+elif command -v shasum >/dev/null 2>&1; then sha=$(shasum -a 256 "$tmpout"|awk "{print \$1}");
+else sha=$(python3 -c 'import sys,hashlib,os;print(hashlib.sha256(open(os.environ["f"],"rb").read()).hexdigest())' f="$tmpout"); fi
+ts=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+out="$LEDGER/receipts/last.json"
+writer="$(mktemp)"
+: > "$writer"
+printf "%s\n" "import json,sys" >> "$writer"
+printf "%s\n" "out, cmd, sha, ts = sys.argv[1:5]" >> "$writer"
+printf "%s\n" "doc = {\"manifest_version\":1, \"command\":cmd, \"output_sha256\":sha, \"timestamp\":ts}" >> "$writer"
+printf "%s\n" "json.dump(doc, open(out, \"w\"), indent=2)" >> "$writer"
+python3 "$writer" "$out" "$cmd" "$sha" "$ts"
+rm -f "$writer"
+cat "$tmpout"; rm -f "$tmpout"

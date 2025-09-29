@@ -1,0 +1,37 @@
+name: τ‑Crystal Quickstart
+on:
+  push:
+    branches: ["feat/arith-integration-phi-sigma-gcd"]
+    paths:
+      - "scripts/onboard/quickstart.sh"
+      - "tcrystal"
+      - ".github/workflows/tcrystal-quickstart.yml"
+jobs:
+  validate-and-list:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Show git state
+        run: |
+          git status
+          git log -1 --pretty=oneline || true
+      - name: Ensure executables
+        run: |
+          chmod +x scripts/onboard/quickstart.sh || true
+          chmod +x tcrystal || true
+      - name: Parse quickstart (no execution)
+        run: |
+          bash -n scripts/onboard/quickstart.sh
+      - name: List receipts (if present)
+        run: |
+          ls -lah .tau_ledger/receipts || echo "no receipts yet"
+          test -f .tau_ledger/receipts/demo_manifest.json && cat .tau_ledger/receipts/demo_manifest.json || true
+          test -f .tau_ledger/receipts/last.json && cat .tau_ledger/receipts/last.json || true
+      - name: Upload receipts (if any) as artifact
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-ledger-receipts
+          path: .tau_ledger/receipts
+          if-no-files-found: ignore
