@@ -217,3 +217,61 @@ is strictly increasing in μ on the physical sheet, so the Newton map x↦x−(R
 ## 18. Canonical conclusion (verbatim)
 
 For all these reasons, the conclusion that this document should be treated as canonical follows naturally. It provides a crisp statistical statement, a transparent set of penalties linking fit to simplicity, an explicit symmetry reduction that prevents multiplicity inflation, and a computational certificate that can be hashed, linked, and replayed. The scientific content is not the romantic claim that nature secretly obeys a Coxeter law; it is the precise, testable claim that when you force yourself to use little information, penalize unnecessary arithmetic, and average over scales, the only surviving, high–weight representations of the mass–ratio log geometry occupy a particular B₅ chamber. Future data and future targets can confirm or break that occupation, and the machinery you have built makes that adjudication immediate, auditable, and falsifiable.
+
+## 19. “You said” ↔ “ChatGPT said” concordance (extended, verbatim style)
+
+| You said | ChatGPT said | Concordance note |
+|---|---|---|
+| *“…one‑loop RG equation dμ/dℓ=b μ² admits a conserved affine first integral 1/μ+bℓ=1/μ₀…”* | *“…affine leaf gives μ(ℓ)=μ₀/(1−bμ₀ℓ) on the physical sheet; all objects become algebraic on the same leaf…”* | Same invariant; identical solution formula used to build Σ and c as closed expectations. |
+| *“…Fisher metric and geodesic length… Callan–Symanzik amplitude ratio…”* | *“L_geo=√(nc/2b)|log(μ/μ₀)| and log(A/A₀)=(nc/2b)log(μ/μ₀) coincide on the leaf…”* | Exact equality asserted and used to tie fit improvement to RG distance. |
+| *“…six‑direction phase scheduler with closed half‑step times…”* | *“N(ℓ)=(1/6b)log(1/(1−bμ₀ℓ)); walls ℓ_k=(bμ₀)⁻¹(1−e^{−3bk}); constant Jacobian for averaging…”* | Same scheduler; used as internal quadrature for Σ. |
+| *“…two‑loop extension β(μ)=b μ²+b₁ μ³ keeps the structure… Newton steps solve it…”* | *“ℓ=[−1/(bμ)+(b₁/b²)log((b+b₁μ)/μ)]−(μ↦μ₀); Newton map converges to machine precision…”* | Same integral; same Newton certification. |
+| *“…Weyl group B₅≅C₅ of order 3840; canonicalization to a chamber removes multiplicities…”* | *“Signed permutations (ℤ₂)⁵⋊S₅ with 3840 elements; one representative per orbit after ordering |ρ_i| and fixing a sign…”* | Identical group, order, and canonicalization rule. |
+| *“…L(r)=Q_LS+λ₀||r||₀+λ_den D(r)+λ_φ 1_{r_φ≠0}…”* | *“Same penalties as MDL/BIC‑style capacity control; φ‑gate as tunable symmetry breaker…”* | Penalty design preserved verbatim. |
+| *“…logB≈+8.6 comfortably strong…”* | *“…the decisive log‑B in the quotient, post‑canonicalization, evidences concentration not explained by combinatorial volume…”* | Same numerical posture; same quotient logic. |
+
+## 20. Extended dictionary tables (longer, densely explained)
+
+| Leaf quantity | Exact form | How it enters Σ, c, and W | Impact on Weyl‑reduced search |
+|---|---|---|---|
+| μ(ℓ) (1‑loop) | μ₀/(1−bμ₀ℓ) | Makes x(ℓ) algebraic in (1−bμ₀ℓ)⁻¹; Σ=E[(x−x̄)(x−x̄)ᵀ] is an elementary period | Removes quadrature noise; W=Σ^{−1/2} is analytic in (b,μ₀) |
+| μ(ℓ) (2‑loop) | Newton on ℓ=[−1/(bμ)+(b₁/b²)log((b+b₁μ)/μ)]−(μ↦μ₀) | x(ℓ) becomes a logarithmic period; Σ and c inherit smooth b₁‑deformations | Smoothly perturbs W without altering Weyl orbits |
+| L_geo | √(nc/2b)·|log(μ/μ₀)| (→ Φ at 2‑loop) | Controls isotropic radius in whitened ρ; ΔQ_LS=∥ρ∥² ~ L_geo² | Linear fit‑vs‑distance law with slope fixed by (n,c,b) |
+| F(μ) | −(nc/2b)log μ (for γ=cμ) | Monotone Lyapunov ordering of ℓ‑travel | Aligns descent direction with likelihood improvement |
+| N(ℓ) | (1/6b)log(1/(1−bμ₀ℓ)) | Constant Jacobian dℓ/dN=6/b → stable grid {ℓ_k} | Canonical sampling for reproducible Σ, c hashes |
+| Wilsonian a_k | a_k(M₀)(μ/μ₀)^{δ_k}e^{−w_kℓ} | Contributes to components of x(ℓ) used in rᵀx(ℓ) | Ensures log‑monomial form compatible with sparse ℚ‑exponents |
+
+| Symmetry/penalty | Formal statement | Operational effect | Evidence implication |
+|---|---|---|---|
+| W(B₅) hyperoctahedral | (ℤ₂)⁵⋊S₅, |W|=3840 | Chamber canonicalization: sort by |ρ_i|, fix sign | Removes 3840‑fold multiplicity; prevents orbit inflation |
+| ℓ₀ penalty | λ₀||r||₀ | Enforces sparsity ≤3 unless data demand | Tight MDL; falsifiable if fits need ≥4 axes |
+| Denominator penalty | λ_den D(r) | Prefers low‑conductor rationals (e.g., 12,18,30) | Stabilizes against overfit; echoes invariant degrees 2,4,6,8,10 |
+| φ‑gate | λ_φ 1_{r_φ≠0} (logΛ_φ<0) | Treats φ as optional axis | Detects structural tilt if φ activates systematically |
+
+## 21. Longer pipeline concordance (inputs → artifacts → attestations)
+
+| Stage | Deterministic inputs | Derived artifacts | Attested (hash/format) |
+|---|---|---|---|
+| Leaf definition | (b,b₁,μ₀,n,c) | μ(ℓ), N(ℓ), walls {ℓ_k} | JSON; SHA‑256(manifest) |
+| Sampling | {ℓ_k} and basis formulas | Matrix of x(ℓ_k) rows | CSV digest + SHA‑256 |
+| Moments | x̄, Σ, c | Σ (5×5), c (5) | JSON; SHA‑256 |
+| Whitening | Σ^{−1/2} | W and r⋆=Σ⁻¹c | JSON; SHA‑256 |
+| Search | rational alphabet, support≤3 | candidate r, objective L(r) | CSV of winners |
+| Canonicalize | Weyl chamber rules | r_canon | CSV + orbit IDs |
+| Evidence | model/null ensembles | logB | logB.txt + SHA‑256 |
+
+## 22. Verbatim cautionary notes (sampler, pole, and sheet)
+
+- Sampling nodes must remain on the physical sheet below the one‑loop pole ℓ=(bμ₀)⁻¹; crossing the pole invalidates the affine invariant in this chart.
+- When switching to two‑loop, recompute the walls via equal‑N spacing or re‑use the one‑loop walls but recompute μ(ℓ) by the two‑loop integral + Newton; in both cases re‑hash Σ and W.
+- Store (b,b₁,μ₀,n,c) in the manifest; byte‑exact reproducibility depends on these.
+
+## 23. Extended falsifiability grid (operational tests)
+
+| Test | Procedure | Pass criterion | Fail → Action |
+|---|---|---|---|
+| Two‑loop stability | Switch to b₁≠0; recompute Σ,W, logB | logB stays strong; winners remain in same order class | Re‑evaluate penalties; consider chamber change |
+| φ‑axis activation | Track fraction of winners with r_φ≠0 | ≤ sporadic; quartic tilt modest | Promote φ to structural; re‑fit chamber |
+| Sparsity ceiling | Fit with support≤3 vs ≤4 | ≤3 suffices without logB loss | Relax ceiling; monitor denominator growth |
+| Orbit uniqueness | Check duplicates pre‑/post‑canonicalization | No duplicates post‑chamber | Fix canonicalizer; audit sorting/sign rules |
+| Sampler invariance | Change {ℓ_k} within leaf; recompute Σ | Byte‑stable hashes (given same (b,b₁,μ₀,n,c)) | Fix wall generation; use N(ℓ) mapping |
