@@ -1,0 +1,20 @@
+name: ledger
+on: { push: { branches: ["**"] }, workflow_dispatch: {} }
+jobs:
+  attest-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up bash
+        run: sudo apt-get update && sudo apt-get install -y openssl
+      - name: Sign runner
+        run: bash scripts/ci/signed_runner.sh
+      - name: Validate manifest tree
+        run: bash scripts/meta/validate_manifest_tree.sh
+      - name: Upload CI receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau_ledger_ci
+          path: |
+            .tau_ledger/ci/signed_runner/*_sig.json
+            .tau_ledger/manifest_checks/*_check.json
