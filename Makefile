@@ -1,11 +1,29 @@
-SHELL := /bin/bash
-.PHONY: all build run test
+SHELL := /usr/bin/env bash
 
-all: run test
+.PHONY: sign manifest sym2 ingest zero interference drift snapshot rewind
+sign:
+	bash scripts/ci/signed_runner.sh
 
-run:
-	@echo ">> RUN: orchestration placeholder (Dockerized pipeline recommended)"
+manifest:
+	bash scripts/meta/validate_manifest_tree.sh
 
-test:
-	@echo ">> TEST: call scripts/arith/tests.sage (scaffold)"
+ingest:
+	@[ -n "$(CURVE)" ] && [ -n "$(SRC)" ] || (echo "usage: make ingest CURVE=37a1 SRC=path/to/local_factors.json"; exit 2)
+	bash scripts/langlands/ingest_local_factors.sh "$(CURVE)" "$(SRC)"
 
+zero:
+	@[ -n "$(CURVE)" ] || (echo "usage: make zero CURVE=37a1"; exit 2)
+	bash scripts/langlands/run_zero_check.sh "$(CURVE)"
+
+interference:
+	@[ -n "$(A)" ] && [ -n "$(B)" ] || (echo "usage: make interference A=a.csv B=b.csv [W=10]"; exit 2)
+	bash scripts/interference/build_interference_map.sh "$(A)" "$(B)" "$(W)"
+
+drift:
+	bash scripts/interference/compare_to_baseline.sh
+
+snapshot:
+	bash scripts/timefold/snapshot_state.sh "$(L)"
+
+rewind:
+	bash scripts/timefold/rewind_to_snapshot.sh "$(S)" "$(L)"
