@@ -3,8 +3,8 @@ cd "$HOME/Desktop/tau_crystal/tau_crystal" || exit 1
 set -eu; umask 022; export LC_ALL=C LANG=C
 
 # knobs
-PATH_GLOB="${1:-}"                  # optional: './.tau_ledger/entropy/witness_*.json'
-LIMIT="${2:-}"                      # optional: max files
+PATH_GLOB="${PATH_GLOB:-${1:-}}"
+LIMIT="${LIMIT:-${2:-}}"
 CHUNK=$((32*1024))                  # 32 KiB head + 32 KiB tail
 CSV="analysis/entropy/witness_quick.csv"
 TS="$(date -u +%FT%TZ)"

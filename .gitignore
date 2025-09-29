@@ -105,3 +105,9 @@ analysis/
 
 # track seifert braid receipts
 !.tau_ledger/seifert/
+!.tau_ledger/.gitkeep
+!.tau_ledger/entropy/
+!.tau_ledger/interference/
+!.tau_ledger/timefold/
+!.tau_ledger/ci/
+!.tau_ledger/arith/
