@@ -18,7 +18,7 @@ hfile="exe/.capsule_each/${mod//./_}.lean"; mkdir -p "$(dirname "$hfile")"; : > 
 printf "%s\n" "import ${mod}" >> "$hfile"
 printf "%s\n" "def _capsule_probe : True := True.intro" >> "$hfile"
 start_ms=$(ms_now); build_ok=0; blog="$TMP/_build_${mod//./_}.log"
-if lake env lean --make "$hfile" >"$blog" 2>&1; then build_ok=1; fi
+if lake build --target "$hfile" >"$blog" 2>&1; then build_ok=1; fi
 end_ms=$(ms_now); dur_ms=0; if [ "$start_ms" != 0 ] && [ "$end_ms" != 0 ]; then dur_ms=$(( end_ms - start_ms )); fi
 olean_rel="${rel%.lean}.olean"; olean_path=".lake/build/lib/${olean_rel#src/}"
 olean_sha="NONE"; olean_bytes=0; if [ -f "$olean_path" ]; then olean_sha=$(sha256 "$olean_path"); olean_bytes=$(wc -c < "$olean_path" | tr -d "[:space:]"); fi

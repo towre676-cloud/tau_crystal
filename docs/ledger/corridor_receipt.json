@@ -1,0 +1,2 @@
+{"kind":"CorridorReceipt.v2","lean_capsule_set":{"kind":"lean.module.capsule.set","root_hash":"5dac14e2a278130e504c2fba31eaab3e6213e488e8a93eed28c4694981c6502c","sealed_at":"2025-09-28T00:55:29Z","toolchain":"Lean (version 4.22.0, x86_64-w64-windows-gnu, commit ba2cbbf09d4978f416e0ebd1fceeebc2c4138c05, Release)","lake":"Lake version 5.0.0-src+ba2cbbf (Lean version 4.22.0)","total_modules":4,"build_ok":0
+0,"build_fail":4,"index_path":".tau_ledger/lean_module_capsules/index.json"},"tau_reflection":null}
