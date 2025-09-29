@@ -1,38 +1,15 @@
-SHELL := /usr/bin/env bash
-
-.PHONY: sign manifest sym2 ingest zero interference drift snapshot rewind
-sign:
-	bash scripts/ci/signed_runner.sh
-
-manifest:
-	bash scripts/meta/validate_manifest_tree.sh
-
-ingest:
-	@[ -n "$(CURVE)" ] && [ -n "$(SRC)" ] || (echo "usage: make ingest CURVE=37a1 SRC=path/to/local_factors.json"; exit 2)
-	bash scripts/langlands/ingest_local_factors.sh "$(CURVE)" "$(SRC)"
-
-zero:
-	@[ -n "$(CURVE)" ] || (echo "usage: make zero CURVE=37a1"; exit 2)
-	bash scripts/langlands/run_zero_check.sh "$(CURVE)"
-
-interference:
-	@[ -n "$(A)" ] && [ -n "$(B)" ] || (echo "usage: make interference A=a.csv B=b.csv [W=10]"; exit 2)
-	bash scripts/interference/build_interference_map.sh "$(A)" "$(B)" "$(W)"
-
-drift:
-	bash scripts/interference/compare_to_baseline.sh
-
-snapshot:
-	bash scripts/timefold/snapshot_state.sh "$(L)"
-
-rewind:
-	bash scripts/timefold/rewind_to_snapshot.sh "$(S)" "$(L)"
-entropy:
-	bash scripts/entropy/witness_entropy_score.sh
-# === Entropy quick ===
-GLOB ?=
-LIMIT ?=
+# === Entropy quick (env-driven) ===
+# Usage example:
+#   PATH_GLOB=./.tau_ledger/entropy/witness_*.json LIMIT=200 make entropy-quick
 .PHONY: entropy-quick
 entropy-quick:
-	@bash scripts/entropy/witness_entropy_quick.sh '$(GLOB)' '$(LIMIT)'
+	@sed -i 's/\r$$//' scripts/entropy/witness_entropy_quick.sh || true
+	@PATH_GLOB="$(PATH_GLOB)" LIMIT="$(LIMIT)" bash scripts/entropy/witness_entropy_quick.sh
 	@echo "CSV → analysis/entropy/witness_quick.csv"
+# === Entropy report ===
+# Use: N=30 make entropy-report   (default N=20)
+N ?= 20
+.PHONY: entropy-report
+entropy-report:
+	@sed -i 's/\r$$//' scripts/entropy/report_quick_top.sh || true
+	@bash scripts/entropy/report_quick_top.sh "$(N)"
