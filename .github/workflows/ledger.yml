@@ -18,3 +18,4 @@ jobs:
           path: |
             .tau_ledger/ci/signed_runner/*_sig.json
             .tau_ledger/manifest_checks/*_check.json
+      - name: Clock drift scan\n        run: bash scripts/timefold/clock_drift_scan.sh
