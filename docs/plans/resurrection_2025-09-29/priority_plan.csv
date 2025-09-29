@@ -1,0 +1,16 @@
+Item,Complexity,Readiness,Value,Coupling,Priority
+Entropy Witness Scoring,2,4,5,2,4.25
+OCI Verifier Fix,2,4,4,2,3.90
+Seifert Couple/Merge Repair,1,4,4,2,3.85
+Signed Runner Integration,3,3,5,3,3.80
+CI Receipt Grammar v2,3,3,5,3,3.80
+BSD/Sym² Confirmation,4,3,5,3,3.65
+CI Frobenius Classifier,3,3,4,3,3.45
+Timefold Receipts,4,2,5,3,3.35
+Zenodo Dashboard,2,2,4,3,3.10
+Forbidden Σ[3] Tagging,3,2,4,3,3.05
+Interference Map,5,2,5,4,3.00
+Motivic Memory Sheaf,5,2,5,5,2.85
+Tau-Entropic Clock Drift,3,2,4,3,2.95
+Receipt Necromancy,3,2,4,4,2.80
+City–Modular Mapping,5,1,4,4,2.35
