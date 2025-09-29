@@ -102,3 +102,6 @@ analysis/
 !.tau_ledger/manifest_checks/
 !.tau_ledger/ci/signed_runner/
 !.tau_ledger/arith/
+
+# track seifert braid receipts
+!.tau_ledger/seifert/
