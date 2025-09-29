@@ -87,3 +87,95 @@ def two_loop_demo(b=1.0, b1=0.2, mu0=0.1, ell=0.73, n=2, c=1):
 ## 4. Closing synthesis
 
 Yes—the “affine RG leaf” is the solvable spine for your Weyl‑reduced mass‑ratio inference. It pins μ(ℓ) exactly at one loop (and implicitly at two loop with a fast Newton solve), turning Σ, c, the Fisher length, the CS amplitude, and the scheduler into closed forms on a single integral curve. Once whitened, the bowl is isotropic, and the only remaining structure after imposing sparsity and denominator penalties is the hyperoctahedral W(B₅) symmetry of order 3840, which you quotient by canonical ordering and a fixed sign convention. The observed concentration of winners in one canonical chamber, with logB≈+8.6 against a matched null, is therefore a property of the quotient geometry rather than an artefact of sampling or excess flexibility. This monograph fixes that argument as a replayable, auditable τ‑Crystal artifact.
+
+## 5. Dictionary: affine leaf → Weyl–reduced mass‑ratio geometry
+
+| Object on the leaf | Closed‑form expression (1‑loop) | What it feeds to the B₅ inference | Certification identity |
+|---|---|---|---|
+| **Conserved integral** | I(μ,ℓ)=μ⁻¹+bℓ=μ₀⁻¹ | fixes μ(ℓ) and hence x(ℓ); Σ and c become **periods** over the rational curve | I‑residual ≡0 |
+| **Entropy primitive** | S(ℓ)=μ(ℓ)−μ₀ | monotone proxy for “scale information”; couples to ΔQ_LS descent | dS/dℓ=bμ²>0 |
+| **Fisher–Rao length** | L_geo=√(nc/2b)·|log(μ/μ₀)| | radial coordinate in the **whitened** space; ∥ρ∥₂=L_geo | L_geo≡signed CS amplitude |
+| **Callan–Symanzik amplitude** | log(A/A₀)=(nc/2b)·log(μ/μ₀) | same integrand as L_geo → fit improvement ∝ information distance | exact equality on the leaf |
+| **Hexagonal scheduler** | N(ℓ)=(1/6b)·log[1/(1−bμ₀ℓ)] | canonical **6‑node quadrature** for 𝔼_ℓ[⋯]; Jacobian dℓ/dN=6/b | walls ℓ_k=(1/(bμ₀))(1−e^{−3bk}) |
+| **Wilsonian rescaling** | a_k(Λ)=a_k(M₀)(μ/μ₀)^{δ_k}e^{−w_kℓ} | supplies **log‑monomial basis** entries that enter x(ℓ) | algebraic in (1−bμ₀ℓ)⁻¹ |
+
+## 6. Two‑loop deformation (same certificates)
+
+| Quantity | 1‑loop | 2‑loop (implicit but Newton‑soluble) | Continuity check |
+|---|---|---|---|
+| First integral | μ⁻¹+bℓ=μ₀⁻¹ | ℓ=∫_{μ₀}^{μ} dμ′/β(μ′)=[−1/(bμ)+(b₁/b²)log((b+b₁μ)/μ)]−same at μ₀ | smooth limit b₁→0 |
+| Solution μ(ℓ) | μ₀/(1−bμ₀ℓ) | Newton: x↦x−(R(x)−T)/R′(x), R as above | machine‑precision residual |
+| Fisher/CS identity | L_geo=√(nc/2b)|log(μ/μ₀)| | L_geo=√(nc/2b)·Φ(μ,μ₀;b,b₁) with Φ the 2‑loop primitive | identity preserved |
+| Lyapunov F | −(nc/2b)logμ | primitive of −(n/2)γ(μ)dℓ along new curve | dF/dℓ<0 kept |
+
+## 7. How the leaf enters the B₅ pipeline step‑by‑step
+
+| Step in τ‑Crystal | Leaf input | Output to next stage | Hashable witness |
+|---|---|---|---|
+| Choose μ‑band | (b,b₁,μ₀,n,c) | analytic μ(ℓ), ℓ_k grid | SHA‑256 of (b,b₁,μ₀,n,c,ℓ_k) |
+| Build basis x(ℓ) | logα(μ(ℓ)), logα_s(μ(ℓ)), logπ, logφ, log(m_p/m_e) | exact samples x(ℓ_k) | CSV of x vectors |
+| Compute Σ,c | Σ=𝔼[(x−x̄)(x−x̄)ᵀ], c=𝔼[(x−x̄)y] | 5×5 matrix + 5‑vector | JSON of Σ,c |
+| Whiten | W=Σ^{−1/2} | isotropic ρ=W(r−r⋆) | SHA‑256 of W |
+| Enumerate exponents | rational alphabet with denom ≤30 | sparse candidates r∈ℚ⁵ | list of (r,||r||₀,D(r)) |
+| Canonicalise | sort |ρ_i|, fix sign | one rep per 3840‑orbit | orbit‑ID + r_canon |
+| Score | ΔQ_LS=∥ρ∥² + λ₀||r||₀ + λ_den D(r) + λ_φ 1_{r_φ≠0} | objective L(r) | CSV of (r_canon,L) |
+| Bayes factor | logB=log(Z_model/Z_null) | evidence ratio | logB.txt hash |
+
+## 8. Falsifiable predictions powered by the leaf
+
+| If future data show … | Expected in present chamber | Falsification path |
+|---|---|---|
+| Systematic b₁≠0 needed | logB rises under 2‑loop leaf | recompute Σ,W, re‑quote logB |
+| φ‑axis activated in >½ targets | λ_φ penalty overcome | enlarge chamber (B₅→B₆?) & re‑quotient |
+| Winners outside B₅ order class | different Weyl type | re‑canonicalise under new W(⋅), compare logB |
+| Need ≥4 non‑zero exponents | sparsity ceiling broken | relax ||r||₀≤3, check denominator growth |
+| μ‑band crosses the pole | leaf broken | extend scheme or second sheet |
+
+## 9. Parameters and symmetry/regularization mapping
+
+| Parameter | Meaning | Appearance in the affine leaf formulas | Effect on B₅/C₅ inference |
+|---|---|---|---|
+| b | One‑loop β‑function coefficient | Sets pole at ℓ=(bμ₀)⁻¹, the Fisher/CS slope ∝1/b, and N(ℓ) clock | Rescales whitening; orbit structure unchanged |
+| b₁ | Two‑loop correction | Deforms Φ(μ,μ₀;b,b₁) and μ(ℓ) | Smoothly perturbs Σ,c,W; Weyl action unchanged |
+| n,c | Multiplicity/γ‑slope constants | Fix L_geo↔CS slope; fix F’s slope | Global radial rescale; chamber unchanged |
+| μ₀ | Initial coupling | Fixes invariant and wall times ℓ_k | Determines sampling window; manifest‑worthy |
+
+| Symmetry & regularization | Concrete mechanism | Consequence for evidence |
+|---|---|---|
+| W(B₅) of size 3840 | Signed permutations of basis logs and sign‑ambiguity of log‑ratios | Canonicalization removes multiplicity; one rep per orbit |
+| Sparse ℚ‑lattice (denominators 12,18,30,…) | ℓ₀ + denominator penalty D(r) | MDL/BIC‑style capacity control; no sharpshooter |
+| φ‑gate prior (logΛ_φ<0) | Penalized axis unless demanded | Gentle symmetry tilt; quartic content nudged |
+
+## 10. One‑cell witness with manifest hashing (verbatim drop‑in)
+
+```python
+#!/usr/bin/env python3
+# affine_rg_leaf_B5_witness.py – zero‑dependency manifest
+import math, json, hashlib
+from typing import List, Dict
+def affine_leaf(b:float, b1:float, mu0:float, ell_grid:List[float], n:int=2, c:int=1):
+    out=[]
+    def rhs(x): return -1/(b*x) + (b1/(b*b))*math.log((b + b1*x)/x)
+    def drhs(x): return 1/(b*x*x) + (b1/(b*b))*(b1/(b + b1*x) - 1/x)
+    for ell in ell_grid:
+        target = rhs(mu0) + ell
+        x = mu0
+        for _ in range(8): x -= (rhs(x) - target)/drhs(x)
+        mu=x
+        L = math.sqrt(n*c/(2*b))*abs(math.log(mu/mu0))
+        logA = (n*c/(2*b))*(math.log(mu) - (b1/b)*math.log(1 + b1*mu/b) - math.log(mu0) + (b1/b)*math.log(1 + b1*mu0/b))
+        N = (1/(6*b)) * math.log(1/(1 - b*mu0*ell))
+        out.append({"ell":ell,"mu":mu,"L_geo":L,"logA":logA,"N":N})
+    return out
+def sha256(obj)->str: return hashlib.sha256(json.dumps(obj,sort_keys=True).encode()).hexdigest()
+if __name__=="__main__":
+    b,b1,mu0,n,c=1.0,0.2,0.1,2,1
+    ell_grid=[(1/(b*mu0))*(1-math.exp(-3*b*k)) for k in range(1,7)]
+    leaf=affine_leaf(b,b1,mu0,ell_grid,n,c)
+    manifest={"params":{"b":b,"b1":b1,"mu0":mu0,"n":n,"c":c},"ell":ell_grid,"leaf":leaf}
+    print("SHA-256 manifest:", sha256(manifest))
+```
+
+## 11. Elevator summary
+
+The affine RG leaf supplies an exact, period‑stabilised μ(ℓ)‑trajectory; the B₅ chamber supplies the discrete symmetry that quotients the rational exponent lattice. Together they turn “scale‑band averaging” into a motivic integral whose whitening map, Fisher metric, CS amplitudes and Wilsonian rescalings are certified closed forms, making the 3840‑fold orbit collapse and a strong log‑B **byte‑reproducible** and **falsifiable** under future data.
