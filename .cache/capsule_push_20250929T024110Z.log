@@ -178,3 +178,6 @@
 + read -r -d '' j
 + printf '%s\n' '</table>'
 [rc=0] scripts/docs/gen_module_catalog.sh
+branch 'feat/arith-integration-phi-sigma-gcd' set up to track 'origin/feat/arith-integration-phi-sigma-gcd'.
+To https://github.com/towre676-cloud/tau_crystal
+   9c7b4f05..e0ca7b05  feat/arith-integration-phi-sigma-gcd -> feat/arith-integration-phi-sigma-gcd

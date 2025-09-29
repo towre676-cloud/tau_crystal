@@ -16,3 +16,4 @@ def main (args : List String) : IO UInt32 := do
   IO.FS.writeFile out content
   IO.println ("[lean] wrote " ++ out)
   pure 0
+import TauCrystal.ResidueTwistedReciprocity

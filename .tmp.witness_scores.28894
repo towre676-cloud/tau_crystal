@@ -1,0 +1,12 @@
+file,bytes,sampled,sample_bytes,gz_bytes,xz_bytes,bz2_bytes,cr_gz,cr_xz,cr_bz2,bits_per_byte_gz,H8_est
+.tau_ledger/entropy/witness_20250929T042055Z_74353175e75a.json,1051,false,1051,573,,,0.545195,,,4.361560,5.083267
+.tau_ledger/entropy/witness_20250929T042100Z_74353175e75a.json,1051,false,1051,573,,,0.545195,,,4.361560,5.083267
+.tau_ledger/entropy/witness_20250929T043338Z_74353175e75a.json,1051,false,1051,573,,,0.545195,,,4.361560,5.083589
+.tau_ledger/entropy/witness_20250929T043341Z_74353175e75a.json,1051,false,1051,573,,,0.545195,,,4.361560,5.084030
+.tau_ledger/entropy/witness_20250929T043512Z_74353175e75a.json,1051,false,1051,573,,,0.545195,,,4.361560,5.082999
+.tau_ledger/entropy/witness_20250929T043515Z_74353175e75a.json,1051,false,1051,573,,,0.545195,,,4.361560,5.082999
+.tau_ledger/entropy/witness_20250929T045925Z_74353175e75a.json,1051,false,1051,573,,,0.545195,,,4.361560,5.083529
+.tau_ledger/entropy/witness_20250929T063115Z_74353175e75a.json,1051,false,1051,573,,,0.545195,,,4.361560,5.082592
+.tau_ledger/entropy/witness_20250929T063118Z_74353175e75a.json,1051,false,1051,573,,,0.545195,,,4.361560,5.082717
+.tau_ledger/timefold/restore/state_20250929T042104Z_ce6b47f71598/.tau_ledger/entropy/witness_20250929T042100Z_74353175e75a.json,1051,false,1051,573,,,0.545195,,,4.361560,5.083267
+.tau_ledger/timefold/restore/state_20250929T043343Z_ce6b47f71598/.tau_ledger/entropy/witness_20250929T043341Z_74353175e75a.json,1051,false,1051,573,,,0.545195,,,4.361560,5.084030

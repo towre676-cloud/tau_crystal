@@ -23,3 +23,8 @@ SORT_FIELD ?= cr_gz
 entropy-report-deep:
 	@sed -i 's/\r$$//' scripts/entropy/report_deep_outliers.sh || true
 	@bash scripts/entropy/report_deep_outliers.sh "$(N)" "$(SORT_FIELD)"
+.PHONY: report-progress
+report-progress:
+\t@printf '%s\n' 'Report → docs/progress/resurrection_progress_2025-09-29.md'
+\t@printf '%s\n' 'Ledger → .tau_ledger/summary/resurrection_progress_2025-09-29.json'
+\t@sed -n '1,60p' docs/progress/resurrection_progress_2025-09-29.md | sed 's/\r$//'
