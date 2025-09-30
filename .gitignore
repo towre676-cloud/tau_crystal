@@ -111,3 +111,4 @@ analysis/
 !.tau_ledger/timefold/
 !.tau_ledger/ci/
 !.tau_ledger/arith/
+notebooks/*.html
