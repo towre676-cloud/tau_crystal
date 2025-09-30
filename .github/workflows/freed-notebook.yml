@@ -1,0 +1,28 @@
+name: freed notebook lab
+on:
+  push: { branches: ['**'] }
+  pull_request: { branches: ['**'] }
+  workflow_dispatch:
+
+jobs:
+  lab:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Install nbconvert runtime
+        run: |
+          python -m pip install --upgrade pip
+          pip install jupyter nbconvert matplotlib
+      - name: Ensure notebook exists (generate if missing)
+        run: python tools/make_freed_lab.py
+      - name: Execute and export HTML
+        run: jupyter nbconvert --to html --execute notebooks/FreedLab.ipynb --output FreedLab.html --ExecutePreprocessor.timeout=600
+      - name: Upload lab report
+        uses: actions/upload-artifact@v4
+        with:
+          name: FreedLab
+          path: |
+            notebooks/FreedLab.ipynb
+            notebooks/FreedLab.html
