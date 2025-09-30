@@ -1,0 +1,173 @@
+import os, json
+
+NB = {
+  "nbformat": 4,
+  "nbformat_minor": 5,
+  "metadata": {
+    "kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"},
+    "language_info": {"name": "python", "version": "3"}
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Freed RG Lab — receipts and plots\n",
+        "\n",
+        "This notebook collects receipts from `analysis/freed/` and `.tau_ledger/freed/`,\n",
+        "renders simple plots (matplotlib), and prints an axioms-style summary.\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "execution_count": None,
+      "outputs": [],
+      "source": [
+        "import os, glob, json, math\\n",
+        "try:\\n",
+        "    import matplotlib.pyplot as plt\\n",
+        "except Exception as e:\\n",
+        "    plt = None; print('[info] matplotlib not available:', e)\\n",
+        "\\n",
+        "def latest(pattern):\\n",
+        "    files = sorted(glob.glob(pattern))\\n",
+        "    return files[-1] if files else None\\n",
+        "\\n",
+        "def load_json(path):\\n",
+        "    try:\\n",
+        "        with open(path, 'r', encoding='utf-8') as f: return json.load(f)\\n",
+        "    except Exception as e:\\n",
+        "        print('[warn] cannot load', path, e); return None\\n",
+        "\\n",
+        "os.makedirs('analysis/freed', exist_ok=True)\\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": ["## Flatness: trace/logdet identity error"]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "execution_count": None,
+      "outputs": [],
+      "source": [
+        "det_path = latest('analysis/freed/*_determinant_identity.json')\\n",
+        "if det_path:\\n",
+        "    det = load_json(det_path)\\n",
+        "    xs = [row['ell'] for row in det.get('grid',[])]\\n",
+        "    ys = [abs(row['lhs_tr_identity'] - row['rhs_fd']) for row in det.get('grid',[])]\\n",
+        "    if plt and xs and ys:\\n",
+        "        plt.figure(figsize=(6,3))\\n",
+        "        plt.plot(xs, ys)\\n",
+        "        plt.yscale('log')\\n",
+        "        plt.xlabel('ell')\\n",
+        "        plt.ylabel('abs error (log)')\\n",
+        "        plt.title('flatness receipt')\\n",
+        "        plt.tight_layout(); plt.show()\\n",
+        "    print('max_abs_err =', det.get('max_abs_err'))\\n",
+        "else:\\n",
+        "    print('[info] no determinant_identity receipt found')\\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": ["## Factorization (phi off/on) and TMF deltas"]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "execution_count": None,
+      "outputs": [],
+      "source": [
+        "phi_off = latest('analysis/freed/*_factorization_phi_off.json')\\n",
+        "phi_on  = latest('analysis/freed/*_factorization_phi_on.json')\\n",
+        "for label, path in [('phi_off', phi_off), ('phi_on', phi_on)]:\\n",
+        "    if not path: print('[info] no factorization receipt for', label); continue\\n",
+        "    data = load_json(path)\\n",
+        "    print(label, 'sum_segments=', data.get('sum_segments'), 'whole=', data.get('whole'), 'abs_err=', data.get('abs_err'))\\n",
+        "\\n",
+        "tmf_path = latest('analysis/freed/*_tmf_deltas.json')\\n",
+        "if tmf_path:\\n",
+        "    t = load_json(tmf_path); tmf = t.get('tmf', {})\\n",
+        "    for key in ('phi_off','phi_on'):\\n",
+        "        node = tmf.get(key);\\n",
+        "        if not node: continue\\n",
+        "        print(key, 'delta_whole=', node.get('delta_whole'), 'delta_segments=', node.get('delta_segments'))\\n",
+        "else:\\n",
+        "    print('[info] no TMF deltas receipt found')\\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": ["## Eta-term and defects"]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "execution_count": None,
+      "outputs": [],
+      "source": [
+        "eta_path = latest('analysis/freed/eta_tmf_*.json')\\n",
+        "if eta_path:\\n",
+        "    e = load_json(eta_path)\\n",
+        "    stk = e.get('stack', {})\\n",
+        "    print('eta_half_logW =', stk.get('eta_half_logW'), 'effective_stack =', stk.get('effective'))\\n",
+        "else:\\n",
+        "    print('[info] no eta report found')\\n",
+        "\\n",
+        "def_path = latest('analysis/freed/defect_*.json')\\n",
+        "if def_path:\\n",
+        "    d = load_json(def_path)\\n",
+        "    print('defects sign_flip_phase=', d.get('sign_flip_phase'), 'perm_phase=', d.get('perm_phase'))\\n",
+        "else:\\n",
+        "    print('[info] no defect report found')\\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": ["## Axioms summary (latest values by certificate)"]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "execution_count": None,
+      "outputs": [],
+      "source": [
+        "import glob\\n",
+        "ledgers = sorted(glob.glob('.tau_ledger/freed/*.manifest.json'))\\n",
+        "def pick(cert_key):\\n",
+        "    for p in reversed(ledgers):\\n",
+        "        try:\\n",
+        "            with open(p,'r',encoding='utf-8') as f: m=json.load(f)\\n",
+        "            c=m.get('certificates',{})\\n",
+        "            if cert_key in c: return m.get('run_id'), c[cert_key]\\n",
+        "        except Exception: pass\\n",
+        "    return None, None\\n",
+        "rows=[\\n",
+        " ('flatness',)+pick('determinant_trace_identity_max_abs_err'),\\n",
+        " ('stack_invariance',)+pick('monodromy_shape_norm_err'),\\n",
+        " ('factorization_phi_off',)+pick('factorization_phi_off_abs_err'),\\n",
+        " ('factorization_phi_on',)+pick('factorization_phi_on_abs_err'),\\n",
+        " ('eta_B5',)+pick('eta_half_logW_B5'),\\n",
+        " ('eta_E6',)+pick('eta_half_logW_E6'),\\n",
+        " ('defect_flip_err',)+pick('sign_flip_shape_err'),\\n",
+        " ('defect_perm_err',)+pick('perm_shape_err'),\\n",
+        "]\\n",
+        "print('Axioms (name, run_id, value):')\\n",
+        "for r in rows: print('  -', r)\\n"
+      ]
+    }
+  ]
+}
+
+os.makedirs('notebooks', exist_ok=True)
+out = 'notebooks/FreedLab.ipynb'
+with open(out, 'w', encoding='utf-8') as f:
+    json.dump(NB, f, indent=2)
+print('[ok] wrote', out)
