@@ -22,3 +22,6 @@ Windows (PowerShell or CMD):
     openssl dgst -sha256 -verify pubkey.pem -signature receipt.sig receipt.json
 
 This capsule is complete and self-contained. The receipt and signature verify the contents. The notarization draft anchors the capsule in human legal time. The bundle ZIP contains all required elements for external parties to verify delivery integrity.
+
+[![freed receipts (matrix)](https://github.com/towre676-cloud/tau_crystal/actions/workflows/freed-receipts-matrix.yml/badge.svg)](https://github.com/towre676-cloud/tau_crystal/actions/workflows/freed-receipts-matrix.yml)
+
