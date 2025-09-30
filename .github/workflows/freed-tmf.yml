@@ -19,7 +19,8 @@ jobs:
       FREED_TMF_MOCK: '1'
       FREED_TMF_EPS: '1e-3'
       FREED_TMF_LEVELS: '12,18,30'
-      FREED_TMF_RTOL: '0.02'
+      # tighten tolerance (global) — can add a phi-on specific knob later
+      FREED_TMF_RTOL: '0.01'
       FREED_TMF_ATOL: '1e-6'
     steps:
       - uses: actions/checkout@v4
@@ -29,6 +30,20 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: freed-tmf-${{ matrix.mode }}
+          path: |
+            analysis/freed
+            .tau_ledger/freed
+      - name: Run η reporter (Weyl group correction)
+        env:
+          PYTHONPATH: .
+          FREED_W_STACK: B5
+          FREED_PHI_TWIST: '0'
+          FREED_LOG_BASE: e
+        run: python scripts/freed/eta_tmf_report.py
+      - name: Upload η report
+        uses: actions/upload-artifact@v4
+        with:
+          name: freed-eta-${{ matrix.mode }}
           path: |
             analysis/freed
             .tau_ledger/freed
