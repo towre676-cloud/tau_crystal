@@ -1,0 +1,22 @@
+name: freed eta-term report
+on:
+  push:\n    branches: ['**']
+  pull_request:\n    branches: ['**']
+  workflow_dispatch:
+
+jobs:
+  eta:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run eta reporter
+        run: python scripts/freed/eta_tmf_report.py
+      - name: Upload eta report
+        uses: actions/upload-artifact@v4
+        with:
+          name: eta-report
+          path: |
+            analysis/freed
+            .tau_ledger/freed
