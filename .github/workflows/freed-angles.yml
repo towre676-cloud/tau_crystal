@@ -1,4 +1,4 @@
-name: freed receipts (angles)
+name: freed angles (receipts set)
 on:
   push:
     branches: ['**']
@@ -11,34 +11,44 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.11']
         mode: ['diag','mixed']
     runs-on: ubuntu-latest
     env:
       PYTHONPATH: .
       FREED_SIGMA_MODE: ${{ matrix.mode }}
-      FREED_MU0: '0.9'
-      FREED_B: '0.02'
-      FREED_ELL: '12.0'
+      FREED_TMF_MOCK: '1'
+      FREED_TMF_EPS: '1e-3'
+      FREED_TMF_LEVELS: '12,18,30'
+      FREED_TMF_RTOL: '0.01'
+      FREED_TMF_ATOL: '1e-6'
+      FREED_W_STACK: B5
+      FREED_PHI_TWIST: '0'
+      FREED_LOG_BASE: e
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: '3.11'
+      - name: Run verifier (produces factorization receipts)
+        run: python scripts/freed/rg_leaf_checks.py
       - name: Relative functor (composition)
         run: python scripts/freed/rel_functor_receipt.py
       - name: Curvature (trace identity + holonomy)
         run: python scripts/freed/curvature_receipt.py
-      - name: APS split (bulk + eta/2 + Z)
+      - name: APS split (bulk − η/2)
         run: python scripts/freed/aps_split_receipt.py
-      - name: Defect fusion (generators)
+      - name: Defect fusion (shape invariance)
         run: python scripts/freed/defect_fusion_receipt.py
-      - name: Index as volume (stack quotient)
+      - name: Index ≈ Gaussian volume (stack-corrected)
         run: python scripts/freed/index_volume_receipt.py
-      - name: Upload receipts
+      - name: Gate — factorization must hold
+        env:
+          GATE_FACT_RTOL: '1e-9'
+        run: python scripts/freed/check_factorization_gate.py
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: freed-angles-${{ matrix.mode }}-py${{ matrix.python-version }}
+          name: freed-angles-${{ matrix.mode }}
           path: |
             analysis/freed
             .tau_ledger/freed
