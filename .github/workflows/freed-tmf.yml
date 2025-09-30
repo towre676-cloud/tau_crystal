@@ -1,0 +1,34 @@
+name: freed TMF mock
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+  workflow_dispatch:
+
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: ['diag','mixed']
+    runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: .
+      FREED_SIGMA_MODE: ${{ matrix.mode }}
+      FREED_TMF_MOCK: '1'
+      FREED_TMF_EPS: '1e-3'
+      FREED_TMF_LEVELS: '12,18,30'
+      FREED_TMF_RTOL: '0.02'
+      FREED_TMF_ATOL: '1e-6'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run verifier with TMF mock
+        run: python scripts/freed/rg_leaf_checks.py
+      - name: Upload TMF receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: freed-tmf-${{ matrix.mode }}
+          path: |
+            analysis/freed
+            .tau_ledger/freed
