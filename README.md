@@ -32,3 +32,6 @@ This capsule is complete and self-contained. The receipt and signature verify th
 
 [![freed eta-term report](https://github.com/towre676-cloud/tau_crystal/actions/workflows/freed-eta.yml/badge.svg)](https://github.com/towre676-cloud/tau_crystal/actions/workflows/freed-eta.yml)
 
+
+[![freed angles (receipts set)](https://github.com/towre676-cloud/tau_crystal/actions/workflows/freed-angles.yml/badge.svg)](https://github.com/towre676-cloud/tau_crystal/actions/workflows/freed-angles.yml)
+
