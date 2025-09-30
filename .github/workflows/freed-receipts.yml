@@ -1,0 +1,26 @@
+name: freed receipts
+on:
+  push:
+    branches: ["**"]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run verifier (pure-Python, mixed mode)
+        env:
+          FREED_SIGMA_MODE: mixed
+        run: python scripts/freed/rg_leaf_checks.py
+      - name: Upload receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: freed-receipts
+          path: |
+            analysis/freed
+            .tau_ledger/freed
