@@ -77,7 +77,7 @@ def main():
           "|---|:--:|---|"] + rows + [""]
 
     out="analysis/freed/AXIOMS.md"
-    with open(out,"w") as f: f.write("\n".join(md))
+    with open(out,"w", encoding="utf-8") as f: f.write("\n".join(md))
     print("[axioms]", out)
 
 if __name__=="__main__":
