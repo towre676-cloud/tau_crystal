@@ -1,0 +1,13 @@
+{
+  "run_id": "indexvol_20250930T185818Z",
+  "timestamp_utc": "20250930T185818Z",
+  "claims": {
+    "relative_index_volume": "logB ~ log Vol(model/null) on stack quotient"
+  },
+  "artifacts": [
+    {
+      "path": "analysis/freed/indexvol_20250930T185818Z.json",
+      "sha256": "837ff72b39e22c37d4212b2e847ae366642d232cabedfd5418cce5a5f67c4dd9"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "run_id": "a6_factorization_gate_20250930T194558Z",
+  "timestamp_utc": "20250930T194558Z",
+  "artifacts": [
+    {
+      "path": "analysis/freed/a6_factorization_gate_20250930T194558Z.json",
+      "sha256": "cc333c3bb8e7ca227747926aa16a95a54636321c427f01244514b46e98799490"
+    }
+  ],
+  "inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "ell_total": 49.99999999999999
+  },
+  "certificates": {
+    "residual": 0.0,
+    "tolerance": {
+      "one_loop": 1e-12
+    }
+  },
+  "claims": {
+    "factorization": "sum over walls equals whole interval"
+  }
+}

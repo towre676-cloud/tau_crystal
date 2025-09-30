@@ -1,0 +1,23 @@
+{
+  "run_id": "a10_index_volume_20250930T194557Z",
+  "timestamp_utc": "20250930T194557Z",
+  "artifacts": [
+    {
+      "path": "analysis/freed/a10_index_volume_20250930T194557Z.json",
+      "sha256": "4e8aef4cbcb57f979123431bbe12bc253ed68db8f097f45c6e39618ede508048"
+    }
+  ],
+  "inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "ell": 44.44444444444444,
+    "log_base": "e"
+  },
+  "certificates": {
+    "logB_gaussian": -0.3887881954829866,
+    "volume_ratio": 0.6778778323967387
+  },
+  "claims": {
+    "relative_index_gaussian": "logB \u2248 -1/2 \u0394 log det \u03a3"
+  }
+}

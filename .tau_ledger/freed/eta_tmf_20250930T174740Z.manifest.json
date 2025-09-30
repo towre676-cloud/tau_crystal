@@ -1,0 +1,18 @@
+{
+  "run_id": "eta_tmf_20250930T174740Z",
+  "timestamp_utc": "20250930T174740Z",
+  "claims": {
+    "eta_groupoid_correction": "0.5*log|W| recorded (APS)"
+  },
+  "certificates": {
+    "eta_half_logW": 4.126613822790886,
+    "eta_half_logW_B5": 4.126613822790886,
+    "eta_half_logW_E6": 5.427958665513078
+  },
+  "artifacts": [
+    {
+      "path": "analysis/freed/eta_tmf_20250930T174740Z.json",
+      "sha256": "43a3cec1b39951b4c9233641491f463e03b55477138ea9952da8371f480b9f21"
+    }
+  ]
+}

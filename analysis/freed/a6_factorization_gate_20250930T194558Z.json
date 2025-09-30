@@ -1,0 +1,16 @@
+{
+  "_inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "ell_total": 49.99999999999999
+  },
+  "_claims": {
+    "factorization": "sum over walls equals whole interval"
+  },
+  "_certificates": {
+    "residual": 0.0,
+    "tolerance": {
+      "one_loop": 1e-12
+    }
+  }
+}

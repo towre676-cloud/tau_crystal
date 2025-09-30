@@ -1,0 +1,61 @@
+{
+  "tmf": {
+    "levels": [
+      12,
+      18,
+      30
+    ],
+    "eps": 0.001,
+    "rtol": 0.01,
+    "rtol_phi_on": 0.005,
+    "atol": 1e-06,
+    "phi_off": {
+      "baseline_whole": -4.126613822790886,
+      "tmf_whole": -4.126613822790886,
+      "delta_whole": 0.0,
+      "baseline_segments": 0.0,
+      "tmf_segments": 0.0,
+      "delta_segments": 0.0
+    },
+    "phi_on": {
+      "baseline_whole": -4.126613822790886,
+      "tmf_whole": -4.126613822790886,
+      "delta_whole": 0.0,
+      "baseline_segments": 0.0,
+      "tmf_segments": 0.0,
+      "delta_segments": 0.0
+    }
+  },
+  "checks": [
+    [
+      "whole",
+      "phi_off",
+      true,
+      0.04126613822790886
+    ],
+    [
+      "segments",
+      "phi_off",
+      true,
+      0.01
+    ],
+    [
+      "whole",
+      "phi_on",
+      true,
+      0.02063306911395443
+    ],
+    [
+      "segments",
+      "phi_on",
+      true,
+      0.005
+    ]
+  ],
+  "aps": {
+    "effective_stack": "B5",
+    "order": 3840,
+    "eta_half_logW": 4.126613822790886,
+    "base": "e"
+  }
+}

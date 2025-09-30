@@ -1,0 +1,17 @@
+{
+  "run_id": "relfun_20250930T185212Z",
+  "timestamp_utc": "20250930T185212Z",
+  "claims": {
+    "relative_functor": "mu(ell1+ell2)=mu(ell2;mu(ell1))"
+  },
+  "certificates": {
+    "composition_residual": 0.0,
+    "tolerance": 1e-12
+  },
+  "artifacts": [
+    {
+      "path": "analysis/freed/relfun_20250930T185212Z.json",
+      "sha256": "2c8b6a7d041f890680cd3e8b356da97f3f4a0f4bdf79838ba79876f8c8cd8be0"
+    }
+  ]
+}

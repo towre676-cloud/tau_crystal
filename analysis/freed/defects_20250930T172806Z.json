@@ -1,0 +1,121 @@
+{
+  "run_id": "defects_20250930T172806Z",
+  "timestamp_utc": "20250930T172806Z",
+  "trials": [
+    {
+      "perm": [
+        2,
+        0,
+        4,
+        3,
+        1
+      ],
+      "signs": [
+        1,
+        1,
+        1,
+        -1,
+        -1
+      ],
+      "determinant": -1,
+      "mean_rel_err": 0.13677600181239988,
+      "max_rel_err": 0.34894083946611776
+    },
+    {
+      "perm": [
+        0,
+        3,
+        2,
+        1,
+        4
+      ],
+      "signs": [
+        1,
+        -1,
+        -1,
+        -1,
+        1
+      ],
+      "determinant": 1,
+      "mean_rel_err": 0.13640131867028674,
+      "max_rel_err": 0.5297885726748734
+    },
+    {
+      "perm": [
+        4,
+        3,
+        0,
+        2,
+        1
+      ],
+      "signs": [
+        1,
+        1,
+        1,
+        -1,
+        -1
+      ],
+      "determinant": 1,
+      "mean_rel_err": 0.14945076715726768,
+      "max_rel_err": 0.5680026702879055
+    },
+    {
+      "perm": [
+        4,
+        0,
+        2,
+        1,
+        3
+      ],
+      "signs": [
+        -1,
+        1,
+        1,
+        1,
+        -1
+      ],
+      "determinant": -1,
+      "mean_rel_err": 0.13454888765690332,
+      "max_rel_err": 0.4146086422351669
+    },
+    {
+      "perm": [
+        3,
+        4,
+        2,
+        1,
+        0
+      ],
+      "signs": [
+        1,
+        1,
+        -1,
+        -1,
+        -1
+      ],
+      "determinant": 1,
+      "mean_rel_err": 0.11787919191596105,
+      "max_rel_err": 0.4470127313779968
+    },
+    {
+      "perm": [
+        1,
+        0,
+        3,
+        2,
+        4
+      ],
+      "signs": [
+        -1,
+        1,
+        1,
+        1,
+        -1
+      ],
+      "determinant": 1,
+      "mean_rel_err": 0.1708861126118012,
+      "max_rel_err": 0.6599680076262402
+    }
+  ],
+  "claim": "whitened metric invariant; domain-wall transmission phase trivial (\u22481)."
+}

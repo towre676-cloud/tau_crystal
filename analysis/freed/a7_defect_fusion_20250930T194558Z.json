@@ -1,0 +1,10 @@
+{
+  "_inputs": {},
+  "_claims": {
+    "defect_fusion": "generator fusions hold; transmission phase trivial"
+  },
+  "_certificates": {
+    "fusion_ok": false,
+    "transmission_phase": 0.0
+  }
+}

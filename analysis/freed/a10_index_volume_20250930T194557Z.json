@@ -1,0 +1,15 @@
+{
+  "_inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "ell": 44.44444444444444,
+    "log_base": "e"
+  },
+  "_claims": {
+    "relative_index_gaussian": "logB \u2248 -1/2 \u0394 log det \u03a3"
+  },
+  "_certificates": {
+    "logB_gaussian": -0.3887881954829866,
+    "volume_ratio": 0.6778778323967387
+  }
+}

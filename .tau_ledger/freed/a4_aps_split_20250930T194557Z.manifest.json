@@ -1,0 +1,27 @@
+{
+  "run_id": "a4_aps_split_20250930T194557Z",
+  "timestamp_utc": "20250930T194557Z",
+  "artifacts": [
+    {
+      "path": "analysis/freed/a4_aps_split_20250930T194557Z.json",
+      "sha256": "e1ba885234224ac758b4c39df800d2b09060d117e0cf4c8677056f80e7b76ce5"
+    }
+  ],
+  "inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "ell": 44.44444444444444,
+    "stack": "B5",
+    "phi_twist": false,
+    "log_base": "e"
+  },
+  "certificates": {
+    "bulk": 0.7775763909659732,
+    "eta_half": 4.126613822790886,
+    "indexZ": 0.0,
+    "logB_total": -3.3490374318249128
+  },
+  "claims": {
+    "APS_split": "logB = bulk - (eta/2) + IndZ"
+  }
+}

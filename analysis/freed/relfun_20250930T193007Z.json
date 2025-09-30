@@ -1,0 +1,10 @@
+{
+  "b": 0.02,
+  "mu0": 0.9,
+  "l1": 11.666666666666664,
+  "l2": 21.666666666666664,
+  "mu_direct": 2.25,
+  "mu_staged": 2.25,
+  "composition_abs_resid": 0.0,
+  "accept_threshold_1loop": 1e-12
+}

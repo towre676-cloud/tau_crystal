@@ -1,0 +1,27 @@
+{
+  "run_id": "defect_20250930T174740Z",
+  "timestamp_utc": "20250930T174740Z",
+  "inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "ell": 44.44444444444444,
+    "mu_mid": 1.5,
+    "phi_twist": false
+  },
+  "certificates": {
+    "sign_flip_phase": 1.0,
+    "perm_phase": 1.0,
+    "sign_flip_shape_err": 0.0,
+    "perm_shape_err": 0.0
+  },
+  "claims": {
+    "defect_transmission": "W(B5) sign/permutation walls have trivial transmission post-whitening",
+    "phi_twist_cohomology": "\u03c6-twist flagged as H\u00b2 shift if active"
+  },
+  "artifacts": [
+    {
+      "path": "analysis/freed/defect_20250930T174740Z.json",
+      "sha256": "2e3f3c85d9a65c836cf5e26fba910b4d5299cca5660c65445c4af99fa582e17e"
+    }
+  ]
+}

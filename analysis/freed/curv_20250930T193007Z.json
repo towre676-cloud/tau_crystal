@@ -1,0 +1,10 @@
+{
+  "b": 0.02,
+  "mu0": 0.9,
+  "ell": 13.333333333333332,
+  "delta_ell": 0.003333333333333333,
+  "trace_identity_abs_resid": 3.911806155812783e-07,
+  "holonomy_closure_resid": 0.008523927918435703,
+  "accept_trace_resid": 1e-10,
+  "accept_holonomy_resid": 1e-10
+}

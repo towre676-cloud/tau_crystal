@@ -1,0 +1,13 @@
+{
+  "run_id": "axioms_20250930T183940Z",
+  "timestamp_utc": "20250930T183940Z",
+  "claims": {
+    "axioms_table": "summarized manifests (UTF-8 safe)"
+  },
+  "artifacts": [
+    {
+      "path": "analysis/freed/axioms_20250930T183940Z.json",
+      "sha256": "99710fe91a8496ad27fa981c8a152468ddaa60cedad316e3c9a8885d02a2e485"
+    }
+  ]
+}

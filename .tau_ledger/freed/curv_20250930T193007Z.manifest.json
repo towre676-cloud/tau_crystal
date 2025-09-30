@@ -1,0 +1,18 @@
+{
+  "run_id": "curv_20250930T193007Z",
+  "timestamp_utc": "20250930T193007Z",
+  "claims": {
+    "trace_identity": "checked via chain rule vs finite diff",
+    "holonomy": "forward/backward loop cancels"
+  },
+  "artifacts": [
+    {
+      "path": "analysis/freed/curv_20250930T193007Z.json",
+      "sha256": "3310895ca95411409dafc51e552c04631e33ab545d7c8440e1efcc072c23d8cf"
+    }
+  ],
+  "certificates": {
+    "trace_identity_abs_resid": 3.911806155812783e-07,
+    "holonomy_resid": 0.008523927918435703
+  }
+}

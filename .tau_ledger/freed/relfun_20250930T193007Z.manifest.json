@@ -1,0 +1,16 @@
+{
+  "run_id": "relfun_20250930T193007Z",
+  "timestamp_utc": "20250930T193007Z",
+  "artifacts": [
+    {
+      "path": "analysis/freed/relfun_20250930T193007Z.json",
+      "sha256": "20914e92bb0f340898906266a78eb0d8059db47911aad4fdb551e6ad1040211b"
+    }
+  ],
+  "claims": {
+    "rel_functor": "1-loop composition checked"
+  },
+  "certificates": {
+    "composition_abs_resid": 0.0
+  }
+}

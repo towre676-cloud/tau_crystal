@@ -1,0 +1,28 @@
+{
+  "run_id": "a1_rel_functor_20250930T194556Z",
+  "timestamp_utc": "20250930T194556Z",
+  "artifacts": [
+    {
+      "path": "analysis/freed/a1_rel_functor_20250930T194556Z.json",
+      "sha256": "1cb20740eded2ca26d424758a32fd005346d694e0a266c52272e6e2458aabfed"
+    }
+  ],
+  "inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "ell1": 13.888888888888888,
+    "ell2": 16.666666666666664,
+    "log_base": "e"
+  },
+  "certificates": {
+    "mu_comp_resid": 2.220446049250313e-16,
+    "additivity_resid": 0.0,
+    "tolerances": {
+      "mu": 1e-12,
+      "add": 1e-12
+    }
+  },
+  "claims": {
+    "relative_functor": "composition holds; additivity of log det \u03a3"
+  }
+}

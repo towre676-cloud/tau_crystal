@@ -1,0 +1,18 @@
+{
+  "run_id": "curv_20250930T185817Z",
+  "timestamp_utc": "20250930T185817Z",
+  "claims": {
+    "flatness": "d/d\u2113 log det = tr(\u03a3\u207b\u00b9 \u2202\u2113\u03a3)",
+    "holonomy_trivial": "1D leaf loop"
+  },
+  "certificates": {
+    "max_trace_identity_residual": 2.731303915849692e-08,
+    "holonomy_residual": 1.1102230246251565e-16
+  },
+  "artifacts": [
+    {
+      "path": "analysis/freed/curv_20250930T185817Z.json",
+      "sha256": "fef940a87eaa3b4600813db026cfc1ab1e415c30b89bad66f5e76546679262eb"
+    }
+  ]
+}

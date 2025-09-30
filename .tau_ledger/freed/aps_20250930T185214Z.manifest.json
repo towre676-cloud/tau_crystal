@@ -1,0 +1,17 @@
+{
+  "run_id": "aps_20250930T185214Z",
+  "timestamp_utc": "20250930T185214Z",
+  "claims": {
+    "APS_split": "logB = \u222bbulk - eta/2 + Z (one-loop leaf)"
+  },
+  "certificates": {
+    "residual": 2.126613822790886,
+    "k": 2
+  },
+  "artifacts": [
+    {
+      "path": "analysis/freed/aps_20250930T185214Z.json",
+      "sha256": "d8d169a4a991859a9b172972af7aa4e96fc770480f1a1e904e11cc281dc1117c"
+    }
+  ]
+}

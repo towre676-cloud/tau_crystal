@@ -1,0 +1,14 @@
+{
+  "run_id": "defuse_20250930T185214Z",
+  "timestamp_utc": "20250930T185214Z",
+  "claims": {
+    "defects_fuse": "generator fusion table",
+    "trivial_transmission": "phase=0"
+  },
+  "artifacts": [
+    {
+      "path": "analysis/freed/defuse_20250930T185214Z.json",
+      "sha256": "5001bef9149407d83c7d5ad479e1fb339410aa9b8893f8400d7969fc2427d12b"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "_inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "ell": 44.44444444444444,
+    "stack": "B5",
+    "phi_twist": false,
+    "log_base": "e"
+  },
+  "_claims": {
+    "APS_split": "logB = bulk - (eta/2) + IndZ"
+  },
+  "_certificates": {
+    "bulk": 0.7775763909659732,
+    "eta_half": 4.126613822790886,
+    "indexZ": 0.0,
+    "logB_total": -3.3490374318249128
+  }
+}

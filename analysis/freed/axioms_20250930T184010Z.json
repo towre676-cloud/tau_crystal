@@ -1,0 +1,193 @@
+{
+  "axioms": {
+    "functoriality": {
+      "ok": true,
+      "notes": [
+        "\u03bc(\u21131+\u21132)=\u03bc(\u21132;\u03bc(\u21131)) (algebraic)"
+      ],
+      "certs": []
+    },
+    "flatness": {
+      "ok": true,
+      "notes": [],
+      "certs": [
+        {
+          "run": "freed_rg_20250930T012336Z_purepy",
+          "mode": null,
+          "max_abs_err": 1.3498703266279222e-08
+        },
+        {
+          "run": "freed_rg_20250930T160415Z_purepy",
+          "mode": null,
+          "max_abs_err": 1.3498703266279222e-08
+        },
+        {
+          "run": "freed_rg_20250930T163244Z_purepy_diag",
+          "mode": "diag",
+          "max_abs_err": 1.3498703252401434e-08
+        },
+        {
+          "run": "freed_rg_20250930T172751Z_purepy_diag",
+          "mode": "diag",
+          "max_abs_err": 1.3498703252401434e-08
+        },
+        {
+          "run": "freed_rg_20250930T172806Z_purepy_mixed",
+          "mode": "mixed",
+          "max_abs_err": 1.3498703252401434e-08
+        },
+        {
+          "run": "freed_rg_20250930T183938Z_purepy_mixed",
+          "mode": "mixed",
+          "max_abs_err": 1.3498703252401434e-08
+        },
+        {
+          "run": "freed_rg_20250930T184008Z_purepy_mixed",
+          "mode": "mixed",
+          "max_abs_err": 1.3498703252401434e-08
+        }
+      ]
+    },
+    "stack_invariance": {
+      "ok": true,
+      "notes": [],
+      "certs": [
+        {
+          "run": "freed_rg_20250930T012336Z_purepy",
+          "mode": null,
+          "shape_norm_err": 1.9640768639270667e-12
+        },
+        {
+          "run": "freed_rg_20250930T160415Z_purepy",
+          "mode": null,
+          "shape_norm_err": 1.9640768639270667e-12
+        },
+        {
+          "run": "freed_rg_20250930T163244Z_purepy_diag",
+          "mode": "diag",
+          "shape_norm_err": 1.9640768639270667e-12
+        },
+        {
+          "run": "freed_rg_20250930T172751Z_purepy_diag",
+          "mode": "diag",
+          "shape_norm_err": 1.9640768639270667e-12
+        },
+        {
+          "run": "freed_rg_20250930T172806Z_purepy_mixed",
+          "mode": "mixed",
+          "shape_norm_err": 1.9640768639270667e-12
+        },
+        {
+          "run": "freed_rg_20250930T183938Z_purepy_mixed",
+          "mode": "mixed",
+          "shape_norm_err": 1.9640768639270667e-12
+        },
+        {
+          "run": "freed_rg_20250930T184008Z_purepy_mixed",
+          "mode": "mixed",
+          "shape_norm_err": 1.9640768639270667e-12
+        }
+      ]
+    },
+    "APS_boundary": {
+      "ok": true,
+      "notes": [],
+      "certs": [
+        {
+          "run": "eta_tmf_20250930T174740Z",
+          "eta_half_logW": 4.126613822790886,
+          "eta_half_logW_B5": 4.126613822790886,
+          "eta_half_logW_E6": 5.427958665513078
+        },
+        {
+          "run": "eta_tmf_20250930T183939Z",
+          "eta_half_logW": 5.427958665513078,
+          "eta_half_logW_B5": 4.126613822790886,
+          "eta_half_logW_E6": 5.427958665513078
+        },
+        {
+          "run": "eta_tmf_20250930T184009Z",
+          "eta_half_logW": 5.427958665513078,
+          "eta_half_logW_B5": 4.126613822790886,
+          "eta_half_logW_E6": 5.427958665513078
+        }
+      ]
+    },
+    "defects": {
+      "ok": true,
+      "notes": [],
+      "certs": [
+        {
+          "run": "defect_20250930T174740Z",
+          "sign_flip_phase": 1.0,
+          "perm_phase": 1.0,
+          "sign_flip_shape_err": 0.0,
+          "perm_shape_err": 0.0
+        },
+        {
+          "run": "defect_20250930T183940Z",
+          "sign_flip_phase": 1.0,
+          "perm_phase": 1.0,
+          "sign_flip_shape_err": 0.0,
+          "perm_shape_err": 0.0
+        },
+        {
+          "run": "defect_20250930T184010Z",
+          "sign_flip_phase": 1.0,
+          "perm_phase": 1.0,
+          "sign_flip_shape_err": 0.0,
+          "perm_shape_err": 0.0
+        }
+      ]
+    },
+    "TMF_stability": {
+      "ok": true,
+      "notes": [],
+      "certs": [
+        {
+          "run": "freed_rg_20250930T012336Z_purepy",
+          "mode": null,
+          "phi_off_err": 0.0,
+          "phi_on_err": 0.0
+        },
+        {
+          "run": "freed_rg_20250930T160415Z_purepy",
+          "mode": null,
+          "phi_off_err": 0.0,
+          "phi_on_err": 0.0
+        },
+        {
+          "run": "freed_rg_20250930T163244Z_purepy_diag",
+          "mode": "diag",
+          "phi_off_err": 0.0,
+          "phi_on_err": 0.0
+        },
+        {
+          "run": "freed_rg_20250930T172751Z_purepy_diag",
+          "mode": "diag",
+          "phi_off_err": 0.0,
+          "phi_on_err": 0.0
+        },
+        {
+          "run": "freed_rg_20250930T172806Z_purepy_mixed",
+          "mode": "mixed",
+          "phi_off_err": 0.0,
+          "phi_on_err": 0.0
+        },
+        {
+          "run": "freed_rg_20250930T183938Z_purepy_mixed",
+          "mode": "mixed",
+          "phi_off_err": 0.0,
+          "phi_on_err": 0.0
+        },
+        {
+          "run": "freed_rg_20250930T184008Z_purepy_mixed",
+          "mode": "mixed",
+          "phi_off_err": 0.0,
+          "phi_on_err": 0.0
+        }
+      ]
+    }
+  },
+  "manifests": 20
+}

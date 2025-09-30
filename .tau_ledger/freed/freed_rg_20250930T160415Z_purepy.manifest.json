@@ -1,0 +1,39 @@
+{
+  "run_id": "freed_rg_20250930T160415Z_purepy",
+  "timestamp_utc": "20250930T160415Z",
+  "inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "b1": 0.15,
+    "ell": 44.44444444444444
+  },
+  "certificates": {
+    "determinant_trace_identity_max_abs_err": 1.3498703266279222e-08,
+    "factorization_phi_off_abs_err": 0.0,
+    "factorization_phi_on_abs_err": 0.0,
+    "monodromy_shape_norm_err": 1.9640768639270667e-12
+  },
+  "artifacts": [
+    {
+      "path": "analysis/freed/freed_rg_20250930T160415Z_purepy_determinant_identity.json",
+      "sha256": "6bfac8ad82d0261b925931916a3dd43f7688fdbfa280aee8ce31dcf81c972e1c"
+    },
+    {
+      "path": "analysis/freed/freed_rg_20250930T160415Z_purepy_factorization_phi_off.json",
+      "sha256": "7ca27184f34c3bab2a25f97608ea7ee33260c19f23b96f3cc134dae639e5b7ef"
+    },
+    {
+      "path": "analysis/freed/freed_rg_20250930T160415Z_purepy_factorization_phi_on.json",
+      "sha256": "7ca27184f34c3bab2a25f97608ea7ee33260c19f23b96f3cc134dae639e5b7ef"
+    },
+    {
+      "path": "analysis/freed/freed_rg_20250930T160415Z_purepy_monodromy_isotropy.json",
+      "sha256": "47fea71f48c86ce312d2e3f58f59a092f7327486ec4d20058c2f99e66cbf6890"
+    }
+  ],
+  "claims": {
+    "bismut_freed_flatness_away_from_pole": "trace(logdet) identity holds on grid (pure-Python)",
+    "factorization_algebra_six_segments": "segment sum equals whole within tolerance",
+    "two_loop_monodromy_invariant_isotropy": "normalized diagonal spectra nearly identical across k-branches"
+  }
+}

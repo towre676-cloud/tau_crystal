@@ -1,0 +1,12 @@
+{
+  "run_id": "curv_20250930T185817Z",
+  "inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "L": 12.0,
+    "steps": 121
+  },
+  "max_trace_identity_residual": 2.731303915849692e-08,
+  "holonomy_residual": 1.1102230246251565e-16,
+  "pass": false
+}

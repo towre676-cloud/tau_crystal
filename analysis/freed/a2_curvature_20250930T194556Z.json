@@ -1,0 +1,19 @@
+{
+  "_inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "ell": 44.44444444444444
+  },
+  "_claims": {
+    "trace_identity": "tr(\u03a3^{-1}\u2202\u2113\u03a3) = \u2202\u2113 log det \u03a3",
+    "holonomy_zero": "flat away from pole"
+  },
+  "_certificates": {
+    "max_abs_err": 8.169632720322895e-09,
+    "holonomy_estimate": 0.0,
+    "tolerances": {
+      "trace": 1e-10,
+      "holonomy": 1e-12
+    }
+  }
+}

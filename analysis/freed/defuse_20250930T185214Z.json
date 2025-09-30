@@ -1,0 +1,31 @@
+{
+  "run_id": "defuse_20250930T185214Z",
+  "generators": [
+    "S0",
+    "S1",
+    "P01"
+  ],
+  "fusion": {
+    "S0": {
+      "S0": "compound",
+      "S1": "compound",
+      "P01": "compound"
+    },
+    "S1": {
+      "S0": "compound",
+      "S1": "compound",
+      "P01": "compound"
+    },
+    "P01": {
+      "S0": "compound",
+      "S1": "compound",
+      "P01": "compound"
+    }
+  },
+  "phases": {
+    "S0": 0.0,
+    "S1": 0.0,
+    "P01": 0.0
+  },
+  "claim": "defect fusion respects W(B5) relations on generators; phases=0 after whitening"
+}

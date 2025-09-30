@@ -11,16 +11,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        python-version: ['3.10','3.11','3.12']
         mode: ['diag','mixed']
     runs-on: ubuntu-latest
     env:
       PYTHONPATH: .
       FREED_SIGMA_MODE: ${{ matrix.mode }}
-      FREED_TMF_MOCK: '1'
-      FREED_TMF_EPS: '1e-3'
-      FREED_TMF_LEVELS: '12,18,30'
-      FREED_TMF_RTOL: '0.01'
-      FREED_TMF_ATOL: '1e-6'
+      FREED_MU0: '0.9'
+      FREED_B: '0.02'
       FREED_W_STACK: B5
       FREED_PHI_TWIST: '0'
       FREED_LOG_BASE: e
@@ -28,27 +26,27 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-      - name: Run verifier (produces factorization receipts)
-        run: python scripts/freed/rg_leaf_checks.py
-      - name: Relative functor (composition)
+          python-version: ${{ matrix.python-version }}
+      - name: Angle 1 — relative functor (composition)
         run: python scripts/freed/rel_functor_receipt.py
-      - name: Curvature (trace identity + holonomy)
+      - name: Angle 2 — curvature / trace identity
         run: python scripts/freed/curvature_receipt.py
-      - name: APS split (bulk − η/2)
+      - name: Angle 4 — APS split
         run: python scripts/freed/aps_split_receipt.py
-      - name: Defect fusion (shape invariance)
-        run: python scripts/freed/defect_fusion_receipt.py
-      - name: Index ≈ Gaussian volume (stack-corrected)
+      - name: Angle 10 — relative index (volume proxy)
         run: python scripts/freed/index_volume_receipt.py
-      - name: Gate — factorization must hold
-        env:
-          GATE_FACT_RTOL: '1e-9'
+      - name: Atlas swap (stack invariance smoke)
+        run: python scripts/freed/atlas_swap_receipt.py
+      - name: Factorization gate (scheduler walls)
         run: python scripts/freed/check_factorization_gate.py
-      - name: Upload artifacts
+      - name: Defect fusion (basic identities)
+        run: python scripts/freed/defect_fusion_receipt.py
+      - name: Axioms PASS/FAIL summary
+        run: python scripts/freed/axioms_passfail.py
+      - name: Upload receipts
         uses: actions/upload-artifact@v4
         with:
-          name: freed-angles-${{ matrix.mode }}
+          name: freed-angles-${{ matrix.mode }}-py${{ matrix.python-version }}
           path: |
             analysis/freed
             .tau_ledger/freed

@@ -1,0 +1,14 @@
+{
+  "run_id": "defects_20250930T172806Z",
+  "timestamp_utc": "20250930T172806Z",
+  "artifacts": [
+    {
+      "path": "analysis/freed/defects_20250930T172806Z.json",
+      "sha256": "57e1531235c9683ba00059cedb7c9ca405354f40940d0d10bef9df8d4f6d8092"
+    }
+  ],
+  "claims": {
+    "defect_transmission": "trivial in whitened frame",
+    "noninvertible_symmetry": "W(B5) walls realized"
+  }
+}

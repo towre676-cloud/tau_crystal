@@ -1,0 +1,14 @@
+{
+  "run_id": "eta_tmf_20250930T170847Z",
+  "timestamp_utc": "20250930T170847Z",
+  "claims": {
+    "eta_groupoid_correction": "0.5 * log |W| boundary term recorded (APS-style)",
+    "non_diag_spectrum_certified": "Jacobi eigs match analytic \u03bb within tiny L2 error"
+  },
+  "artifacts": [
+    {
+      "path": "analysis/freed/eta_tmf_20250930T170847Z.json",
+      "sha256": "e4471ff3af864593aa0e67ac194412dbf389fc0ed9c0ae26569b275246ddab9d"
+    }
+  ]
+}

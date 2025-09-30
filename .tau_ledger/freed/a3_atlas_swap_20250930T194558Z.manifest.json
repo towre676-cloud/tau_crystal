@@ -1,0 +1,22 @@
+{
+  "run_id": "a3_atlas_swap_20250930T194558Z",
+  "timestamp_utc": "20250930T194558Z",
+  "artifacts": [
+    {
+      "path": "analysis/freed/a3_atlas_swap_20250930T194558Z.json",
+      "sha256": "f7fa7c6f42578e7ffe47a9edb219ed69ccd6d359efd5f10caf78b6051da5a8e7"
+    }
+  ],
+  "inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "ell": 33.33333333333333
+  },
+  "certificates": {
+    "residual": 0.0,
+    "tolerance": 1e-15
+  },
+  "claims": {
+    "atlas_swap_invariance": "log det \u03a3 invariant under permutation"
+  }
+}

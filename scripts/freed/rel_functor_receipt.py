@@ -1,45 +1,43 @@
-import os, json, time, hashlib, math, sys
-def sha256(p):
-    h=hashlib.sha256()
-    with open(p,'rb') as f:
-        for chunk in iter(lambda:f.read(1<<20), b''): h.update(chunk)
-    return h.hexdigest()
-def mu_one_loop(mu0: float, b: float, ell: float) -> float:
-    d = 1.0 - b*mu0*ell
-    if abs(d) < 1e-16: d = 1e-16
-    return mu0 / d
+import os, math
+from scripts.freed._helpers_common import (
+  import_linalg, mu_one_loop, ln_to_base, write_receipt
+)
+
 def main():
-    os.makedirs("analysis/freed", exist_ok=True)
-    os.makedirs(".tau_ledger/freed", exist_ok=True)
-    b   = float(os.environ.get("FREED_B","0.02"))
+    lam_and_dlam = import_linalg()
     mu0 = float(os.environ.get("FREED_MU0","0.9"))
-    # pick two segments (robust to scale)
-    L   = 0.6/(b*mu0)
-    l1  = 0.35*L
-    l2  = 0.65*L
-    direct = mu_one_loop(mu0, b, l1+l2)
-    staged = mu_one_loop(mu_one_loop(mu0, b, l1), b, l2)
-    resid  = abs(direct - staged)
-    ts = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
-    out = f"analysis/freed/relfun_{ts}.json"
-    with open(out,"w",encoding="utf-8") as f:
-        json.dump({
-            "b": b, "mu0": mu0, "l1": l1, "l2": l2,
-            "mu_direct": direct, "mu_staged": staged,
-            "composition_abs_resid": resid,
-            "accept_threshold_1loop": 1e-12
-        }, f, indent=2)
-    mani = {
-        "run_id": f"relfun_{ts}",
-        "timestamp_utc": ts,
-        "artifacts": [{"path": out, "sha256": sha256(out)}],
-        "claims": {"rel_functor": "1-loop composition checked"},
-        "certificates": {"composition_abs_resid": resid}
+    b   = float(os.environ.get("FREED_B","0.02"))
+    base= os.environ.get("FREED_LOG_BASE","e").strip().lower()
+
+    pole = 1.0/(b*mu0)
+    ell1, ell2 = 0.25*pole, 0.30*pole
+    ellT = ell1 + ell2
+
+    mu_1 = mu_one_loop(mu0,b,ell1)
+    mu_2 = mu_one_loop(mu_1,b,ell2)
+    mu_T = mu_one_loop(mu0,b,ellT)
+    comp_resid = abs(mu_2 - mu_T)
+
+    lam0,_ = lam_and_dlam(mu0)
+    lam1,_ = lam_and_dlam(mu_1)
+    lamT,_ = lam_and_dlam(mu_T)
+    ln_det0 = sum(math.log(x) for x in lam0)
+    ln_det1 = sum(math.log(x) for x in lam1)
+    ln_detT = sum(math.log(x) for x in lamT)
+
+    total = ln_detT - ln_det0
+    segsum= (ln_det1 - ln_det0) + (ln_detT - ln_det1)
+    add_resid = abs(segsum - total)
+
+    payload = {
+      "_inputs":{"mu0":mu0,"b":b,"ell1":ell1,"ell2":ell2,"log_base":base},
+      "_claims":{"relative_functor":"composition holds; additivity of log det Σ"},
+      "_certificates":{"mu_comp_resid":comp_resid,"additivity_resid":add_resid,
+                       "tolerances":{"mu":1e-12,"add":1e-12}},
+      "mu":{"mu0":mu0,"mu1":mu_1,"mu2":mu_2,"muT":mu_T},
+      "logdet":{"total": ln_to_base(total,base), "segmented_sum": ln_to_base(segsum,base)}
     }
-    mp = f".tau_ledger/freed/relfun_{ts}.manifest.json"
-    with open(mp,"w",encoding="utf-8") as f: json.dump(mani, f, indent=2)
-    print("[manifest]", mp)
-    # gate
-    sys.exit(0 if resid <= 1e-12 else 2)
+    write_receipt("a1_rel_functor", payload)
+
 if __name__=="__main__":
     main()

@@ -1,0 +1,14 @@
+{
+  "run_id": "eta_tmf_20250930T172806Z",
+  "timestamp_utc": "20250930T172806Z",
+  "claims": {
+    "eta_groupoid_correction": "0.5 * log |W| boundary term (APS)",
+    "non_diag_spectrum_certified": "Jacobi eigs \u2248 analytic \u03bb"
+  },
+  "artifacts": [
+    {
+      "path": "analysis/freed/eta_tmf_20250930T172806Z.json",
+      "sha256": "a2b6dc6077eeba0332bf1ebe1f53c28a07d62eb859b964130cccf9cdc71986db"
+    }
+  ]
+}

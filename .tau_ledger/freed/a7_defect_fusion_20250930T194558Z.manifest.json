@@ -1,0 +1,18 @@
+{
+  "run_id": "a7_defect_fusion_20250930T194558Z",
+  "timestamp_utc": "20250930T194558Z",
+  "artifacts": [
+    {
+      "path": "analysis/freed/a7_defect_fusion_20250930T194558Z.json",
+      "sha256": "1e16d930301dc065f8a69a1af5494c3407dce4020426ea2483903689f68de7a5"
+    }
+  ],
+  "inputs": {},
+  "certificates": {
+    "fusion_ok": false,
+    "transmission_phase": 0.0
+  },
+  "claims": {
+    "defect_fusion": "generator fusions hold; transmission phase trivial"
+  }
+}

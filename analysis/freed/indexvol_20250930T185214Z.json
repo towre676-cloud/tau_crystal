@@ -1,0 +1,12 @@
+{
+  "run_id": "indexvol_20250930T185214Z",
+  "inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "L": 12.0
+  },
+  "logdet": 5.492860881733514,
+  "log_vol_ratio_model_vs_null": -2.746430440866757,
+  "logW_B5": 8.253227645581772,
+  "stack_corrected_log_volume": -6.873044263657643
+}
