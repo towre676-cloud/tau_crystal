@@ -1,0 +1,41 @@
+name: freed lab (all)
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
+  workflow_dispatch:
+
+jobs:
+  lab:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: .
+      FREED_SIGMA_MODE: mixed
+      FREED_TMF_MOCK: '1'
+      FREED_TMF_EPS: '1e-3'
+      FREED_TMF_LEVELS: '12,18,30'
+      FREED_TMF_RTOL: '0.01'
+      FREED_TMF_RTOL_PHI_ON: '0.005'
+      FREED_TMF_ATOL: '1e-6'
+      FREED_APS_ETA: '1'
+      FREED_W_STACK: B5
+      FREED_PHI_TWIST: '1'
+      FREED_LOG_BASE: e
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verifier (TMF+APS)
+        run: python scripts/freed/rg_leaf_checks.py
+      - name: η reporter
+        run: python scripts/freed/eta_tmf_report.py
+      - name: Defect functor
+        run: python scripts/freed/defect_functor.py
+      - name: Axioms table
+        run: python scripts/freed/axioms_table.py
+      - name: Upload lab artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: freed-lab
+          path: |
+            analysis/freed
+            .tau_ledger/freed

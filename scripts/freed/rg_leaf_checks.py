@@ -5,13 +5,20 @@ from typing import List, Dict
 MODE = os.environ.get("FREED_SIGMA_MODE", "mixed").strip().lower()
 if MODE not in {"diag","mixed"}: MODE="diag"
 
-# TMF mock toggle & knobs
+# TMF mock toggle & knobs (now with phi-on specific RTOL)
 TMF_ON   = os.environ.get("FREED_TMF_MOCK","0").strip().lower() in {"1","true","yes","on"}
 TMF_EPS  = float(os.environ.get("FREED_TMF_EPS","1e-3"))
-TMF_RTOL = float(os.environ.get("FREED_TMF_RTOL","0.02"))
+TMF_RTOL = float(os.environ.get("FREED_TMF_RTOL","0.01"))      # baseline
+TMF_RTOL_PHI_ON = float(os.environ.get("FREED_TMF_RTOL_PHI_ON", str(TMF_RTOL/2)))  # default tighter
 TMF_ATOL = float(os.environ.get("FREED_TMF_ATOL","1e-6"))
 _TMFL    = os.environ.get("FREED_TMF_LEVELS","12,18,30").strip()
 TMF_LEVELS = [int(x) for x in _TMFL.split(",") if x]
+
+# APS η boundary toggle + knobs
+APS_ON  = os.environ.get("FREED_APS_ETA","0").strip().lower() in {"1","true","yes","on"}
+W_STACK = os.environ.get("FREED_W_STACK","B5").strip().upper()
+PHI_TW  = os.environ.get("FREED_PHI_TWIST","0").strip().lower() in {"1","true","yes","on"}
+LOG_BASE= os.environ.get("FREED_LOG_BASE","e").strip()
 
 try:
     # local pure-Python kernel (no NumPy)
@@ -56,6 +63,30 @@ def mu_two_loop_newton(mu0: float, b: float, b1: float, ell: float, k_branch: in
             lam *= 0.5
         if abs(step)*lam < 1e-13*(1.0+abs(z)): return z
     return z
+
+# ---------------- Weyl/η helpers ----------------
+def weyl_order(name: str) -> int:
+    n=name.upper()
+    if n in ("B5","C5"): return (2**5)*math.factorial(5)   # 3840
+    if n=="E6": return 51840
+    raise ValueError(f"unknown Weyl stack {name}")
+
+def log_base(x: float, base: str) -> float:
+    b=base.lower()
+    if b in ("e","ln","natural"): return math.log(x)
+    if b in ("10","log10"): return math.log10(x)
+    if b in ("2","log2"): return math.log(x)/math.log(2.0)
+    return math.log(x)
+
+def aps_eta_half_logW() -> Dict:
+    eff = "E6" if (PHI_TW and W_STACK=="B5") else W_STACK
+    W = weyl_order(eff)
+    return {
+        "effective_stack": eff,
+        "order": W,
+        "eta_half_logW": 0.5*log_base(W, LOG_BASE),
+        "base": LOG_BASE
+    }
 
 # ---------------- Sigma bundle (diag vs mixed) ----------------
 def sigma_diag_eigs(mu_real: float):
@@ -110,7 +141,7 @@ def tmf_density(mu_mid: float, lam_mid: List[float]) -> float:
     s = 0.0
     for L in TMF_LEVELS:
         s += math.cos(2.0*math.pi*mu_mid/float(L)) / float(L)
-    return TMF_EPS * s  # ~1e-3 scale
+    return TMF_EPS * s
 
 def logZ_segment(mu0: float, b: float, ell_lo: float, ell_hi: float, model: bool, phi_on: bool, tmf_on: bool) -> float:
     mu_lo = mu_one_loop(mu0,b,ell_lo); mu_hi = mu_one_loop(mu0,b,ell_hi)
@@ -165,6 +196,16 @@ def main() -> None:
     # Gaussian (baseline)
     fac_off_base = factorization_check(mu0,b,ell,phi_on=False, tmf_on=False)
     fac_on_base  = factorization_check(mu0,b,ell,phi_on=True,  tmf_on=False)
+
+    # APS boundary: apply once to "whole" (not segments)
+    aps = None
+    if APS_ON:
+        aps = aps_eta_half_logW()
+        fac_off_base["whole_with_eta"] = fac_off_base["whole"] - aps["eta_half_logW"]
+        fac_off_base["eta_applied"] = aps["eta_half_logW"]
+        fac_on_base["whole_with_eta"]  = fac_on_base["whole"]  - aps["eta_half_logW"]
+        fac_on_base["eta_applied"]  = aps["eta_half_logW"]
+
     with open(f"analysis/freed/{run_id}_factorization_phi_off.json","w") as f: json.dump(fac_off_base,f,indent=2)
     with open(f"analysis/freed/{run_id}_factorization_phi_on.json","w") as f: json.dump(fac_on_base,f,indent=2)
 
@@ -174,41 +215,46 @@ def main() -> None:
     if TMF_ON:
         fac_off_tmf = factorization_check(mu0,b,ell,phi_on=False, tmf_on=True)
         fac_on_tmf  = factorization_check(mu0,b,ell,phi_on=True,  tmf_on=True)
+        if APS_ON:
+            fac_off_tmf["whole_with_eta"] = fac_off_tmf["whole"] - aps["eta_half_logW"]
+            fac_on_tmf["whole_with_eta"]  = fac_on_tmf["whole"]  - aps["eta_half_logW"]
         tmf = {
-            "levels": TMF_LEVELS, "eps": TMF_EPS, "rtol": TMF_RTOL, "atol": TMF_ATOL,
+            "levels": TMF_LEVELS, "eps": TMF_EPS,
+            "rtol": TMF_RTOL, "rtol_phi_on": TMF_RTOL_PHI_ON, "atol": TMF_ATOL,
             "phi_off": {
-                "baseline_whole": fac_off_base["whole"],
-                "tmf_whole": fac_off_tmf["whole"],
-                "delta_whole": fac_off_tmf["whole"] - fac_off_base["whole"],
+                "baseline_whole": fac_off_base.get("whole_with_eta", fac_off_base["whole"]),
+                "tmf_whole":      fac_off_tmf.get("whole_with_eta", fac_off_tmf["whole"]),
+                "delta_whole":    (fac_off_tmf.get("whole_with_eta", fac_off_tmf["whole"])
+                                  -fac_off_base.get("whole_with_eta", fac_off_base["whole"])),
                 "baseline_segments": fac_off_base["sum_segments"],
-                "tmf_segments": fac_off_tmf["sum_segments"],
-                "delta_segments": fac_off_tmf["sum_segments"] - fac_off_base["sum_segments"],
+                "tmf_segments":      fac_off_tmf["sum_segments"],
+                "delta_segments":    fac_off_tmf["sum_segments"] - fac_off_base["sum_segments"],
             },
             "phi_on": {
-                "baseline_whole": fac_on_base["whole"],
-                "tmf_whole": fac_on_tmf["whole"],
-                "delta_whole": fac_on_tmf["whole"] - fac_on_base["whole"],
+                "baseline_whole": fac_on_base.get("whole_with_eta", fac_on_base["whole"]),
+                "tmf_whole":      fac_on_tmf.get("whole_with_eta", fac_on_tmf["whole"]),
+                "delta_whole":    (fac_on_tmf.get("whole_with_eta", fac_on_tmf["whole"])
+                                  -fac_on_base.get("whole_with_eta", fac_on_base["whole"])),
                 "baseline_segments": fac_on_base["sum_segments"],
-                "tmf_segments": fac_on_tmf["sum_segments"],
-                "delta_segments": fac_on_tmf["sum_segments"] - fac_on_base["sum_segments"],
+                "tmf_segments":      fac_on_tmf["sum_segments"],
+                "delta_segments":    fac_on_tmf["sum_segments"] - fac_on_base["sum_segments"],
             }
         }
         # CI assert: deltas must be within max(atol, rtol * max(1, |baseline|))
-        def within(baseline, delta):
-            thresh = max(TMF_ATOL, TMF_RTOL*max(1.0, abs(baseline)))
+        def within(baseline, delta, rtol):
+            thresh = max(TMF_ATOL, rtol*max(1.0, abs(baseline)))
             return abs(delta) <= thresh, thresh
 
         checks = []
-        for key in ("phi_off","phi_on"):
-            ok_w, thr_w = within(tmf[key]["baseline_whole"], tmf[key]["delta_whole"])
-            ok_s, thr_s = within(tmf[key]["baseline_segments"], tmf[key]["delta_segments"])
-            checks.append(("whole", key, ok_w, thr_w))
-            checks.append(("segments", key, ok_s, thr_s))
-        # If any fail, mark nonzero exit
-        if not all(ok for _,_,ok,_ in checks):
-            exit_code = 2
-        # Emit a compact TMF deltas JSON
-        with open(f"analysis/freed/{run_id}_tmf_deltas.json","w") as f: json.dump({"tmf": tmf, "checks": checks}, f, indent=2)
+        # phi_off uses TMF_RTOL; phi_on uses TMF_RTOL_PHI_ON (tighter)
+        ok_w_off, thr_w_off = within(tmf["phi_off"]["baseline_whole"], tmf["phi_off"]["delta_whole"], TMF_RTOL)
+        ok_s_off, thr_s_off = within(tmf["phi_off"]["baseline_segments"], tmf["phi_off"]["delta_segments"], TMF_RTOL)
+        ok_w_on,  thr_w_on  = within(tmf["phi_on"]["baseline_whole"],  tmf["phi_on"]["delta_whole"],  TMF_RTOL_PHI_ON)
+        ok_s_on,  thr_s_on  = within(tmf["phi_on"]["baseline_segments"],tmf["phi_on"]["delta_segments"],TMF_RTOL_PHI_ON)
+        checks += [("whole","phi_off",ok_w_off,thr_w_off), ("segments","phi_off",ok_s_off,thr_s_off),
+                   ("whole","phi_on", ok_w_on, thr_w_on),  ("segments","phi_on", ok_s_on, thr_s_on)]
+        if not all(ok for _,_,ok,_ in checks): exit_code = 2
+        with open(f"analysis/freed/{run_id}_tmf_deltas.json","w") as f: json.dump({"tmf": tmf, "checks": checks, "aps": aps}, f, indent=2)
 
     out_mono = monodromy_isotropy(mu0,b,b1,ell*0.7)
     with open(f"analysis/freed/{run_id}_monodromy_isotropy.json","w") as f: json.dump(out_mono,f,indent=2)
@@ -227,10 +273,11 @@ def main() -> None:
         "timestamp_utc": ts,
         "mode": MODE,
         "tmf_mock": TMF_ON,
-        "tmf_params": {"levels": TMF_LEVELS, "eps": TMF_EPS, "rtol": TMF_RTOL, "atol": TMF_ATOL} if TMF_ON else None,
-        "inputs": {"mu0": 0.9, "b": 0.02, "b1": 0.15, "ell": ell},
+        "tmf_params": {"levels": TMF_LEVELS, "eps": TMF_EPS, "rtol": TMF_RTOL, "rtol_phi_on": TMF_RTOL_PHI_ON, "atol": TMF_ATOL} if TMF_ON else None,
+        "aps_eta": aps,
+        "inputs": {"mu0": mu0, "b": b, "b1": b1, "ell": ell},
         "certificates": {
-            "determinant_trace_identity_max_abs_err": det_derivative_check(0.9,0.02,ell,steps=11)["max_abs_err"],  # quick recheck
+            "determinant_trace_identity_max_abs_err": out_det["max_abs_err"],
             "factorization_phi_off_abs_err": fac_off_base["abs_err"],
             "factorization_phi_on_abs_err":  fac_on_base["abs_err"],
             "monodromy_shape_norm_err": out_mono["shape_norm_err"]
@@ -240,7 +287,8 @@ def main() -> None:
             "flatness_away_from_pole": "trace/logdet identity holds (pure-Python, %s mode)" % MODE,
             "factorization_gluing": "segment sum equals whole within tolerance",
             "monodromy_invariant_isotropy": "normalized spectral shape nearly identical across k-branches",
-            "tmf_mock_stability": "deltas within tolerance" if TMF_ON else "mock disabled"
+            "tmf_mock_stability": "deltas within tolerance" if TMF_ON else "mock disabled",
+            "aps_boundary": "half-log|W| boundary term applied to whole when enabled" if APS_ON else "disabled"
         }
     }
     man_path=f".tau_ledger/freed/{run_id}.manifest.json"
