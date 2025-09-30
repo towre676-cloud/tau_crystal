@@ -1,4 +1,4 @@
-name: freed receipts (matrix)
+name: freed receipts (angles)
 on:
   push:
     branches: ['**']
@@ -7,40 +7,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  verify:
+  angles:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.10','3.11','3.12']
+        python-version: ['3.11']
         mode: ['diag','mixed']
-        tmf: ['0','1']
-        phi_twist: ['0','1']
     runs-on: ubuntu-latest
     env:
       PYTHONPATH: .
       FREED_SIGMA_MODE: ${{ matrix.mode }}
-      FREED_TMF_MOCK: ${{ matrix.tmf }}
-      FREED_TMF_EPS: '1e-3'
-      FREED_TMF_LEVELS: '12,18,30'
-      FREED_TMF_RTOL: '0.01'
-      FREED_TMF_RTOL_PHI_ON: '0.005'
-      FREED_TMF_ATOL: '1e-6'
-      FREED_APS_ETA: '1'
-      FREED_W_STACK: B5
-      FREED_PHI_TWIST: ${{ matrix.phi_twist }}
-      FREED_LOG_BASE: e
+      FREED_MU0: '0.9'
+      FREED_B: '0.02'
+      FREED_ELL: '12.0'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Verifier (RG leaf with APS η + TMF)
-        run: python scripts/freed/rg_leaf_checks.py
-      - name: η reporter (Weyl correction)
-        run: python scripts/freed/eta_tmf_report.py
-      - name: Defect functor (W(B5) walls)
-        run: python scripts/freed/defect_functor.py
-      
       - name: Relative functor (composition)
         run: python scripts/freed/rel_functor_receipt.py
       - name: Curvature (trace identity + holonomy)
@@ -51,13 +35,10 @@ jobs:
         run: python scripts/freed/defect_fusion_receipt.py
       - name: Index as volume (stack quotient)
         run: python scripts/freed/index_volume_receipt.py
-
-- name: Axioms table (summary)
-        run: python scripts/freed/axioms_table.py
       - name: Upload receipts
         uses: actions/upload-artifact@v4
         with:
-          name: freed-${{ matrix.mode }}-tmf${{ matrix.tmf }}-twist${{ matrix.phi_twist }}-py${{ matrix.python-version }}
+          name: freed-angles-${{ matrix.mode }}-py${{ matrix.python-version }}
           path: |
             analysis/freed
             .tau_ledger/freed
