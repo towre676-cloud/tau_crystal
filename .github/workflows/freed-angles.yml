@@ -1,10 +1,8 @@
 name: freed angles (receipts set)
 on:
-  push:
-    branches: ['**']
-  pull_request:
-    branches: ['**']
-  workflow_dispatch:
+  push: { branches: ['**'] }
+  pull_request: { branches: ['**'] }
+  workflow_dispatch: {}
 
 jobs:
   angles:
@@ -24,40 +22,35 @@ jobs:
       FREED_PHI_TWIST: '0'
       FREED_LOG_BASE: e
       FREED_TMF_LEVELS: '6,12,18,24,30,36,48'
-      FREED_TMF_EPS: '1e-3'
       FREED_TMF_RTOL: '0.02'
       FREED_TMF_ATOL: '1e-6'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
+        with: { python-version: ${{ matrix.python-version }} }
 
-      # Angles 1–4, 6–7, 10
-      - name: Angle 1 — relative functor (composition)
+      - name: Angle 1 — relative functor
         run: python scripts/freed/rel_functor_receipt.py
       - name: Angle 2 — curvature / trace identity
         run: python scripts/freed/curvature_receipt.py
-      - name: Angle 3 — atlas swap (stack invariance smoke)
+      - name: Angle 3 — atlas swap
         run: python scripts/freed/atlas_swap_receipt.py
       - name: Angle 4 — APS split
         run: python scripts/freed/aps_split_receipt.py
-      - name: Angle 6 — factorization gate (scheduler walls)
+      - name: Angle 5 — TMF stability
+        run: python scripts/freed/tmf_stability_receipt.py
+      - name: Angle 6 — factorization gate
         run: python scripts/freed/check_factorization_gate.py
-      - name: Angle 7 — defect fusion (basic identities)
+      - name: Angle 7 — defect fusion
         run: python scripts/freed/defect_fusion_receipt.py
+      - name: Angle 9 — branch loop
+        run: python scripts/freed/branch_loop_receipt.py
       - name: Angle 10 — relative index (volume proxy)
         run: python scripts/freed/index_volume_receipt.py
 
-      # NEW: Angles 5 & 9
-      - name: Angle 5 — TMF stability (levels)
-        run: python scripts/freed/tmf_stability_receipt.py
-      - name: Angle 9 — branch loop / monodromy
-        run: python scripts/freed/branch_loop_receipt.py
-
-      # PASS/FAIL summary and artifact upload
       - name: Axioms PASS/FAIL summary
         run: python scripts/freed/axioms_passfail.py
+
       - name: Upload receipts
         uses: actions/upload-artifact@v4
         with:
