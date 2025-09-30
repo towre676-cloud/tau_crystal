@@ -25,3 +25,10 @@ This capsule is complete and self-contained. The receipt and signature verify th
 
 [![freed receipts (matrix)](https://github.com/towre676-cloud/tau_crystal/actions/workflows/freed-receipts-matrix.yml/badge.svg)](https://github.com/towre676-cloud/tau_crystal/actions/workflows/freed-receipts-matrix.yml)
 
+
+[![freed lab (all)](https://github.com/towre676-cloud/tau_crystal/actions/workflows/freed-lab.yml/badge.svg)](https://github.com/towre676-cloud/tau_crystal/actions/workflows/freed-lab.yml)
+
+[![freed TMF mock](https://github.com/towre676-cloud/tau_crystal/actions/workflows/freed-tmf.yml/badge.svg)](https://github.com/towre676-cloud/tau_crystal/actions/workflows/freed-tmf.yml)
+
+[![freed eta-term report](https://github.com/towre676-cloud/tau_crystal/actions/workflows/freed-eta.yml/badge.svg)](https://github.com/towre676-cloud/tau_crystal/actions/workflows/freed-eta.yml)
+
