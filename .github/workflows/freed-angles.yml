@@ -1,9 +1,7 @@
 name: freed angles (receipts set)
 on:
-  push:
-    branches: ['**']
-  pull_request:
-    branches: ['**']
+  push: { branches: ['**'] }
+  pull_request: { branches: ['**'] }
   workflow_dispatch:
 
 jobs:
@@ -19,14 +17,20 @@ jobs:
       FREED_SIGMA_MODE: ${{ matrix.mode }}
       FREED_MU0: '0.9'
       FREED_B: '0.02'
+      FREED_B1: '0.002'
       FREED_W_STACK: B5
       FREED_PHI_TWIST: '0'
       FREED_LOG_BASE: e
+      FREED_TMF_LEVELS: '6,12,18,24,30,36,48'
+      FREED_TMF_EPS: '1e-3'
+      FREED_TMF_RTOL: '0.02'
+      FREED_TMF_ATOL: '1e-6'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
+        with: { python-version: ${{ matrix.python-version }} }
+
+      # Angles & proofs
       - name: Angle 1 — relative functor (composition)
         run: python scripts/freed/rel_functor_receipt.py
       - name: Angle 2 — curvature / trace identity
@@ -35,14 +39,30 @@ jobs:
         run: python scripts/freed/aps_split_receipt.py
       - name: Angle 10 — relative index (volume proxy)
         run: python scripts/freed/index_volume_receipt.py
-      - name: Atlas swap (stack invariance smoke)
+      - name: Angle 3 — atlas swap (stack invariance smoke)
         run: python scripts/freed/atlas_swap_receipt.py
-      - name: Factorization gate (scheduler walls)
+      - name: Angle 6 — factorization gate (scheduler walls)
         run: python scripts/freed/check_factorization_gate.py
-      - name: Defect fusion (basic identities)
+      - name: Angle 7 — defect fusion (basic identities)
         run: python scripts/freed/defect_fusion_receipt.py
+      - name: Angle 5 — TMF stability
+        run: python scripts/freed/tmf_stability_receipt.py
+      - name: Angle 9 — branch loop (two-loop monodromy)
+        run: python scripts/freed/branch_loop_receipt.py
+
+      # Per-axiom proofs
+      - name: Axiom — functoriality (1/2-loop)
+        run: python scripts/freed/functoriality_proof.py
+      - name: Axiom — flatness strong
+        run: python scripts/freed/flatness_proof.py
+      - name: Axiom — stack equivariance
+        run: python scripts/freed/stack_equivariance_proof.py
+      - name: Axiom — APS accounting
+        run: python scripts/freed/aps_accounting_proof.py
+
       - name: Axioms PASS/FAIL summary
         run: python scripts/freed/axioms_passfail.py
+
       - name: Upload receipts
         uses: actions/upload-artifact@v4
         with:

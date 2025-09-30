@@ -23,7 +23,14 @@ def main():
     a7=load(latest("analysis/freed/a7_defect_fusion_*.json")) or {}
     a10=load(latest("analysis/freed/a10_index_volume_*.json")) or {}
     res={
-      "relative_functor":   (a1.get("_certificates",{}).get("mu_comp_resid",1.0) < 1e-10
+      "relative_functor":   (a1.get("_certificates",{,
+      "tmf_stability": bool(a5.get("_certificates",{}).get("pass",False)),
+      "branch_loop_invariance": (a9.get("_certificates",{}).get("worst_rel_change",1.0) < 1e-9),
+      "functoriality_two_loop": (pf_fun.get("_certificates",{}).get("mu_comp_two_loop",1.0) < 1e-9),
+      "flatness_strong": (pf_flat.get("_certificates",{}).get("max_trace_abs_err",1.0) < 1e-10),
+      "stack_equivariance": (pf_stack.get("_certificates",{}).get("residual",1.0) < 1e-12),
+      "aps_accounting": (pf_aps.get("_certificates",{}).get("abs_gap",1.0) < 1e-9)
+    }).get("mu_comp_resid",1.0) < 1e-10
                              and a1.get("_certificates",{}).get("additivity_resid",1.0) < 1e-10),
       "curvature_trace":    (a2.get("_certificates",{}).get("max_abs_err",1.0) < 1e-9),
       "holonomy_flat":      (a2.get("_certificates",{}).get("holonomy_estimate",1.0) < 1e-12),
