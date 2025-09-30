@@ -1,4 +1,5 @@
 name: freed receipts (matrix)
+
 on:
   push:
     branches: ['**']
@@ -13,21 +14,41 @@ jobs:
       matrix:
         python-version: ['3.10','3.11','3.12']
         mode: ['diag','mixed']
+        tmf: ['0','1']
+        phi_twist: ['0','1']
     runs-on: ubuntu-latest
     env:
       PYTHONPATH: .
+      # RG / Sigma mode
       FREED_SIGMA_MODE: ${{ matrix.mode }}
+      # TMF mock knobs (on/off via matrix)
+      FREED_TMF_MOCK: ${{ matrix.tmf }}
+      FREED_TMF_EPS: '1e-3'
+      FREED_TMF_LEVELS: '12,18,30'
+      FREED_TMF_RTOL: '0.01'
+      FREED_TMF_RTOL_PHI_ON: '0.005'
+      FREED_TMF_ATOL: '1e-6'
+      # APS η boundary enabled globally in verifier
+      FREED_APS_ETA: '1'
+      FREED_W_STACK: B5
+      FREED_PHI_TWIST: ${{ matrix.phi_twist }}
+      FREED_LOG_BASE: e
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Run verifier
+
+      - name: Verifier (RG leaf with APS η + TMF toggle)
         run: python scripts/freed/rg_leaf_checks.py
+
+      - name: η reporter (Weyl group correction receipt)
+        run: python scripts/freed/eta_tmf_report.py
+
       - name: Upload receipts
         uses: actions/upload-artifact@v4
         with:
-          name: freed-${{ matrix.mode }}-py${{ matrix.python-version }}
+          name: freed-${{ matrix.mode }}-tmf${{ matrix.tmf }}-twist${{ matrix.phi_twist }}-py${{ matrix.python-version }}
           path: |
             analysis/freed
             .tau_ledger/freed
