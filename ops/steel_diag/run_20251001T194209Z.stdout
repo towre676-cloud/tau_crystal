@@ -1,0 +1,13 @@
+[repro] start 20251001T194210Z
+[repro] SRC=/mnt/data/steel.txt
+[repro] DST=docs/specs/steel_equations.md
+[check] SRC NOT readable
+[repro] stage TMP=docs/specs/steel_equations.md.tmp.387
+cp: cannot stat '/mnt/data/steel.txt': No such file or directory
+[rc] cp_to_tmp=1
+[rc] cmp=2
+[repro] backup to docs/specs/steel_equations.md.bak.20251001T194210Z
+[rc] cp_backup=0
+mv: cannot stat 'docs/specs/steel_equations.md.tmp.387': No such file or directory
+[rc] mv=1
+[repro] end 20251001T194211Z

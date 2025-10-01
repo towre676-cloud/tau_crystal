@@ -1,0 +1,107 @@
+{
+  "id": "D_B5-of-Chamber",
+  "stamp": "20251001T065401Z",
+  "merkle": "e8fec6c27ee0b631e38366bc1affa094a67b27af831882f0ab74f5e3d133096e",
+  "files": [
+    {
+      "sha256": "66f0f4c6b3f294fd6d862c4204ddaadcb99e82bc5cd73ae9f532af6b0187c476",
+      "path": "*analysis/derived/complexes/C_A.json"
+    },
+    {
+      "sha256": "89235057f6f96a7c4c83bff3d1dd6ea130ecaa70df24e9dd6c53cadec1702f2c",
+      "path": "*analysis/derived/equivalences/leaf_A_to_leaf_B.20251001T064554Z.json"
+    },
+    {
+      "sha256": "89235057f6f96a7c4c83bff3d1dd6ea130ecaa70df24e9dd6c53cadec1702f2c",
+      "path": "*analysis/derived/equivalences/leaf_A_to_leaf_B.20251001T064712Z.json"
+    },
+    {
+      "sha256": "89235057f6f96a7c4c83bff3d1dd6ea130ecaa70df24e9dd6c53cadec1702f2c",
+      "path": "*analysis/derived/equivalences/leaf_A_to_leaf_B.20251001T064820Z.json"
+    },
+    {
+      "sha256": "89235057f6f96a7c4c83bff3d1dd6ea130ecaa70df24e9dd6c53cadec1702f2c",
+      "path": "*analysis/derived/equivalences/leaf_A_to_leaf_B.20251001T064909Z.json"
+    },
+    {
+      "sha256": "89235057f6f96a7c4c83bff3d1dd6ea130ecaa70df24e9dd6c53cadec1702f2c",
+      "path": "*analysis/derived/equivalences/leaf_A_to_leaf_B.20251001T065032Z.json"
+    },
+    {
+      "sha256": "89235057f6f96a7c4c83bff3d1dd6ea130ecaa70df24e9dd6c53cadec1702f2c",
+      "path": "*analysis/derived/equivalences/leaf_A_to_leaf_B.20251001T065127Z.json"
+    },
+    {
+      "sha256": "608de464911d6eb7692cf64be9cec0b0ffdb77dd37e9638e091236d9ab92132f",
+      "path": "*analysis/derived/hearts/leaf_A.json"
+    },
+    {
+      "sha256": "64b637bb39d8f711a3f0195430e451210df2bf66d179f3ecf32cedf73986321d",
+      "path": "*analysis/derived/hearts/leaf_B.json"
+    },
+    {
+      "sha256": "e98ac77d6b540ba923234ff0ddb1f6de6b4f49e8eaf5859d28b96621fba4f891",
+      "path": "*analysis/derived/morphisms/d01.json"
+    },
+    {
+      "sha256": "7bc501ce328ecd31a30a46d0584f17008db8154a614a74b9c29e0b4677c04e55",
+      "path": "*analysis/derived/morphisms/d12.json"
+    },
+    {
+      "sha256": "6e93a7dbdbf3d9ec328d25bcf5213758123c97e8b2d6bc6c85ff436ecad0ae36",
+      "path": "*analysis/derived/objects/E0.json"
+    },
+    {
+      "sha256": "82556f18c92c863fd5d5328299e12c2f5792e752ab5fd6815ce13bbebe3519b0",
+      "path": "*analysis/derived/objects/E1.json"
+    },
+    {
+      "sha256": "f4f3bcbd0fe8eac622e18ecc2efb79cf0c4ffd0fe8bc8686142312bd2371d257",
+      "path": "*analysis/derived/objects/E2.json"
+    },
+    {
+      "sha256": "f144f289fa44854178ac9597e4d06cf50989cbea5d39062ea8f8d0e3c4550f2a",
+      "path": "*analysis/derived/schemas/complex.schema.json"
+    },
+    {
+      "sha256": "74d6ba85243b7ec50abc66f0b84088622f558198fb4cfd74f60b48fbd28cca46",
+      "path": "*analysis/derived/schemas/ext.schema.json"
+    },
+    {
+      "sha256": "b8689f4f693d61a83123b9fbac36f879ebbfbeb15467303e44f4b0d18bdc0d3b",
+      "path": "*analysis/derived/schemas/morphism.schema.json"
+    },
+    {
+      "sha256": "400a38cf73226a3988ee98b70bb3dfe42eee7f6abe1fe2222b8de0e1fc71e02d",
+      "path": "*analysis/derived/schemas/object.schema.json"
+    },
+    {
+      "sha256": "2e9ef98f96860fbcecb7efdb89c785d2bbd75de1459e22ebffbb057d6c2c0e86",
+      "path": "*analysis/derived/tmp/Ext_1_E0_to_E2.json"
+    },
+    {
+      "sha256": "896f5ad82ea9c0d33e01adf5565c83987a1b35300663025aab49d103489a22dd",
+      "path": "*analysis/derived/tmp/Ext_2_E1_to_E1.json"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "path": "*analysis/derived/tmp/emit.err"
+    },
+    {
+      "sha256": "b0c1d989a711a2697fbde6412c8c4c280636965b01f9830fc9e3486a706366e1",
+      "path": "*analysis/derived/tmp/ext1.path"
+    },
+    {
+      "sha256": "6f30f4c6db7a03e7148cfe2cc7d58573697e6bf2dfb9dbd0697b4c357cd75360",
+      "path": "*analysis/derived/tmp/ext2.path"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "path": "*analysis/derived/tmp/receipt.path"
+    },
+    {
+      "sha256": "a9c16dfc3ec8e1b66fd6305b003f4a26e34bbe9190d8fedbd15972d1403ad2ce",
+      "path": "*analysis/derived/tmp/wall.path"
+    }
+  ]
+}

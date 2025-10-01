@@ -1,0 +1,10 @@
+{
+  "run_id": "axiom_stack_equivariance_20250930T195534Z",
+  "timestamp_utc": "20250930T195534Z",
+  "artifacts": [
+    {
+      "path": "analysis/freed/axiom_stack_equivariance_20250930T195534Z.json",
+      "sha256": "4e803384a1a9028a28accebd737a3070d6ee12a2002a99f071f9316b8394da4e"
+    }
+  ]
+}

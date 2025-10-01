@@ -1,0 +1,18 @@
+{
+  "passfail": {
+    "relative_functor": true,
+    "curvature_trace": false,
+    "holonomy_flat": true,
+    "flatness_strong": false,
+    "atlas_swap": true,
+    "factorization_gate": true,
+    "defect_fusion": false,
+    "aps_accounting": true,
+    "relative_index": true,
+    "tmf_stability": true,
+    "branch_loop_invariance": true,
+    "stack_equivariance": true,
+    "functoriality_two_loop": true
+  },
+  "timestamp_utc": "20250930T205707Z"
+}

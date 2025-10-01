@@ -1,0 +1,1152 @@
+[2025-09-22T00:00:53Z]  ++ __git_ps1
+[2025-09-22T00:00:53Z]  ++ local exit=0
+[2025-09-22T00:00:53Z]  ++ local pcmode=no
+[2025-09-22T00:00:53Z]  ++ local detached=no
+[2025-09-22T00:00:53Z]  ++ local 'ps1pc_start=\u@\h:\w '
+[2025-09-22T00:00:53Z]  ++ local 'ps1pc_end=\$ '
+[2025-09-22T00:00:53Z]  ++ local 'printf_format= (%s)'
+[2025-09-22T00:00:53Z]  ++ case "$#" in
+[2025-09-22T00:00:53Z]  ++ printf_format=' (%s)'
+[2025-09-22T00:00:53Z]  ++ local ps1_expanded=yes
+[2025-09-22T00:00:53Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:53Z]  ++ '[' -z '5.2.37(1)-release' ']'
+[2025-09-22T00:00:53Z]  ++ shopt -q promptvars
+[2025-09-22T00:00:53Z]  ++ local repo_info rev_parse_exit_code
+[2025-09-22T00:00:53Z]  +++ git rev-parse --git-dir --is-inside-git-dir --is-bare-repository --is-inside-work-tree --show-ref-format --short HEAD
+[2025-09-22T00:00:53Z]  ++ repo_info='.git
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  true
+[2025-09-22T00:00:53Z]  files
+[2025-09-22T00:00:53Z]  3c257e0'
+[2025-09-22T00:00:53Z]  ++ rev_parse_exit_code=0
+[2025-09-22T00:00:53Z]  ++ '[' -z '.git
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  true
+[2025-09-22T00:00:53Z]  files
+[2025-09-22T00:00:53Z]  3c257e0' ']'
+[2025-09-22T00:00:53Z]  ++ local 'LF=
+[2025-09-22T00:00:53Z]  '
+[2025-09-22T00:00:53Z]  ++ local short_sha=
+[2025-09-22T00:00:53Z]  ++ '[' 0 = 0 ']'
+[2025-09-22T00:00:53Z]  ++ short_sha=3c257e0
+[2025-09-22T00:00:53Z]  ++ repo_info='.git
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  true
+[2025-09-22T00:00:53Z]  files'
+[2025-09-22T00:00:53Z]  ++ local ref_format=files
+[2025-09-22T00:00:53Z]  ++ repo_info='.git
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  true'
+[2025-09-22T00:00:53Z]  ++ local inside_worktree=true
+[2025-09-22T00:00:53Z]  ++ repo_info='.git
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  false'
+[2025-09-22T00:00:53Z]  ++ local bare_repo=false
+[2025-09-22T00:00:53Z]  ++ repo_info='.git
+[2025-09-22T00:00:53Z]  false'
+[2025-09-22T00:00:53Z]  ++ local inside_gitdir=false
+[2025-09-22T00:00:53Z]  ++ local g=.git
+[2025-09-22T00:00:53Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ local sparse=
+[2025-09-22T00:00:53Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:53Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:53Z]  +++ git config --bool core.sparseCheckout
+[2025-09-22T00:00:53Z]  ++ '[' '' = true ']'
+[2025-09-22T00:00:53Z]  ++ local r=
+[2025-09-22T00:00:53Z]  ++ local b=
+[2025-09-22T00:00:53Z]  ++ local step=
+[2025-09-22T00:00:53Z]  ++ local total=
+[2025-09-22T00:00:53Z]  ++ '[' -d .git/rebase-merge ']'
+[2025-09-22T00:00:53Z]  ++ '[' -d .git/rebase-apply ']'
+[2025-09-22T00:00:53Z]  ++ '[' -f .git/MERGE_HEAD ']'
+[2025-09-22T00:00:53Z]  ++ __git_sequencer_status
+[2025-09-22T00:00:53Z]  ++ local todo
+[2025-09-22T00:00:53Z]  ++ test -f .git/CHERRY_PICK_HEAD
+[2025-09-22T00:00:53Z]  ++ test -f .git/REVERT_HEAD
+[2025-09-22T00:00:53Z]  ++ __git_eread .git/sequencer/todo todo
+[2025-09-22T00:00:53Z]  ++ test -r .git/sequencer/todo
+[2025-09-22T00:00:53Z]  ++ return 1
+[2025-09-22T00:00:53Z]  ++ '[' -f .git/BISECT_LOG ']'
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ '[' -h .git/HEAD ']'
+[2025-09-22T00:00:53Z]  ++ local head=
+[2025-09-22T00:00:53Z]  ++ case "$ref_format" in
+[2025-09-22T00:00:53Z]  ++ __git_eread .git/HEAD head
+[2025-09-22T00:00:53Z]  ++ test -r .git/HEAD
+[2025-09-22T00:00:53Z]  ++ IFS='
+[2025-09-22T00:00:53Z]  '
+[2025-09-22T00:00:53Z]  ++ read -r head
+[2025-09-22T00:00:53Z]  ++ case $head in
+[2025-09-22T00:00:53Z]  ++ head=refs/heads/main
+[2025-09-22T00:00:53Z]  ++ test -z refs/heads/main
+[2025-09-22T00:00:53Z]  ++ b=refs/heads/main
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ local conflict=
+[2025-09-22T00:00:53Z]  ++ '[' '' = yes ']'
+[2025-09-22T00:00:53Z]  ++ local w=
+[2025-09-22T00:00:53Z]  ++ local i=
+[2025-09-22T00:00:53Z]  ++ local s=
+[2025-09-22T00:00:53Z]  ++ local u=
+[2025-09-22T00:00:53Z]  ++ local h=
+[2025-09-22T00:00:53Z]  ++ local c=
+[2025-09-22T00:00:53Z]  ++ local p=
+[2025-09-22T00:00:53Z]  ++ local upstream=
+[2025-09-22T00:00:53Z]  ++ '[' true = false ']'
+[2025-09-22T00:00:53Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ local 'z= '
+[2025-09-22T00:00:53Z]  ++ b=main
+[2025-09-22T00:00:53Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ local f=
+[2025-09-22T00:00:53Z]  ++ local gitstring=main
+[2025-09-22T00:00:53Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:53Z]  ++ printf -- ' (%s)' main
+[2025-09-22T00:00:53Z]  ++ return 0
+[2025-09-22T00:00:53Z]  ++ __git_ps1
+[2025-09-22T00:00:53Z]  ++ local exit=0
+[2025-09-22T00:00:53Z]  ++ local pcmode=no
+[2025-09-22T00:00:53Z]  ++ local detached=no
+[2025-09-22T00:00:53Z]  ++ local 'ps1pc_start=\u@\h:\w '
+[2025-09-22T00:00:53Z]  ++ local 'ps1pc_end=\$ '
+[2025-09-22T00:00:53Z]  ++ local 'printf_format= (%s)'
+[2025-09-22T00:00:53Z]  ++ case "$#" in
+[2025-09-22T00:00:53Z]  ++ printf_format=' (%s)'
+[2025-09-22T00:00:53Z]  ++ local ps1_expanded=yes
+[2025-09-22T00:00:53Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:53Z]  ++ '[' -z '5.2.37(1)-release' ']'
+[2025-09-22T00:00:53Z]  ++ shopt -q promptvars
+[2025-09-22T00:00:53Z]  ++ local repo_info rev_parse_exit_code
+[2025-09-22T00:00:53Z]  +++ git rev-parse --git-dir --is-inside-git-dir --is-bare-repository --is-inside-work-tree --show-ref-format --short HEAD
+[2025-09-22T00:00:53Z]  ++ repo_info='.git
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  true
+[2025-09-22T00:00:53Z]  files
+[2025-09-22T00:00:53Z]  3c257e0'
+[2025-09-22T00:00:53Z]  ++ rev_parse_exit_code=0
+[2025-09-22T00:00:53Z]  ++ '[' -z '.git
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  true
+[2025-09-22T00:00:53Z]  files
+[2025-09-22T00:00:53Z]  3c257e0' ']'
+[2025-09-22T00:00:53Z]  ++ local 'LF=
+[2025-09-22T00:00:53Z]  '
+[2025-09-22T00:00:53Z]  ++ local short_sha=
+[2025-09-22T00:00:53Z]  ++ '[' 0 = 0 ']'
+[2025-09-22T00:00:53Z]  ++ short_sha=3c257e0
+[2025-09-22T00:00:53Z]  ++ repo_info='.git
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  true
+[2025-09-22T00:00:53Z]  files'
+[2025-09-22T00:00:53Z]  ++ local ref_format=files
+[2025-09-22T00:00:53Z]  ++ repo_info='.git
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  true'
+[2025-09-22T00:00:53Z]  ++ local inside_worktree=true
+[2025-09-22T00:00:53Z]  ++ repo_info='.git
+[2025-09-22T00:00:53Z]  false
+[2025-09-22T00:00:53Z]  false'
+[2025-09-22T00:00:53Z]  ++ local bare_repo=false
+[2025-09-22T00:00:53Z]  ++ repo_info='.git
+[2025-09-22T00:00:53Z]  false'
+[2025-09-22T00:00:53Z]  ++ local inside_gitdir=false
+[2025-09-22T00:00:53Z]  ++ local g=.git
+[2025-09-22T00:00:53Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ local sparse=
+[2025-09-22T00:00:53Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:53Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:53Z]  +++ git config --bool core.sparseCheckout
+[2025-09-22T00:00:53Z]  ++ '[' '' = true ']'
+[2025-09-22T00:00:53Z]  ++ local r=
+[2025-09-22T00:00:53Z]  ++ local b=
+[2025-09-22T00:00:53Z]  ++ local step=
+[2025-09-22T00:00:53Z]  ++ local total=
+[2025-09-22T00:00:53Z]  ++ '[' -d .git/rebase-merge ']'
+[2025-09-22T00:00:53Z]  ++ '[' -d .git/rebase-apply ']'
+[2025-09-22T00:00:53Z]  ++ '[' -f .git/MERGE_HEAD ']'
+[2025-09-22T00:00:53Z]  ++ __git_sequencer_status
+[2025-09-22T00:00:53Z]  ++ local todo
+[2025-09-22T00:00:53Z]  ++ test -f .git/CHERRY_PICK_HEAD
+[2025-09-22T00:00:53Z]  ++ test -f .git/REVERT_HEAD
+[2025-09-22T00:00:53Z]  ++ __git_eread .git/sequencer/todo todo
+[2025-09-22T00:00:53Z]  ++ test -r .git/sequencer/todo
+[2025-09-22T00:00:53Z]  ++ return 1
+[2025-09-22T00:00:53Z]  ++ '[' -f .git/BISECT_LOG ']'
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ '[' -h .git/HEAD ']'
+[2025-09-22T00:00:53Z]  ++ local head=
+[2025-09-22T00:00:53Z]  ++ case "$ref_format" in
+[2025-09-22T00:00:53Z]  ++ __git_eread .git/HEAD head
+[2025-09-22T00:00:53Z]  ++ test -r .git/HEAD
+[2025-09-22T00:00:53Z]  ++ IFS='
+[2025-09-22T00:00:53Z]  '
+[2025-09-22T00:00:53Z]  ++ read -r head
+[2025-09-22T00:00:53Z]  ++ case $head in
+[2025-09-22T00:00:53Z]  ++ head=refs/heads/main
+[2025-09-22T00:00:53Z]  ++ test -z refs/heads/main
+[2025-09-22T00:00:53Z]  ++ b=refs/heads/main
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ local conflict=
+[2025-09-22T00:00:53Z]  ++ '[' '' = yes ']'
+[2025-09-22T00:00:53Z]  ++ local w=
+[2025-09-22T00:00:53Z]  ++ local i=
+[2025-09-22T00:00:53Z]  ++ local s=
+[2025-09-22T00:00:53Z]  ++ local u=
+[2025-09-22T00:00:53Z]  ++ local h=
+[2025-09-22T00:00:53Z]  ++ local c=
+[2025-09-22T00:00:53Z]  ++ local p=
+[2025-09-22T00:00:53Z]  ++ local upstream=
+[2025-09-22T00:00:53Z]  ++ '[' true = false ']'
+[2025-09-22T00:00:53Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ local 'z= '
+[2025-09-22T00:00:53Z]  ++ b=main
+[2025-09-22T00:00:53Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:53Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:53Z]  ++ local f=
+[2025-09-22T00:00:53Z]  ++ local gitstring=main
+[2025-09-22T00:00:53Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:53Z]  ++ printf -- ' (%s)' main
+[2025-09-22T00:00:53Z]  ++ return 0
+[2025-09-22T00:00:53Z]  ++ __git_ps1
+[2025-09-22T00:00:53Z]  ++ local exit=0
+[2025-09-22T00:00:53Z]  ++ local pcmode=no
+[2025-09-22T00:00:53Z]  ++ local detached=no
+[2025-09-22T00:00:53Z]  ++ local 'ps1pc_start=\u@\h:\w '
+[2025-09-22T00:00:53Z]  ++ local 'ps1pc_end=\$ '
+[2025-09-22T00:00:53Z]  ++ local 'printf_format= (%s)'
+[2025-09-22T00:00:53Z]  ++ case "$#" in
+[2025-09-22T00:00:53Z]  ++ printf_format=' (%s)'
+[2025-09-22T00:00:53Z]  ++ local ps1_expanded=yes
+[2025-09-22T00:00:53Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:53Z]  ++ '[' -z '5.2.37(1)-release' ']'
+[2025-09-22T00:00:53Z]  ++ shopt -q promptvars
+[2025-09-22T00:00:53Z]  ++ local repo_info rev_parse_exit_code
+[2025-09-22T00:00:53Z]  +++ git rev-parse --git-dir --is-inside-git-dir --is-bare-repository --is-inside-work-tree --show-ref-format --short HEAD
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true
+[2025-09-22T00:00:54Z]  files
+[2025-09-22T00:00:54Z]  3c257e0'
+[2025-09-22T00:00:54Z]  ++ rev_parse_exit_code=0
+[2025-09-22T00:00:54Z]  ++ '[' -z '.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true
+[2025-09-22T00:00:54Z]  files
+[2025-09-22T00:00:54Z]  3c257e0' ']'
+[2025-09-22T00:00:54Z]  ++ local 'LF=
+[2025-09-22T00:00:54Z]  '
+[2025-09-22T00:00:54Z]  ++ local short_sha=
+[2025-09-22T00:00:54Z]  ++ '[' 0 = 0 ']'
+[2025-09-22T00:00:54Z]  ++ short_sha=3c257e0
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true
+[2025-09-22T00:00:54Z]  files'
+[2025-09-22T00:00:54Z]  ++ local ref_format=files
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true'
+[2025-09-22T00:00:54Z]  ++ local inside_worktree=true
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false'
+[2025-09-22T00:00:54Z]  ++ local bare_repo=false
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false'
+[2025-09-22T00:00:54Z]  ++ local inside_gitdir=false
+[2025-09-22T00:00:54Z]  ++ local g=.git
+[2025-09-22T00:00:54Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ local sparse=
+[2025-09-22T00:00:54Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:54Z]  +++ git config --bool core.sparseCheckout
+[2025-09-22T00:00:54Z]  ++ '[' '' = true ']'
+[2025-09-22T00:00:54Z]  ++ local r=
+[2025-09-22T00:00:54Z]  ++ local b=
+[2025-09-22T00:00:54Z]  ++ local step=
+[2025-09-22T00:00:54Z]  ++ local total=
+[2025-09-22T00:00:54Z]  ++ '[' -d .git/rebase-merge ']'
+[2025-09-22T00:00:54Z]  ++ '[' -d .git/rebase-apply ']'
+[2025-09-22T00:00:54Z]  ++ '[' -f .git/MERGE_HEAD ']'
+[2025-09-22T00:00:54Z]  ++ __git_sequencer_status
+[2025-09-22T00:00:54Z]  ++ local todo
+[2025-09-22T00:00:54Z]  ++ test -f .git/CHERRY_PICK_HEAD
+[2025-09-22T00:00:54Z]  ++ test -f .git/REVERT_HEAD
+[2025-09-22T00:00:54Z]  ++ __git_eread .git/sequencer/todo todo
+[2025-09-22T00:00:54Z]  ++ test -r .git/sequencer/todo
+[2025-09-22T00:00:54Z]  ++ return 1
+[2025-09-22T00:00:54Z]  ++ '[' -f .git/BISECT_LOG ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -h .git/HEAD ']'
+[2025-09-22T00:00:54Z]  ++ local head=
+[2025-09-22T00:00:54Z]  ++ case "$ref_format" in
+[2025-09-22T00:00:54Z]  ++ __git_eread .git/HEAD head
+[2025-09-22T00:00:54Z]  ++ test -r .git/HEAD
+[2025-09-22T00:00:54Z]  ++ IFS='
+[2025-09-22T00:00:54Z]  '
+[2025-09-22T00:00:54Z]  ++ read -r head
+[2025-09-22T00:00:54Z]  ++ case $head in
+[2025-09-22T00:00:54Z]  ++ head=refs/heads/main
+[2025-09-22T00:00:54Z]  ++ test -z refs/heads/main
+[2025-09-22T00:00:54Z]  ++ b=refs/heads/main
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ local conflict=
+[2025-09-22T00:00:54Z]  ++ '[' '' = yes ']'
+[2025-09-22T00:00:54Z]  ++ local w=
+[2025-09-22T00:00:54Z]  ++ local i=
+[2025-09-22T00:00:54Z]  ++ local s=
+[2025-09-22T00:00:54Z]  ++ local u=
+[2025-09-22T00:00:54Z]  ++ local h=
+[2025-09-22T00:00:54Z]  ++ local c=
+[2025-09-22T00:00:54Z]  ++ local p=
+[2025-09-22T00:00:54Z]  ++ local upstream=
+[2025-09-22T00:00:54Z]  ++ '[' true = false ']'
+[2025-09-22T00:00:54Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ local 'z= '
+[2025-09-22T00:00:54Z]  ++ b=main
+[2025-09-22T00:00:54Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ local f=
+[2025-09-22T00:00:54Z]  ++ local gitstring=main
+[2025-09-22T00:00:54Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:54Z]  ++ printf -- ' (%s)' main
+[2025-09-22T00:00:54Z]  ++ return 0
+[2025-09-22T00:00:54Z]  + echo 'BASH_VERSION=5.2.37(1)-release'
+[2025-09-22T00:00:54Z]  BASH_VERSION=5.2.37(1)-release
+[2025-09-22T00:00:54Z]  ++ __git_ps1
+[2025-09-22T00:00:54Z]  ++ local exit=0
+[2025-09-22T00:00:54Z]  ++ local pcmode=no
+[2025-09-22T00:00:54Z]  ++ local detached=no
+[2025-09-22T00:00:54Z]  ++ local 'ps1pc_start=\u@\h:\w '
+[2025-09-22T00:00:54Z]  ++ local 'ps1pc_end=\$ '
+[2025-09-22T00:00:54Z]  ++ local 'printf_format= (%s)'
+[2025-09-22T00:00:54Z]  ++ case "$#" in
+[2025-09-22T00:00:54Z]  ++ printf_format=' (%s)'
+[2025-09-22T00:00:54Z]  ++ local ps1_expanded=yes
+[2025-09-22T00:00:54Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -z '5.2.37(1)-release' ']'
+[2025-09-22T00:00:54Z]  ++ shopt -q promptvars
+[2025-09-22T00:00:54Z]  ++ local repo_info rev_parse_exit_code
+[2025-09-22T00:00:54Z]  +++ git rev-parse --git-dir --is-inside-git-dir --is-bare-repository --is-inside-work-tree --show-ref-format --short HEAD
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true
+[2025-09-22T00:00:54Z]  files
+[2025-09-22T00:00:54Z]  3c257e0'
+[2025-09-22T00:00:54Z]  ++ rev_parse_exit_code=0
+[2025-09-22T00:00:54Z]  ++ '[' -z '.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true
+[2025-09-22T00:00:54Z]  files
+[2025-09-22T00:00:54Z]  3c257e0' ']'
+[2025-09-22T00:00:54Z]  ++ local 'LF=
+[2025-09-22T00:00:54Z]  '
+[2025-09-22T00:00:54Z]  ++ local short_sha=
+[2025-09-22T00:00:54Z]  ++ '[' 0 = 0 ']'
+[2025-09-22T00:00:54Z]  ++ short_sha=3c257e0
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true
+[2025-09-22T00:00:54Z]  files'
+[2025-09-22T00:00:54Z]  ++ local ref_format=files
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true'
+[2025-09-22T00:00:54Z]  ++ local inside_worktree=true
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false'
+[2025-09-22T00:00:54Z]  ++ local bare_repo=false
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false'
+[2025-09-22T00:00:54Z]  ++ local inside_gitdir=false
+[2025-09-22T00:00:54Z]  ++ local g=.git
+[2025-09-22T00:00:54Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ local sparse=
+[2025-09-22T00:00:54Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:54Z]  +++ git config --bool core.sparseCheckout
+[2025-09-22T00:00:54Z]  ++ '[' '' = true ']'
+[2025-09-22T00:00:54Z]  ++ local r=
+[2025-09-22T00:00:54Z]  ++ local b=
+[2025-09-22T00:00:54Z]  ++ local step=
+[2025-09-22T00:00:54Z]  ++ local total=
+[2025-09-22T00:00:54Z]  ++ '[' -d .git/rebase-merge ']'
+[2025-09-22T00:00:54Z]  ++ '[' -d .git/rebase-apply ']'
+[2025-09-22T00:00:54Z]  ++ '[' -f .git/MERGE_HEAD ']'
+[2025-09-22T00:00:54Z]  ++ __git_sequencer_status
+[2025-09-22T00:00:54Z]  ++ local todo
+[2025-09-22T00:00:54Z]  ++ test -f .git/CHERRY_PICK_HEAD
+[2025-09-22T00:00:54Z]  ++ test -f .git/REVERT_HEAD
+[2025-09-22T00:00:54Z]  ++ __git_eread .git/sequencer/todo todo
+[2025-09-22T00:00:54Z]  ++ test -r .git/sequencer/todo
+[2025-09-22T00:00:54Z]  ++ return 1
+[2025-09-22T00:00:54Z]  ++ '[' -f .git/BISECT_LOG ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -h .git/HEAD ']'
+[2025-09-22T00:00:54Z]  ++ local head=
+[2025-09-22T00:00:54Z]  ++ case "$ref_format" in
+[2025-09-22T00:00:54Z]  ++ __git_eread .git/HEAD head
+[2025-09-22T00:00:54Z]  ++ test -r .git/HEAD
+[2025-09-22T00:00:54Z]  ++ IFS='
+[2025-09-22T00:00:54Z]  '
+[2025-09-22T00:00:54Z]  ++ read -r head
+[2025-09-22T00:00:54Z]  ++ case $head in
+[2025-09-22T00:00:54Z]  ++ head=refs/heads/main
+[2025-09-22T00:00:54Z]  ++ test -z refs/heads/main
+[2025-09-22T00:00:54Z]  ++ b=refs/heads/main
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ local conflict=
+[2025-09-22T00:00:54Z]  ++ '[' '' = yes ']'
+[2025-09-22T00:00:54Z]  ++ local w=
+[2025-09-22T00:00:54Z]  ++ local i=
+[2025-09-22T00:00:54Z]  ++ local s=
+[2025-09-22T00:00:54Z]  ++ local u=
+[2025-09-22T00:00:54Z]  ++ local h=
+[2025-09-22T00:00:54Z]  ++ local c=
+[2025-09-22T00:00:54Z]  ++ local p=
+[2025-09-22T00:00:54Z]  ++ local upstream=
+[2025-09-22T00:00:54Z]  ++ '[' true = false ']'
+[2025-09-22T00:00:54Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ local 'z= '
+[2025-09-22T00:00:54Z]  ++ b=main
+[2025-09-22T00:00:54Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ local f=
+[2025-09-22T00:00:54Z]  ++ local gitstring=main
+[2025-09-22T00:00:54Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:54Z]  ++ printf -- ' (%s)' main
+[2025-09-22T00:00:54Z]  ++ return 0
+[2025-09-22T00:00:54Z]  + command -v awk
+[2025-09-22T00:00:54Z]  ++ __git_ps1
+[2025-09-22T00:00:54Z]  ++ local exit=0
+[2025-09-22T00:00:54Z]  ++ local pcmode=no
+[2025-09-22T00:00:54Z]  ++ local detached=no
+[2025-09-22T00:00:54Z]  ++ local 'ps1pc_start=\u@\h:\w '
+[2025-09-22T00:00:54Z]  ++ local 'ps1pc_end=\$ '
+[2025-09-22T00:00:54Z]  ++ local 'printf_format= (%s)'
+[2025-09-22T00:00:54Z]  ++ case "$#" in
+[2025-09-22T00:00:54Z]  ++ printf_format=' (%s)'
+[2025-09-22T00:00:54Z]  ++ local ps1_expanded=yes
+[2025-09-22T00:00:54Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -z '5.2.37(1)-release' ']'
+[2025-09-22T00:00:54Z]  ++ shopt -q promptvars
+[2025-09-22T00:00:54Z]  ++ local repo_info rev_parse_exit_code
+[2025-09-22T00:00:54Z]  +++ git rev-parse --git-dir --is-inside-git-dir --is-bare-repository --is-inside-work-tree --show-ref-format --short HEAD
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true
+[2025-09-22T00:00:54Z]  files
+[2025-09-22T00:00:54Z]  3c257e0'
+[2025-09-22T00:00:54Z]  ++ rev_parse_exit_code=0
+[2025-09-22T00:00:54Z]  ++ '[' -z '.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true
+[2025-09-22T00:00:54Z]  files
+[2025-09-22T00:00:54Z]  3c257e0' ']'
+[2025-09-22T00:00:54Z]  ++ local 'LF=
+[2025-09-22T00:00:54Z]  '
+[2025-09-22T00:00:54Z]  ++ local short_sha=
+[2025-09-22T00:00:54Z]  ++ '[' 0 = 0 ']'
+[2025-09-22T00:00:54Z]  ++ short_sha=3c257e0
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true
+[2025-09-22T00:00:54Z]  files'
+[2025-09-22T00:00:54Z]  ++ local ref_format=files
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true'
+[2025-09-22T00:00:54Z]  ++ local inside_worktree=true
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false'
+[2025-09-22T00:00:54Z]  ++ local bare_repo=false
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false'
+[2025-09-22T00:00:54Z]  ++ local inside_gitdir=false
+[2025-09-22T00:00:54Z]  ++ local g=.git
+[2025-09-22T00:00:54Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ local sparse=
+[2025-09-22T00:00:54Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:54Z]  +++ git config --bool core.sparseCheckout
+[2025-09-22T00:00:54Z]  ++ '[' '' = true ']'
+[2025-09-22T00:00:54Z]  ++ local r=
+[2025-09-22T00:00:54Z]  ++ local b=
+[2025-09-22T00:00:54Z]  ++ local step=
+[2025-09-22T00:00:54Z]  ++ local total=
+[2025-09-22T00:00:54Z]  ++ '[' -d .git/rebase-merge ']'
+[2025-09-22T00:00:54Z]  ++ '[' -d .git/rebase-apply ']'
+[2025-09-22T00:00:54Z]  ++ '[' -f .git/MERGE_HEAD ']'
+[2025-09-22T00:00:54Z]  ++ __git_sequencer_status
+[2025-09-22T00:00:54Z]  ++ local todo
+[2025-09-22T00:00:54Z]  ++ test -f .git/CHERRY_PICK_HEAD
+[2025-09-22T00:00:54Z]  ++ test -f .git/REVERT_HEAD
+[2025-09-22T00:00:54Z]  ++ __git_eread .git/sequencer/todo todo
+[2025-09-22T00:00:54Z]  ++ test -r .git/sequencer/todo
+[2025-09-22T00:00:54Z]  ++ return 1
+[2025-09-22T00:00:54Z]  ++ '[' -f .git/BISECT_LOG ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -h .git/HEAD ']'
+[2025-09-22T00:00:54Z]  ++ local head=
+[2025-09-22T00:00:54Z]  ++ case "$ref_format" in
+[2025-09-22T00:00:54Z]  ++ __git_eread .git/HEAD head
+[2025-09-22T00:00:54Z]  ++ test -r .git/HEAD
+[2025-09-22T00:00:54Z]  ++ IFS='
+[2025-09-22T00:00:54Z]  '
+[2025-09-22T00:00:54Z]  ++ read -r head
+[2025-09-22T00:00:54Z]  ++ case $head in
+[2025-09-22T00:00:54Z]  ++ head=refs/heads/main
+[2025-09-22T00:00:54Z]  ++ test -z refs/heads/main
+[2025-09-22T00:00:54Z]  ++ b=refs/heads/main
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ local conflict=
+[2025-09-22T00:00:54Z]  ++ '[' '' = yes ']'
+[2025-09-22T00:00:54Z]  ++ local w=
+[2025-09-22T00:00:54Z]  ++ local i=
+[2025-09-22T00:00:54Z]  ++ local s=
+[2025-09-22T00:00:54Z]  ++ local u=
+[2025-09-22T00:00:54Z]  ++ local h=
+[2025-09-22T00:00:54Z]  ++ local c=
+[2025-09-22T00:00:54Z]  ++ local p=
+[2025-09-22T00:00:54Z]  ++ local upstream=
+[2025-09-22T00:00:54Z]  ++ '[' true = false ']'
+[2025-09-22T00:00:54Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ local 'z= '
+[2025-09-22T00:00:54Z]  ++ b=main
+[2025-09-22T00:00:54Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ local f=
+[2025-09-22T00:00:54Z]  ++ local gitstring=main
+[2025-09-22T00:00:54Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:54Z]  ++ printf -- ' (%s)' main
+[2025-09-22T00:00:54Z]  ++ return 0
+[2025-09-22T00:00:54Z]  + command -v sort
+[2025-09-22T00:00:54Z]  ++ __git_ps1
+[2025-09-22T00:00:54Z]  ++ local exit=0
+[2025-09-22T00:00:54Z]  ++ local pcmode=no
+[2025-09-22T00:00:54Z]  ++ local detached=no
+[2025-09-22T00:00:54Z]  ++ local 'ps1pc_start=\u@\h:\w '
+[2025-09-22T00:00:54Z]  ++ local 'ps1pc_end=\$ '
+[2025-09-22T00:00:54Z]  ++ local 'printf_format= (%s)'
+[2025-09-22T00:00:54Z]  ++ case "$#" in
+[2025-09-22T00:00:54Z]  ++ printf_format=' (%s)'
+[2025-09-22T00:00:54Z]  ++ local ps1_expanded=yes
+[2025-09-22T00:00:54Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -z '5.2.37(1)-release' ']'
+[2025-09-22T00:00:54Z]  ++ shopt -q promptvars
+[2025-09-22T00:00:54Z]  ++ local repo_info rev_parse_exit_code
+[2025-09-22T00:00:54Z]  +++ git rev-parse --git-dir --is-inside-git-dir --is-bare-repository --is-inside-work-tree --show-ref-format --short HEAD
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true
+[2025-09-22T00:00:54Z]  files
+[2025-09-22T00:00:54Z]  3c257e0'
+[2025-09-22T00:00:54Z]  ++ rev_parse_exit_code=0
+[2025-09-22T00:00:54Z]  ++ '[' -z '.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true
+[2025-09-22T00:00:54Z]  files
+[2025-09-22T00:00:54Z]  3c257e0' ']'
+[2025-09-22T00:00:54Z]  ++ local 'LF=
+[2025-09-22T00:00:54Z]  '
+[2025-09-22T00:00:54Z]  ++ local short_sha=
+[2025-09-22T00:00:54Z]  ++ '[' 0 = 0 ']'
+[2025-09-22T00:00:54Z]  ++ short_sha=3c257e0
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true
+[2025-09-22T00:00:54Z]  files'
+[2025-09-22T00:00:54Z]  ++ local ref_format=files
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true'
+[2025-09-22T00:00:54Z]  ++ local inside_worktree=true
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false'
+[2025-09-22T00:00:54Z]  ++ local bare_repo=false
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false'
+[2025-09-22T00:00:54Z]  ++ local inside_gitdir=false
+[2025-09-22T00:00:54Z]  ++ local g=.git
+[2025-09-22T00:00:54Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ local sparse=
+[2025-09-22T00:00:54Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:54Z]  +++ git config --bool core.sparseCheckout
+[2025-09-22T00:00:54Z]  ++ '[' '' = true ']'
+[2025-09-22T00:00:54Z]  ++ local r=
+[2025-09-22T00:00:54Z]  ++ local b=
+[2025-09-22T00:00:54Z]  ++ local step=
+[2025-09-22T00:00:54Z]  ++ local total=
+[2025-09-22T00:00:54Z]  ++ '[' -d .git/rebase-merge ']'
+[2025-09-22T00:00:54Z]  ++ '[' -d .git/rebase-apply ']'
+[2025-09-22T00:00:54Z]  ++ '[' -f .git/MERGE_HEAD ']'
+[2025-09-22T00:00:54Z]  ++ __git_sequencer_status
+[2025-09-22T00:00:54Z]  ++ local todo
+[2025-09-22T00:00:54Z]  ++ test -f .git/CHERRY_PICK_HEAD
+[2025-09-22T00:00:54Z]  ++ test -f .git/REVERT_HEAD
+[2025-09-22T00:00:54Z]  ++ __git_eread .git/sequencer/todo todo
+[2025-09-22T00:00:54Z]  ++ test -r .git/sequencer/todo
+[2025-09-22T00:00:54Z]  ++ return 1
+[2025-09-22T00:00:54Z]  ++ '[' -f .git/BISECT_LOG ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -h .git/HEAD ']'
+[2025-09-22T00:00:54Z]  ++ local head=
+[2025-09-22T00:00:54Z]  ++ case "$ref_format" in
+[2025-09-22T00:00:54Z]  ++ __git_eread .git/HEAD head
+[2025-09-22T00:00:54Z]  ++ test -r .git/HEAD
+[2025-09-22T00:00:54Z]  ++ IFS='
+[2025-09-22T00:00:54Z]  '
+[2025-09-22T00:00:54Z]  ++ read -r head
+[2025-09-22T00:00:54Z]  ++ case $head in
+[2025-09-22T00:00:54Z]  ++ head=refs/heads/main
+[2025-09-22T00:00:54Z]  ++ test -z refs/heads/main
+[2025-09-22T00:00:54Z]  ++ b=refs/heads/main
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ local conflict=
+[2025-09-22T00:00:54Z]  ++ '[' '' = yes ']'
+[2025-09-22T00:00:54Z]  ++ local w=
+[2025-09-22T00:00:54Z]  ++ local i=
+[2025-09-22T00:00:54Z]  ++ local s=
+[2025-09-22T00:00:54Z]  ++ local u=
+[2025-09-22T00:00:54Z]  ++ local h=
+[2025-09-22T00:00:54Z]  ++ local c=
+[2025-09-22T00:00:54Z]  ++ local p=
+[2025-09-22T00:00:54Z]  ++ local upstream=
+[2025-09-22T00:00:54Z]  ++ '[' true = false ']'
+[2025-09-22T00:00:54Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ local 'z= '
+[2025-09-22T00:00:54Z]  ++ b=main
+[2025-09-22T00:00:54Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ local f=
+[2025-09-22T00:00:54Z]  ++ local gitstring=main
+[2025-09-22T00:00:54Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:54Z]  ++ printf -- ' (%s)' main
+[2025-09-22T00:00:54Z]  ++ return 0
+[2025-09-22T00:00:54Z]  + command -v join
+[2025-09-22T00:00:54Z]  ++ __git_ps1
+[2025-09-22T00:00:54Z]  ++ local exit=0
+[2025-09-22T00:00:54Z]  ++ local pcmode=no
+[2025-09-22T00:00:54Z]  ++ local detached=no
+[2025-09-22T00:00:54Z]  ++ local 'ps1pc_start=\u@\h:\w '
+[2025-09-22T00:00:54Z]  ++ local 'ps1pc_end=\$ '
+[2025-09-22T00:00:54Z]  ++ local 'printf_format= (%s)'
+[2025-09-22T00:00:54Z]  ++ case "$#" in
+[2025-09-22T00:00:54Z]  ++ printf_format=' (%s)'
+[2025-09-22T00:00:54Z]  ++ local ps1_expanded=yes
+[2025-09-22T00:00:54Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -z '5.2.37(1)-release' ']'
+[2025-09-22T00:00:54Z]  ++ shopt -q promptvars
+[2025-09-22T00:00:54Z]  ++ local repo_info rev_parse_exit_code
+[2025-09-22T00:00:54Z]  +++ git rev-parse --git-dir --is-inside-git-dir --is-bare-repository --is-inside-work-tree --show-ref-format --short HEAD
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true
+[2025-09-22T00:00:54Z]  files
+[2025-09-22T00:00:54Z]  3c257e0'
+[2025-09-22T00:00:54Z]  ++ rev_parse_exit_code=0
+[2025-09-22T00:00:54Z]  ++ '[' -z '.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true
+[2025-09-22T00:00:54Z]  files
+[2025-09-22T00:00:54Z]  3c257e0' ']'
+[2025-09-22T00:00:54Z]  ++ local 'LF=
+[2025-09-22T00:00:54Z]  '
+[2025-09-22T00:00:54Z]  ++ local short_sha=
+[2025-09-22T00:00:54Z]  ++ '[' 0 = 0 ']'
+[2025-09-22T00:00:54Z]  ++ short_sha=3c257e0
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true
+[2025-09-22T00:00:54Z]  files'
+[2025-09-22T00:00:54Z]  ++ local ref_format=files
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  true'
+[2025-09-22T00:00:54Z]  ++ local inside_worktree=true
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false
+[2025-09-22T00:00:54Z]  false'
+[2025-09-22T00:00:54Z]  ++ local bare_repo=false
+[2025-09-22T00:00:54Z]  ++ repo_info='.git
+[2025-09-22T00:00:54Z]  false'
+[2025-09-22T00:00:54Z]  ++ local inside_gitdir=false
+[2025-09-22T00:00:54Z]  ++ local g=.git
+[2025-09-22T00:00:54Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:54Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:54Z]  ++ local sparse=
+[2025-09-22T00:00:54Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:54Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:54Z]  +++ git config --bool core.sparseCheckout
+[2025-09-22T00:00:55Z]  ++ '[' '' = true ']'
+[2025-09-22T00:00:55Z]  ++ local r=
+[2025-09-22T00:00:55Z]  ++ local b=
+[2025-09-22T00:00:55Z]  ++ local step=
+[2025-09-22T00:00:55Z]  ++ local total=
+[2025-09-22T00:00:55Z]  ++ '[' -d .git/rebase-merge ']'
+[2025-09-22T00:00:55Z]  ++ '[' -d .git/rebase-apply ']'
+[2025-09-22T00:00:55Z]  ++ '[' -f .git/MERGE_HEAD ']'
+[2025-09-22T00:00:55Z]  ++ __git_sequencer_status
+[2025-09-22T00:00:55Z]  ++ local todo
+[2025-09-22T00:00:55Z]  ++ test -f .git/CHERRY_PICK_HEAD
+[2025-09-22T00:00:55Z]  ++ test -f .git/REVERT_HEAD
+[2025-09-22T00:00:55Z]  ++ __git_eread .git/sequencer/todo todo
+[2025-09-22T00:00:55Z]  ++ test -r .git/sequencer/todo
+[2025-09-22T00:00:55Z]  ++ return 1
+[2025-09-22T00:00:55Z]  ++ '[' -f .git/BISECT_LOG ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -h .git/HEAD ']'
+[2025-09-22T00:00:55Z]  ++ local head=
+[2025-09-22T00:00:55Z]  ++ case "$ref_format" in
+[2025-09-22T00:00:55Z]  ++ __git_eread .git/HEAD head
+[2025-09-22T00:00:55Z]  ++ test -r .git/HEAD
+[2025-09-22T00:00:55Z]  ++ IFS='
+[2025-09-22T00:00:55Z]  '
+[2025-09-22T00:00:55Z]  ++ read -r head
+[2025-09-22T00:00:55Z]  ++ case $head in
+[2025-09-22T00:00:55Z]  ++ head=refs/heads/main
+[2025-09-22T00:00:55Z]  ++ test -z refs/heads/main
+[2025-09-22T00:00:55Z]  ++ b=refs/heads/main
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ local conflict=
+[2025-09-22T00:00:55Z]  ++ '[' '' = yes ']'
+[2025-09-22T00:00:55Z]  ++ local w=
+[2025-09-22T00:00:55Z]  ++ local i=
+[2025-09-22T00:00:55Z]  ++ local s=
+[2025-09-22T00:00:55Z]  ++ local u=
+[2025-09-22T00:00:55Z]  ++ local h=
+[2025-09-22T00:00:55Z]  ++ local c=
+[2025-09-22T00:00:55Z]  ++ local p=
+[2025-09-22T00:00:55Z]  ++ local upstream=
+[2025-09-22T00:00:55Z]  ++ '[' true = false ']'
+[2025-09-22T00:00:55Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ local 'z= '
+[2025-09-22T00:00:55Z]  ++ b=main
+[2025-09-22T00:00:55Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ local f=
+[2025-09-22T00:00:55Z]  ++ local gitstring=main
+[2025-09-22T00:00:55Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:55Z]  ++ printf -- ' (%s)' main
+[2025-09-22T00:00:55Z]  ++ return 0
+[2025-09-22T00:00:55Z]  + command -v sha256sum
+[2025-09-22T00:00:55Z]  ++ __git_ps1
+[2025-09-22T00:00:55Z]  ++ local exit=0
+[2025-09-22T00:00:55Z]  ++ local pcmode=no
+[2025-09-22T00:00:55Z]  ++ local detached=no
+[2025-09-22T00:00:55Z]  ++ local 'ps1pc_start=\u@\h:\w '
+[2025-09-22T00:00:55Z]  ++ local 'ps1pc_end=\$ '
+[2025-09-22T00:00:55Z]  ++ local 'printf_format= (%s)'
+[2025-09-22T00:00:55Z]  ++ case "$#" in
+[2025-09-22T00:00:55Z]  ++ printf_format=' (%s)'
+[2025-09-22T00:00:55Z]  ++ local ps1_expanded=yes
+[2025-09-22T00:00:55Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -z '5.2.37(1)-release' ']'
+[2025-09-22T00:00:55Z]  ++ shopt -q promptvars
+[2025-09-22T00:00:55Z]  ++ local repo_info rev_parse_exit_code
+[2025-09-22T00:00:55Z]  +++ git rev-parse --git-dir --is-inside-git-dir --is-bare-repository --is-inside-work-tree --show-ref-format --short HEAD
+[2025-09-22T00:00:55Z]  ++ repo_info='.git
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  true
+[2025-09-22T00:00:55Z]  files
+[2025-09-22T00:00:55Z]  3c257e0'
+[2025-09-22T00:00:55Z]  ++ rev_parse_exit_code=0
+[2025-09-22T00:00:55Z]  ++ '[' -z '.git
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  true
+[2025-09-22T00:00:55Z]  files
+[2025-09-22T00:00:55Z]  3c257e0' ']'
+[2025-09-22T00:00:55Z]  ++ local 'LF=
+[2025-09-22T00:00:55Z]  '
+[2025-09-22T00:00:55Z]  ++ local short_sha=
+[2025-09-22T00:00:55Z]  ++ '[' 0 = 0 ']'
+[2025-09-22T00:00:55Z]  ++ short_sha=3c257e0
+[2025-09-22T00:00:55Z]  ++ repo_info='.git
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  true
+[2025-09-22T00:00:55Z]  files'
+[2025-09-22T00:00:55Z]  ++ local ref_format=files
+[2025-09-22T00:00:55Z]  ++ repo_info='.git
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  true'
+[2025-09-22T00:00:55Z]  ++ local inside_worktree=true
+[2025-09-22T00:00:55Z]  ++ repo_info='.git
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  false'
+[2025-09-22T00:00:55Z]  ++ local bare_repo=false
+[2025-09-22T00:00:55Z]  ++ repo_info='.git
+[2025-09-22T00:00:55Z]  false'
+[2025-09-22T00:00:55Z]  ++ local inside_gitdir=false
+[2025-09-22T00:00:55Z]  ++ local g=.git
+[2025-09-22T00:00:55Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ local sparse=
+[2025-09-22T00:00:55Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:55Z]  +++ git config --bool core.sparseCheckout
+[2025-09-22T00:00:55Z]  ++ '[' '' = true ']'
+[2025-09-22T00:00:55Z]  ++ local r=
+[2025-09-22T00:00:55Z]  ++ local b=
+[2025-09-22T00:00:55Z]  ++ local step=
+[2025-09-22T00:00:55Z]  ++ local total=
+[2025-09-22T00:00:55Z]  ++ '[' -d .git/rebase-merge ']'
+[2025-09-22T00:00:55Z]  ++ '[' -d .git/rebase-apply ']'
+[2025-09-22T00:00:55Z]  ++ '[' -f .git/MERGE_HEAD ']'
+[2025-09-22T00:00:55Z]  ++ __git_sequencer_status
+[2025-09-22T00:00:55Z]  ++ local todo
+[2025-09-22T00:00:55Z]  ++ test -f .git/CHERRY_PICK_HEAD
+[2025-09-22T00:00:55Z]  ++ test -f .git/REVERT_HEAD
+[2025-09-22T00:00:55Z]  ++ __git_eread .git/sequencer/todo todo
+[2025-09-22T00:00:55Z]  ++ test -r .git/sequencer/todo
+[2025-09-22T00:00:55Z]  ++ return 1
+[2025-09-22T00:00:55Z]  ++ '[' -f .git/BISECT_LOG ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -h .git/HEAD ']'
+[2025-09-22T00:00:55Z]  ++ local head=
+[2025-09-22T00:00:55Z]  ++ case "$ref_format" in
+[2025-09-22T00:00:55Z]  ++ __git_eread .git/HEAD head
+[2025-09-22T00:00:55Z]  ++ test -r .git/HEAD
+[2025-09-22T00:00:55Z]  ++ IFS='
+[2025-09-22T00:00:55Z]  '
+[2025-09-22T00:00:55Z]  ++ read -r head
+[2025-09-22T00:00:55Z]  ++ case $head in
+[2025-09-22T00:00:55Z]  ++ head=refs/heads/main
+[2025-09-22T00:00:55Z]  ++ test -z refs/heads/main
+[2025-09-22T00:00:55Z]  ++ b=refs/heads/main
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ local conflict=
+[2025-09-22T00:00:55Z]  ++ '[' '' = yes ']'
+[2025-09-22T00:00:55Z]  ++ local w=
+[2025-09-22T00:00:55Z]  ++ local i=
+[2025-09-22T00:00:55Z]  ++ local s=
+[2025-09-22T00:00:55Z]  ++ local u=
+[2025-09-22T00:00:55Z]  ++ local h=
+[2025-09-22T00:00:55Z]  ++ local c=
+[2025-09-22T00:00:55Z]  ++ local p=
+[2025-09-22T00:00:55Z]  ++ local upstream=
+[2025-09-22T00:00:55Z]  ++ '[' true = false ']'
+[2025-09-22T00:00:55Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ local 'z= '
+[2025-09-22T00:00:55Z]  ++ b=main
+[2025-09-22T00:00:55Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ local f=
+[2025-09-22T00:00:55Z]  ++ local gitstring=main
+[2025-09-22T00:00:55Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:55Z]  ++ printf -- ' (%s)' main
+[2025-09-22T00:00:55Z]  ++ return 0
+[2025-09-22T00:00:55Z]  ++ __git_ps1
+[2025-09-22T00:00:55Z]  ++ local exit=0
+[2025-09-22T00:00:55Z]  ++ local pcmode=no
+[2025-09-22T00:00:55Z]  ++ local detached=no
+[2025-09-22T00:00:55Z]  ++ local 'ps1pc_start=\u@\h:\w '
+[2025-09-22T00:00:55Z]  ++ local 'ps1pc_end=\$ '
+[2025-09-22T00:00:55Z]  ++ local 'printf_format= (%s)'
+[2025-09-22T00:00:55Z]  ++ case "$#" in
+[2025-09-22T00:00:55Z]  ++ printf_format=' (%s)'
+[2025-09-22T00:00:55Z]  ++ local ps1_expanded=yes
+[2025-09-22T00:00:55Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -z '5.2.37(1)-release' ']'
+[2025-09-22T00:00:55Z]  ++ shopt -q promptvars
+[2025-09-22T00:00:55Z]  ++ local repo_info rev_parse_exit_code
+[2025-09-22T00:00:55Z]  +++ git rev-parse --git-dir --is-inside-git-dir --is-bare-repository --is-inside-work-tree --show-ref-format --short HEAD
+[2025-09-22T00:00:55Z]  ++ repo_info='.git
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  true
+[2025-09-22T00:00:55Z]  files
+[2025-09-22T00:00:55Z]  3c257e0'
+[2025-09-22T00:00:55Z]  ++ rev_parse_exit_code=0
+[2025-09-22T00:00:55Z]  ++ '[' -z '.git
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  true
+[2025-09-22T00:00:55Z]  files
+[2025-09-22T00:00:55Z]  3c257e0' ']'
+[2025-09-22T00:00:55Z]  ++ local 'LF=
+[2025-09-22T00:00:55Z]  '
+[2025-09-22T00:00:55Z]  ++ local short_sha=
+[2025-09-22T00:00:55Z]  ++ '[' 0 = 0 ']'
+[2025-09-22T00:00:55Z]  ++ short_sha=3c257e0
+[2025-09-22T00:00:55Z]  ++ repo_info='.git
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  true
+[2025-09-22T00:00:55Z]  files'
+[2025-09-22T00:00:55Z]  ++ local ref_format=files
+[2025-09-22T00:00:55Z]  ++ repo_info='.git
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  true'
+[2025-09-22T00:00:55Z]  ++ local inside_worktree=true
+[2025-09-22T00:00:55Z]  ++ repo_info='.git
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  false'
+[2025-09-22T00:00:55Z]  ++ local bare_repo=false
+[2025-09-22T00:00:55Z]  ++ repo_info='.git
+[2025-09-22T00:00:55Z]  false'
+[2025-09-22T00:00:55Z]  ++ local inside_gitdir=false
+[2025-09-22T00:00:55Z]  ++ local g=.git
+[2025-09-22T00:00:55Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ local sparse=
+[2025-09-22T00:00:55Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:55Z]  +++ git config --bool core.sparseCheckout
+[2025-09-22T00:00:55Z]  ++ '[' '' = true ']'
+[2025-09-22T00:00:55Z]  ++ local r=
+[2025-09-22T00:00:55Z]  ++ local b=
+[2025-09-22T00:00:55Z]  ++ local step=
+[2025-09-22T00:00:55Z]  ++ local total=
+[2025-09-22T00:00:55Z]  ++ '[' -d .git/rebase-merge ']'
+[2025-09-22T00:00:55Z]  ++ '[' -d .git/rebase-apply ']'
+[2025-09-22T00:00:55Z]  ++ '[' -f .git/MERGE_HEAD ']'
+[2025-09-22T00:00:55Z]  ++ __git_sequencer_status
+[2025-09-22T00:00:55Z]  ++ local todo
+[2025-09-22T00:00:55Z]  ++ test -f .git/CHERRY_PICK_HEAD
+[2025-09-22T00:00:55Z]  ++ test -f .git/REVERT_HEAD
+[2025-09-22T00:00:55Z]  ++ __git_eread .git/sequencer/todo todo
+[2025-09-22T00:00:55Z]  ++ test -r .git/sequencer/todo
+[2025-09-22T00:00:55Z]  ++ return 1
+[2025-09-22T00:00:55Z]  ++ '[' -f .git/BISECT_LOG ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -h .git/HEAD ']'
+[2025-09-22T00:00:55Z]  ++ local head=
+[2025-09-22T00:00:55Z]  ++ case "$ref_format" in
+[2025-09-22T00:00:55Z]  ++ __git_eread .git/HEAD head
+[2025-09-22T00:00:55Z]  ++ test -r .git/HEAD
+[2025-09-22T00:00:55Z]  ++ IFS='
+[2025-09-22T00:00:55Z]  '
+[2025-09-22T00:00:55Z]  ++ read -r head
+[2025-09-22T00:00:55Z]  ++ case $head in
+[2025-09-22T00:00:55Z]  ++ head=refs/heads/main
+[2025-09-22T00:00:55Z]  ++ test -z refs/heads/main
+[2025-09-22T00:00:55Z]  ++ b=refs/heads/main
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ local conflict=
+[2025-09-22T00:00:55Z]  ++ '[' '' = yes ']'
+[2025-09-22T00:00:55Z]  ++ local w=
+[2025-09-22T00:00:55Z]  ++ local i=
+[2025-09-22T00:00:55Z]  ++ local s=
+[2025-09-22T00:00:55Z]  ++ local u=
+[2025-09-22T00:00:55Z]  ++ local h=
+[2025-09-22T00:00:55Z]  ++ local c=
+[2025-09-22T00:00:55Z]  ++ local p=
+[2025-09-22T00:00:55Z]  ++ local upstream=
+[2025-09-22T00:00:55Z]  ++ '[' true = false ']'
+[2025-09-22T00:00:55Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ local 'z= '
+[2025-09-22T00:00:55Z]  ++ b=main
+[2025-09-22T00:00:55Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ local f=
+[2025-09-22T00:00:55Z]  ++ local gitstring=main
+[2025-09-22T00:00:55Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:55Z]  ++ printf -- ' (%s)' main
+[2025-09-22T00:00:55Z]  ++ return 0
+[2025-09-22T00:00:55Z]  ++ __git_ps1
+[2025-09-22T00:00:55Z]  ++ local exit=0
+[2025-09-22T00:00:55Z]  ++ local pcmode=no
+[2025-09-22T00:00:55Z]  ++ local detached=no
+[2025-09-22T00:00:55Z]  ++ local 'ps1pc_start=\u@\h:\w '
+[2025-09-22T00:00:55Z]  ++ local 'ps1pc_end=\$ '
+[2025-09-22T00:00:55Z]  ++ local 'printf_format= (%s)'
+[2025-09-22T00:00:55Z]  ++ case "$#" in
+[2025-09-22T00:00:55Z]  ++ printf_format=' (%s)'
+[2025-09-22T00:00:55Z]  ++ local ps1_expanded=yes
+[2025-09-22T00:00:55Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -z '5.2.37(1)-release' ']'
+[2025-09-22T00:00:55Z]  ++ shopt -q promptvars
+[2025-09-22T00:00:55Z]  ++ local repo_info rev_parse_exit_code
+[2025-09-22T00:00:55Z]  +++ git rev-parse --git-dir --is-inside-git-dir --is-bare-repository --is-inside-work-tree --show-ref-format --short HEAD
+[2025-09-22T00:00:55Z]  ++ repo_info='.git
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  true
+[2025-09-22T00:00:55Z]  files
+[2025-09-22T00:00:55Z]  3c257e0'
+[2025-09-22T00:00:55Z]  ++ rev_parse_exit_code=0
+[2025-09-22T00:00:55Z]  ++ '[' -z '.git
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  true
+[2025-09-22T00:00:55Z]  files
+[2025-09-22T00:00:55Z]  3c257e0' ']'
+[2025-09-22T00:00:55Z]  ++ local 'LF=
+[2025-09-22T00:00:55Z]  '
+[2025-09-22T00:00:55Z]  ++ local short_sha=
+[2025-09-22T00:00:55Z]  ++ '[' 0 = 0 ']'
+[2025-09-22T00:00:55Z]  ++ short_sha=3c257e0
+[2025-09-22T00:00:55Z]  ++ repo_info='.git
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  true
+[2025-09-22T00:00:55Z]  files'
+[2025-09-22T00:00:55Z]  ++ local ref_format=files
+[2025-09-22T00:00:55Z]  ++ repo_info='.git
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  true'
+[2025-09-22T00:00:55Z]  ++ local inside_worktree=true
+[2025-09-22T00:00:55Z]  ++ repo_info='.git
+[2025-09-22T00:00:55Z]  false
+[2025-09-22T00:00:55Z]  false'
+[2025-09-22T00:00:55Z]  ++ local bare_repo=false
+[2025-09-22T00:00:55Z]  ++ repo_info='.git
+[2025-09-22T00:00:55Z]  false'
+[2025-09-22T00:00:55Z]  ++ local inside_gitdir=false
+[2025-09-22T00:00:55Z]  ++ local g=.git
+[2025-09-22T00:00:55Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ local sparse=
+[2025-09-22T00:00:55Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -z '' ']'
+[2025-09-22T00:00:55Z]  +++ git config --bool core.sparseCheckout
+[2025-09-22T00:00:55Z]  ++ '[' '' = true ']'
+[2025-09-22T00:00:55Z]  ++ local r=
+[2025-09-22T00:00:55Z]  ++ local b=
+[2025-09-22T00:00:55Z]  ++ local step=
+[2025-09-22T00:00:55Z]  ++ local total=
+[2025-09-22T00:00:55Z]  ++ '[' -d .git/rebase-merge ']'
+[2025-09-22T00:00:55Z]  ++ '[' -d .git/rebase-apply ']'
+[2025-09-22T00:00:55Z]  ++ '[' -f .git/MERGE_HEAD ']'
+[2025-09-22T00:00:55Z]  ++ __git_sequencer_status
+[2025-09-22T00:00:55Z]  ++ local todo
+[2025-09-22T00:00:55Z]  ++ test -f .git/CHERRY_PICK_HEAD
+[2025-09-22T00:00:55Z]  ++ test -f .git/REVERT_HEAD
+[2025-09-22T00:00:55Z]  ++ __git_eread .git/sequencer/todo todo
+[2025-09-22T00:00:55Z]  ++ test -r .git/sequencer/todo
+[2025-09-22T00:00:55Z]  ++ return 1
+[2025-09-22T00:00:55Z]  ++ '[' -f .git/BISECT_LOG ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -h .git/HEAD ']'
+[2025-09-22T00:00:55Z]  ++ local head=
+[2025-09-22T00:00:55Z]  ++ case "$ref_format" in
+[2025-09-22T00:00:55Z]  ++ __git_eread .git/HEAD head
+[2025-09-22T00:00:55Z]  ++ test -r .git/HEAD
+[2025-09-22T00:00:55Z]  ++ IFS='
+[2025-09-22T00:00:55Z]  '
+[2025-09-22T00:00:55Z]  ++ read -r head
+[2025-09-22T00:00:55Z]  ++ case $head in
+[2025-09-22T00:00:55Z]  ++ head=refs/heads/main
+[2025-09-22T00:00:55Z]  ++ test -z refs/heads/main
+[2025-09-22T00:00:55Z]  ++ b=refs/heads/main
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ local conflict=
+[2025-09-22T00:00:55Z]  ++ '[' '' = yes ']'
+[2025-09-22T00:00:55Z]  ++ local w=
+[2025-09-22T00:00:55Z]  ++ local i=
+[2025-09-22T00:00:55Z]  ++ local s=
+[2025-09-22T00:00:55Z]  ++ local u=
+[2025-09-22T00:00:55Z]  ++ local h=
+[2025-09-22T00:00:55Z]  ++ local c=
+[2025-09-22T00:00:55Z]  ++ local p=
+[2025-09-22T00:00:55Z]  ++ local upstream=
+[2025-09-22T00:00:55Z]  ++ '[' true = false ']'
+[2025-09-22T00:00:55Z]  ++ '[' true = true ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ local 'z= '
+[2025-09-22T00:00:55Z]  ++ b=main
+[2025-09-22T00:00:55Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:55Z]  ++ '[' -n '' ']'
+[2025-09-22T00:00:55Z]  ++ local f=
+[2025-09-22T00:00:55Z]  ++ local gitstring=main
+[2025-09-22T00:00:55Z]  ++ '[' no = yes ']'
+[2025-09-22T00:00:55Z]  ++ printf -- ' (%s)' main
+[2025-09-22T00:00:55Z]  ++ return 0
+[2025-09-22T00:00:55Z]  + for f in scripts/validation/landmarks_to_r.sh scripts/validation/r_to_curve.sh scripts/validation/count_ap.sh scripts/validation/checks.sh scripts/validation/pack_dataset.sh scripts/validation/sign_dataset.sh scripts/validation/face_to_ap.sh scripts/validation/run_experiment.sh
+[2025-09-22T00:00:55Z]  + '[' -x scripts/validation/landmarks_to_r.sh ']'
+[2025-09-22T00:00:55Z]  + echo 'missing or not executable: scripts/validation/landmarks_to_r.sh'
+[2025-09-22T00:00:55Z]  missing or not executable: scripts/validation/landmarks_to_r.sh
+[2025-09-22T00:00:55Z]  + exit 3
+[2025-09-22T00:00:55Z]  logout

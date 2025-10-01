@@ -1,0 +1,17 @@
+receipts: PASS
+holo_artifact: SKIP
+physics_artifact: SKIP
+perma_artifact: SKIP
+mirror_artifact: SKIP
+bin_artifact: SKIP
+genius_godel: SKIP
+genius_entangle: SKIP
+genius_paradox: 
+genius_conscious: 
+genius_dark: 
+genius_gomboc: 
+genius_mandelbrot: 
+genius_omega: 
+genius_riemann: 
+genius_singularity: 
+policy_gate: 1 passed, 0 failed, 7 skipped

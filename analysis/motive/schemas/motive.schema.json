@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MixedTateMotive",
+  "type": "object",
+  "required": ["id","base_field","type","weights","params","weyl_group","components"],
+  "properties": {
+    "id": {"type":"string"},
+    "base_field": {"type":"string"},
+    "type": {"enum":["mixed_tate"]},
+    "weights": {"type":"array","items":{"type":"integer"}},
+    "params": {"type":"object"},
+    "weyl_group": {"type":"string"},
+    "components": {"type":"object"}
+  }
+}

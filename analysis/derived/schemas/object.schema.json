@@ -1,0 +1,7 @@
+{
+ "$schema":"https://json-schema.org/draft/2020-12/schema",
+ "title":"B5-equivariant object",
+ "type":"object",
+ "required":["id","rep","degree","chamber","invariants"],
+ "properties":{"id":{"type":"string"},"rep":{"type":"string"},"degree":{"type":"integer"},"chamber":{"type":"string"},"invariants":{"type":"object"}}
+}

@@ -1,0 +1,14 @@
+{
+  "additivity": null,
+  "angle": "01_relative_functor",
+  "inputs": {
+    "segment_a": null,
+    "segment_b": null,
+    "segment_whole": null
+  },
+  "method": "pending",
+  "note": "need a,b,whole",
+  "residual": null,
+  "status": "pending",
+  "timestamp": "20251001T010749Z"
+}

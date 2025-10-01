@@ -1,0 +1,13 @@
+{
+  "angle": "03_atlas_swap",
+  "delta": 0.0,
+  "inputs": {
+    "atlas_A": null,
+    "atlas_B": null
+  },
+  "method": "pending",
+  "note": "need both A/B atlas receipts",
+  "ratio": null,
+  "status": "pending",
+  "timestamp": "20251001T004337Z"
+}

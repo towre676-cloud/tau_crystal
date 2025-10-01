@@ -1,0 +1,39 @@
+{"synthetic": false,
+ "outputs":
+ {"o": ["4431909659709467318"],
+  "i": "13191343357222656300",
+  "c": "8176899815637938764"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\packages\\Cli\\.lake\\build\\lib\\lean;C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\packages\\batteries\\.lake\\build\\lib\\lean;C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\packages\\Qq\\.lake\\build\\lib\\lean;C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\packages\\aesop\\.lake\\build\\lib\\lean;C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\packages\\proofwidgets\\.lake\\build\\lib\\lean;C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\packages\\importGraph\\.lake\\build\\lib\\lean;C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\packages\\LeanSearchClient\\.lake\\build\\lib\\lean;C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\packages\\plausible\\.lake\\build\\lib\\lean;C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\packages\\mathlib\\.lake\\build\\lib\\lean;C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\lib\\lean c:\\Users\\Cody\\.elan\\toolchains\\leanprover--lean4---v4.22.0\\bin\\lean.exe C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\TauProofs\\Cohomology.lean -o C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\lib\\lean\\TauProofs\\Cohomology.olean -i C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\lib\\lean\\TauProofs\\Cohomology.ilean -c C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\ir\\TauProofs\\Cohomology.c --setup C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\ir\\TauProofs\\Cohomology.setup.json --json",
+   "level": "trace"},
+  {"message":
+   "TauProofs/Cohomology.lean:18:4: try 'simp' instead of 'simpa'\n\nNote: This linter can be disabled with `set_option linter.unnecessarySimpa false`",
+   "level": "warning"},
+  {"message":
+   "TauProofs/Cohomology.lean:36:80: try 'simp' instead of 'simpa'\n\nNote: This linter can be disabled with `set_option linter.unnecessarySimpa false`",
+   "level": "warning"},
+  {"message":
+   "TauProofs/Cohomology.lean:37:68: try 'simp' instead of 'simpa'\n\nNote: This linter can be disabled with `set_option linter.unnecessarySimpa false`",
+   "level": "warning"}],
+ "inputs":
+ [["TauProofs.Cohomology:deps",
+   [["deps",
+     [["tau/TauProofs:extraDep", [["@tau:extraDep", "1723"]]],
+      ["import oleans",
+       [["TauProofs.Leaf:olean",
+         [["TauProofs.Leaf:deps", "10067002906060008313"],
+          ["C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\lib\\lean\\TauProofs\\Leaf.olean",
+           "13777394190511757260"]]]]]]],
+    ["libs",
+     [["import dynlibs", "1723"],
+      ["package external libraries", "1723"],
+      ["module dynlibs", "1723"],
+      ["module plugins", "1723"]]]]],
+  ["Lean 4.22.0, commit ba2cbbf09d4978f416e0ebd1fceeebc2c4138c05",
+   "8739116525927611134"],
+  ["C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\TauProofs\\Cohomology.lean",
+   "7071563100373058879"],
+  ["options", "1723"],
+  ["Module.leanArgs: #[]", "1723"]],
+ "depHash": "2712447344034106254"}

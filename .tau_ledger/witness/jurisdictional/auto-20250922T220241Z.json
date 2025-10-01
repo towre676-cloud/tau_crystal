@@ -1,0 +1,15 @@
+{
+  "capsule":"auto-20250922T220241Z",
+  "sha256":"d94ba6cb3f347bfceb1cf00b4e4174811f128ee6bad2de7526e464c3e500f3aa",
+  "size_bytes":36276625,
+  "affidavit_pdf":"docs/witness/auto-20250922T220241Z.affidavit.pdf",
+  "notary":{
+    "name":"",
+    "commission_no":"",
+    "jurisdiction_state":"",
+    "jurisdiction_county":"",
+    "method":"RON|in_person",
+    "notarized_at_utc":""
+  },
+  "docket_number":""
+}

@@ -1,0 +1,20 @@
+{"synthetic": false,
+ "outputs": "1710888077094352209",
+ "log":
+ [{"message":
+   ".> c:\\Users\\Cody\\.elan\\toolchains\\leanprover--lean4---v4.22.0\\bin\\clang.exe -o C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\bin\\prove_v2.exe @C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\bin\\prove_v2.exe.rsp",
+   "level": "trace"}],
+ "inputs":
+ [["linkObjs",
+   [["C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\ir\\Tau\\ProveV2.c.o.noexport",
+     "5205949803085869424"],
+    ["C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\ir\\Tau\\LeafGroup.c.o.noexport",
+     "8618978967696733240"],
+    ["C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\ir\\Tau\\DeltaComplex.c.o.noexport",
+     "18012270889413121672"]]],
+  ["linkLibs", "1723"],
+  ["Lean 4.22.0, commit ba2cbbf09d4978f416e0ebd1fceeebc2c4138c05",
+   "8739116525927611134"],
+  ["traceArgs: #[]", "1723"],
+  ["x86_64-w64-windows-gnu", "3894966287860160785"]],
+ "depHash": "10148735574801993412"}

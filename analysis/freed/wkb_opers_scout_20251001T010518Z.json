@@ -1,0 +1,10 @@
+{
+  "angle": "wkb_opers_scout",
+  "inputs": {
+    "chebyshev_decay": null,
+    "entropy_pulse": null
+  },
+  "note": "scout only; next step extracts Stokes/turning data",
+  "status": "pending",
+  "timestamp": "20251001T010518Z"
+}

@@ -1,0 +1,36 @@
++ set -e
++ set +H
++ umask 022
++ ID=auto-20250922T220241Z
++ DEV=SIM
++ PUB=hw/keys/device_p256.pub.pem
++ TAR=analysis/capsules/auto-20250922T220241Z/auto-20250922T220241Z.tar.gz
++ '[' -f analysis/capsules/auto-20250922T220241Z/auto-20250922T220241Z.tar.gz ']'
+++ sha256sum analysis/capsules/auto-20250922T220241Z/auto-20250922T220241Z.tar.gz
+++ cut '-d ' -f1
++ H=d94ba6cb3f347bfceb1cf00b4e4174811f128ee6bad2de7526e464c3e500f3aa
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ TS=2025-09-23T19:20:51Z
+++ mktemp
++ WIRE=/tmp/tmp.IK1qPR0awV
++ :
++ printf %s '{'
++ printf %s '"msg":"capsule_attest",'
++ printf %s '"capsule":"auto-20250922T220241Z",'
++ printf %s '"sha256":"d94ba6cb3f347bfceb1cf00b4e4174811f128ee6bad2de7526e464c3e500f3aa",'
++ printf %s '"gates":{"capsules_verify":"ok","morpho":"ok","ckm":"ok"},'
++ printf %s '"ts_utc":"2025-09-23T19:20:51Z"'
++ printf %s '}'
+++ mktemp
++ RESP=/tmp/tmp.6omPHajhd5
++ '[' SIM = SIM ']'
++ scripts/hw/mcu_sim.sh
++ echo '[silicon] device response:'
++ head -n1 /tmp/tmp.6omPHajhd5
+++ sed -n 's/.*"sig_p256":"\([^"]*\)".*/\1/p' /tmp/tmp.6omPHajhd5
+++ head -n1
++ SIGB64=
++ '[' -n '' ']'
++ echo '[silicon] denied or no signature'
++ cat /tmp/tmp.6omPHajhd5
++ exit 1

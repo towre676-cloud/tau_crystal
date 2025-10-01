@@ -1,0 +1,17 @@
+{"synthetic": false,
+ "outputs": "8618978967696733240",
+ "log":
+ [{"message":
+   ".> c:\\Users\\Cody\\.elan\\toolchains\\leanprover--lean4---v4.22.0\\bin\\clang.exe -c -o C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\ir\\Tau\\LeafGroup.c.o.noexport C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\ir\\Tau\\LeafGroup.c -I c:\\Users\\Cody\\.elan\\toolchains\\leanprover--lean4---v4.22.0\\include -fstack-clash-protection -fwrapv -Wno-unused-command-line-argument --sysroot c:\\Users\\Cody\\.elan\\toolchains\\leanprover--lean4---v4.22.0 -nostdinc -isystem c:\\Users\\Cody\\.elan\\toolchains\\leanprover--lean4---v4.22.0/include/clang -O3 -DNDEBUG",
+   "level": "trace"}],
+ "inputs":
+ [["Tau.LeafGroup:c",
+   [["C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\ir\\Tau\\LeafGroup.c",
+     "16921900610587519224"],
+    ["Lean 4.22.0, commit ba2cbbf09d4978f416e0ebd1fceeebc2c4138c05",
+     "8739116525927611134"]]],
+  ["Lean 4.22.0, commit ba2cbbf09d4978f416e0ebd1fceeebc2c4138c05",
+   "8739116525927611134"],
+  ["traceArgs: #[-O3, -DNDEBUG]", "7817036117363455818"],
+  ["x86_64-w64-windows-gnu", "3894966287860160785"]],
+ "depHash": "1994578817302852890"}

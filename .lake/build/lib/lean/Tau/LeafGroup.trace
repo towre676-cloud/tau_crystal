@@ -1,0 +1,26 @@
+{"synthetic": false,
+ "outputs":
+ {"o": ["5848927002656386819"],
+  "i": "10075311582038315196",
+  "c": "16921900610587519224"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\lib\\lean c:\\Users\\Cody\\.elan\\toolchains\\leanprover--lean4---v4.22.0\\bin\\lean.exe C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\Tau\\LeafGroup.lean -o C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\lib\\lean\\Tau\\LeafGroup.olean -i C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\lib\\lean\\Tau\\LeafGroup.ilean -c C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\ir\\Tau\\LeafGroup.c --setup C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\ir\\Tau\\LeafGroup.setup.json --json",
+   "level": "trace"}],
+ "inputs":
+ [["Tau.LeafGroup:deps",
+   [["deps",
+     [["tau/Tau:extraDep", [["@tau:extraDep", "1723"]]],
+      ["import oleans", "1723"]]],
+    ["libs",
+     [["import dynlibs", "1723"],
+      ["package external libraries", "1723"],
+      ["module dynlibs", "1723"],
+      ["module plugins", "1723"]]]]],
+  ["Lean 4.22.0, commit ba2cbbf09d4978f416e0ebd1fceeebc2c4138c05",
+   "8739116525927611134"],
+  ["C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\Tau\\LeafGroup.lean",
+   "8789502433837288751"],
+  ["options", "1723"],
+  ["Module.leanArgs: #[]", "1723"]],
+ "depHash": "13791683809795101587"}

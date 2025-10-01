@@ -1,0 +1,13 @@
+{
+  "angle": "03_atlas_swap",
+  "delta": 0.0,
+  "inputs": {
+    "atlas_A": "analysis/freed/logB_atlas_A_20251001T011204Z.json",
+    "atlas_B": "analysis/freed/logB_atlas_B_20251001T011204Z.json"
+  },
+  "method": "atlas_swap_diff_ratio",
+  "note": "",
+  "ratio": null,
+  "status": "ok",
+  "timestamp": "20251001T011205Z"
+}

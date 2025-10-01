@@ -1,0 +1,1 @@
+{"kind":"morpho/profile_sym","timestamp":"2025-09-19T20:17:16Z","left_commit":"5a31834cbefc7d1b41f3f3de359377e0feb626c599764c7a8926a84108f59526","right_commit":"61feddb236376e13a4933a6e9f599921d130d22b2a8475cd23c064a739dfeff1","salt_sha256":"1f7774353801d8c2ebbaf095a2e987e26ab257dc67e2b64bea39376e87b7779a","metric":"RMS","value":0.000000,"threshold":0.0100,"accept":1}

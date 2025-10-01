@@ -1,0 +1,6 @@
+{
+  when: 2025-09-21T16:40:56Z,
+  subject: Cody_A,
+  kervaire_gate: tools/kervaire/kervaire_gate.tz,
+   "modular_curve": { "level": 7, nchor: CM(D=7,index=49)}
+}

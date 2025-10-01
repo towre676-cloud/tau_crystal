@@ -1,0 +1,7 @@
+//! Canonical JSON serializer wrapper using RFC8785 (JCS)
+use jcs_serde_json as jcs;
+use serde::Serialize;
+
+pub fn to_vec<T: Serialize>(value: &T) -> Vec<u8> {
+    jcs::to_vec(value).expect("canonical json")
+}

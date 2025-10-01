@@ -1,0 +1,29 @@
+{
+  "stamp": "20251001T042749Z",
+  "test": "gauge",
+  "N": 1201,
+  "dx": 0.0008333333333333334,
+  "T": 0.3,
+  "steps": 4500,
+  "glued": true,
+  "params": {
+    "CFL": 0.08,
+    "amp": 0.01,
+    "sigKO": 0.019753086419753096,
+    "dx": 0.0008333333333333334
+  },
+  "norms": {
+    "final": {
+      "H": Infinity,
+      "M": Infinity,
+      "C_Gamma": 5.05638445214759e+109
+    },
+    "integrated": {
+      "H": Infinity,
+      "M": Infinity,
+      "C_Gamma": 1.5875298304052268e+37
+    }
+  },
+  "stable": false,
+  "notes": "SSPRK3 + KO4(proper dx^4) + exp-clip + alpha clamp"
+}

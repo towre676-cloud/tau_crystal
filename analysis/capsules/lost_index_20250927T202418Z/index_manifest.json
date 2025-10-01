@@ -1,0 +1,20 @@
+{
+  "index":"lost_artifacts_freeze_001",
+  "created_utc":"2025-09-27T20:24:21Z",
+  "artifacts": [
+    {"capsule_id":"lost_av_capsule_chain_20250927T202321Z","manifest_path":"analysis/capsules/lost/lost_av_capsule_chain_20250927T202321Z/manifest.json","sha256":"94e7ff4269fb59e46fb2ac057ba249ff6b78147719abf3c78628dafafb0f55f6"},
+    {"capsule_id":"lost_discovery_radar_20250927T202321Z","manifest_path":"analysis/capsules/lost/lost_discovery_radar_20250927T202321Z/manifest.json","sha256":"16dd2146b9d5aa21f0dbf25a146455f099e0aa6652c5fc1e64e49a6d44ac694e"},
+    {"capsule_id":"lost_fft_mu_suite_20250927T202320Z","manifest_path":"analysis/capsules/lost/lost_fft_mu_suite_20250927T202320Z/manifest.json","sha256":"bb0c2b0a27ba5ddab2793af7c561966c1aecdccc052b9324ecf68db7244763a3"},
+    {"capsule_id":"lost_holography_tensor_lifts_20250927T202316Z","manifest_path":"analysis/capsules/lost/lost_holography_tensor_lifts_20250927T202316Z/manifest.json","sha256":"d9a98e8dba02f033f32d36df036e0edb47fbb1c9eee0f15bde93f74fa10c695e"},
+    {"capsule_id":"lost_interference_map_20250927T202317Z","manifest_path":"analysis/capsules/lost/lost_interference_map_20250927T202317Z/manifest.json","sha256":"de2185ab18a21fde8b623d35eed0d4a0dd676788c9b07e14c9df5684f9e90810"},
+    {"capsule_id":"lost_langlands_cft_20250927T202318Z","manifest_path":"analysis/capsules/lost/lost_langlands_cft_20250927T202318Z/manifest.json","sha256":"c329b9ac056684aa17524e49102b748e6fe993a0a6d64534a911da21999877bf"},
+    {"capsule_id":"lost_oci_docker_proof_20250927T202319Z","manifest_path":"analysis/capsules/lost/lost_oci_docker_proof_20250927T202319Z/manifest.json","sha256":"f72cf2555543ae2e8a1235919fdc98c89af978fd2097165b726dc70a7ab6469c"},
+    {"capsule_id":"lost_signed_runner_20250927T202320Z","manifest_path":"analysis/capsules/lost/lost_signed_runner_20250927T202320Z/manifest.json","sha256":"da3a17971ed81a7704c511827e4b4c71fdafbd4014c960db1828880033997eee"},
+    {"capsule_id":"lost_sym2_double_zero_20250927T202319Z","manifest_path":"analysis/capsules/lost/lost_sym2_double_zero_20250927T202319Z/manifest.json","sha256":"74cc77daac389e78bd0a7b8172eb260109e347c09703a5205ea390d26c02386e"},
+    {"capsule_id":"lost_tau_entropy_witness_20250927T202317Z","manifest_path":"analysis/capsules/lost/lost_tau_entropy_witness_20250927T202317Z/manifest.json","sha256":"cb0eb327bcf42ad33ed732a934d733e4fd636be4308fc2f7fa146ebd70bcd45a"},
+    {"capsule_id":"lost_tau_reflection_20250927T202315Z","manifest_path":"analysis/capsules/lost/lost_tau_reflection_20250927T202315Z/manifest.json","sha256":"29fe538efed6bea298a303a7236245b779ce0c019a184fd46415681654fd9908"},
+    {"capsule_id":"lost_timefold_receipts_20250927T202316Z","manifest_path":"analysis/capsules/lost/lost_timefold_receipts_20250927T202316Z/manifest.json","sha256":"53ef7af6a243af448cac99c0fb31bf5c6be1cd8541b697ce5bf3a794586ef13c"}
+  ],
+  "merkle_root":"f45c64198862c173b9f57c6e626e970118abb87e7f7f9e5aa35629aacb4b02de"
+
+}

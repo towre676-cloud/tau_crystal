@@ -1,0 +1,20 @@
+import Lake
+open Lake DSL
+
+package «spectral_kernel» where
+  -- add package options here if needed
+
+-- Tell Lake that your Lean sources live under "Src/"
+lean_lib «Spectral» where
+  srcDir := "Src"
+
+-- Executables that produce your JSON traces
+lean_exe «plumbing» where
+  -- file: Src/Spectral/plumbing.lean   module: Spectral.plumbing
+  root := `Spectral.plumbing
+  supportInterpreter := true
+
+lean_exe «face_plumbing» where
+  -- file: Src/Spectral/face_plumbing.lean   module: Spectral.face_plumbing
+  root := `Spectral.face_plumbing
+  supportInterpreter := true

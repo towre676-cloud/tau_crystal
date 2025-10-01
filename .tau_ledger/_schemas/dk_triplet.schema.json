@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#", "title": "dK Triplet",
+  "type": "object",
+  "required": ["type","bulk_K_index_hash","boundary_eta_hash","relative_logB_hash","model","stamp"],
+  "properties": {
+    "type": {"const": "differential_K_triplet"},
+    "bulk_K_index_hash": {"type":"string"},
+    "boundary_eta_hash": {"type":"string"},
+    "relative_logB_hash": {"type":"string"},
+    "model": {"type":"string"},
+    "stamp": {"type":"string"}
+  }
+}

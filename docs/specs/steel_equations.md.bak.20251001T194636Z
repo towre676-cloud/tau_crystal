@@ -1,0 +1,17 @@
+cd "$HOME/Desktop/tau_crystal/tau_crystal" || exit 1
+
+DST="docs/specs/steel_equations.md"
+DIR="$(dirname "$DST")"
+[ -d "$DIR" ] || mkdir -p "$DIR"
+
+if [ -f "$DST" ]; then
+  TS="$(date -u +%Y%m%dT%H%M%SZ 2>/dev/null || date +%Y%m%dT%H%M%S)"
+  cp -p -- "$DST" "$DST.bak.$TS" && echo "[ok] backup: $DST.bak.$TS"
+fi
+
+# paste was already copied to Windows clipboard before you run this
+cat /dev/clipboard > "$DST" && echo "[ok] wrote $DST"
+
+# quick sanity peek
+head -n 5 -- "$DST" || true
+tail -n 5 -- "$DST" || true

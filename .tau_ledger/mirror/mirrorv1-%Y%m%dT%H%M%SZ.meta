@@ -1,0 +1,5 @@
+schema: taucrystal/mirror/v1
+id: mirrorv1-%Y%m%dT%H%M%SZ
+utc: %Y%m%dT%H%M%SZ
+remote: https://raw.githubusercontent.com/towre676-cloud/tau_crystal/main
+receipts: [

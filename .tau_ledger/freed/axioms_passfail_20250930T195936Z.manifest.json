@@ -1,0 +1,13 @@
+{
+  "run_id": "axioms_passfail_20250930T195936Z",
+  "timestamp_utc": "20250930T195936Z",
+  "artifacts": [
+    {
+      "path": "analysis/freed/axioms_passfail_20250930T195936Z.json",
+      "sha256": "d8f924a2ad8bcd0877a22a67228dedab7e2fdfcc8d0cf3a56500202f3dd1bd9a"
+    }
+  ],
+  "claims": {
+    "axioms_passfail": "PASS/FAIL summary from latest receipts"
+  }
+}

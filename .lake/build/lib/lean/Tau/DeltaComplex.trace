@@ -1,0 +1,30 @@
+{"synthetic": false,
+ "outputs":
+ {"o": ["14435935211386687000"],
+  "i": "17213123178729862884",
+  "c": "1698843662282774660"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\lib\\lean c:\\Users\\Cody\\.elan\\toolchains\\leanprover--lean4---v4.22.0\\bin\\lean.exe C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\Tau\\DeltaComplex.lean -o C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\lib\\lean\\Tau\\DeltaComplex.olean -i C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\lib\\lean\\Tau\\DeltaComplex.ilean -c C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\ir\\Tau\\DeltaComplex.c --setup C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\ir\\Tau\\DeltaComplex.setup.json --json",
+   "level": "trace"}],
+ "inputs":
+ [["Tau.DeltaComplex:deps",
+   [["deps",
+     [["tau/Tau:extraDep", [["@tau:extraDep", "1723"]]],
+      ["import oleans",
+       [["Tau.LeafGroup:olean",
+         [["Tau.LeafGroup:deps", "12720339749678921893"],
+          ["C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\lib\\lean\\Tau\\LeafGroup.olean",
+           "5848927002656386819"]]]]]]],
+    ["libs",
+     [["import dynlibs", "1723"],
+      ["package external libraries", "1723"],
+      ["module dynlibs", "1723"],
+      ["module plugins", "1723"]]]]],
+  ["Lean 4.22.0, commit ba2cbbf09d4978f416e0ebd1fceeebc2c4138c05",
+   "8739116525927611134"],
+  ["C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\Tau\\DeltaComplex.lean",
+   "14092694745348052306"],
+  ["options", "1723"],
+  ["Module.leanArgs: #[]", "1723"]],
+ "depHash": "2549582576713061995"}

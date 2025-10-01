@@ -1,0 +1,30 @@
+# Gates Report
+# UTC: 2025-09-22T20:40:51Z
+
+== PROGRESS ==
+organ	status	last_ok_utc	last_error
+vows	ok	2025-09-22T20:39:39Z	-
+phasehead	ok	2025-09-22T20:39:40Z	-
+ckm	ok	2025-09-22T20:39:40Z	-
+capsules	ok	2025-09-22T20:39:43Z	-
+morpho	ok	2025-09-22T20:39:44Z	-
+provenance	ok	2025-09-22T20:40:51Z	-
+gates	ok	2025-09-22T20:37:05Z	-
+vows_age	ok	2025-09-22T20:39:39Z	-
+capsules_verify	fail	[CAPVERIFY]	mismatch
+
+== CAPSULE INDEX (tail) ==
+auto	auto-20250922T190433Z	ad700417d460127a37c8fba4a3071f8ecb6aaaaada67492e63c176d4481b7614	analysis/capsules/auto-20250922T190433Z/capsule.receipt.json
+auto	auto-20250922T202812Z	56d6af8efa6c2a4b588e1123a6256e12ab284a917e25e1d8a5a34b54463a4e2f	/c/Users/Cody/Desktop/tau_crystal/tau_crystal/analysis/capsules/auto-20250922T202812Z/capsule.receipt.json
+auto	auto-20250922T203217Z	84911e697cc9a7b68188977f1805a3160143481462a670dc9fc628539be6ded8	/c/Users/Cody/Desktop/tau_crystal/tau_crystal/analysis/capsules/auto-20250922T203217Z/capsule.receipt.json
+auto	auto-20250922T203554Z	f7260593fef7001f2cee453880461a170b7cf4b57260cd443af2c5cb552d429e	/c/Users/Cody/Desktop/tau_crystal/tau_crystal/analysis/capsules/auto-20250922T203554Z/capsule.receipt.json
+auto	auto-20250922T203941Z	ebf8557b4a073f55578593b50735d760bdb717e44dbb630082ae55a620b72af1	/c/Users/Cody/Desktop/tau_crystal/tau_crystal/analysis/capsules/auto-20250922T203941Z/capsule.receipt.json
+
+== VOWS ==
+open_vows: 7
+20250922T183121Z	morpho	Enforce boundary.txt+sig on all packs in CI	open
+20250922T183121Z	fermion	Gate CKM unitarity with tolerance 1e-6	open
+20250922T183121Z	phasehead	Ensure phase_next_latest.sha matches max phase digest	open
+20250922T183121Z	lean	Add lake build + proof.ok receipt in CI	open
+20250922T183121Z	interf	Define rows.tsv schema + writer receipt	open
+

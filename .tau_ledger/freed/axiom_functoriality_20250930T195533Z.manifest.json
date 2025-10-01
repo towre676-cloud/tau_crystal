@@ -1,0 +1,10 @@
+{
+  "run_id": "axiom_functoriality_20250930T195533Z",
+  "timestamp_utc": "20250930T195533Z",
+  "artifacts": [
+    {
+      "path": "analysis/freed/axiom_functoriality_20250930T195533Z.json",
+      "sha256": "2a1c8869ec6bfecb6f1fd8f774f26e53969f88b4feab8ba917c4472161f99688"
+    }
+  ]
+}

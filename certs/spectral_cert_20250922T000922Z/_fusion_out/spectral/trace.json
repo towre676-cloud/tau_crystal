@@ -1,0 +1,1 @@
+{"nodes":[{"label":"A","maslov":1,"tamagawa":1},{"label":"B","maslov":0,"tamagawa":0}],"edges":[{"from":"A","to":"B","int":1}]}

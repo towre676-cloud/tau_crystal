@@ -1,0 +1,7 @@
+MORPHO SIGNATURE PAIR RECEIPT
+timestamp_utc: 2025-09-21T15:42:09Z
+
+Scope: Canonical male/female anchors; values derived from LS3D-W mass processing (n=229505).
+Filters: rms_over_go <= 0.004 AND convex_deg >= 177.0 (hard constraints).
+Population medians: RMS_px=23.94033047133901, convex_deg=129.00869175084347, harmony_median=0.3265271602841907.
+Conclusion: Both anchors satisfy tau-crystal admissibility and occupy the extreme harmony regime (percentile ~100).

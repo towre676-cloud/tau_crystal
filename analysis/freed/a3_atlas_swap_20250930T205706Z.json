@@ -1,0 +1,14 @@
+{
+  "_inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "ell": 33.33333333333333
+  },
+  "_claims": {
+    "atlas_swap_invariance": "log det \u03a3 invariant under permutation"
+  },
+  "_certificates": {
+    "residual": 0.0,
+    "tolerance": 1e-15
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "kind": "atlas_swap",
+  "base": "59930b23b24faeb21c8ead3228b2abb61d27455de4cf451a47aacb0ac901ede6",
+  "matches": [
+    true,
+    true,
+    true
+  ],
+  "pass": true
+}

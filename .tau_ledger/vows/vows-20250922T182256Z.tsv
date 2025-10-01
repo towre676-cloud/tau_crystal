@@ -1,0 +1,8 @@
+when	area	vow	status
+20250922T182256Z	langlands	Flip STRICT_NORM=1 once normalization idempotent	open
+20250922T182256Z	capsules	Capsule each stabilized double-zero claim	open
+20250922T182256Z	morpho	Enforce boundary.txt+sig on all packs in CI	open
+20250922T182256Z	fermion	Gate CKM unitarity with tolerance 1e-6	open
+20250922T182256Z	phasehead	Ensure phase_next_latest.sha matches max phase digest	open
+20250922T182256Z	lean	Add lake build + proof.ok receipt in CI	open
+20250922T182256Z	interf	Define rows.tsv schema + writer receipt	open

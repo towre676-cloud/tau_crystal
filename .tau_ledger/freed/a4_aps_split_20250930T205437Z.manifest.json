@@ -1,0 +1,10 @@
+{
+  "run_id": "a4_aps_split_20250930T205437Z",
+  "timestamp_utc": "20250930T205437Z",
+  "artifacts": [
+    {
+      "path": "analysis/freed/a4_aps_split_20250930T205437Z.json",
+      "sha256": "7f02190f78cf5a827015be62e4d257c1ed2061cacb62fddcf07c5868f8618e24"
+    }
+  ]
+}

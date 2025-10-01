@@ -1,0 +1,29 @@
++ cd /c/Users/Cody/Desktop/tau_crystal/tau_crystal
+++ date -u +%Y%m%dT%H%M%SZ
++ echo '[repro] start 20251001T194210Z'
++ SRC=/mnt/data/steel.txt
++ DST=docs/specs/steel_equations.md
++ echo '[repro] SRC=/mnt/data/steel.txt'
++ echo '[repro] DST=docs/specs/steel_equations.md'
++ '[' -r /mnt/data/steel.txt ']'
++ echo '[check] SRC NOT readable'
+++ dirname docs/specs/steel_equations.md
++ mkdir -p docs/specs
++ TMP=docs/specs/steel_equations.md.tmp.387
++ echo '[repro] stage TMP=docs/specs/steel_equations.md.tmp.387'
++ cp -f /mnt/data/steel.txt docs/specs/steel_equations.md.tmp.387
++ echo '[rc] cp_to_tmp=1'
++ '[' -f docs/specs/steel_equations.md ']'
++ cmp -s docs/specs/steel_equations.md.tmp.387 docs/specs/steel_equations.md
++ echo '[rc] cmp=2'
++ cmp -s docs/specs/steel_equations.md.tmp.387 docs/specs/steel_equations.md
+++ date -u +%Y%m%dT%H%M%SZ
++ TS=20251001T194210Z
++ BAK=docs/specs/steel_equations.md.bak.20251001T194210Z
++ echo '[repro] backup to docs/specs/steel_equations.md.bak.20251001T194210Z'
++ cp -p docs/specs/steel_equations.md docs/specs/steel_equations.md.bak.20251001T194210Z
++ echo '[rc] cp_backup=0'
++ mv -f docs/specs/steel_equations.md.tmp.387 docs/specs/steel_equations.md
++ echo '[rc] mv=1'
+++ date -u +%Y%m%dT%H%M%SZ
++ echo '[repro] end 20251001T194211Z'

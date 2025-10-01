@@ -1,0 +1,23 @@
+{
+  "stamp": "20251001T021617Z",
+  "equation": "Phi*omega = d log T_mot",
+  "results": [
+    {
+      "bridge": "PF",
+      "max_abs_error": 0.0,
+      "pass": true
+    },
+    {
+      "bridge": "AGT",
+      "max_abs_error": 0.0,
+      "pass": true
+    },
+    {
+      "bridge": "SW",
+      "max_abs_error": 0.0,
+      "pass": true
+    }
+  ],
+  "pass": true,
+  "proof_build": "4cdcd5ba95df8b94ec88c90442613a98bb19c0177610d1497f0376236b5d450c"
+}

@@ -1,0 +1,73 @@
+{
+  "stamp": "20251001T040513Z",
+  "test": "gauge",
+  "rows": [
+    {
+      "res": 801,
+      "H_step": NaN,
+      "H_glued": NaN,
+      "M_step": NaN,
+      "M_glued": NaN,
+      "CG_step": NaN,
+      "CG_glued": NaN
+    },
+    {
+      "res": 1201,
+      "H_step": NaN,
+      "H_glued": NaN,
+      "M_step": NaN,
+      "M_glued": NaN,
+      "CG_step": NaN,
+      "CG_glued": NaN
+    },
+    {
+      "res": 1601,
+      "H_step": NaN,
+      "H_glued": NaN,
+      "M_step": NaN,
+      "M_glued": NaN,
+      "CG_step": NaN,
+      "CG_glued": NaN
+    },
+    {
+      "res": 2001,
+      "H_step": NaN,
+      "H_glued": NaN,
+      "M_step": NaN,
+      "M_glued": NaN,
+      "CG_step": NaN,
+      "CG_glued": NaN
+    }
+  ],
+  "orders": {
+    "H": NaN,
+    "M": NaN,
+    "C_Gamma": NaN
+  },
+  "deltas": [
+    {
+      "res": 801,
+      "H": NaN,
+      "M": NaN,
+      "C_Gamma": NaN
+    },
+    {
+      "res": 1201,
+      "H": NaN,
+      "M": NaN,
+      "C_Gamma": NaN
+    },
+    {
+      "res": 1601,
+      "H": NaN,
+      "M": NaN,
+      "C_Gamma": NaN
+    },
+    {
+      "res": 2001,
+      "H": NaN,
+      "M": NaN,
+      "C_Gamma": NaN
+    }
+  ]
+}

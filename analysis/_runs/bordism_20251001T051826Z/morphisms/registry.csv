@@ -1,0 +1,3 @@
+morphism_id,source,target,monoidal,label
+fuse01,O1+O1,O1,⊗,defect_fusion
+cut01,O2+O1,O2,⊗,cut

@@ -1,0 +1,15 @@
+{
+  "angle": "10_relative_index",
+  "inputs": {
+    "logB_receipt": "analysis/freed/logB_receipt_20250930T233145Z.json",
+    "sigma_leaf": null,
+    "volume_post": "analysis/freed/volume_post_20251001T005543Z.json",
+    "volume_pre": "analysis/freed/volume_pre_20251001T005543Z.json"
+  },
+  "method": "volume_diff_norm",
+  "note": "(Vpost-Vpre)/Vpre with safe denom fallback",
+  "status": "ok",
+  "timestamp": "20251001T010747Z",
+  "units": "arb",
+  "value": 0.0
+}

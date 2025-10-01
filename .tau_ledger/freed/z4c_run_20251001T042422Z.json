@@ -1,0 +1,29 @@
+{
+  "stamp": "20251001T042422Z",
+  "test": "gauge",
+  "N": 1201,
+  "dx": 0.0008333333333333334,
+  "T": 0.5,
+  "steps": 5000,
+  "glued": true,
+  "params": {
+    "CFL": 0.12,
+    "amp": 0.01,
+    "sigKO": 0.405,
+    "dx": 0.0008333333333333334
+  },
+  "norms": {
+    "final": {
+      "H": NaN,
+      "M": NaN,
+      "C_Gamma": NaN
+    },
+    "integrated": {
+      "H": NaN,
+      "M": NaN,
+      "C_Gamma": NaN
+    }
+  },
+  "stable": false,
+  "notes": "SSPRK3 + KO4(dx-scaled) + exp-clip"
+}

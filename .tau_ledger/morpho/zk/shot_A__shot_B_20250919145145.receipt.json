@@ -1,0 +1,1 @@
+{"kind":"morpho/zk_diff","timestamp":"2025-09-19T14:51:45Z","a_commit":"1f31c09282472c6d2b6402abc596391db2a82d971a833be888a89e432203fb7f","b_commit":"755a17b072a77dd37d1c001c92d4fd383174d37b3993012d536f5bc0089bd7ce","salt_sha256":"4e052b319875863c65f0ddf00bd642c6a884dc74e5cb0d525e5fd5ca72ae7d91","metric":"RMS","value":0.000037,"threshold":0.0100,"accept":1}

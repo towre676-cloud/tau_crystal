@@ -1,0 +1,23 @@
+cathedral-gates report 20250922T183037Z
+commit 9f58dca351215fb02fbeccfdcdd3828a2ec1a59d
+branch main
+env_sha f9858cbbda630e5fdef5d731ebe789d4fd93edaebfd37fbddb6f2c54541323cf
+tools dot N/A | jq-1.8.1
+----
+gate invariants: [NORM] mismatch analysis/normalized/ap.norm.json vs analysis/normalized/ap.norm.norm.json (WARN)
+[NORM] mismatch analysis/normalized/satake.norm.json vs analysis/normalized/satake.norm.norm.json (WARN)
+[NORM] mismatch analysis/normalized/combined_ap_satake.norm.json vs analysis/normalized/combined_ap_satake.norm.norm.json (WARN)
+[NORM] mismatch analysis/normalized/rank.norm.json vs analysis/normalized/rank.norm.norm.json (WARN)
+[NORM] mismatch analysis/normalized/motives.norm.json vs analysis/normalized/motives.norm.norm.json (WARN)
+[NORM] mismatch analysis/normalized/L_tau.norm.json vs analysis/normalized/L_tau.norm.norm.json (WARN)
+[ATLAS] ap.tsv vs ledger differ (WARN)
+[PROOF] graphviz dot not found (WARN)
+PASS
+gate forensics: [FORENSICS] clean working tree
+[FORENSICS] unpushed commits present
+[FORENSICS] too many untracked files: 6460 (max=100)
+FAIL (rc=1)
+gate tanh_lineage: [TANH] deterministic replay ok
+PASS
+----
+SUMMARY FAIL

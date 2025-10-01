@@ -1,0 +1,272 @@
++ source scripts/ops/seed_init.sh
+++ set -euo pipefail
+++ umask 022
+++ '[' 0 = 1 ']'
++++ date +%s%N
++++ sha256sum
++++ cut -c1-16
+++ SEED=072a7deef9402942
+++ export SEED PYTHONHASHSEED=072a7deef9402942
+++ PYTHONHASHSEED=072a7deef9402942
+++ mkdir -p .tau_ledger/seeds
+++ echo 072a7deef9402942
++++ date -u +%Y%m%dT%H%M%SZ
+++ export SEED_INIT=1
+++ SEED_INIT=1
+++ echo '[SEED] 072a7deef9402942'
+[SEED] 072a7deef9402942
++ set -euo pipefail
++ umask 022
++++ dirname scripts/ops/next_hammer.sh
+++ cd scripts/ops/../..
+++ pwd
++ ROOT=/c/Users/Cody/Desktop/tau_crystal/tau_crystal
++ cd /c/Users/Cody/Desktop/tau_crystal/tau_crystal
++ export LC_ALL=C
++ LC_ALL=C
++ export PYTHONHASHSEED=0
++ PYTHONHASHSEED=0
++ '[' -f .tau_env ']'
++ NEXT_TIMEOUT=900
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ echo '=== OPS hammer start (2025-09-22T20:47:37Z) ==='
+=== OPS hammer start (2025-09-22T20:47:37Z) ===
++ run_canon vows bash scripts/gates/vows_gate.sh
++ local organ=vows
++ shift
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ local ts=2025-09-22T20:47:37Z
++ local buf rc
+++ mktemp
++ buf=/tmp/tmp.FEyn3a1FaR
++ rc=0
++ set +e
++ bash scripts/meta/timeout_run.sh 900 bash scripts/gates/vows_gate.sh
++ rc=0
++ set -e
++ local status=ok
++ local err=-
++ '[' 0 -ne 0 ']'
++ echo 'vows	ok	2025-09-22T20:47:37Z	-'
+vows	ok	2025-09-22T20:47:37Z	-
++ cat /tmp/tmp.FEyn3a1FaR
+vows	ok	2025-09-22T20:47:37Z	-
++ rm -f /tmp/tmp.FEyn3a1FaR
++ bash scripts/meta/progress_update.sh vows ok -
+[PROGRESS] vows -> ok
++ '[' ok = ok ']'
++ return 0
++ run_canon vows_age bash scripts/gates/vows_age_gate.sh
++ local organ=vows_age
++ shift
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ local ts=2025-09-22T20:47:38Z
++ local buf rc
+++ mktemp
++ buf=/tmp/tmp.rtjeLsWcuw
++ rc=0
++ set +e
++ bash scripts/meta/timeout_run.sh 900 bash scripts/gates/vows_age_gate.sh
++ rc=0
++ set -e
++ local status=ok
++ local err=-
++ '[' 0 -ne 0 ']'
++ echo 'vows_age	ok	2025-09-22T20:47:38Z	-'
+vows_age	ok	2025-09-22T20:47:38Z	-
++ cat /tmp/tmp.rtjeLsWcuw
+[VOWS] ok (all open vows within 30d)
++ rm -f /tmp/tmp.rtjeLsWcuw
++ bash scripts/meta/progress_update.sh vows_age ok -
+[PROGRESS] vows_age -> ok
++ '[' ok = ok ']'
++ return 0
++ run_canon phasehead bash scripts/gates/phase_head_gate.sh
++ local organ=phasehead
++ shift
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ local ts=2025-09-22T20:47:38Z
++ local buf rc
+++ mktemp
++ buf=/tmp/tmp.inXgStRUhp
++ rc=0
++ set +e
++ bash scripts/meta/timeout_run.sh 900 bash scripts/gates/phase_head_gate.sh
++ rc=0
++ set -e
++ local status=ok
++ local err=-
++ '[' 0 -ne 0 ']'
++ echo 'phasehead	ok	2025-09-22T20:47:38Z	-'
+phasehead	ok	2025-09-22T20:47:38Z	-
++ cat /tmp/tmp.inXgStRUhp
+[PHASE] ok latest points to phase_next_20250915_232012Z.sha
++ rm -f /tmp/tmp.inXgStRUhp
++ bash scripts/meta/progress_update.sh phasehead ok -
+[PROGRESS] phasehead -> ok
++ '[' ok = ok ']'
++ return 0
++ run_canon ckm bash scripts/gates/ckm_unitary_gate.sh
++ local organ=ckm
++ shift
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ local ts=2025-09-22T20:47:39Z
++ local buf rc
+++ mktemp
++ buf=/tmp/tmp.aXxBJpmOzI
++ rc=0
++ set +e
++ bash scripts/meta/timeout_run.sh 900 bash scripts/gates/ckm_unitary_gate.sh
++ rc=0
++ set -e
++ local status=ok
++ local err=-
++ '[' 0 -ne 0 ']'
++ echo 'ckm	ok	2025-09-22T20:47:39Z	-'
+ckm	ok	2025-09-22T20:47:39Z	-
++ cat /tmp/tmp.aXxBJpmOzI
+[CKM] ok unitary within tol=1e-6
++ rm -f /tmp/tmp.aXxBJpmOzI
++ bash scripts/meta/progress_update.sh ckm ok -
+[PROGRESS] ckm -> ok
++ '[' ok = ok ']'
++ return 0
+++ date -u +%Y%m%dT%H%M%SZ
++ run_canon capsules bash scripts/meta/capsule_families.sh auto-20250922T204740Z
++ local organ=capsules
++ shift
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ local ts=2025-09-22T20:47:40Z
++ local buf rc
+++ mktemp
++ buf=/tmp/tmp.xdCGb3jLzR
++ rc=0
++ set +e
++ bash scripts/meta/timeout_run.sh 900 bash scripts/meta/capsule_families.sh auto-20250922T204740Z
++ rc=0
++ set -e
++ local status=ok
++ local err=-
++ '[' 0 -ne 0 ']'
++ echo 'capsules	ok	2025-09-22T20:47:40Z	-'
+capsules	ok	2025-09-22T20:47:40Z	-
++ cat /tmp/tmp.xdCGb3jLzR
+[CAP] double_zero.json
+[CAP] confirm_double_zero_stable.json
+[CAP] atlas_11a1_ap.tsv
+[CAP] ledger_ap.json
+[CAP] geom_proof.dot
+[CAP] tanh_lineage.json
+merkle_root=e6d3f79162851661c786e9bbd32139ee6e28a6ccdf3cd5e3509ff4bfad8e35b7
+[CAPSEAL] indexed auto auto-20250922T204740Z
+[CAP] wrote /c/Users/Cody/Desktop/tau_crystal/tau_crystal/analysis/capsules/auto-20250922T204740Z
+[CAP] wrote analysis/capsules/auto-20250922T204740Z
++ rm -f /tmp/tmp.xdCGb3jLzR
++ bash scripts/meta/progress_update.sh capsules ok -
+[PROGRESS] capsules -> ok
++ '[' ok = ok ']'
++ return 0
++ run_canon morpho bash scripts/morpho/enforce_all_boundaries.sh
++ local organ=morpho
++ shift
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ local ts=2025-09-22T20:47:42Z
++ local buf rc
+++ mktemp
++ buf=/tmp/tmp.HiCTFSeRhI
++ rc=0
++ set +e
++ bash scripts/meta/timeout_run.sh 900 bash scripts/morpho/enforce_all_boundaries.sh
++ rc=0
++ set -e
++ local status=ok
++ local err=-
++ '[' 0 -ne 0 ']'
++ echo 'morpho	ok	2025-09-22T20:47:42Z	-'
+morpho	ok	2025-09-22T20:47:42Z	-
++ cat /tmp/tmp.HiCTFSeRhI
+[BOUNDARY] ok run_20250919T203332Z_02e43a2b71
+[BOUNDARY] ok run_20250919T211551Z_02e43a2b71
+[BOUNDARY] ok run_20250919T212153Z_02e43a2b71
+[BOUNDARY] ok run_20250919T212957Z_02e43a2b71
+[BOUNDARY] ok run_20250919T213158Z_02e43a2b71
+[BOUNDARY] ok run_20250919T220649Z_42dce71f7c
+[BOUNDARY] ok run_20250919T221330Z_51118aba6e
++ rm -f /tmp/tmp.HiCTFSeRhI
++ bash scripts/meta/progress_update.sh morpho ok -
+[PROGRESS] morpho -> ok
++ '[' ok = ok ']'
++ return 0
++ '[' -x scripts/meta/build_provenance_map.sh ']'
++ run_canon provenance bash scripts/meta/build_provenance_map.sh
++ local organ=provenance
++ shift
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ local ts=2025-09-22T20:47:44Z
++ local buf rc
+++ mktemp
++ buf=/tmp/tmp.lITqKO9IaJ
++ rc=0
++ set +e
++ bash scripts/meta/timeout_run.sh 900 bash scripts/meta/build_provenance_map.sh
++ rc=0
++ set -e
++ local status=ok
++ local err=-
++ '[' 0 -ne 0 ']'
++ echo 'provenance	ok	2025-09-22T20:47:44Z	-'
+provenance	ok	2025-09-22T20:47:44Z	-
++ cat /tmp/tmp.lITqKO9IaJ
++ rm -f /tmp/tmp.lITqKO9IaJ
++ bash scripts/meta/progress_update.sh provenance ok -
+[PROGRESS] provenance -> ok
++ '[' ok = ok ']'
++ return 0
++ '[' -x scripts/gates/gen_gates_report.sh ']'
++ run_canon gates bash scripts/gates/gen_gates_report.sh
++ local organ=gates
++ shift
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ local ts=2025-09-22T20:48:51Z
++ local buf rc
+++ mktemp
++ buf=/tmp/tmp.EynPiv0DuR
++ rc=0
++ set +e
++ bash scripts/meta/timeout_run.sh 900 bash scripts/gates/gen_gates_report.sh
++ rc=0
++ set -e
++ local status=ok
++ local err=-
++ '[' 0 -ne 0 ']'
++ echo 'gates	ok	2025-09-22T20:48:51Z	-'
+gates	ok	2025-09-22T20:48:51Z	-
++ cat /tmp/tmp.EynPiv0DuR
+[GATES] wrote .tau_ledger/gates/report.20250922T204851Z.txt
++ rm -f /tmp/tmp.EynPiv0DuR
++ bash scripts/meta/progress_update.sh gates ok -
+[PROGRESS] gates -> ok
++ '[' ok = ok ']'
++ return 0
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ echo '=== OPS hammer end (2025-09-22T20:48:52Z) ==='
+=== OPS hammer end (2025-09-22T20:48:52Z) ===
++ echo
+
++ echo '=== Progress table ==='
+=== Progress table ===
++ bash scripts/meta/progress_print.sh
+organ            status  last_ok_utc           last_error
+vows             ok      2025-09-22T20:47:38Z  -
+phasehead        ok      2025-09-22T20:47:39Z  -
+ckm              ok      2025-09-22T20:47:39Z  -
+capsules         ok      2025-09-22T20:47:42Z  -
+morpho           ok      2025-09-22T20:47:44Z  -
+provenance       ok      2025-09-22T20:48:51Z  -
+gates            ok      2025-09-22T20:48:52Z  -
+vows_age         ok      2025-09-22T20:47:38Z  -
+capsules_verify  fail    [CAPVERIFY]           mismatch
++ grep -q -E '	fail	' analysis/progress.tsv
++ echo '[OPS] one or more organs are red; exiting 1'
+[OPS] one or more organs are red; exiting 1
++ exit 1

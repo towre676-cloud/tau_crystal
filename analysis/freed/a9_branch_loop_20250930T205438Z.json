@@ -1,0 +1,14 @@
+{
+  "_inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "ell_star": 33.33333333333333
+  },
+  "_claims": {
+    "branch_loop_invariance": "\u03a3^{-1/2} spectrum unchanged after loop"
+  },
+  "_certificates": {
+    "max_sv_rel_change": 0.0,
+    "tolerance": 1e-12
+  }
+}

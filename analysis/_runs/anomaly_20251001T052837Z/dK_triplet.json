@@ -1,0 +1,8 @@
+{
+  "type": "differential_K_triplet",
+  "bulk_K_index_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "boundary_eta_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "relative_logB_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "model": "FHS_stub",
+  "stamp": "2025-10-01T05:28:37Z"
+}

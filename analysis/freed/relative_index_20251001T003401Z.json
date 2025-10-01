@@ -1,0 +1,15 @@
+{
+  "angle": "10_relative_index",
+  "inputs": {
+    "logB_receipt": "analysis/freed\\logB_receipt_20250930T233145Z.json",
+    "sigma_leaf": null,
+    "volume_post": null,
+    "volume_pre": null
+  },
+  "method": "proxy",
+  "note": "no suitable inputs found; emitting neutral proxy 0.0",
+  "status": "proxy",
+  "timestamp": "20251001T003401Z",
+  "units": "arb",
+  "value": 0.0
+}

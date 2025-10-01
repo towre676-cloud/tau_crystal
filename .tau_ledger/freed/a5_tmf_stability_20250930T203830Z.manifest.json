@@ -1,0 +1,10 @@
+{
+  "run_id": "a5_tmf_stability_20250930T203830Z",
+  "timestamp_utc": "20250930T203830Z",
+  "artifacts": [
+    {
+      "path": "analysis/freed/a5_tmf_stability_20250930T203830Z.json",
+      "sha256": "9413f00e5e085869f12dd1ff0b664bac2eed1ee1524eff1121a70acba0edf512"
+    }
+  ]
+}

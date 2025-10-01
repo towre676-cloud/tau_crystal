@@ -1,0 +1,8 @@
+candidate: /mnt/data/B5C5.txt
+  exists: no
+candidate: ./B5C5.txt
+  exists: no
+candidate: ./data/B5C5.txt
+  exists: no
+candidate: ./docs/B5C5.txt
+  exists: no

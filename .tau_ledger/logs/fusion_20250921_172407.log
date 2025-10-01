@@ -1,0 +1,65 @@
+[start] 2025-09-21T17:24:19-04:00
+[pwd] /c/Users/Cody/Desktop/tau_crystal/tau_crystal
+[py] python3 
+[lake] build
+Build completed successfully (0 jobs).
+[lean] plumbing → trace.json
+[rc] 1
+[lean] face_plumbing → face_trace.json
+[rc] 1
+[render] face_trace.json
+[render] trace.json
+[fusion] run
+[plumbing] running...
+2025-09-21T21:24:33Z box_build: box-FUSE-D23 D=-23 N=1 -> .tau_ledger/hysteresis/box-FUSE-D23/box.json
+2025-09-21T21:25:58Z hysteresis_loop: box=box-FUSE-D23 H=4.957225143391555e-05 fwd=.tau_ledger/hysteresis/box-FUSE-D23/fwd.csv rev=.tau_ledger/hysteresis/box-FUSE-D23/rev.csv -> .tau_ledger/hysteresis/box-FUSE-D23/hysteresis.json
+2025-09-21T21:27:22Z hysteresis_prime: box=box-FUSE-D23 p=3 H_p=-3.296373171904343e-05 -> .tau_ledger/hysteresis/box-FUSE-D23/p3/hysteresis_p.json
+2025-09-21T21:28:46Z hysteresis_prime: box=box-FUSE-D23 p=5 H_p=-0.0001590181410805261 -> .tau_ledger/hysteresis/box-FUSE-D23/p5/hysteresis_p.json
+2025-09-21T21:30:11Z hysteresis_prime: box=box-FUSE-D23 p=23 H_p=9.211822592831986e-05 -> .tau_ledger/hysteresis/box-FUSE-D23/p23/hysteresis_p.json
+2025-09-21T21:30:11Z theta_lift: box-FUSE-D23 -> box-FUSE-D23 w=1 -> .tau_ledger/hysteresis/box-FUSE-D23/theta_to_box-FUSE-D23.json
+2025-09-21T21:30:12Z framing_phase: box-FUSE-D23 shift=1 parity=-1 -> .tau_ledger/hysteresis/box-FUSE-D23/framing_1.json
+verify: complex H=, sum local H_p=, delta=
+2025-09-21T21:30:12Z verify_hysteresis: box-FUSE-D23 H= sum(H_p)=
+2025-09-21T21:30:13Z receipt_emit: box-FUSE-D23 -> .tau_ledger/hysteresis/box-FUSE-D23/cm-sector_receipt.json
+2025-09-21T21:30:13Z run_demo: complete for box-FUSE-D23
+[spectral] running...
+Current branch: HEAD
+Using cache (Azure) from origin: leanprover-community/mathlib4
+Attempting to download 2597 file(s) from leanprover-community/mathlib4 cache
+Decompressing 7228 file(s)
+Unpacked in 37331 ms
+Completed successfully!
+Build completed successfully (0 jobs).
+[warn] fusion nonzero
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+  (commit or discard the untracked or modified content in submodules)
+	modified:   .garden (modified content)
+	modified:   scripts/morpho/face15_ingest.sh
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.github/workflows/fusion.yml
+	.tau_ledger/discovery/face_scores-20250921T174129Z.tsv
+	.tau_ledger/discovery/face_scores-20250921T182302Z.tsv
+	.tau_ledger/discovery/face_scores-20250921T182646Z.tsv
+	.tau_ledger/discovery/face_scores-20250921T182729Z.tsv
+	.tau_ledger/discovery/face_scores_plot-20250921T182729Z.html
+	_fusion_out/
+	analysis/morpho/index/Alice_X.tsv
+	face_trace.json
+	scripts/dev/
+	scripts/discovery/modular_curve_scan.sh
+	scripts/discovery/score_faces.sh
+	scripts/fusion/
+	scripts/morpho/check_inputs.sh
+	scripts/morpho/face15_metrics.sh
+	scripts/morphometry/
+	spectral_kernel/
+
+no changes added to commit (use "git add" and/or "git commit -a")
+[done] 2025-09-21T17:31:52-04:00

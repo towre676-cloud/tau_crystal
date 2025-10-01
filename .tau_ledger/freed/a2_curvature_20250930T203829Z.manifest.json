@@ -1,0 +1,10 @@
+{
+  "run_id": "a2_curvature_20250930T203829Z",
+  "timestamp_utc": "20250930T203829Z",
+  "artifacts": [
+    {
+      "path": "analysis/freed/a2_curvature_20250930T203829Z.json",
+      "sha256": "6dc26daa2a601dc9937b4dbd787998b900a61343e5ed88aa96ee04f996ce0b86"
+    }
+  ]
+}

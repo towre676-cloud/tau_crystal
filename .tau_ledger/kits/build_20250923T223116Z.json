@@ -1,0 +1,5 @@
+{
+  "event": "kit_build",
+  "utc": "2025-09-23T22:31:16Z",
+  "kits": ["anthropic_brian","databricks_janet","openai_ken","matt_rickard","harvard_karina","rebecca_rivers","tinycorp_george"]
+}

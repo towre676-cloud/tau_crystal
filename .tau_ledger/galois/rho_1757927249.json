@@ -1,0 +1,15 @@
+{
+  "matrix": [
+    [
+      1,
+      19123
+    ],
+    [
+      0,
+      1
+    ]
+  ],
+  "trace_mod_ell": 19123,
+  "proven_by_merkle": "CI_1757927250",
+  "from_hecke_seed": "1757927249"
+}

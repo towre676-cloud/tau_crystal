@@ -1,0 +1,18 @@
+{
+  "stamp": "20251001T040922Z",
+  "test": "gauge",
+  "res": 801,
+  "T": 1.0,
+  "CFL": 0.25,
+  "glued": false,
+  "seed": 42,
+  "amp": 0.05,
+  "stable": false,
+  "norms": {
+    "final": {
+      "H": NaN,
+      "M": NaN,
+      "C_Gamma": NaN
+    }
+  }
+}

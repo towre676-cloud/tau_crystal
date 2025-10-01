@@ -1,0 +1,14 @@
+{
+  "_inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "ell": 38.888888888888886
+  },
+  "_claims": {
+    "branch_loop_invariance": "singular values invariant after one loop (projected)"
+  },
+  "_certificates": {
+    "logdet_drift": 0.0,
+    "tolerance": 1e-12
+  }
+}

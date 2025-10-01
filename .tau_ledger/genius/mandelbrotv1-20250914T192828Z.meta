@@ -1,0 +1,5 @@
+schema: taucrystal/mandelbrot/v1
+id: mandelbrotv1-20250914T192828Z
+utc: 20250914T192828Z
+seed: tau-crystal-infinitum
+escape_iter: 0

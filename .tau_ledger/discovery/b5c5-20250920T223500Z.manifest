@@ -1,0 +1,13 @@
+# τ‑Crystal Canonical Registration: B5C5 Weyl Scaffold
+# Timestamp: 2025-09-20T22:35:00Z
+# Canonical ID: b5c5-20250920T223500Z
+ID=b5c5-20250920T223500Z
+TITLE=B5C5 Weyl Scaffold for α‑Bounded Fermion Mass Ratios
+GROUP=Weyl:Masses
+RANK=5
+WEYL_ORDER=3840
+ROOT=B5C5
+PATH=discovery/b5c5-20250920T223500Z.manifest
+SHA256_TXT=6cc5944bbebfa1b53d1df5895a12a2b0e33dc982a52754c1c31c77e2c22a0e61
+SHA256_CODE=905d89fd8be801e9fa14c3f60f19fc6c221db47cf57cb125a204d1b8b7b5c8fe
+SHA256_TSV=87c59b77f21a4621b636c7cfcd9b3f84f334cf3d272e7cf1bb8b11c0be182294

@@ -1,0 +1,13 @@
+{
+  "kind": "factorization_gate",
+  "params": {
+    "b": 1.0,
+    "mu0": 0.1,
+    "L": 0.62
+  },
+  "total": 0.06400532964215415,
+  "sum_parts": 0.06400532964215415,
+  "residual": 0.0,
+  "tol": 1e-10,
+  "pass": true
+}

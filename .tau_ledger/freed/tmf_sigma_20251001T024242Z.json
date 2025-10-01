@@ -1,0 +1,8 @@
+{
+  "stamp": "20251001T024242Z",
+  "sigma_orientation": "E4",
+  "multiplicative": true,
+  "prime_change_stable": true,
+  "csv": ".tau_ledger/freed/tmf_sigma_E4_20251001T024242Z.csv",
+  "proof_build": "unbuilt"
+}

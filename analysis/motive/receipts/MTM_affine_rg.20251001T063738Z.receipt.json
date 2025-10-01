@@ -1,0 +1,15 @@
+{
+  "id":"MTM_affine_rg",
+  "stamp":"20251001T063738Z",
+  "merkle":"8930c039af2fc9137d4dc6bbcdad462d474770d6fc4aabf987d5993b16ae0374",
+  "files":[
+  {"sha256":"00d528a7b47c17b93f4559521fd0dab1fd59e8983327847d9bdb7344a24f894c","path":"*analysis/motive/objects/MTM_affine_rg/periods/Betti_a_cycle.json"}
+,\n  {"sha256":"270f3404158e550baa001c89fadb5189dfffd89b1a63d7f99b788545188ecfa8","path":"*analysis/motive/objects/MTM_affine_rg/comparisons/betti_derham.json"}
+,\n  {"sha256":"34c357a63cf7e886819a3bf4ea4a92d8389d6732f1a5f99de2cf5d085f785607","path":"*analysis/motive/objects/MTM_affine_rg/params.json"}
+,\n  {"sha256":"70f42397c26ba7d5e234f72d5483d3e36261fdd2fb7e6ba6901f0e52466e6c31","path":"*analysis/motive/objects/MTM_affine_rg/motive.json"}
+,\n  {"sha256":"b00fa613f51139ea96e1d92c850fdf2b5d8c8e3f3e568c4182815341f0b1c342","path":"*analysis/motive/objects/MTM_affine_rg/periods/Betti_b_cycle.json"}
+,\n  {"sha256":"b76072fd1cdc7995d0932fd8627f6878ee5fe5440c67d61e12c0ba0e59e29b03","path":"*analysis/motive/objects/MTM_affine_rg/invariants/L_function_stub.json"}
+,\n  {"sha256":"be02f4801dbfcd1a7dc086c15ba6375b7a7082e208562d1236f90ee224e1f5d4","path":"*analysis/motive/objects/MTM_affine_rg/periods/deRham_omega2.json"}
+,\n  {"sha256":"c9ae2833c80a3eadb0ee309e1428bd68d0ebb05b1f6b36de7ca868d328be8a9c","path":"*analysis/motive/objects/MTM_affine_rg/invariants/regulator_stub.json"}
+,\n  {"sha256":"e3d3f703fa7de45269471d795b9f81b3d5bb8ae8306eecc758f836d9e9dec929","path":"*analysis/motive/objects/MTM_affine_rg/periods/deRham_omega1.json"}
+]\n}

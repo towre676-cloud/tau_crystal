@@ -1,0 +1,10 @@
+{
+  "adapter": "QFT adapter",
+  "theorem": "adapter",
+  "payload": {
+    "proxy": true,
+    "notes": "stub – replace with real plumbing"
+  },
+  "_freed_section": "2",
+  "_freed_citation": "Freed et al. (2024), Sec 2"
+}

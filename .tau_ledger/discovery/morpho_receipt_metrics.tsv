@@ -1,0 +1,12 @@
+metric\tlower\tupper
+bilateral_rms_mm\t0.45\t0.70
+peak_half_to_half_mm\t1.6\t2.3
+zygomatic_span_asym_mm\t0.2\t0.4
+mandibular_angle_sym_deg\t0.3\t0.6
+dental_midline_offset_mm\t0.0\t0.8
+facial_convexity_deg_G_Sn_Pg\t166\t170
+anterior_flatness_index\t0.93\t0.96
+nasolabial_angle_deg\t96\t103
+mentolabial_angle_deg\t124\t132
+geodesic_curvature_entropy\t0.85\t1.10
+global_symmetry_index_0_100\t97\t99

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\freed\tmf_index_probe.py", line 30, in <module>
+    if __name__=="__main__": import sys; sys.exit(main())
+                                                  ~~~~^^
+  File "C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\freed\tmf_index_probe.py", line 22, in main
+    "q_moments": null,
+                 ^^^^
+NameError: name 'null' is not defined

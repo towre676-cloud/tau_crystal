@@ -1,0 +1,11 @@
+{
+  "commit": "demo-20250914T023421Z",
+  "merkle_root": "deadbeef",
+  "wrapper_digest": "beadfeed",
+  "tau_tensor": "none",
+  "entropy_delta_bytes": 0,
+  "qr_witness": {
+    "hash": "70eaacb6cfe45e3b939b77e10d4ab2a4019d3f5816c281c8f2b8f93e3f5cd3ce",
+    "svg_path": ".tau_ledger/witness_qr.svg"
+  }
+}

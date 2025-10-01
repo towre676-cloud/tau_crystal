@@ -1,0 +1,5 @@
+utc=2025-09-29T03:53:31Z
+rev=3c3c954191089e4aced9b672cc44b00bf28567b2
+branch=feat/arith-integration-phi-sigma-gcd
+remote=https://github.com/towre676-cloud/tau_crystal
+dirty=30

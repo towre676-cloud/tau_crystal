@@ -1,0 +1,41 @@
+{
+  "kind": "tmf_levels",
+  "phi_on": false,
+  "rows": [
+    {
+      "level": 4,
+      "logB_level": 1.214946195316894
+    },
+    {
+      "level": 6,
+      "logB_level": 1.2109362682573876
+    },
+    {
+      "level": 8,
+      "logB_level": 1.207958440266458
+    },
+    {
+      "level": 9,
+      "logB_level": 1.206714374693296
+    },
+    {
+      "level": 12,
+      "logB_level": 1.20362756256769
+    },
+    {
+      "level": 18,
+      "logB_level": 1.1991905655533603
+    },
+    {
+      "level": 24,
+      "logB_level": 1.1960021751201593
+    },
+    {
+      "level": 30,
+      "logB_level": 1.1935148526754935
+    }
+  ],
+  "relative_spread": 0.01779847308529888,
+  "tol": 0.02,
+  "pass": true
+}

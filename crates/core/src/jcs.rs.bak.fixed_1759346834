@@ -1,0 +1,7 @@
+//! Canonical JSON serializer using json-canon crate (RFC8785)
+use json_canon::to_string;
+use serde::Serialize;
+
+pub fn to_vec<T: Serialize>(value: &T) -> Vec<u8> {
+    to_string(value).expect("canonical json").into_bytes()
+}

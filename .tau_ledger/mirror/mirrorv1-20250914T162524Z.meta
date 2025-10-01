@@ -1,0 +1,7 @@
+schema: taucrystal/mirror/v1
+id: mirrorv1-20250914T162524Z
+utc: 20250914T162524Z
+remote: https://raw.githubusercontent.com/towre676-cloud/tau_crystal/main
+receipts: [
+  {"file": "demo-20250914T023421Z.json", "sha256": "d4fa6be72c9bd4cc0efd5b24be0326cf2ff352ae9d65824eee786a47286657f9"}
+]

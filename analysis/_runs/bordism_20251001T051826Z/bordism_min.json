@@ -1,0 +1,11 @@
+{
+  "strata": [
+    {"id":"O0","name":"point","dim":0,"orientation":"oriented","framing":"framed"},
+    {"id":"O1","name":"interval","dim":1,"orientation":"oriented","framing":"framed"},
+    {"id":"O2","name":"surface","dim":2,"orientation":"oriented","framing":"string"}
+  ],
+  "morphisms": [
+    {"id":"fuse01","source":"O1+O1","target":"O1","monoidal":"⊗","label":"defect_fusion"},
+    {"id":"cut01","source":"O2+O1","target":"O2","monoidal":"⊗","label":"cut"}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "run_id": "a9_branch_loop_20250930T200421Z",
+  "timestamp_utc": "20250930T200421Z",
+  "artifacts": [
+    {
+      "path": "analysis/freed/a9_branch_loop_20250930T200421Z.json",
+      "sha256": "b602d6c6ae693d4e0c8d5b9013df7ec17b1a934b8e2ffaffe7b41e82369fed55"
+    }
+  ]
+}

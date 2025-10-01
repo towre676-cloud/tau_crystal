@@ -1,0 +1,23 @@
+{
+  "angle": "Relative index (volume proxy)",
+  "theorem": "log(Vol_post/Vol_pre) ≈ logB",
+  "values": {
+    "log_volume_ratio": 0.0,
+    "logB": 0.0,
+    "residual": 0.0
+  },
+  "pass": true,
+  "proxy_used": true,
+  "_inputs": {
+    "volume_pre": null,
+    "volume_post": null,
+    "logB": "analysis/freed\\logB_receipt_20250930T233145Z.json"
+  },
+  "_sha256": {
+    "volume_pre": null,
+    "volume_post": null,
+    "logB": "f1811f0f918e8ad0298e7540fa43ceca4bd6afecdc985b277a827bbf08c3814d"
+  },
+  "_freed_section": "4.1",
+  "_freed_citation": "Freed et al. (2024), Sec 4.1"
+}

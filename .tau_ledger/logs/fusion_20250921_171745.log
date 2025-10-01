@@ -1,0 +1,348 @@
++ [17:17:45] run_green_logged.sh:4: trap 'code=$?; set +x; echo ""; echo "[FAIL] exit $code · log: $LOG"; echo "---- tail ----"; tail -n 300 "$LOG" || true; exit $code' ERR
+++ [17:17:45] run_green_logged.sh:4: date -Is
++ [17:17:45] run_green_logged.sh:4: echo '[start] 2025-09-21T17:17:45-04:00 · log: /c/Users/Cody/Desktop/tau_crystal/tau_crystal/.tau_ledger/logs/fusion_20250921_171745.log'
+[start] 2025-09-21T17:17:45-04:00 · log: /c/Users/Cody/Desktop/tau_crystal/tau_crystal/.tau_ledger/logs/fusion_20250921_171745.log
++ [17:17:45] run_green_logged.sh:4: export MPLBACKEND=Agg
++ [17:17:45] run_green_logged.sh:4: MPLBACKEND=Agg
++ [17:17:45] run_green_logged.sh:4: echo '[pwd] /c/Users/Cody/Desktop/tau_crystal/tau_crystal'
+[pwd] /c/Users/Cody/Desktop/tau_crystal/tau_crystal
++ [17:17:45] run_green_logged.sh:4: ls -la
+total 347
+-rw-r--r-- 1 Cody 197121     0 Sep 21 11:29  >> "$S"
+
+# ---- Emit TSV for quick human read ----
+printf %sn :
+-rw-r--r-- 1 Cody 197121     0 Sep 21 11:30  >> "$S"
+printf %sn printf
+drwxr-xr-x 1 Cody 197121     0 Sep 21 17:05 .
+drwxr-xr-x 1 Cody 197121     0 Sep 14 11:26 ..
+drwxr-xr-x 1 Cody 197121     0 Sep 19 09:39 .cache
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 .galois
+drwxr-xr-x 1 Cody 197121     0 Sep 15 21:57 .garden
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:16 .ghosts_build
+drwxr-xr-x 1 Cody 197121     0 Sep 21 14:31 .git
+-rw-r--r-- 1 Cody 197121    55 Sep 19 17:38 .gitattributes
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 .github
+-rw-r--r-- 1 Cody 197121  1079 Sep 21 00:50 .gitignore
+-rw-r--r-- 1 Cody 197121  1530 Sep 19 00:21 .gitignore.bak_20250919_042109
+-rw-r--r-- 1 Cody 197121  1454 Sep 19 00:23 .gitignore.bak_20250919_042321
+-rw-r--r-- 1 Cody 197121   139 Sep 20 21:38 .gitignore.bak_20250921T013812Z
+drwxr-xr-x 1 Cody 197121     0 Sep 20 21:35 .lake
+-rw-r--r-- 1 Cody 197121    29 Sep 16 00:13 .pages_stamp
+drwxr-xr-x 1 Cody 197121     0 Sep 19 17:33 .secrets
+drwxr-xr-x 1 Cody 197121     0 Sep 21 12:12 .tau_ledger
+-rw-r--r-- 1 Cody 197121   232 Sep 16 00:13 .tau_plan_roots.env
+-rw-r--r-- 1 Cody 197121   116 Sep 16 19:26 .tmp_ed25519_pub.pem
+-rw-r--r-- 1 Cody 197121   122 Sep 16 19:26 .tmp_ed25519_sk.pem
+drwxr-xr-x 1 Cody 197121     0 Sep 18 00:58 .well-known
+-rw-r--r-- 1 Cody 197121   296 Sep 16 00:13 CITATION.cff
+-rw-r--r-- 1 Cody 197121   183 Sep 16 00:13 CODE_OF_CONDUCT.md
+-rw-r--r-- 1 Cody 197121   312 Sep 16 00:13 CONTRIBUTING.md
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 Core
+-rw-r--r-- 1 Cody 197121   322 Sep 19 16:26 FACE.txt
+-rw-r--r-- 1 Cody 197121   117 Sep 16 00:13 FusionMain.lean
+-rw-r--r-- 1 Cody 197121  2019 Sep 16 00:13 LICENSE
+-rw-r--r-- 1 Cody 197121   470 Sep 18 01:39 LLM_START_HERE.txt
+-rw-r--r-- 1 Cody 197121   614 Sep 16 00:13 Main.lean
+-rw-r--r-- 1 Cody 197121  2421 Sep 16 00:13 Main2.lean
+-rw-r--r-- 1 Cody 197121   211 Sep 20 00:02 Makefile
+-rw-r--r-- 1 Cody 197121    65 Sep 17 22:25 POISON
+-rw-r--r-- 1 Cody 197121   308 Sep 16 00:13 PRIVACY.md
+-rw-r--r-- 1 Cody 197121 13228 Sep 20 00:21 README.md
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 Receipt
+-rw-r--r-- 1 Cody 197121   786 Sep 16 00:13 SECURITY.md
+-rw-r--r-- 1 Cody 197121   306 Sep 16 00:13 SUPPORT.md
+-rw-r--r-- 1 Cody 197121   301 Sep 16 00:13 TERMS.md
+drwxr-xr-x 1 Cody 197121     0 Sep 20 14:13 Tau
+drwxr-xr-x 1 Cody 197121     0 Sep 20 22:30 TauCrystal
+-rw-r--r-- 1 Cody 197121    22 Sep 16 00:13 TauCrystal.lean
+drwxr-xr-x 1 Cody 197121     0 Sep 20 21:34 TauProofs
+-rw-r--r-- 1 Cody 197121    77 Sep 20 15:30 TauProofs.lean
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 _ci_artifacts
+drwxr-xr-x 1 Cody 197121     0 Sep 18 01:12 _exports
+drwxr-xr-x 1 Cody 197121     0 Sep 21 14:42 _fusion_out
+drwxr-xr-x 1 Cody 197121     0 Sep 19 02:04 _grab_face_17849808086
+drwxr-xr-x 1 Cody 197121     0 Sep 21 14:38 _integration_fuse
+drwxr-xr-x 1 Cody 197121     0 Sep 18 00:33 _scratch
+drwxr-xr-x 1 Cody 197121     0 Sep 18 01:39 _tmp
+drwxr-xr-x 1 Cody 197121     0 Sep 18 01:06 _verify
+-rw-r--r-- 1 Cody 197121  2751 Sep 16 00:13 action.yml
+drwxr-xr-x 1 Cody 197121     0 Sep 20 22:30 analysis
+drwxr-xr-x 1 Cody 197121     0 Sep 19 14:01 artifacts
+-rw-r--r-- 1 Cody 197121  5044 Sep 16 00:13 assure.ps1
+-rwxr-xr-x 1 Cody 197121  4104 Sep 19 16:43 assure.sh
+drwxr-xr-x 1 Cody 197121     0 Sep 16 19:25 atlas
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 boundary
+drwxr-xr-x 1 Cody 197121     0 Sep 17 22:22 build
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 config
+-rwxr-xr-x 1 Cody 197121   193 Sep 19 16:43 config.sh
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 constraints.d
+drwxr-xr-x 1 Cody 197121     0 Sep 20 22:59 corridor
+-rw-r--r-- 1 Cody 197121  1540 Sep 20 22:30 corridor.receipt.tsv
+drwxr-xr-x 1 Cody 197121     0 Sep 17 22:25 deploy
+drwxr-xr-x 1 Cody 197121     0 Sep 20 22:58 docs
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 examples
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 extension
+-rw-r--r-- 1 Cody 197121     0 Sep 21 17:05 face_trace.json
+-rw-r--r-- 1 Cody 197121   109 Sep 21 12:19 lake-manifest.json
+-rw-r--r-- 1 Cody 197121   142 Sep 20 21:34 lakefile.lean
+-rw-r--r-- 1 Cody 197121   151 Sep 16 00:13 lakefile.lean.bak.20250906T195157Z
+-rw-r--r-- 1 Cody 197121    25 Sep 20 12:52 lean-toolchain
+-rw-r--r-- 1 Cody 197121     3 Sep 21 12:23 manifest_assure1.json
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 manifests
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 media
+drwxr-xr-x 1 Cody 197121     0 Sep 19 09:51 metrics
+-rwxr-xr-x 1 Cody 197121  2038 Sep 19 16:43 morpho_run.sh
+-rw-r--r-- 1 Cody 197121     0 Sep  5 21:46 nul
+drwxr-xr-x 1 Cody 197121     0 Sep 19 09:39 poems
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 py_ledger
+drwxr-xr-x 1 Cody 197121     0 Sep 19 23:14 receipts
+-rw-r--r-- 1 Cody 197121   657 Sep 16 00:13 run.cmd
+-rwxr-xr-x 1 Cody 197121   487 Sep 19 16:43 run.sh
+drwxr-xr-x 1 Cody 197121     0 Sep 20 00:02 schemas
+drwxr-xr-x 1 Cody 197121     0 Sep 21 17:12 scripts
+drwxr-xr-x 1 Cody 197121     0 Sep 17 22:31 site
+drwxr-xr-x 1 Cody 197121     0 Sep 21 16:47 spectral_kernel
+drwxr-xr-x 1 Cody 197121     0 Sep 20 00:02 src
+drwxr-xr-x 1 Cody 197121     0 Sep  5 21:45 submit
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 tmp_meta_fullscan
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 tmp_meta_recovered
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 tmp_meta_restore
+drwxr-xr-x 1 Cody 197121     0 Sep 17 18:00 tools
+-rw-r--r-- 1 Cody 197121    69 Sep 16 00:13 verify.cmd
+-rw-r--r-- 1 Cody 197121  1119 Sep 17 22:23 witness-dashboard-2025-09-18T02-22-42Z-a02d2012a681.tar.gz
+-rw-r--r-- 1 Cody 197121  1230 Sep 17 22:25 witness-dashboard-2025-09-18T02-24-59Z-5faa38413c67.tar.gz
++ [17:17:45] run_green_logged.sh:4: '[' -d /c/Users/Cody/Desktop/tau_crystal/tau_crystal/spectral_kernel ']'
++ [17:17:45] run_green_logged.sh:4: cd /c/Users/Cody/Desktop/tau_crystal/tau_crystal/spectral_kernel
++ [17:17:45] run_green_logged.sh:4: echo '[pwd] /c/Users/Cody/Desktop/tau_crystal/tau_crystal/spectral_kernel'
+[pwd] /c/Users/Cody/Desktop/tau_crystal/tau_crystal/spectral_kernel
++ [17:17:45] run_green_logged.sh:4: ls -la
+total 63
+drwxr-xr-x 1 Cody 197121    0 Sep 21 16:47 .
+drwxr-xr-x 1 Cody 197121    0 Sep 21 17:05 ..
+drwxr-xr-x 1 Cody 197121    0 Sep 21 14:25 .github
+-rw-r--r-- 1 Cody 197121   68 Sep 21 14:26 .gitignore
+drwxr-xr-x 1 Cody 197121    0 Sep 21 16:19 .lake
+drwxr-xr-x 1 Cody 197121    0 Sep 21 14:25 .tau_ledger
+drwxr-xr-x 1 Cody 197121    0 Sep 21 14:25 Src
+-rw-r--r-- 1 Cody 197121  723 Sep 21 16:45 draw.py
+-rw-r--r-- 1 Cody 197121  723 Sep 21 16:45 draw.py.bak
+-rw-r--r-- 1 Cody 197121 1136 Sep 21 16:47 draw_cli.py
+-rw-r--r-- 1 Cody 197121 1347 Sep 21 16:49 face_trace.json
+-rw-r--r-- 1 Cody 197121 3095 Sep 21 16:45 lake-manifest.json
+-rw-r--r-- 1 Cody 197121  213 Sep 21 16:05 lakefile.lean
+-rw-r--r-- 1 Cody 197121  213 Sep 21 16:04 lakefile.lean.bak
+-rw-r--r-- 1 Cody 197121   29 Sep 21 16:41 lean-toolchain
+-rw-r--r-- 1 Cody 197121   29 Sep 21 16:16 lean-toolchain.bak
+-rwxr-xr-x 1 Cody 197121  446 Sep 21 16:04 run_spectral.sh
+-rwxr-xr-x 1 Cody 197121  433 Sep 21 14:26 run_spectral.sh.bak
+-rw-r--r-- 1 Cody 197121 1342 Sep 21 17:15 trace.json
++ [17:17:45] run_green_logged.sh:4: '[' -f Src/Spectral/plumbing.lean ']'
++ [17:17:45] run_green_logged.sh:4: '[' -f Src/Spectral/face_plumbing.lean ']'
++ [17:17:45] run_green_logged.sh:4: command -v lake
++ [17:17:45] run_green_logged.sh:4: lake --version
+Lake version 5.0.0-src+919e297 (Lean version 4.24.0-rc1)
++ [17:17:45] run_green_logged.sh:4: PYEXE=()
++ [17:17:45] run_green_logged.sh:4: command -v py
++ [17:17:45] run_green_logged.sh:4: '[' 0 -eq 0 ']'
++ [17:17:45] run_green_logged.sh:4: command -v python3
++ [17:17:45] run_green_logged.sh:4: PYEXE=(python3)
++ [17:17:45] run_green_logged.sh:4: '[' 1 -eq 0 ']'
++ [17:17:45] run_green_logged.sh:4: '[' 1 -ne 0 ']'
++ [17:17:45] run_green_logged.sh:4: printf '[py] using: '
+[py] using: + [17:17:45] run_green_logged.sh:4: printf '%q ' python3
+python3 + [17:17:45] run_green_logged.sh:4: printf '\n'
+
++ [17:17:45] run_green_logged.sh:4: python3 -m ensurepip --upgrade
++ [17:17:45] run_green_logged.sh:4: python3 -m pip install --user --upgrade pip
++ [17:17:45] run_green_logged.sh:4: python3 -c 'import networkx, matplotlib'
++ [17:17:45] run_green_logged.sh:4: python3 -
+[py ok] networkx 3.5 matplotlib 3.10.6
++ [17:17:45] run_green_logged.sh:4: '[' '!' -f draw_cli.py ']'
++ [17:17:45] run_green_logged.sh:4: echo '[step] lake build'
+[step] lake build
++ [17:17:45] run_green_logged.sh:4: lake build
+Build completed successfully (0 jobs).
++ [17:17:45] run_green_logged.sh:4: echo '[step] emit trace.json'
+[step] emit trace.json
++ [17:17:45] run_green_logged.sh:4: set +e
++ [17:17:45] run_green_logged.sh:4: lake env lean --run Src/Spectral/plumbing.lean
+++ [17:17:45] run_green_logged.sh:4: code=1
+++ [17:17:45] run_green_logged.sh:4: set +x
+
+[FAIL] exit 1 · log: /c/Users/Cody/Desktop/tau_crystal/tau_crystal/.tau_ledger/logs/fusion_20250921_171745.log
+---- tail ----
++ [17:17:45] run_green_logged.sh:4: trap 'code=$?; set +x; echo ""; echo "[FAIL] exit $code · log: $LOG"; echo "---- tail ----"; tail -n 300 "$LOG" || true; exit $code' ERR
+++ [17:17:45] run_green_logged.sh:4: date -Is
++ [17:17:45] run_green_logged.sh:4: echo '[start] 2025-09-21T17:17:45-04:00 · log: /c/Users/Cody/Desktop/tau_crystal/tau_crystal/.tau_ledger/logs/fusion_20250921_171745.log'
+[start] 2025-09-21T17:17:45-04:00 · log: /c/Users/Cody/Desktop/tau_crystal/tau_crystal/.tau_ledger/logs/fusion_20250921_171745.log
++ [17:17:45] run_green_logged.sh:4: export MPLBACKEND=Agg
++ [17:17:45] run_green_logged.sh:4: MPLBACKEND=Agg
++ [17:17:45] run_green_logged.sh:4: echo '[pwd] /c/Users/Cody/Desktop/tau_crystal/tau_crystal'
+[pwd] /c/Users/Cody/Desktop/tau_crystal/tau_crystal
++ [17:17:45] run_green_logged.sh:4: ls -la
+total 347
+-rw-r--r-- 1 Cody 197121     0 Sep 21 11:29  >> "$S"
+
+# ---- Emit TSV for quick human read ----
+printf %sn :
+-rw-r--r-- 1 Cody 197121     0 Sep 21 11:30  >> "$S"
+printf %sn printf
+drwxr-xr-x 1 Cody 197121     0 Sep 21 17:05 .
+drwxr-xr-x 1 Cody 197121     0 Sep 14 11:26 ..
+drwxr-xr-x 1 Cody 197121     0 Sep 19 09:39 .cache
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 .galois
+drwxr-xr-x 1 Cody 197121     0 Sep 15 21:57 .garden
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:16 .ghosts_build
+drwxr-xr-x 1 Cody 197121     0 Sep 21 14:31 .git
+-rw-r--r-- 1 Cody 197121    55 Sep 19 17:38 .gitattributes
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 .github
+-rw-r--r-- 1 Cody 197121  1079 Sep 21 00:50 .gitignore
+-rw-r--r-- 1 Cody 197121  1530 Sep 19 00:21 .gitignore.bak_20250919_042109
+-rw-r--r-- 1 Cody 197121  1454 Sep 19 00:23 .gitignore.bak_20250919_042321
+-rw-r--r-- 1 Cody 197121   139 Sep 20 21:38 .gitignore.bak_20250921T013812Z
+drwxr-xr-x 1 Cody 197121     0 Sep 20 21:35 .lake
+-rw-r--r-- 1 Cody 197121    29 Sep 16 00:13 .pages_stamp
+drwxr-xr-x 1 Cody 197121     0 Sep 19 17:33 .secrets
+drwxr-xr-x 1 Cody 197121     0 Sep 21 12:12 .tau_ledger
+-rw-r--r-- 1 Cody 197121   232 Sep 16 00:13 .tau_plan_roots.env
+-rw-r--r-- 1 Cody 197121   116 Sep 16 19:26 .tmp_ed25519_pub.pem
+-rw-r--r-- 1 Cody 197121   122 Sep 16 19:26 .tmp_ed25519_sk.pem
+drwxr-xr-x 1 Cody 197121     0 Sep 18 00:58 .well-known
+-rw-r--r-- 1 Cody 197121   296 Sep 16 00:13 CITATION.cff
+-rw-r--r-- 1 Cody 197121   183 Sep 16 00:13 CODE_OF_CONDUCT.md
+-rw-r--r-- 1 Cody 197121   312 Sep 16 00:13 CONTRIBUTING.md
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 Core
+-rw-r--r-- 1 Cody 197121   322 Sep 19 16:26 FACE.txt
+-rw-r--r-- 1 Cody 197121   117 Sep 16 00:13 FusionMain.lean
+-rw-r--r-- 1 Cody 197121  2019 Sep 16 00:13 LICENSE
+-rw-r--r-- 1 Cody 197121   470 Sep 18 01:39 LLM_START_HERE.txt
+-rw-r--r-- 1 Cody 197121   614 Sep 16 00:13 Main.lean
+-rw-r--r-- 1 Cody 197121  2421 Sep 16 00:13 Main2.lean
+-rw-r--r-- 1 Cody 197121   211 Sep 20 00:02 Makefile
+-rw-r--r-- 1 Cody 197121    65 Sep 17 22:25 POISON
+-rw-r--r-- 1 Cody 197121   308 Sep 16 00:13 PRIVACY.md
+-rw-r--r-- 1 Cody 197121 13228 Sep 20 00:21 README.md
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 Receipt
+-rw-r--r-- 1 Cody 197121   786 Sep 16 00:13 SECURITY.md
+-rw-r--r-- 1 Cody 197121   306 Sep 16 00:13 SUPPORT.md
+-rw-r--r-- 1 Cody 197121   301 Sep 16 00:13 TERMS.md
+drwxr-xr-x 1 Cody 197121     0 Sep 20 14:13 Tau
+drwxr-xr-x 1 Cody 197121     0 Sep 20 22:30 TauCrystal
+-rw-r--r-- 1 Cody 197121    22 Sep 16 00:13 TauCrystal.lean
+drwxr-xr-x 1 Cody 197121     0 Sep 20 21:34 TauProofs
+-rw-r--r-- 1 Cody 197121    77 Sep 20 15:30 TauProofs.lean
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 _ci_artifacts
+drwxr-xr-x 1 Cody 197121     0 Sep 18 01:12 _exports
+drwxr-xr-x 1 Cody 197121     0 Sep 21 14:42 _fusion_out
+drwxr-xr-x 1 Cody 197121     0 Sep 19 02:04 _grab_face_17849808086
+drwxr-xr-x 1 Cody 197121     0 Sep 21 14:38 _integration_fuse
+drwxr-xr-x 1 Cody 197121     0 Sep 18 00:33 _scratch
+drwxr-xr-x 1 Cody 197121     0 Sep 18 01:39 _tmp
+drwxr-xr-x 1 Cody 197121     0 Sep 18 01:06 _verify
+-rw-r--r-- 1 Cody 197121  2751 Sep 16 00:13 action.yml
+drwxr-xr-x 1 Cody 197121     0 Sep 20 22:30 analysis
+drwxr-xr-x 1 Cody 197121     0 Sep 19 14:01 artifacts
+-rw-r--r-- 1 Cody 197121  5044 Sep 16 00:13 assure.ps1
+-rwxr-xr-x 1 Cody 197121  4104 Sep 19 16:43 assure.sh
+drwxr-xr-x 1 Cody 197121     0 Sep 16 19:25 atlas
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 boundary
+drwxr-xr-x 1 Cody 197121     0 Sep 17 22:22 build
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 config
+-rwxr-xr-x 1 Cody 197121   193 Sep 19 16:43 config.sh
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 constraints.d
+drwxr-xr-x 1 Cody 197121     0 Sep 20 22:59 corridor
+-rw-r--r-- 1 Cody 197121  1540 Sep 20 22:30 corridor.receipt.tsv
+drwxr-xr-x 1 Cody 197121     0 Sep 17 22:25 deploy
+drwxr-xr-x 1 Cody 197121     0 Sep 20 22:58 docs
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 examples
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 extension
+-rw-r--r-- 1 Cody 197121     0 Sep 21 17:05 face_trace.json
+-rw-r--r-- 1 Cody 197121   109 Sep 21 12:19 lake-manifest.json
+-rw-r--r-- 1 Cody 197121   142 Sep 20 21:34 lakefile.lean
+-rw-r--r-- 1 Cody 197121   151 Sep 16 00:13 lakefile.lean.bak.20250906T195157Z
+-rw-r--r-- 1 Cody 197121    25 Sep 20 12:52 lean-toolchain
+-rw-r--r-- 1 Cody 197121     3 Sep 21 12:23 manifest_assure1.json
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 manifests
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 media
+drwxr-xr-x 1 Cody 197121     0 Sep 19 09:51 metrics
+-rwxr-xr-x 1 Cody 197121  2038 Sep 19 16:43 morpho_run.sh
+-rw-r--r-- 1 Cody 197121     0 Sep  5 21:46 nul
+drwxr-xr-x 1 Cody 197121     0 Sep 19 09:39 poems
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 py_ledger
+drwxr-xr-x 1 Cody 197121     0 Sep 19 23:14 receipts
+-rw-r--r-- 1 Cody 197121   657 Sep 16 00:13 run.cmd
+-rwxr-xr-x 1 Cody 197121   487 Sep 19 16:43 run.sh
+drwxr-xr-x 1 Cody 197121     0 Sep 20 00:02 schemas
+drwxr-xr-x 1 Cody 197121     0 Sep 21 17:12 scripts
+drwxr-xr-x 1 Cody 197121     0 Sep 17 22:31 site
+drwxr-xr-x 1 Cody 197121     0 Sep 21 16:47 spectral_kernel
+drwxr-xr-x 1 Cody 197121     0 Sep 20 00:02 src
+drwxr-xr-x 1 Cody 197121     0 Sep  5 21:45 submit
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 tmp_meta_fullscan
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 tmp_meta_recovered
+drwxr-xr-x 1 Cody 197121     0 Sep 16 00:13 tmp_meta_restore
+drwxr-xr-x 1 Cody 197121     0 Sep 17 18:00 tools
+-rw-r--r-- 1 Cody 197121    69 Sep 16 00:13 verify.cmd
+-rw-r--r-- 1 Cody 197121  1119 Sep 17 22:23 witness-dashboard-2025-09-18T02-22-42Z-a02d2012a681.tar.gz
+-rw-r--r-- 1 Cody 197121  1230 Sep 17 22:25 witness-dashboard-2025-09-18T02-24-59Z-5faa38413c67.tar.gz
++ [17:17:45] run_green_logged.sh:4: '[' -d /c/Users/Cody/Desktop/tau_crystal/tau_crystal/spectral_kernel ']'
++ [17:17:45] run_green_logged.sh:4: cd /c/Users/Cody/Desktop/tau_crystal/tau_crystal/spectral_kernel
++ [17:17:45] run_green_logged.sh:4: echo '[pwd] /c/Users/Cody/Desktop/tau_crystal/tau_crystal/spectral_kernel'
+[pwd] /c/Users/Cody/Desktop/tau_crystal/tau_crystal/spectral_kernel
++ [17:17:45] run_green_logged.sh:4: ls -la
+total 63
+drwxr-xr-x 1 Cody 197121    0 Sep 21 16:47 .
+drwxr-xr-x 1 Cody 197121    0 Sep 21 17:05 ..
+drwxr-xr-x 1 Cody 197121    0 Sep 21 14:25 .github
+-rw-r--r-- 1 Cody 197121   68 Sep 21 14:26 .gitignore
+drwxr-xr-x 1 Cody 197121    0 Sep 21 16:19 .lake
+drwxr-xr-x 1 Cody 197121    0 Sep 21 14:25 .tau_ledger
+drwxr-xr-x 1 Cody 197121    0 Sep 21 14:25 Src
+-rw-r--r-- 1 Cody 197121  723 Sep 21 16:45 draw.py
+-rw-r--r-- 1 Cody 197121  723 Sep 21 16:45 draw.py.bak
+-rw-r--r-- 1 Cody 197121 1136 Sep 21 16:47 draw_cli.py
+-rw-r--r-- 1 Cody 197121 1347 Sep 21 16:49 face_trace.json
+-rw-r--r-- 1 Cody 197121 3095 Sep 21 16:45 lake-manifest.json
+-rw-r--r-- 1 Cody 197121  213 Sep 21 16:05 lakefile.lean
+-rw-r--r-- 1 Cody 197121  213 Sep 21 16:04 lakefile.lean.bak
+-rw-r--r-- 1 Cody 197121   29 Sep 21 16:41 lean-toolchain
+-rw-r--r-- 1 Cody 197121   29 Sep 21 16:16 lean-toolchain.bak
+-rwxr-xr-x 1 Cody 197121  446 Sep 21 16:04 run_spectral.sh
+-rwxr-xr-x 1 Cody 197121  433 Sep 21 14:26 run_spectral.sh.bak
+-rw-r--r-- 1 Cody 197121 1342 Sep 21 17:15 trace.json
++ [17:17:45] run_green_logged.sh:4: '[' -f Src/Spectral/plumbing.lean ']'
++ [17:17:45] run_green_logged.sh:4: '[' -f Src/Spectral/face_plumbing.lean ']'
++ [17:17:45] run_green_logged.sh:4: command -v lake
++ [17:17:45] run_green_logged.sh:4: lake --version
+Lake version 5.0.0-src+919e297 (Lean version 4.24.0-rc1)
++ [17:17:45] run_green_logged.sh:4: PYEXE=()
++ [17:17:45] run_green_logged.sh:4: command -v py
++ [17:17:45] run_green_logged.sh:4: '[' 0 -eq 0 ']'
++ [17:17:45] run_green_logged.sh:4: command -v python3
++ [17:17:45] run_green_logged.sh:4: PYEXE=(python3)
++ [17:17:45] run_green_logged.sh:4: '[' 1 -eq 0 ']'
++ [17:17:45] run_green_logged.sh:4: '[' 1 -ne 0 ']'
++ [17:17:45] run_green_logged.sh:4: printf '[py] using: '
+[py] using: + [17:17:45] run_green_logged.sh:4: printf '%q ' python3
+python3 + [17:17:45] run_green_logged.sh:4: printf '\n'
+
++ [17:17:45] run_green_logged.sh:4: python3 -m ensurepip --upgrade
++ [17:17:45] run_green_logged.sh:4: python3 -m pip install --user --upgrade pip
++ [17:17:45] run_green_logged.sh:4: python3 -c 'import networkx, matplotlib'
++ [17:17:45] run_green_logged.sh:4: python3 -
+[py ok] networkx 3.5 matplotlib 3.10.6
++ [17:17:45] run_green_logged.sh:4: '[' '!' -f draw_cli.py ']'
++ [17:17:45] run_green_logged.sh:4: echo '[step] lake build'
+[step] lake build
++ [17:17:45] run_green_logged.sh:4: lake build
+Build completed successfully (0 jobs).
++ [17:17:45] run_green_logged.sh:4: echo '[step] emit trace.json'
+[step] emit trace.json
++ [17:17:45] run_green_logged.sh:4: set +e
++ [17:17:45] run_green_logged.sh:4: lake env lean --run Src/Spectral/plumbing.lean
+++ [17:17:45] run_green_logged.sh:4: code=1
+++ [17:17:45] run_green_logged.sh:4: set +x
+
+[FAIL] exit 1 · log: /c/Users/Cody/Desktop/tau_crystal/tau_crystal/.tau_ledger/logs/fusion_20250921_171745.log
+---- tail ----

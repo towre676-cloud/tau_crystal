@@ -1,0 +1,22 @@
+{
+  "_inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "ell": 44.44444444444444,
+    "stack": "B5",
+    "phi": false,
+    "log_base": "e"
+  },
+  "_claims": {
+    "aps_accounting": "bulk - \u03b7/2 matches Gaussian logB (proxy)"
+  },
+  "_certificates": {
+    "abs_gap": 2.960249236341926,
+    "tolerance": 1e-09
+  },
+  "terms": {
+    "bulk": 0.7775763909659732,
+    "eta_half": 4.126613822790886,
+    "logB_gaussian": -0.3887881954829866
+  }
+}

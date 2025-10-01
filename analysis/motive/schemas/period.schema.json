@@ -1,0 +1,2 @@
+{
+"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Period","type":"object","required":["motive","label","value","kind"],"properties":{"motive":{"type":"string"},"label":{"type":"string"},"value":{"type":"string"},"kind":{"enum":["Betti","deRham","comparison"]}}}

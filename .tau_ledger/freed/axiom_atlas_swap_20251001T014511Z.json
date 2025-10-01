@@ -1,0 +1,21 @@
+{
+  "angle": "Atlas swap",
+  "theorem": "permute coords ⇒ same logB",
+  "tolerance": 1e-12,
+  "values": {
+    "logB_A": 0.0,
+    "logB_B": 0.0,
+    "residual": 0.0
+  },
+  "pass": true,
+  "_inputs": {
+    "A": "analysis/freed/logB_atlas_A_20251001T011204Z.json",
+    "B": "analysis/freed/logB_atlas_B_20251001T011204Z.json"
+  },
+  "_sha256": {
+    "A": "901ee75e8a26aee9df95fb9533f5deb7e8d6718aedb2864a2c69746cb542784c",
+    "B": "e465e8d9a3b8add0a1b9e1f75f21c7c389445cde340e321e81e2c14eef9e66c1"
+  },
+  "_freed_section": "2.6",
+  "_freed_citation": "Freed et al. (2024), Sec 2.6"
+}

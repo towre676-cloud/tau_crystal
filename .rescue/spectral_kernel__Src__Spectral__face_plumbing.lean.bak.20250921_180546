@@ -1,0 +1,10 @@
+-- module Spectral.face_plumbing (path-derived)
+def main : IO Unit := do
+  let json : String :=
+    "{" ++
+    "\"nodes\":[" ++
+      "{\"label\":\"Patient-α\",\"maslov\":1,\"tamagawa\":1}" ++
+    "]," ++
+    "\"edges\":[]" ++
+    "}"
+  IO.println json

@@ -1,0 +1,65 @@
+which: no gcc in (/c/Users/Cody/.cargo/bin:/c/Users/Cody/.cargo/bin:/c/Users/Cody/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/mingw64/bin:/usr/bin:/c/Users/Cody/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/c/Program Files/GitHub CLI:/cmd:/c/Program Files/nodejs:/c/Users/Cody/.cargo/bin:/c/Users/Cody/.elan/bin:/c/Users/Cody/.elan/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/c/Program Files/GitHub CLI:/cmd:/c/Users/Cody/.elan/bin:/c/Users/Cody/AppData/Local/Microsoft/WindowsApps:/c/Users/Cody/AppData/Local/Programs/Microsoft VS Code/bin:/c/Users/Cody/AppData/Roaming/npm:/c/Users/Cody/AppData/Local/Pandoc:/c/Users/Cody/AppData/Local/Microsoft/WinGet/Packages/jqlang.jq_Microsoft.Winget.Source_8wekyb3d8bbwe:/usr/bin/vendor_perl:/usr/bin/core_perl)
+bash: gcc: command not found
+       Fresh unicode-ident v1.0.19
+       Fresh version_check v0.9.5
+       Fresh autocfg v1.5.0
+       Fresh windows_x86_64_gnu v0.53.0
+       Fresh anstyle v1.0.13
+       Fresh proc-macro2 v1.0.101
+       Fresh windows-targets v0.53.4
+       Fresh typenum v1.18.0
+       Fresh once_cell_polyfill v1.70.1
+       Fresh utf8parse v0.2.2
+       Fresh serde_core v1.0.228
+       Fresh quote v1.0.41
+       Fresh generic-array v0.14.7
+       Fresh windows-sys v0.60.2
+       Fresh anstyle-parse v0.2.7
+       Fresh is_terminal_polyfill v1.70.1
+       Fresh colorchoice v1.0.4
+       Fresh syn v2.0.106
+       Fresh anstyle-wincon v3.0.10
+       Fresh block-buffer v0.10.4
+       Fresh crypto-common v0.1.6
+       Fresh anstyle-query v1.1.4
+       Fresh num-traits v0.2.19
+       Fresh anstream v0.6.20
+       Fresh serde_derive v1.0.228
+       Fresh digest v0.10.7
+       Fresh memchr v2.7.6
+       Fresh ryu v1.0.20
+       Fresh cfg-if v1.0.3
+       Fresh heck v0.5.0
+       Fresh strsim v0.11.1
+       Fresh itoa v1.0.15
+       Fresh cpufeatures v0.2.17
+       Fresh clap_lex v0.7.5
+       Fresh clap_derive v4.5.47
+       Fresh serde v1.0.228
+       Fresh num-integer v0.1.46
+       Fresh hex v0.4.3
+       Fresh sha2 v0.10.9
+       Fresh clap_builder v4.5.48
+       Fresh serde_json v1.0.145
+   Compiling tau_core v0.1.0 (C:\Users\Cody\Desktop\tau_crystal\tau_crystal\crates\core)
+       Fresh clap v4.5.48
+     Running `set CARGO='C:\Users\Cody\.rustup\toolchains\stable-x86_64-pc-windows-gnu\bin\cargo.exe'&& set CARGO_CRATE_NAME=tau_core&& set CARGO_MANIFEST_DIR='C:\Users\Cody\Desktop\tau_crystal\tau_crystal\crates\core'&& set CARGO_MANIFEST_PATH='C:\Users\Cody\Desktop\tau_crystal\tau_crystal\crates\core\Cargo.toml'&& set CARGO_PKG_AUTHORS=''&& set CARGO_PKG_DESCRIPTION=''&& set CARGO_PKG_HOMEPAGE=''&& set CARGO_PKG_LICENSE=''&& set CARGO_PKG_LICENSE_FILE=''&& set CARGO_PKG_NAME=tau_core&& set CARGO_PKG_README=''&& set CARGO_PKG_REPOSITORY=''&& set CARGO_PKG_RUST_VERSION=''&& set CARGO_PKG_VERSION=0.1.0&& set CARGO_PKG_VERSION_MAJOR=0&& set CARGO_PKG_VERSION_MINOR=1&& set CARGO_PKG_VERSION_PATCH=0&& set CARGO_PKG_VERSION_PRE=''&& set CARGO_PRIMARY_PACKAGE=1&& set CARGO_SBOM_PATH=''&& set PATH='C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps;C:\Users\Cody\.cargo\bin;C:\Users\Cody\.cargo\bin;C:\Users\Cody\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Cody\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\GitHub CLI;C:\Program Files\Git\cmd;C:\Program Files\nodejs;C:\Users\Cody\.cargo\bin;C:\Users\Cody\.elan\bin;C:\Users\Cody\.elan\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\GitHub CLI;C:\Program Files\Git\cmd;C:\Users\Cody\.elan\bin;C:\Users\Cody\AppData\Local\Microsoft\WindowsApps;C:\Users\Cody\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Cody\AppData\Roaming\npm;C:\Users\Cody\AppData\Local\Pandoc;C:\Users\Cody\AppData\Local\Microsoft\WinGet\Packages\jqlang.jq_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl;C:\Users\Cody\.rustup\toolchains\stable-x86_64-pc-windows-gnu\bin'&& C:\Users\Cody\.rustup\toolchains\stable-x86_64-pc-windows-gnu\bin\rustc.exe --crate-name tau_core --edition=2021 'crates\core\src\lib.rs' --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=ef90f463fef4758c -C extra-filename=-5acfc0e9ce012b0d --out-dir 'C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps' -C 'incremental=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\incremental' -L 'dependency=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps' --extern 'hex=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps\libhex-ab61edf72fdb3c8f.rmeta' --extern 'num_integer=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps\libnum_integer-e885a6a4de4e9087.rmeta' --extern 'serde=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps\libserde-9d4f24fe9bae474b.rmeta' --extern 'serde_json=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps\libserde_json-6a3dbde4df758fc0.rmeta' --extern 'sha2=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps\libsha2-357257a78db323ab.rmeta'`
+error[E0282]: type annotations needed for `(_, i128)`
+  --> crates\core\src\lib.rs:25:9
+   |
+25 |     let (n,d) = match parts.as_slice() { [a] => (a.parse().map_err(|_| "bad num")?, 1i128), [a,b] => (a.parse().map_err(|_| "bad num")?, ...
+   |         ^^^^^
+26 |     if d == 0 || n == 0 { return Err("zero not allowed".into()); }
+27 |     let g = n.abs().gcd(&d.abs());
+   |             - type must be known at this point
+   |
+help: consider giving this pattern a type, where the placeholders `_` are specified
+   |
+25 |     let (n,d): (_, _) = match parts.as_slice() { [a] => (a.parse().map_err(|_| "bad num")?, 1i128), [a,b] => (a.parse().map_err(|_| "bad num")?, b.parse().map_err(|_| "bad den")?), _ => return Err("bad rational".into()) };
+   |              ++++++++
+
+For more information about this error, try `rustc --explain E0282`.
+error: could not compile `tau_core` (lib) due to 1 previous error
+
+Caused by:
+  process didn't exit successfully: `set CARGO='C:\Users\Cody\.rustup\toolchains\stable-x86_64-pc-windows-gnu\bin\cargo.exe'&& set CARGO_CRATE_NAME=tau_core&& set CARGO_MANIFEST_DIR='C:\Users\Cody\Desktop\tau_crystal\tau_crystal\crates\core'&& set CARGO_MANIFEST_PATH='C:\Users\Cody\Desktop\tau_crystal\tau_crystal\crates\core\Cargo.toml'&& set CARGO_PKG_AUTHORS=''&& set CARGO_PKG_DESCRIPTION=''&& set CARGO_PKG_HOMEPAGE=''&& set CARGO_PKG_LICENSE=''&& set CARGO_PKG_LICENSE_FILE=''&& set CARGO_PKG_NAME=tau_core&& set CARGO_PKG_README=''&& set CARGO_PKG_REPOSITORY=''&& set CARGO_PKG_RUST_VERSION=''&& set CARGO_PKG_VERSION=0.1.0&& set CARGO_PKG_VERSION_MAJOR=0&& set CARGO_PKG_VERSION_MINOR=1&& set CARGO_PKG_VERSION_PATCH=0&& set CARGO_PKG_VERSION_PRE=''&& set CARGO_PRIMARY_PACKAGE=1&& set CARGO_SBOM_PATH=''&& set PATH='C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps;C:\Users\Cody\.cargo\bin;C:\Users\Cody\.cargo\bin;C:\Users\Cody\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Cody\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\GitHub CLI;C:\Program Files\Git\cmd;C:\Program Files\nodejs;C:\Users\Cody\.cargo\bin;C:\Users\Cody\.elan\bin;C:\Users\Cody\.elan\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\GitHub CLI;C:\Program Files\Git\cmd;C:\Users\Cody\.elan\bin;C:\Users\Cody\AppData\Local\Microsoft\WindowsApps;C:\Users\Cody\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Cody\AppData\Roaming\npm;C:\Users\Cody\AppData\Local\Pandoc;C:\Users\Cody\AppData\Local\Microsoft\WinGet\Packages\jqlang.jq_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl;C:\Users\Cody\.rustup\toolchains\stable-x86_64-pc-windows-gnu\bin'&& C:\Users\Cody\.rustup\toolchains\stable-x86_64-pc-windows-gnu\bin\rustc.exe --crate-name tau_core --edition=2021 'crates\core\src\lib.rs' --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=ef90f463fef4758c -C extra-filename=-5acfc0e9ce012b0d --out-dir 'C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps' -C 'incremental=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\incremental' -L 'dependency=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps' --extern 'hex=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps\libhex-ab61edf72fdb3c8f.rmeta' --extern 'num_integer=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps\libnum_integer-e885a6a4de4e9087.rmeta' --extern 'serde=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps\libserde-9d4f24fe9bae474b.rmeta' --extern 'serde_json=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps\libserde_json-6a3dbde4df758fc0.rmeta' --extern 'sha2=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps\libsha2-357257a78db323ab.rmeta'` (exit code: 1)

@@ -1,0 +1,35 @@
+warning: unused import: `std::fs`
+ --> crates\cli\src\main.rs:3:5
+  |
+3 | use std::fs;
+  |     ^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `Sha256`
+ --> crates\cli\src\main.rs:5:20
+  |
+5 | use sha2::{Digest, Sha256};
+  |                    ^^^^^^
+
+warning: unused import: `Digest`
+ --> crates\cli\src\main.rs:5:12
+  |
+5 | use sha2::{Digest, Sha256};
+  |            ^^^^^^
+
+warning: struct `Leaf` is never constructed
+  --> crates\cli\src\main.rs:34:8
+   |
+34 | struct Leaf { name: String, sha256_hex: String }
+   |        ^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: struct `Master` is never constructed
+  --> crates\cli\src\main.rs:36:8
+   |
+36 | struct Master { schema_version: &'static str, kind: &'static str, leave...
+   |        ^^^^^^
+
+962c86334f3e80d7de32d652ba3e92089c362975ab91724b06de59c3da1e3571

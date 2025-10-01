@@ -1,0 +1,8 @@
+{
+  "when":"2025-09-21T17:34:41Z",
+  "hysteresis":{"path":".tau_ledger/hysteresis/box-CM-D23/hysteresis.json","sha256":"d7798d2a82d4c503d88cd236ba0b3b01d5d3145d023bf0062bfb4233d5a3b933"},
+  "subjects":{
+    "Cody_A":{"index":"analysis/morpho/index/Cody_A.tsv","rms_norm":"0.00374","convexity":"179.0","harmony_v2":"81.8"},
+    "Mother_A":{"index":"analysis/morpho/index/Mother_A.tsv","rms_norm":"0.00391","convexity":"177.2","harmony_v2":"84.6"}
+  }
+}

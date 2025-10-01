@@ -1,0 +1,27 @@
+# Gates Report
+# UTC: 2025-09-22T21:52:48Z
+
+== PROGRESS ==
+organ	status	last_ok_utc	last_error
+vows	ok	2025-09-22T21:51:35Z	-
+phasehead	ok	2025-09-22T21:51:37Z	-
+ckm	ok	2025-09-22T21:51:37Z	-
+capsules	ok	2025-09-22T21:51:40Z	-
+morpho	ok	2025-09-22T21:51:41Z	-
+provenance	ok	2025-09-22T21:52:48Z	-
+gates	ok	2025-09-22T21:46:54Z	-
+vows_age	ok	2025-09-22T21:51:36Z	-
+capsules_verify	fail	[CAPVERIFY]	mismatch
+
+== CAPSULE INDEX (tail) ==
+auto	auto-20250922T214829Z	b7d4a22f2f9c8f4092bfffd54b9ddd1574939c725f54644e8eb99e33dda748d3	/c/Users/Cody/Desktop/tau_crystal/tau_crystal/analysis/capsules/auto-20250922T214829Z/capsule.receipt.json
+auto	auto-20250922T215137Z	3a7c3f6e379b8f5dd91a72f45e847538933f5b90d4676e15be6b6b031fb1a210	/c/Users/Cody/Desktop/tau_crystal/tau_crystal/analysis/capsules/auto-20250922T215137Z/capsule.receipt.json
+
+== VOWS ==
+open_vows: 7
+20250922T183121Z	morpho	Enforce boundary.txt+sig on all packs in CI	open
+20250922T183121Z	fermion	Gate CKM unitarity with tolerance 1e-6	open
+20250922T183121Z	phasehead	Ensure phase_next_latest.sha matches max phase digest	open
+20250922T183121Z	lean	Add lake build + proof.ok receipt in CI	open
+20250922T183121Z	interf	Define rows.tsv schema + writer receipt	open
+

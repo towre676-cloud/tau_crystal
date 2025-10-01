@@ -1,0 +1,22 @@
+{
+  \created_at\: \2025-09-21T23:04:58Z\,
+  iles\: [
+    {\path\: \plumbing/box-FUSE-D23/box.json\, \sha256\: \00d9f5cdd41cf75545a5e21c65f3b79c81f8b5c2ae493fc9194bb69c98fc4c83\, ytes\: 108},
+    {\path\: \plumbing/box-FUSE-D23/cm-sector_receipt.json\, \sha256\: \e03089e733ff3c2fc5d85cced202990f8b2f81c78d59de431433457c7dca7088\, ytes\: 211},
+    {\path\: \plumbing/box-FUSE-D23/framing_1.json\, \sha256\: \cca974d84d893378c7722a25a1f38459379c2fec4467ce71d54577e6b5e40716\, ytes\: 111},
+    {\path\: \plumbing/box-FUSE-D23/fwd.csv\, \sha256\: \337f394cdf64c120568cbad35692d3bc54873aaaee6cbe8b09e66902e9dc75e3\, ytes\: 4476},
+    {\path\: \plumbing/box-FUSE-D23/hysteresis.json\, \sha256\: \ecdbf81afa9b6d0cbdba76ab6315fb8d4ea5f853ad37c9224c4cd83d1c446811\, ytes\: 183},
+    {\path\: \plumbing/box-FUSE-D23/p23/fwd.csv\, \sha256\: \96a36972cfee329a2787c9ab712989d3a4c6a8e5686ad277fc56cef59a35f81b\, ytes\: 4466},
+    {\path\: \plumbing/box-FUSE-D23/p23/hysteresis_p.json\, \sha256\: \84ae7c2759d64911fe42590938bfe1b282c89aa6d4ac5f8623a1357bcb705883\, ytes\: 190},
+    {\path\: \plumbing/box-FUSE-D23/p23/rev.csv\, \sha256\: \a798e76f58a699ad47c1385da4b6c678837eec09581d8a810796ee1a0a73a72b\, ytes\: 4474},
+    {\path\: \plumbing/box-FUSE-D23/p3/fwd.csv\, \sha256\: \c3227bf3941741cbb4a7f4d2dde8f16fbeec44a364ad17146ba4ecce5e7553e1\, ytes\: 4350},
+    {\path\: \plumbing/box-FUSE-D23/p3/hysteresis_p.json\, \sha256\: \36674265da1daea3105314bf92045e39dc2046d67e17c1626bfaff8abe311a2e\, ytes\: 190},
+    {\path\: \plumbing/box-FUSE-D23/p3/rev.csv\, \sha256\: \a3437d6ba5bee937fa4fb87606e1a8f2830161a72cc608ff8ccc2d115de0f0dc\, ytes\: 4345},
+    {\path\: \plumbing/box-FUSE-D23/p5/fwd.csv\, \sha256\: \cd19e2fdc71064d9a09bfe31f2f7a6183d93b68251c7552c91a8ed9d0bbb3160\, ytes\: 4396},
+    {\path\: \plumbing/box-FUSE-D23/p5/hysteresis_p.json\, \sha256\: \679b7d03a6525f80cad2807a8e3bcea7464859eede388291777e84228ae7be49\, ytes\: 190},
+    {\path\: \plumbing/box-FUSE-D23/p5/rev.csv\, \sha256\: \bd5964ac092b0083b7b71eed1a4683f0c0e57849d4bcf7f595d710cd191a7c3a\, ytes\: 4409},
+    {\path\: \plumbing/box-FUSE-D23/rev.csv\, \sha256\: \ed6f796e2fa9b9aad4d5be1a6bb5157f50b99e13adeb55d387a8ce26396f915d\, ytes\: 4483},
+    {\path\: \plumbing/box-FUSE-D23/theta_to_box-FUSE-D23.json\, \sha256\: \a261bd5e908152f648dd8b228447488c26ba53b81617ef417b5f1204cbf4cbfb\, ytes\: 123},
+    {\path\: \spectral/trace.json\, \sha256\: \3762997911b415872614da1d0dbbf53bf98d9ec8dad30c25ac33868495b5cffe\, ytes\: 128}
+  ]
+}

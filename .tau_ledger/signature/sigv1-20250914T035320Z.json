@@ -1,0 +1,8 @@
+{
+  "schema": "taucrystal/signature/v1",
+  "id": "sigv1-20250914T035320Z",
+  "utc": "20250914T035320Z",
+  "constraints": [
+    {"file": "tau.rules", "sha256": "4111c2d267e62f458e0f82d1a579446354d6a650a1c3bf00581ef38350d3e45d"}
+  ]
+}

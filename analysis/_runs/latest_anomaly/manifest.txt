@@ -1,0 +1,5 @@
+artifact_dir: analysis/_runs/anomaly_20251001T053736Z
+artifact:     analysis/_runs/latest_anomaly/dK_triplet.json
+bulk:         bulk_logdet.json (# b4711ee8cacd7ae5e55b7a950b48ee7c478263d76474aef6aa6494eac0ee0de1)
+eta:          eta_boundary.json (# 77761025f9a60151e580c4c92681ccb549401e3b00c5b5fa8d911d57118902b5)
+relative:     logB_receipt.json (# 2ca488cf337d0806d35250e31667a6395cdc4925841251ef215cd219a6dda5fe)

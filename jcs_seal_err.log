@@ -1,0 +1,47 @@
+       Fresh version_check v0.9.5
+       Fresh unicode-ident v1.0.19
+       Fresh autocfg v1.5.0
+       Fresh windows_x86_64_gnu v0.53.0
+       Fresh anstyle v1.0.13
+       Fresh proc-macro2 v1.0.101
+       Fresh windows-targets v0.53.4
+       Fresh typenum v1.18.0
+       Fresh utf8parse v0.2.2
+       Fresh once_cell_polyfill v1.70.1
+       Fresh serde_core v1.0.228
+       Fresh quote v1.0.41
+       Fresh generic-array v0.14.7
+       Fresh windows-sys v0.60.2
+       Fresh anstyle-parse v0.2.7
+       Fresh is_terminal_polyfill v1.70.1
+       Fresh colorchoice v1.0.4
+       Fresh syn v2.0.106
+       Fresh crypto-common v0.1.6
+       Fresh block-buffer v0.10.4
+       Fresh anstyle-query v1.1.4
+       Fresh anstyle-wincon v3.0.10
+       Fresh num-traits v0.2.19
+       Fresh anstream v0.6.20
+       Fresh digest v0.10.7
+       Fresh serde_derive v1.0.228
+       Fresh cfg-if v1.0.3
+       Fresh itoa v1.0.15
+       Fresh clap_lex v0.7.5
+       Fresh ryu v1.0.20
+       Fresh cpufeatures v0.2.17
+       Fresh strsim v0.11.1
+       Fresh heck v0.5.0
+       Fresh memchr v2.7.6
+       Fresh serde v1.0.228
+       Fresh sha2 v0.10.9
+       Fresh num-integer v0.1.46
+       Fresh hex v0.4.3
+       Fresh clap_derive v4.5.47
+       Fresh clap_builder v4.5.48
+       Fresh serde_json v1.0.145
+       Fresh clap v4.5.48
+       Fresh tau_core v0.1.0 (C:\Users\Cody\Desktop\tau_crystal\tau_crystal\crates\core)
+       Dirty tau_cli v0.1.0 (C:\Users\Cody\Desktop\tau_crystal\tau_crystal\crates\cli): couldn't read metadata for file `target\debug\deps\tau_cli-fb338949c64aceb7.exe`
+   Compiling tau_cli v0.1.0 (C:\Users\Cody\Desktop\tau_crystal\tau_crystal\crates\cli)
+     Running `set CARGO='C:\Users\Cody\.rustup\toolchains\stable-x86_64-pc-windows-gnu\bin\cargo.exe'&& set CARGO_BIN_NAME=tau_cli&& set CARGO_CRATE_NAME=tau_cli&& set CARGO_MANIFEST_DIR='C:\Users\Cody\Desktop\tau_crystal\tau_crystal\crates\cli'&& set CARGO_MANIFEST_PATH='C:\Users\Cody\Desktop\tau_crystal\tau_crystal\crates\cli\Cargo.toml'&& set CARGO_PKG_AUTHORS=''&& set CARGO_PKG_DESCRIPTION=''&& set CARGO_PKG_HOMEPAGE=''&& set CARGO_PKG_LICENSE=''&& set CARGO_PKG_LICENSE_FILE=''&& set CARGO_PKG_NAME=tau_cli&& set CARGO_PKG_README=''&& set CARGO_PKG_REPOSITORY=''&& set CARGO_PKG_RUST_VERSION=''&& set CARGO_PKG_VERSION=0.1.0&& set CARGO_PKG_VERSION_MAJOR=0&& set CARGO_PKG_VERSION_MINOR=1&& set CARGO_PKG_VERSION_PATCH=0&& set CARGO_PKG_VERSION_PRE=''&& set CARGO_PRIMARY_PACKAGE=1&& set CARGO_SBOM_PATH=''&& set PATH='C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps;C:\Users\Cody\.cargo\bin;C:\Users\Cody\.cargo\bin;C:\Users\Cody\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Cody\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\GitHub CLI;C:\Program Files\Git\cmd;C:\Program Files\nodejs;C:\Users\Cody\.cargo\bin;C:\Users\Cody\.elan\bin;C:\Users\Cody\.elan\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\GitHub CLI;C:\Program Files\Git\cmd;C:\Users\Cody\.elan\bin;C:\Users\Cody\AppData\Local\Microsoft\WindowsApps;C:\Users\Cody\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Cody\AppData\Roaming\npm;C:\Users\Cody\AppData\Local\Pandoc;C:\Users\Cody\AppData\Local\Microsoft\WinGet\Packages\jqlang.jq_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl;C:\Users\Cody\.rustup\toolchains\stable-x86_64-pc-windows-gnu\bin'&& C:\Users\Cody\.rustup\toolchains\stable-x86_64-pc-windows-gnu\bin\rustc.exe --crate-name tau_cli --edition=2021 'crates\cli\src\main.rs' --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=99e3ac75195f30fd -C extra-filename=-fb338949c64aceb7 --out-dir 'C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps' -C 'incremental=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\incremental' -L 'dependency=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps' --extern 'clap=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps\libclap-3be58e88cc9664e1.rlib' --extern 'hex=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps\libhex-ab61edf72fdb3c8f.rlib' --extern 'serde=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps\libserde-9d4f24fe9bae474b.rlib' --extern 'serde_json=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps\libserde_json-6a3dbde4df758fc0.rlib' --extern 'sha2=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps\libsha2-357257a78db323ab.rlib' --extern 'tau_core=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\target\debug\deps\libtau_core-5acfc0e9ce012b0d.rlib' -L 'native=C:\Users\Cody\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\windows_x86_64_gnu-0.53.0\lib'`
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.09s

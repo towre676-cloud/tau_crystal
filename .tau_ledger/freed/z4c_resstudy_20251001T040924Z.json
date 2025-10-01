@@ -1,0 +1,29 @@
+{
+  "stamp": "20251001T040924Z",
+  "test": "robust",
+  "orders": {
+    "H": NaN,
+    "M": NaN,
+    "C_Gamma": NaN
+  },
+  "deltas": [
+    {
+      "res": 801,
+      "H": NaN,
+      "M": NaN,
+      "C_Gamma": NaN
+    },
+    {
+      "res": 1201,
+      "H": NaN,
+      "M": NaN,
+      "C_Gamma": NaN
+    },
+    {
+      "res": 1601,
+      "H": NaN,
+      "M": NaN,
+      "C_Gamma": NaN
+    }
+  ]
+}

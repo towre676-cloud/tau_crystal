@@ -1,0 +1,163 @@
+17:00:48.923054 exec-cmd.c:266          trace: resolved executable dir: C:/Program Files/Git/mingw64/bin
+17:00:48.923054 git.c:476               trace: built-in: git push -f origin HEAD:main
+17:00:48.923054 run-command.c:674       trace: run_command: GIT_DIR=.git git remote-https origin https://github.com/towre676-cloud/tau_crystal
+17:00:48.923054 run-command.c:935       trace: start_command: git remote-https origin https://github.com/towre676-cloud/tau_crystal
+17:00:48.938694 exec-cmd.c:266          trace: resolved executable dir: C:/Program Files/Git/mingw64/libexec/git-core
+17:00:48.938694 git.c:776               trace: exec: git-remote-https origin https://github.com/towre676-cloud/tau_crystal
+17:00:48.938694 run-command.c:674       trace: run_command: git-remote-https origin https://github.com/towre676-cloud/tau_crystal
+17:00:48.938694 run-command.c:935       trace: start_command: git-remote-https origin https://github.com/towre676-cloud/tau_crystal
+17:00:48.954477 exec-cmd.c:266          trace: resolved executable dir: C:/Program Files/Git/mingw64/libexec/git-core
+17:00:48.970259 http.c:915              == Info: Couldn't find host github.com in the .netrc file; using defaults
+17:00:48.986146 http.c:915              == Info: Host github.com:443 was resolved.
+17:00:48.986146 http.c:915              == Info: IPv6: (none)
+17:00:48.986146 http.c:915              == Info: IPv4: 140.82.112.4
+17:00:48.986146 http.c:915              == Info:   Trying 140.82.112.4:443...
+17:00:49.017782 http.c:915              == Info: schannel: disabled automatic use of client certificate
+17:00:49.017782 http.c:915              == Info: ALPN: curl offers http/1.1
+17:00:49.049931 http.c:915              == Info: ALPN: server accepted http/1.1
+17:00:49.049931 http.c:915              == Info: Connected to github.com (140.82.112.4) port 443
+17:00:49.049931 http.c:915              == Info: using HTTP/1.x
+17:00:49.049931 http.c:862              => Send header, 0000000204 bytes (0x000000cc)
+17:00:49.049931 http.c:874              => Send header: GET /towre676-cloud/tau_crystal/info/refs?service=git-receive-pack HTTP/1.1
+17:00:49.049931 http.c:874              => Send header: Host: github.com
+17:00:49.049931 http.c:874              => Send header: User-Agent: git/2.51.0.windows.1
+17:00:49.049931 http.c:874              => Send header: Accept: */*
+17:00:49.049931 http.c:874              => Send header: Accept-Encoding: deflate, gzip, br, zstd
+17:00:49.049931 http.c:874              => Send header: Pragma: no-cache
+17:00:49.049931 http.c:874              => Send header:
+17:00:49.049931 http.c:915              == Info: Request completely sent off
+17:00:49.049931 http.c:915              == Info: schannel: remote party requests renegotiation
+17:00:49.049931 http.c:915              == Info: schannel: renegotiating SSL/TLS connection
+17:00:49.049931 http.c:915              == Info: schannel: SSL/TLS connection renegotiated
+17:00:49.049931 http.c:915              == Info: schannel: remote party requests renegotiation
+17:00:49.049931 http.c:915              == Info: schannel: renegotiating SSL/TLS connection
+17:00:49.049931 http.c:915              == Info: schannel: SSL/TLS connection renegotiated
+17:00:49.082048 http.c:862              <= Recv header, 0000000027 bytes (0x0000001b)
+17:00:49.082048 http.c:874              <= Recv header: HTTP/1.1 401 Unauthorized
+17:00:49.082048 http.c:862              <= Recv header, 0000000026 bytes (0x0000001a)
+17:00:49.082048 http.c:874              <= Recv header: Server: GitHub-Babel/3.0
+17:00:49.082048 http.c:862              <= Recv header, 0000000054 bytes (0x00000036)
+17:00:49.082048 http.c:874              <= Recv header: Content-Security-Policy: default-src 'none'; sandbox
+17:00:49.082048 http.c:862              <= Recv header, 0000000041 bytes (0x00000029)
+17:00:49.082048 http.c:874              <= Recv header: Content-Type: text/plain; charset=UTF-8
+17:00:49.082048 http.c:862              <= Recv header, 0000000040 bytes (0x00000028)
+17:00:49.082048 http.c:874              <= Recv header: www-authenticate: Basic realm="GitHub"
+17:00:49.082048 http.c:862              <= Recv header, 0000000020 bytes (0x00000014)
+17:00:49.082048 http.c:874              <= Recv header: Content-Length: 74
+17:00:49.082048 http.c:862              <= Recv header, 0000000037 bytes (0x00000025)
+17:00:49.082048 http.c:874              <= Recv header: Date: Tue, 23 Sep 2025 21:00:48 GMT
+17:00:49.082048 http.c:862              <= Recv header, 0000000057 bytes (0x00000039)
+17:00:49.082048 http.c:874              <= Recv header: X-GitHub-Request-Id: C8F6:18B8DE:7F9AE5:AB3E4F:68D30A80
+17:00:49.082048 http.c:862              <= Recv header, 0000000023 bytes (0x00000017)
+17:00:49.082048 http.c:874              <= Recv header: X-Frame-Options: DENY
+17:00:49.082048 http.c:862              <= Recv header, 0000000073 bytes (0x00000049)
+17:00:49.082048 http.c:874              <= Recv header: Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+17:00:49.082048 http.c:862              <= Recv header, 0000000002 bytes (0x00000002)
+17:00:49.082048 http.c:874              <= Recv header:
+17:00:49.082048 http.c:915              == Info: Connection #0 to host github.com left intact
+17:00:49.082048 run-command.c:674       trace: run_command: ''\''C:\Program Files\GitHub CLI\gh.exe'\'' auth git-credential get'
+17:00:49.082048 run-command.c:935       trace: start_command: 'C:/Program Files/Git/usr/bin/sh.exe' -c ''\''C:\Program Files\GitHub CLI\gh.exe'\'' auth git-credential get' ''\''C:\Program Files\GitHub CLI\gh.exe'\'' auth git-credential get'
+17:00:49.193339 http.c:915              == Info: Re-using existing https: connection with host github.com
+17:00:49.193339 http.c:915              == Info: Server auth using Basic with user 'towre676-cloud'
+17:00:49.193339 http.c:862              => Send header, 0000000303 bytes (0x0000012f)
+17:00:49.193339 http.c:874              => Send header: GET /towre676-cloud/tau_crystal/info/refs?service=git-receive-pack HTTP/1.1
+17:00:49.193339 http.c:874              => Send header: Host: github.com
+17:00:49.193339 http.c:874              => Send header: Authorization: Basic <redacted>
+17:00:49.193339 http.c:874              => Send header: User-Agent: git/2.51.0.windows.1
+17:00:49.193339 http.c:874              => Send header: Accept: */*
+17:00:49.193339 http.c:874              => Send header: Accept-Encoding: deflate, gzip, br, zstd
+17:00:49.193339 http.c:874              => Send header: Pragma: no-cache
+17:00:49.193339 http.c:874              => Send header:
+17:00:49.193339 http.c:915              == Info: Request completely sent off
+17:00:49.287713 http.c:862              <= Recv header, 0000000017 bytes (0x00000011)
+17:00:49.287713 http.c:874              <= Recv header: HTTP/1.1 200 OK
+17:00:49.287713 http.c:862              <= Recv header, 0000000026 bytes (0x0000001a)
+17:00:49.287713 http.c:874              <= Recv header: Server: GitHub-Babel/3.0
+17:00:49.287713 http.c:862              <= Recv header, 0000000060 bytes (0x0000003c)
+17:00:49.287713 http.c:874              <= Recv header: Content-Type: application/x-git-receive-pack-advertisement
+17:00:49.287713 http.c:862              <= Recv header, 0000000054 bytes (0x00000036)
+17:00:49.287713 http.c:874              <= Recv header: Content-Security-Policy: default-src 'none'; sandbox
+17:00:49.287713 http.c:862              <= Recv header, 0000000040 bytes (0x00000028)
+17:00:49.287713 http.c:874              <= Recv header: expires: Fri, 01 Jan 1980 00:00:00 GMT
+17:00:49.287713 http.c:862              <= Recv header, 0000000018 bytes (0x00000012)
+17:00:49.287713 http.c:874              <= Recv header: pragma: no-cache
+17:00:49.287713 http.c:862              <= Recv header, 0000000053 bytes (0x00000035)
+17:00:49.287713 http.c:874              <= Recv header: Cache-Control: no-cache, max-age=0, must-revalidate
+17:00:49.287713 http.c:862              <= Recv header, 0000000023 bytes (0x00000017)
+17:00:49.287713 http.c:874              <= Recv header: Vary: Accept-Encoding
+17:00:49.287713 http.c:862              <= Recv header, 0000000028 bytes (0x0000001c)
+17:00:49.287713 http.c:874              <= Recv header: Transfer-Encoding: chunked
+17:00:49.287713 http.c:862              <= Recv header, 0000000037 bytes (0x00000025)
+17:00:49.287713 http.c:874              <= Recv header: Date: Tue, 23 Sep 2025 21:00:49 GMT
+17:00:49.287713 http.c:862              <= Recv header, 0000000057 bytes (0x00000039)
+17:00:49.287713 http.c:874              <= Recv header: X-GitHub-Request-Id: C8F6:18B8DE:7F9BBF:AB3F5F:68D30A80
+17:00:49.287713 http.c:862              <= Recv header, 0000000023 bytes (0x00000017)
+17:00:49.287713 http.c:874              <= Recv header: X-Frame-Options: DENY
+17:00:49.287713 http.c:862              <= Recv header, 0000000073 bytes (0x00000049)
+17:00:49.287713 http.c:874              <= Recv header: Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+17:00:49.287713 http.c:862              <= Recv header, 0000000002 bytes (0x00000002)
+17:00:49.287713 http.c:874              <= Recv header:
+17:00:49.287713 http.c:915              == Info: Connection #0 to host github.com left intact
+17:00:49.287713 run-command.c:674       trace: run_command: ''\''C:\Program Files\GitHub CLI\gh.exe'\'' auth git-credential store'
+17:00:49.287713 run-command.c:935       trace: start_command: 'C:/Program Files/Git/usr/bin/sh.exe' -c ''\''C:\Program Files\GitHub CLI\gh.exe'\'' auth git-credential store' ''\''C:\Program Files\GitHub CLI\gh.exe'\'' auth git-credential store'
+17:00:49.398690 run-command.c:674       trace: run_command: git send-pack --stateless-rpc --helper-status --thin --no-progress https://github.com/towre676-cloud/tau_crystal/ --stdin
+17:00:49.398690 run-command.c:935       trace: start_command: git send-pack --stateless-rpc --helper-status --thin --no-progress https://github.com/towre676-cloud/tau_crystal/ --stdin
+17:00:49.412758 exec-cmd.c:266          trace: resolved executable dir: C:/Program Files/Git/mingw64/libexec/git-core
+17:00:49.412758 git.c:476               trace: built-in: git send-pack --stateless-rpc --helper-status --thin --no-progress https://github.com/towre676-cloud/tau_crystal/ --stdin
+17:00:49.412758 run-command.c:674       trace: run_command: git pack-objects --all-progress-implied --revs --stdout --thin --delta-base-offset -q
+17:00:49.412758 run-command.c:935       trace: start_command: git pack-objects --all-progress-implied --revs --stdout --thin --delta-base-offset -q
+17:00:49.434480 exec-cmd.c:266          trace: resolved executable dir: C:/Program Files/Git/mingw64/libexec/git-core
+17:00:49.436495 git.c:476               trace: built-in: git pack-objects --all-progress-implied --revs --stdout --thin --delta-base-offset -q
+17:00:52.862245 http.c:915              == Info: Re-using existing https: connection with host github.com
+17:00:52.862245 http.c:915              == Info: Server auth using Basic with user 'towre676-cloud'
+17:00:52.862245 http.c:862              => Send header, 0000000333 bytes (0x0000014d)
+17:00:52.862245 http.c:874              => Send header: POST /towre676-cloud/tau_crystal/git-receive-pack HTTP/1.1
+17:00:52.862245 http.c:874              => Send header: Host: github.com
+17:00:52.862245 http.c:874              => Send header: Authorization: Basic <redacted>
+17:00:52.862245 http.c:874              => Send header: User-Agent: git/2.51.0.windows.1
+17:00:52.862245 http.c:874              => Send header: Content-Type: application/x-git-receive-pack-request
+17:00:52.862245 http.c:874              => Send header: Accept: application/x-git-receive-pack-result
+17:00:52.862245 http.c:874              => Send header: Content-Length: 4
+17:00:52.862245 http.c:874              => Send header:
+17:00:52.862245 http.c:915              == Info: upload completely sent off: 4 bytes
+17:00:52.926922 http.c:862              <= Recv header, 0000000017 bytes (0x00000011)
+17:00:52.926922 http.c:874              <= Recv header: HTTP/1.1 200 OK
+17:00:52.926922 http.c:862              <= Recv header, 0000000026 bytes (0x0000001a)
+17:00:52.926922 http.c:874              <= Recv header: Server: GitHub-Babel/3.0
+17:00:52.926922 http.c:862              <= Recv header, 0000000053 bytes (0x00000035)
+17:00:52.926922 http.c:874              <= Recv header: Content-Type: application/x-git-receive-pack-result
+17:00:52.926922 http.c:862              <= Recv header, 0000000054 bytes (0x00000036)
+17:00:52.926922 http.c:874              <= Recv header: Content-Security-Policy: default-src 'none'; sandbox
+17:00:52.926922 http.c:862              <= Recv header, 0000000040 bytes (0x00000028)
+17:00:52.926922 http.c:874              <= Recv header: expires: Fri, 01 Jan 1980 00:00:00 GMT
+17:00:52.926922 http.c:862              <= Recv header, 0000000018 bytes (0x00000012)
+17:00:52.926922 http.c:874              <= Recv header: pragma: no-cache
+17:00:52.926922 http.c:862              <= Recv header, 0000000053 bytes (0x00000035)
+17:00:52.926922 http.c:874              <= Recv header: Cache-Control: no-cache, max-age=0, must-revalidate
+17:00:52.926922 http.c:862              <= Recv header, 0000000023 bytes (0x00000017)
+17:00:52.926922 http.c:874              <= Recv header: Vary: Accept-Encoding
+17:00:52.926922 http.c:862              <= Recv header, 0000000019 bytes (0x00000013)
+17:00:52.926922 http.c:874              <= Recv header: Content-Length: 0
+17:00:52.926922 http.c:862              <= Recv header, 0000000037 bytes (0x00000025)
+17:00:52.926922 http.c:874              <= Recv header: Date: Tue, 23 Sep 2025 21:00:52 GMT
+17:00:52.926922 http.c:862              <= Recv header, 0000000057 bytes (0x00000039)
+17:00:52.926922 http.c:874              <= Recv header: X-GitHub-Request-Id: C8F6:18B8DE:7FAD7D:AB56FE:68D30A81
+17:00:52.926922 http.c:862              <= Recv header, 0000000023 bytes (0x00000017)
+17:00:52.926922 http.c:874              <= Recv header: X-Frame-Options: DENY
+17:00:52.926922 http.c:862              <= Recv header, 0000000073 bytes (0x00000049)
+17:00:52.926922 http.c:874              <= Recv header: Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+17:00:52.926922 http.c:862              <= Recv header, 0000000002 bytes (0x00000002)
+17:00:52.926922 http.c:874              <= Recv header:
+17:00:52.926922 http.c:915              == Info: Connection #0 to host github.com left intact
+17:00:52.926922 http.c:915              == Info: Re-using existing https: connection with host github.com
+17:00:52.926922 http.c:915              == Info: Server auth using Basic with user 'towre676-cloud'
+17:00:52.926922 http.c:862              => Send header, 0000000384 bytes (0x00000180)
+17:00:52.926922 http.c:874              => Send header: POST /towre676-cloud/tau_crystal/git-receive-pack HTTP/1.1
+17:00:52.926922 http.c:874              => Send header: Host: github.com
+17:00:52.926922 http.c:874              => Send header: Authorization: Basic <redacted>
+17:00:52.926922 http.c:874              => Send header: User-Agent: git/2.51.0.windows.1
+17:00:52.926922 http.c:874              => Send header: Accept-Encoding: deflate, gzip, br, zstd
+17:00:52.926922 http.c:874              => Send header: Transfer-Encoding: chunked
+17:00:52.926922 http.c:874              => Send header: Content-Type: application/x-git-receive-pack-request
+17:00:52.926922 http.c:874              => Send header: Accept: application/x-git-receive-pack-result
+17:00:52.926922 http.c:874              => Send header:

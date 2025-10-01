@@ -1,0 +1,20 @@
+{
+  "_inputs": {
+    "levels": [
+      "6",
+      "12",
+      "18",
+      "24",
+      "30",
+      "36",
+      "48"
+    ]
+  },
+  "_claims": {
+    "tmf_stability": "stub present; detailed TMF deltas WIP"
+  },
+  "_certificates": {
+    "pass": false,
+    "levels_count": 7
+  }
+}

@@ -1,0 +1,23 @@
+<!doctype html><meta charset="utf-8"><title>τ‑Crystal Face Scores</title>
+<style>body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:24px}
+svg{max-width:100%;height:auto}.pt{fill:rgba(0,0,0,.6)}.pt:hover{stroke:#000;stroke-width:1}
+.axis text{font-size:12px;fill:#333}.axis line,.axis path{stroke:#888;shape-rendering:crispEdges}</style>
+<h2>Harmony vs Level (size = Score)</h2><svg id="viz" width="900" height="520"></svg>
+<script id="tsv" type="text/plain">
+subject	harmony_v2	level	score
+Mother_A	84.6	9	0.152280
+Alice_X	80.0	8	0.128000
+Cody_A	81.8	7	0.114520
+</script><script>(function(){const raw=document.getElementById("tsv").textContent.trim().split(/\\r?\\n/);raw.shift();
+const rows=raw.map(l=>l.split("\\t")).map(c=>({s:c[0],h:+c[1],l:+c[2],sc:+c[3]})).filter(d=>!isNaN(d.l)&&!isNaN(d.h));
+const W=900,H=520,M={l:60,r:20,t:20,b:50},ns="http://www.w3.org/2000/svg",svg=document.getElementById("viz");
+function el(n,a){const e=document.createElementNS(ns,n);for(const k in a)e.setAttribute(k,a[k]);svg.appendChild(e);return e;}
+function sx(v,a,b){const xMin=0,xMax=Math.max(10,...rows.map(d=>d.l));return M.l+(v-xMin)*(W-M.l-M.r)/(xMax-0||1)}
+function sy(v){const yMin=Math.min(70,...rows.map(d=>d.h)),yMax=Math.max(90,...rows.map(d=>d.h));return H-M.b-(v-yMin)*(H-M.t-M.b)/(yMax-yMin||1)}
+function ss(v){const m=Math.max(0.2,...rows.map(d=>d.sc));return 4+20*(v/m)}
+for(let v=0;v<=Math.max(10,...rows.map(d=>d.l));v++) el("line",{x1:sx(v),y1:H-M.b,x2:sx(v),y2:H-M.b+6,stroke:"#666"});
+for(let v=Math.floor(Math.min(70,...rows.map(d=>d.h)));v<=Math.max(90,...rows.map(d=>d.h));v++) el("line",{x1:M.l-6,y1:sy(v),x2:M.l,y2:sy(v),stroke:"#666"});
+el("text",{x:W/2,y:H-10,"text-anchor":"middle"}).textContent="Level";el("text",{x:16,y:20,transform:"rotate(-90 16,20)"}).textContent="Harmony v2";
+const tip=document.createElement("div");tip.style="position:absolute;pointer-events:none;background:#000;color:#fff;padding:6px 8px;border-radius:6px;font:12px/1.2 system-ui;opacity:0;transform:translate(-50%,-140%)";document.body.appendChild(tip);
+svg.addEventListener("mousemove",e=>{tip.style.left=e.pageX+"px";tip.style.top=e.pageY+"px"});
+rows.forEach(d=>{const c=el("circle",{class:"pt",cx:sx(d.l),cy:sy(d.h),r:ss(d.sc)});c.addEventListener("mouseenter",()=>{tip.innerHTML=`<b>${d.s}</b><br>Harmony ${d.h}<br>Level ${d.l}<br>Score ${d.sc}`;tip.style.opacity=1});c.addEventListener("mouseleave",()=>{tip.style.opacity=0})});})();</script>

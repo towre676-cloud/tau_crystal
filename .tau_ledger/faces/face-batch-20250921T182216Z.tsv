@@ -1,0 +1,5 @@
+when	20250921T182216Z
+hysteresis	.tau_ledger/hysteresis/box-CM-D23/hysteresis.json
+subject	Alice_X
+morpho	analysis/morpho/index/Alice_X.tsv
+modcurve	.tau_ledger/discovery/modcurves/Alice_X.json

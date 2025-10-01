@@ -1,0 +1,12 @@
+{
+  "angle": "extended_tqft_codim_scan",
+  "codimension": {
+    "0D": false,
+    "1D": false,
+    "2D": false,
+    "3D": true
+  },
+  "note": "presence-only scan; deep structure pending",
+  "status": "ok",
+  "timestamp": "20251001T010745Z"
+}

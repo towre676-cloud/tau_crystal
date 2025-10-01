@@ -1,0 +1,18 @@
+{
+  "stamp": "20251001T040925Z",
+  "test": "robust",
+  "res": 1601,
+  "T": 1.0,
+  "CFL": 0.25,
+  "glued": true,
+  "seed": 42,
+  "amp": 0.05,
+  "stable": false,
+  "norms": {
+    "final": {
+      "H": NaN,
+      "M": Infinity,
+      "C_Gamma": Infinity
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "kind": "relative_functor",
+  "params": {
+    "b": 1.0,
+    "mu0": 0.1,
+    "ell1": 0.21,
+    "ell2": 0.37
+  },
+  "mu_comp_residual": 1.3072876114961216e-16,
+  "line_multiplicativity_residual": 0.0007933521367973179,
+  "tol_mu": 1e-12,
+  "tol_line": 1e-12,
+  "pass": false
+}

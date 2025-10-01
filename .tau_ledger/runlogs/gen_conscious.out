@@ -1,0 +1,5 @@
+[OK] conscious: .tau_ledger/genius/consciousv1-20250914T192812Z.meta
+[FAIL] variance too high
+[OK] conscious: .tau_ledger/genius/consciousv1-20250914T193420Z.meta
+[FAIL] variance too high
+[warn] conscious: variance=0.115000360001 (non-deterministic)

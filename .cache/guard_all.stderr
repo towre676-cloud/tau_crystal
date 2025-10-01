@@ -1,0 +1,49 @@
++ cd /c/Users/Cody/Desktop/tau_crystal/tau_crystal
++ set +e
++ set +u
++ set +H
++ umask 022
++ failures=()
++ rc=0
++ run_step scripts/meta/thresholds_verify.sh
++ local name=scripts/meta/thresholds_verify.sh
++ shift
++ '[' -x scripts/meta/thresholds_verify.sh ']'
++ echo '[WARN] missing step scripts/meta/thresholds_verify.sh'
++ run_step scripts/live/prepare_runtime_baseline.sh
++ local name=scripts/live/prepare_runtime_baseline.sh
++ shift
++ '[' -x scripts/live/prepare_runtime_baseline.sh ']'
++ bash scripts/live/prepare_runtime_baseline.sh
++ local s=0
++ '[' 0 -ne 0 ']'
++ run_step scripts/live/guard_heegner_entropy.sh
++ local name=scripts/live/guard_heegner_entropy.sh
++ shift
++ '[' -x scripts/live/guard_heegner_entropy.sh ']'
++ bash scripts/live/guard_heegner_entropy.sh
++ local s=0
++ '[' 0 -ne 0 ']'
++ run_step scripts/live/guard_virtualalloc_taint.sh
++ local name=scripts/live/guard_virtualalloc_taint.sh
++ shift
++ '[' -x scripts/live/guard_virtualalloc_taint.sh ']'
++ bash scripts/live/guard_virtualalloc_taint.sh
++ local s=0
++ '[' 0 -ne 0 ']'
++ run_step scripts/ci/check_barcode_regression.sh
++ local name=scripts/ci/check_barcode_regression.sh
++ shift
++ '[' -x scripts/ci/check_barcode_regression.sh ']'
++ bash scripts/ci/check_barcode_regression.sh
++ local s=66
++ '[' 66 -ne 0 ']'
++ echo '[TRIP] scripts/ci/check_barcode_regression.sh exit=66'
++ failures+=("$name:$s")
++ '[' 1 -gt 0 ']'
++ rc=1
++ '[' -x scripts/live/incident_capsule.sh ']'
++ bash scripts/live/incident_capsule.sh
+tar: .: file changed as we read it
++ echo '[GUARD] verdict=FAIL rc=1 failures=scripts/ci/check_barcode_regression.sh:66'
++ exit 1

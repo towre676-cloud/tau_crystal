@@ -1,0 +1,22 @@
+{
+  "_inputs": {
+    "mu0": 0.9,
+    "b": 0.02,
+    "b1": 0.002,
+    "ell1": 12.222222222222221,
+    "ell2": 15.0
+  },
+  "_claims": {
+    "functoriality": "1-loop & 2-loop composition hold; logdet additive"
+  },
+  "_certificates": {
+    "mu_comp_one_loop": 2.220446049250313e-16,
+    "mu_comp_two_loop": 0.0,
+    "logdet_add_resid": 0.0,
+    "tolerances": {
+      "one_loop": 1e-12,
+      "two_loop": 1e-09,
+      "add": 1e-12
+    }
+  }
+}

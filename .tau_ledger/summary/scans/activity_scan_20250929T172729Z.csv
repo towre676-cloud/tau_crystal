@@ -1,0 +1,4 @@
+zone,module,files,latest_path,grep_hits,json_ok
+.garden/.tau_ledger/receipts,evolver,4,.garden/.tau_ledger/receipts/demo-20250914T023421Z.json,0,2
+.garden/.tau_ledger/receipts,entropy,4,.garden/.tau_ledger/receipts/demo-20250914T023421Z.json,0,2
+.garden/.tau_ledger/receipts,langlands,4,.garden/.tau_ledger/receipts/demo-20250914T023421Z.json,0,2

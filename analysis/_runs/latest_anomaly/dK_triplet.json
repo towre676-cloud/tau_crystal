@@ -1,0 +1,13 @@
+{
+  "type": "differential_K_triplet",
+  "bulk_K_index_hash": "b4711ee8cacd7ae5e55b7a950b48ee7c478263d76474aef6aa6494eac0ee0de1",
+  "boundary_eta_hash": "77761025f9a60151e580c4c92681ccb549401e3b00c5b5fa8d911d57118902b5",
+  "relative_logB_hash": "2ca488cf337d0806d35250e31667a6395cdc4925841251ef215cd219a6dda5fe",
+  "model": "FHS_stub",
+  "stamp": "2025-10-01T05:37:37Z",
+  "inputs": {
+    "bulk": {"path": "bulk_logdet.json", "bytes": 36, "sha256": "b4711ee8cacd7ae5e55b7a950b48ee7c478263d76474aef6aa6494eac0ee0de1"},
+    "eta":  {"path": "eta_boundary.json", "bytes": 35, "sha256": "77761025f9a60151e580c4c92681ccb549401e3b00c5b5fa8d911d57118902b5"},
+    "rel":  {"path": "logB_receipt.json", "bytes": 44, "sha256": "2ca488cf337d0806d35250e31667a6395cdc4925841251ef215cd219a6dda5fe"}
+  }
+}

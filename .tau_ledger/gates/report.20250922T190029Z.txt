@@ -1,0 +1,29 @@
+# Gates Report
+# UTC: 2025-09-22T19:00:29Z
+
+== PROGRESS ==
+organ	status	last_ok_utc	last_error
+vows	ok	2025-09-22T18:59:17Z	-
+phasehead	ok	2025-09-22T18:59:19Z	-
+ckm	ok	2025-09-22T18:59:19Z	-
+capsules	ok	2025-09-22T18:59:21Z	-
+morpho	ok	2025-09-22T18:59:22Z	-
+provenance	ok	2025-09-22T19:00:29Z	-
+gates	ok	2025-09-22T18:58:43Z	-
+vows_age	ok	2025-09-22T18:59:18Z	-
+
+== CAPSULE INDEX (tail) ==
+auto	auto-20250922T182622Z	51a0e22214ec0247e227dfa636e12daf2ac280ba27871c3bcca7bdb63bd4bcfc	analysis/capsules/auto-20250922T182622Z/capsule.receipt.json
+auto	auto-20250922T182928Z	98a82a7fe2726d976facd8159a2da52960a22bbee0e7e4d3e52558ac499a7490	analysis/capsules/auto-20250922T182928Z/capsule.receipt.json
+auto	auto-20250922T183123Z	83110e92eae8d163cee8b48c815a306424667e3a4f1d785ec736ae5b82db4bbf	analysis/capsules/auto-20250922T183123Z/capsule.receipt.json
+auto	auto-20250922T185733Z	56ed8be8c8c23751ecd4065cff6108022e64cccee7e50fb2430c7be0d16f4223	analysis/capsules/auto-20250922T185733Z/capsule.receipt.json
+auto	auto-20250922T185919Z	92feedebd75fa1dc2a59de55e9dadbb290b787c590f2a9ee2f8d1775346f1058	analysis/capsules/auto-20250922T185919Z/capsule.receipt.json
+
+== VOWS ==
+open_vows: 7
+20250922T183121Z	morpho	Enforce boundary.txt+sig on all packs in CI	open
+20250922T183121Z	fermion	Gate CKM unitarity with tolerance 1e-6	open
+20250922T183121Z	phasehead	Ensure phase_next_latest.sha matches max phase digest	open
+20250922T183121Z	lean	Add lake build + proof.ok receipt in CI	open
+20250922T183121Z	interf	Define rows.tsv schema + writer receipt	open
+

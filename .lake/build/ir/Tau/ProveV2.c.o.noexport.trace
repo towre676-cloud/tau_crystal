@@ -1,0 +1,17 @@
+{"synthetic": false,
+ "outputs": "5205949803085869424",
+ "log":
+ [{"message":
+   ".> c:\\Users\\Cody\\.elan\\toolchains\\leanprover--lean4---v4.22.0\\bin\\clang.exe -c -o C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\ir\\Tau\\ProveV2.c.o.noexport C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\ir\\Tau\\ProveV2.c -I c:\\Users\\Cody\\.elan\\toolchains\\leanprover--lean4---v4.22.0\\include -fstack-clash-protection -fwrapv -Wno-unused-command-line-argument --sysroot c:\\Users\\Cody\\.elan\\toolchains\\leanprover--lean4---v4.22.0 -nostdinc -isystem c:\\Users\\Cody\\.elan\\toolchains\\leanprover--lean4---v4.22.0/include/clang -O3 -DNDEBUG",
+   "level": "trace"}],
+ "inputs":
+ [["Tau.ProveV2:c",
+   [["C:\\Users\\Cody\\Desktop\\tau_crystal\\tau_crystal\\.lake\\build\\ir\\Tau\\ProveV2.c",
+     "8100837696199012192"],
+    ["Lean 4.22.0, commit ba2cbbf09d4978f416e0ebd1fceeebc2c4138c05",
+     "8739116525927611134"]]],
+  ["Lean 4.22.0, commit ba2cbbf09d4978f416e0ebd1fceeebc2c4138c05",
+   "8739116525927611134"],
+  ["traceArgs: #[-O3, -DNDEBUG]", "7817036117363455818"],
+  ["x86_64-w64-windows-gnu", "3894966287860160785"]],
+ "depHash": "8834332964046230173"}

@@ -1,0 +1,12 @@
+{
+  "kind": "aps_split",
+  "params": {
+    "b": 1.0,
+    "mu0": 0.1,
+    "ell": 0.5,
+    "phi_on": false
+  },
+  "bulk_integral": 0.05129329438486752,
+  "eta_term": 8.253227645581772,
+  "reconstructed_logB": -4.075320528406018
+}

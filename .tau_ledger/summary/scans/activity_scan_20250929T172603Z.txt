@@ -1,0 +1,1 @@
+[init] OUTDIR=.tau_ledger/summary/scans

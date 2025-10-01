@@ -1,0 +1,5 @@
+{"id":"MTM_affine_rg","base_field":"Q(mu0,b)","type":"mixed_tate","weights":[0,1,2],"params":{
+  "mu0":"1.0000000000",
+  "b":"0.1234567890",
+  "rg":"affine_one_loop"
+},"weyl_group":"B5","components":{"periods":"periods/","comparisons":"comparisons/","invariants":"invariants/"}}

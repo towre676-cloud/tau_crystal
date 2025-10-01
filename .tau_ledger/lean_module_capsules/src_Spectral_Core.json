@@ -1,0 +1,15 @@
+{
+  \module\: \src.Spectral.Core\,
+  \path\: \src/Spectral/Core.lean\,
+  \imports\: ["Spectral.Kernel.Minimal","Spectral.Kernel.Minimal","Mathlib.CategoryTheory.Sites.Sheaf"],
+  \src_sha256\: \b2f0aba6061132ba18d0fc39211e29e157f4b5060078cf1c435954d830210356\,
+  \src_bytes\: 2021,
+  \olean_sha256\: \NONE\,
+  \olean_bytes\: 0,
+  \build_ok\: 0,
+  \build_time_ms\: 1070,
+  \toolchain\: \Lean (version 4.22.0, x86_64-w64-windows-gnu, commit ba2cbbf09d4978f416e0ebd1fceeebc2c4138c05, Release)\,
+  \lake\: \Lake version 5.0.0-src+ba2cbbf (Lean version 4.22.0)\,
+  \last_commit\: \e0ca7b05d71838d03e5b01abe63a6e57d4d4dd6c\,
+  \run_utc\: \2025-09-29T03:11:45Z\
+}

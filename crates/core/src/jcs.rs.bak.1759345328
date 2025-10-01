@@ -1,0 +1,21 @@
+use serde_json::{Map, Value};
+fn sort_obj(m: &mut Map<String, Value>) {
+    for v in m.values_mut() {
+        match v {
+            Value::Object(mm) => sort_obj(mm),
+            Value::Array(a) => for x in a.iter_mut() {
+                if let Value::Object(mm) = x { sort_obj(mm); }
+            },
+            _ => {}
+        }
+    }
+    let mut pairs: Vec<(String, Value)> = m.iter().map(|(k,v)| (k.clone(), v.clone())).collect();
+    pairs.sort_by(|a,b| a.0.cmp(&b.0)); m.clear();
+    for (k,v) in pairs { m.insert(k, v); }
+}
+pub fn to_vec<T: serde::Serialize>(t: &T) -> Vec<u8> {
+    let mut v = serde_json::to_value(t).expect("to_value");
+    if let Value::Object(ref mut m) = v { sort_obj(m); }
+    let s = serde_json::to_string(&v).expect("to_string"); s.into_bytes()
+}
+pub fn to_string<T: serde::Serialize>(t: &T) -> String { String::from_utf8(to_vec(t)).unwrap() }

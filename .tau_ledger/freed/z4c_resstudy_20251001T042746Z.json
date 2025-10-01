@@ -1,0 +1,46 @@
+{
+  "stamp": "20251001T042746",
+  "test": "gauge",
+  "I_orders": {
+    "H": null,
+    "M": null,
+    "C_Gamma": null
+  },
+  "deltas": [
+    {
+      "res": 801,
+      "IH": null,
+      "IM": null,
+      "ICG": null,
+      "H": null,
+      "M": null,
+      "C_Gamma": null
+    },
+    {
+      "res": 1201,
+      "IH": null,
+      "IM": null,
+      "ICG": null,
+      "H": null,
+      "M": null,
+      "C_Gamma": null
+    },
+    {
+      "res": 1601,
+      "IH": null,
+      "IM": null,
+      "ICG": null,
+      "H": null,
+      "M": null,
+      "C_Gamma": null
+    }
+  ],
+  "stable": false,
+  "resolutions": [
+    801,
+    1201,
+    1601
+  ],
+  "csv": ".tau_ledger/freed/z4c_resstudy_20251001T042746Z.csv",
+  "proof_build": "4cdcd5ba95df8b94ec88c90442613a98bb19c0177610d1497f0376236b5d450c"
+}

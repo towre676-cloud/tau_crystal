@@ -1,0 +1,10 @@
+{
+  "angle": "renormalon_probe",
+  "inputs": {
+    "laurent_drift": null,
+    "tau_pulses": null
+  },
+  "note": "seed; later compare asymptotic slopes vs Borel proxies",
+  "status": "pending",
+  "timestamp": "20251001T010746Z"
+}

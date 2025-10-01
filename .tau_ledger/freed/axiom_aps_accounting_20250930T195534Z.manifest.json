@@ -1,0 +1,10 @@
+{
+  "run_id": "axiom_aps_accounting_20250930T195534Z",
+  "timestamp_utc": "20250930T195534Z",
+  "artifacts": [
+    {
+      "path": "analysis/freed/axiom_aps_accounting_20250930T195534Z.json",
+      "sha256": "1df2b9729c15d5f3143bfcd06073f5c0cf4ae4729cbc714b0b6f4faf95093b78"
+    }
+  ]
+}

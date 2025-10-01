@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\freed\anomaly_inflow_emit.py", line 30, in <module>
+    if __name__=="__main__": import sys; sys.exit(main())
+                                                  ~~~~^^
+  File "C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\freed\anomaly_inflow_emit.py", line 24, in main
+    "diffK_class_ref": null,
+                       ^^^^
+NameError: name 'null' is not defined

@@ -1,0 +1,7 @@
+schema: taucrystal/riemann/v1
+id: riemannv1-20250914T193428Z
+utc: 20250914T193428Z
+zero_index: 42
+zero_value: 0.5+157.97
+hash_foundation: f1a4e5b3b97005d5ca1e4d39c4ac5780cd06dedfc13d8973fa8a2f221891551f
+hypothesis_assumed: true

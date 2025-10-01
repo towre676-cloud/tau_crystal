@@ -1,0 +1,4 @@
+stratum_id,name,dim,orientation,framing
+O0,point,0,oriented,framed
+O1,interval,1,oriented,framed
+O2,surface,2,oriented,string

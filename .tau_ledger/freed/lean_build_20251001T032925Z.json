@@ -1,0 +1,18 @@
+{
+  "stamp": "20251001T032925Z",
+  "git_head": "4f90c8a70cc4",
+  "lean_version": "Lean (version 4.22.0, x86_64-w64-windows-gnu, commit ba2cbbf09d4978f416e0ebd1fceeebc2c4138c05, Release)",
+  "lake_version": "Lake version 5.0.0-src+ba2cbbf (Lean version 4.22.0)",
+  "build_ok": 1,
+  "olean_merkle": "4cdcd5ba95df8b94ec88c90442613a98bb19c0177610d1497f0376236b5d450c",
+  "modules": ["TauCrystal.Freed"],
+  "theorems": [
+    "Monoidal_on_Generators",
+    "CechH1_vanish",
+    "pullback_eq_PF",
+    "pullback_eq_AGT",
+    "pullback_eq_SW",
+    "sigma_is_multiplicative",
+    "cechH1_zero_of_equal_overlap"
+  ]
+}

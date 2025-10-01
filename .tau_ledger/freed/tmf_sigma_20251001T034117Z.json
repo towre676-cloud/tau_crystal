@@ -1,0 +1,9 @@
+{
+  "stamp": "20251001T034117Z",
+  "sigma_orientation": "qleg-corridor",
+  "source": "fallback:E4",
+  "multiplicative": true,
+  "prime_change_stable": true,
+  "csv": ".tau_ledger/freed/tmf_sigma_qleg_20251001T034117Z.csv",
+  "proof_build": "4cdcd5ba95df8b94ec88c90442613a98bb19c0177610d1497f0376236b5d450c"
+}

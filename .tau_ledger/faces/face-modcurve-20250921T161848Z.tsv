@@ -1,0 +1,12 @@
+when	20250921T161848Z
+subject	Cody_A
+morpho	na
+hysteresis	.tau_ledger/hysteresis/box-CM-D23/hysteresis.json
+modcurve	na
+subject	Mother_A
+morpho	na
+hysteresis	.tau_ledger/hysteresis/box-CM-D23/hysteresis.json
+modcurve	na
+modcurve	.tau_ledger/discovery/modcurves/Cody_A.json
+modcurve	.tau_ledger/discovery/modcurves/Mother_A.json
+pair	.tau_ledger/discovery/morpho_signature_pair.json

@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"complex","type":"object","required":["id","terms","differentials"],"properties":{"id":{"type":"string"},"terms":{"type":"array"},"differentials":{"type":"array"}}}

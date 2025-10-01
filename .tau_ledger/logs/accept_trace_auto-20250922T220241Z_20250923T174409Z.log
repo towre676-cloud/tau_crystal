@@ -1,0 +1,2 @@
++ scripts/ops/acceptance_check.sh analysis/capsules/auto-20250922T220241Z/auto-20250922T220241Z.tar.gz analysis/capsules/auto-20250922T220241Z/auto-20250922T220241Z.tar.gz.sha256 analysis/capsules/auto-20250922T220241Z/auto-20250922T220241Z.receipt.json /c/Users/Cody/.keys/minisign.pub
+[accept] ERROR: missing receipt: analysis/capsules/auto-20250922T220241Z/auto-20250922T220241Z.receipt.json

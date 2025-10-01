@@ -1,0 +1,14 @@
++ set -euo pipefail
++ set +H
++ IN=validation/input_norm/face_01.tsv
++ ID=face001
++ WORK=validation/work/face001
++ mkdir -p validation/work/face001
++ R=validation/work/face001/r.tsv
++ CUR=validation/work/face001/curve.tsv
++ AP1=validation/work/face001/a_p.tsv
++ AN1=validation/work/face001/a_n.tsv
++ AP2=validation/work/face001/a_p_pass2.tsv
++ bash scripts/validation/landmarks_to_r_safe.sh validation/input_norm/face_01.tsv validation/work/face001/r.tsv
++ bash scripts/validation/r_to_curve.sh validation/work/face001/r.tsv validation/work/face001/curve.tsv
++ bash scripts/validation/count_ap.sh validation/work/face001/curve.tsv validation/work/face001/a_p.tsv validation/work/face001/a_n.tsv

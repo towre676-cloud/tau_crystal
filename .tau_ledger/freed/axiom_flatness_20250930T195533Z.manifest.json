@@ -1,0 +1,10 @@
+{
+  "run_id": "axiom_flatness_20250930T195533Z",
+  "timestamp_utc": "20250930T195533Z",
+  "artifacts": [
+    {
+      "path": "analysis/freed/axiom_flatness_20250930T195533Z.json",
+      "sha256": "021dab675c76515f77e91621a7efd9e491e8635206867013e75879ae67b763dc"
+    }
+  ]
+}

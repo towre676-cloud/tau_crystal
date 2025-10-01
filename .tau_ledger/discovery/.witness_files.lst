@@ -1,0 +1,7 @@
+analysis/validation/SIGNED_DATASET.receipt.tsv
+analysis/validation/SIGNED_DATASET.bin
+analysis/validation/run1_manifest.json
+analysis/validation/face_tau_sequences.tsv
+analysis/validation/face_stats.tsv
+analysis/validation/corridor.receipt.tsv
+docs/monographs/ramanujan_face_run1.tex

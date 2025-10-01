@@ -1,0 +1,13 @@
+{
+  "angle": "Determinant/eta curvature",
+  "trace_samples": [
+    {
+      "ell": 0.5,
+      "trace": 0.0
+    }
+  ],
+  "holonomy_smoke": 0.0,
+  "holonomy_is_flat": true,
+  "_freed_section": "2.6",
+  "_freed_citation": "Freed et al. (2024), Sec 2.6"
+}

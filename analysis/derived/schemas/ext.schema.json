@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Ext summary","type":"object","required":["src","tgt","group","dim","method"],"properties":{"src":{"type":"string"},"tgt":{"type":"string"},"group":{"type":"string"},"dim":{"type":"integer"},"method":{"type":"string"}}}

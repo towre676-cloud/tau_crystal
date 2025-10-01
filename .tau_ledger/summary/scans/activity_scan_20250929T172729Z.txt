@@ -1,0 +1,3 @@
+zone=.garden/.tau_ledger/receipts module=evolver files=4 latest_path=.garden/.tau_ledger/receipts/demo-20250914T023421Z.json grep_hits=0 json_ok=2
+zone=.garden/.tau_ledger/receipts module=entropy files=4 latest_path=.garden/.tau_ledger/receipts/demo-20250914T023421Z.json grep_hits=0 json_ok=2
+zone=.garden/.tau_ledger/receipts module=langlands files=4 latest_path=.garden/.tau_ledger/receipts/demo-20250914T023421Z.json grep_hits=0 json_ok=2

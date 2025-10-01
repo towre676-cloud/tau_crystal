@@ -1,0 +1,7 @@
+MORPHO RECEIPT NOTE
+timestamp_utc: 2025-09-21T04:50:05Z
+
+Scope. 2D-proxy morphometric estimates from triplanar photos and text; not a substitute for calibrated 3D capture.
+Protocol. Bilateral deviation, anterior flatness, sagittal harmony via frontal planarity checks and profile angle reads.
+Verification. Bind by SHA-256 and rerun the same schema on a structured-light mesh; categories should remain invariant.
+Expected 3D window. RMS 0.6–0.9 mm, peak alar ~2.0±0.4 mm, global index ~96–98 for this phenotype.

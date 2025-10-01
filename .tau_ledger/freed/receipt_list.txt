@@ -1,0 +1,8 @@
+analysis/freed/aps_split_receipt.json
+analysis/freed/atlas_swap_receipt.json
+analysis/freed/defect_fusion_receipt.json
+analysis/freed/determinant_curvature_receipt.json
+analysis/freed/factorization_gate_receipt.json
+analysis/freed/index_volume_receipt.json
+analysis/freed/relative_functor_receipt.json
+analysis/freed/tmf_levels_receipt.json

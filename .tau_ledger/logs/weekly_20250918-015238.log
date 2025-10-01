@@ -1,0 +1,21 @@
+[weekly] start ts=20250918-015238 commit=483cee37ca53
+[weekly] canary: checking timeline continuity…
+[poison] ok: head=bdd49ea3c17902db78c91be5733d07f427e5ea9abdb078e768b75259157926e1
+[weekly] canary ok
+[weekly] labels: 11a1
+37a1
+[weekly] adversarial recount: 11a1
+[adv] label=11a1 p=173 ref=18 awk=18 py=18 agree_ref=true agree_dual=true (ix0=37)
+[weekly] no mirror payload for 11a1; skipping mirror gate
+[weekly] adversarial recount: 37a1
+[adv] label=37a1 p=151 ref=16 awk=16 py=16 agree_ref=true agree_dual=true (ix0=34)
+[weekly] no mirror payload for 37a1; skipping mirror gate
+[inspect/stash-20250918-011909 826bf81] assure: weekly cadence receipts (canary+lottery+mirror) 20250918-015238
+ 5 files changed, 26 insertions(+)
+ create mode 100644 .tau_ledger/adversarial/lottery_11a1_p173_2025-09-18T01-52-39Z.json
+ create mode 100644 .tau_ledger/adversarial/lottery_11a1_p7_2025-09-18T01-49-08Z.json
+ create mode 100644 .tau_ledger/adversarial/lottery_37a1_p151_2025-09-18T01-52-40Z.json
+ create mode 100644 .tau_ledger/metrics.jsonl
+ create mode 100644 analysis/atlas.jsonl
+[weekly] committed: 826bf81ea4fd
+[weekly] done: log=.tau_ledger/logs/weekly_20250918-015238.log
