@@ -120,3 +120,115 @@ Aggregate digests with domain separation into a Merkle root:
 \boxed{\\;\\mathbb H=(h_{\\mathsf M},\\{h_{\\mathsf M}^{(p)}\\}_p,\\;h_{\\mathrm{run}},\\;h_{\\mathrm{index}},\\;h_{\\mathrm{spec}},\\;h_{\\mathrm{homot}}),\quad H_\\tau=\\mathrm{Merkle}_{256}(\\mathbb H)\\;}
 \]
 Any mismatch invalidates \(H_\\tau\) and localizes the fault by the sibling path.
+
+### 10.  The \(B_{5}\)–anomaly as an invertible TQFT, with receipts
+
+Fix a spacetime dimension \(d\ge 0\) and let \(\mathrm{Bord}^{B_{5}}_{d}\) denote the symmetric monoidal \(d\)–dimensional bordism category of closed \(d\)–manifolds \(M\) equipped with a principal \(B_{5}\)–bundle \(P\to M\) (classifying map \(f:M\to \mathrm{B}B_{5}\)), monoidal product given by disjoint union. An anomaly is an invertible, symmetric-monoidal functor
+\[
+\boxed{\quad Z_{\mathrm{anom}}:\ \mathrm{Bord}^{B_{5}}_{d}\longrightarrow \mathrm{Lines}^{\times}\quad}
+\]
+to the Picard groupoid of one-dimensional complex lines, with values obeying locality and gluing. Freed–Hopkins classify such theories by stable maps
+\[
+\boxed{\quad[\ \mathrm{MTH}\wedge (\mathrm{B}B_{5})_{+}\ ,\ \Sigma^{d+1}I\mathbb Z\ ]\quad}
+\]
+where \(\mathrm{MTH}\) is the Thom spectrum for the chosen tangential structure \(H\) (e.g. \(\mathrm{SO}\), \(\mathrm{Spin}\)), \(I\mathbb Z\) is the Anderson dual of the sphere, and \(\Sigma^{d+1}\) denotes \((d{+}1)\)–fold suspension. Choosing a representative \(\Phi\) in this homotopy class and a differential refinement \(\widehat \Phi\) determines the partition function on a closed, \(B_{5}\)–decorated \(d\)–manifold \((M,f)\) by evaluation on the corresponding bordism class:
+\[
+\boxed{\quad Z_{\mathrm{anom}}(M,f)\;=\;\exp\!\Bigl(2\pi i\ \langle \Phi,\ [M,f]\rangle\Bigr)\ \in U(1).\quad}
+\]
+
+When \(\Phi\) admits a differential cocycle representative \(\widehat{\alpha}\) (e.g. in group cohomology \(H^{d+1}(\mathrm{B}B_{5},\mathbb Z)\) for bosonic internal symmetry), one may compute by bulk–boundary splitting. For a compact \((d{+}1)\)–manifold \(X\) with \(\partial X=M\) and an extension \(F:X\to \mathrm{B}B_{5}\) of \(f\),
+\[
+\boxed{\quad \log Z_{\mathrm{anom}}(M,f)\;=\;2\pi i\!\int_{X} \mathrm{CS}_{d+1}(F,R)\;-\;\pi i\,\frac{\eta(D_{\partial})+h}{2}\quad}
+\]
+where \(\mathrm{CS}_{d+1}(F,R)\) is a Chern–Simons–type transgression refining \(\widehat{\alpha}\) (depending on the \(B_{5}\)–bundle and, if present, curvature \(R\) of the tangential structure), and \(\eta(D_{\partial})\) is the Atiyah–Patodi–Singer \(\eta\)–invariant with \(h\) its kernel dimension. The right-hand side is independent of the chosen filling \(X\) (mod \(\mathbb Z\)) exactly when the bulk class is integral; this is the anomaly well-definedness condition.
+
+Locality and gluing, written multiplicatively in \(U(1)\). For disjoint union,
+\[
+\boxed{\quad Z_{\mathrm{anom}}(M_1\sqcup M_2,f_1\sqcup f_2)\ =\ Z_{\mathrm{anom}}(M_1,f_1)\,\cdot\,Z_{\mathrm{anom}}(M_2,f_2)\quad}
+\]
+and for a glued bordism \(X=X_1\cup_{(Y,g)} X_2\) along a common \(B_{5}\)–decorated boundary \((Y,g)\),
+\[
+\boxed{\quad Z_{\mathrm{anom}}(\partial X,g|_{\partial X})\ =\ \big\langle\,Z_{\mathrm{anom}}(\partial X_1,g|_{\partial X_1})\ ,\ Z_{\mathrm{anom}}(\partial X_2,g|_{\partial X_2})\,\big\rangle_{(Y,g)}\quad}
+\]
+where \(\langle\cdot,\cdot\rangle_{(Y,g)}\) is the canonical pairing of lines assigned to \((Y,g)\) and its orientation-reversal. Gauge invariance under \(B_{5}\) is the statement that for any bundle isomorphism \(f\simeq f^{\gamma}\) induced by \(\gamma:M\to B_{5}\),
+\[
+\boxed{\quad Z_{\mathrm{anom}}(M,f^{\gamma})\;=\;Z_{\mathrm{anom}}(M,f).\quad}
+\]
+
+To couple this anomaly to the \(\tau\)-Crystal corridor, designate a canonical test object \((M_{\star},f_{\star})\) built from the chamber data. Write \(w\in W(B_{5})\) for the signed-permutation symmetry fixed by whitening, and let \(f_{\rho}:M_{\star}\to \mathrm{B}B_{5}\) classify the holonomy determined by the chamber index \(\sigma\) and signs of \(r^{*}\). Define the normalization of the statistical observable \(\log B\) by
+\[
+\boxed{\quad e^{\,\log B}\ :=\ Z_{\mathrm{anom}}(M_{\star},f_{\rho}),\qquad \text{so that }\ \log B\equiv \log Z_{\mathrm{anom}}(M_{\star},f_{\rho})\ (\mathrm{mod}\ 2\pi i).\quad}
+\]
+With this identification, every symmetry or locality statement about \(\log B\) becomes a corresponding TQFT identity, hence testable by the anomaly receipts.
+
+#### Anomaly receipts and the ledger contract
+
+The cocycle capsule records the classification data:
+\[
+\boxed{\ \texttt{anom\_class.json}\ =\ \bigl\{\ d,\ H,\ \Phi,\ \widehat{\alpha},\ \texttt{model}=\texttt{\"cohomology\"}\ \text{or}\ \texttt{\"eta+CS\"}\ \bigr\},\quad
+h_{\mathrm{class}}=\mathrm{Hash}_{256}\bigl(\texttt{\"ANOM\_CLASS\"}\parallel \texttt{anom\_class.json}\bigr).\ }
+\]
+
+A single manifold evaluation records the geometry and the result:
+\[
+\boxed{\ \texttt{anom\_eval.json}\ =\ \bigl\{\ d,\ M,\ \texttt{triangulation/cell\_data},\ f,\ \texttt{cochain\_pullback},\ Z=\exp(2\pi i\,S),\ S\in \mathbb R/\mathbb Z,\ \texttt{bulk}=\texttt{APS/CS\ split\ (optional)}\ \bigr\},}
+\]
+\[
+\boxed{\ h_{\mathrm{eval}}=\mathrm{Hash}_{256}\bigl(\texttt{\"ANOM\_EVAL\"}\parallel h_{\mathrm{class}}\parallel \texttt{anom\_eval.json}\bigr).}
+\]
+
+Disjoint union constraint:
+\[
+\boxed{\ \texttt{anom\_tensor.json}\ =\ \bigl\{\ (M_1,f_1),(M_2,f_2),(M,f),\ Z_1,\ Z_2,\ Z,\ \texttt{ok}=[Z\overset{?}{=}Z_1Z_2]\ \bigr\},\quad
+h_{\otimes}=\mathrm{Hash}_{256}\bigl(\texttt{\"ANOM\_TENSOR\"}\parallel \texttt{anom\_tensor.json}\bigr).}
+\]
+Gluing constraint along \((Y,g)\):
+\[
+\boxed{\ \texttt{anom\_glue.json}\ =\ \bigl\{\ X_1,\ X_2,\ Y,\ Z_{\partial X_1},\ Z_{\partial X_2},\ Z_{\partial X},\ \texttt{ok}=[Z_{\partial X}\overset{?}{=}\langle Z_{\partial X_1},Z_{\partial X_2}\rangle_Y]\ \bigr\},}
+\]
+\[
+\boxed{\ h_{\mathrm{glue}}=\mathrm{Hash}_{256}\bigl(\texttt{\"ANOM\_GLUE\"}\parallel \texttt{anom\_glue.json}\bigr).}
+\]
+
+Aggregate anomaly digest via a Merkle root to preserve locality of failure:
+\[
+\boxed{\ h_{\mathrm{anom}}=\mathrm{Merkle}_{256}\Bigl(\,h_{\mathrm{class}},\ \{h_{\mathrm{eval}}\},\ \{h_{\otimes}\},\ \{h_{\mathrm{glue}}\}\Bigr).}
+\]
+
+#### Differential and group-cohomology calculators
+
+**Cohomology model.** Choose a cellular model for \(M\) with a simplicial map \(f:M\to \mathrm{B}B_{5}\). Fix a normalized \((d{+}1)\)–cocycle \(c_{d+1}\) representing \(\alpha\in H^{d+1}(\mathrm{B}B_{5},\mathbb Z)\). Pull back to \(f^{*}c_{d+1}\) and evaluate
+\[
+\boxed{\quad Z_{\mathrm{anom}}(M,f)=\exp\!\Bigl(2\pi i\ \langle f^{*}c_{d+1},\ [M]\rangle\Bigr).\quad}
+\]
+Include the explicit cochain on each \((d{+}1)\)–cell in the receipt so replay does not require recomputation.
+
+**\(\eta\)+CS model.** Choose a filling \(X\) and compute
+\[
+\boxed{\quad \log Z_{\mathrm{anom}}(M,f)=2\pi i \int_{X}\mathrm{CS}_{d+1}(F,R)\ -\ \pi i\frac{\eta+h}{2}\quad}
+\]
+together with a second filling \(X'\) to certify independence mod \(\mathbb Z\) by comparing \(X\cup_M \overline{X'}\).
+
+#### Coupling to \(\log B\) and exact symmetry
+
+Fix \((M_{\star},f_{\rho})\) from the chamber \(\mathcal C\) and whitening’s \(W(B_{5})\) action. Declare
+\[
+\boxed{\quad e^{\,\log B}\ :=\ Z_{\mathrm{anom}}(M_{\star},f_{\rho})\quad}
+\]
+and serialize the coupling
+\[
+\boxed{\ \texttt{anom\_couple.json}=\{\ h_{\mathrm{anom}},\ h_{\mathrm{run}},\ (M_{\star},f_{\rho}),\ \log B,\ \texttt{ok}=[\,e^{\log B}\overset{?}{=}Z_{\mathrm{anom}}(M_{\star},f_{\rho})\,]\ \},}
+\]
+\[
+\boxed{\ h_{\mathrm{couple}}=\mathrm{Hash}_{256}\bigl(\texttt{\"ANOM\_COUPLE\"}\parallel \texttt{anom\_couple.json}\bigr).}
+\]
+Exact \(B_{5}\) symmetry is enforced on statistics by the whitening-equivariance receipts and on topology by gauge invariance \(Z_{\mathrm{anom}}(M_{\star},f_{\rho}^{\gamma})=Z_{\mathrm{anom}}(M_{\star},f_{\rho})\) for any \(\gamma:M_{\star}\to B_{5}\).
+
+#### Acceptance predicate and master binding
+
+The ledger accepts the anomaly run precisely when every recorded \(\texttt{ok}\) flag in \(\texttt{anom\_tensor.json}\), \(\texttt{anom\_glue.json}\), and \(\texttt{anom\_couple.json}\) is true and the two-filling checks agree modulo \(\mathbb Z\). The anomaly digest then enters the corridor root
+\[
+\boxed{\quad H_{\tau}=\mathrm{Merkle}_{256}\Bigl(\,h_{\mathsf M},\ \{h_{\mathsf M}^{(p)}\},\ h_{\mathrm{run}},\ h_{\mathrm{index}},\ h_{\mathrm{spec}},\ h_{\mathrm{homot}},\ h_{\mathrm{anom}}\Bigr)\quad}
+\]
+so any failure in locality, gluing, gauge invariance, or coupling to \(\log B\) breaks \(H_{\tau}\) and isolates the offending leaf via its Merkle sibling path.
+
