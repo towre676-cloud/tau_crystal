@@ -1,0 +1,5 @@
+Affine RG Leaf + Weyl Chamber — Canonical Release (affine-b5-v1)
+MERKLE_ROOT=4f00b2c5e585eb6ddb4a9937704a22c6c9da732024ae14587ad5fdcd1b286c65
+Monograph: affine_rg_leaf_weyl_canonical_20250929T222426Z.bak.md
+Receipts: relative_functor, determinant_curvature, aps_split, index_volume, atlas_swap, factorization_gate, tmf_levels, defect_fusion
+All files are attested in .tau_ledger/freed/sha256_ledger.txt; root above.

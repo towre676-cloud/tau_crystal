@@ -1,0 +1,44 @@
+{
+  "leaf": {
+    "b": 1.0,
+    "b1": 0.2,
+    "mu0": 0.1,
+    "n": 2,
+    "c": 1
+  },
+  "alphabet": {
+    "denominators": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      10,
+      12,
+      18,
+      30
+    ],
+    "support_max": 3
+  },
+  "penalties": {
+    "lambda0": 1.0,
+    "lambda_den": 0.5,
+    "lambda_phi": 1.25
+  },
+  "scheduler": {
+    "k": 6,
+    "formula": "ell_k=(b*mu0)^-1 (1-exp(-3*b*k))"
+  },
+  "files": [
+    "analysis/freed/aps_split_receipt.json",
+    "analysis/freed/atlas_swap_receipt.json",
+    "analysis/freed/defect_fusion_receipt.json",
+    "analysis/freed/determinant_curvature_receipt.json",
+    "analysis/freed/factorization_gate_receipt.json",
+    "analysis/freed/index_volume_receipt.json",
+    "analysis/freed/relative_functor_receipt.json",
+    "analysis/freed/tmf_levels_receipt.json"
+  ],
+  "merkle_root": "4f00b2c5e585eb6ddb4a9937704a22c6c9da732024ae14587ad5fdcd1b286c65",
+  "timestamp_utc": "2025-10-01T06:05:39Z"
+}

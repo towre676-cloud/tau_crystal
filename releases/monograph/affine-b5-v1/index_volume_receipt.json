@@ -1,0 +1,11 @@
+{
+  "kind": "index_volume",
+  "samples": 4000,
+  "logZ_estimate": 6.328959959655374,
+  "params": {
+    "lam0": 0.4,
+    "lam_den": 0.02,
+    "lam_phi": 0.3,
+    "phi_gate": false
+  }
+}
