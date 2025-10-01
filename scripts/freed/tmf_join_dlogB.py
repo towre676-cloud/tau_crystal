@@ -1,32 +1,25 @@
 #!/usr/bin/env python3
-import json, os, glob, datetime, math
-from pathlib import Path
-def newest_many(pat):
-  return sorted(glob.glob(pat, recursive=True), key=lambda p: os.path.getmtime(p), reverse=True)
-def load_num(path, keys=("dlogB","ΔlogB","delta_logB","logB","value")):
-  try:
-    with open(path,"r",encoding="utf-8") as f: d=json.load(f)
-  except Exception: return None
-  for k in keys:
-    v=d.get(k);
-    if isinstance(v,(int,float)): return float(v)
-  return None
-def emit(out,payload):
-  out.parent.mkdir(parents=True, exist_ok=True)
-  tmp=out.with_suffix(out.suffix+".tmp")
-  with open(tmp,"w",encoding="utf-8") as f: json.dump(payload,f,indent=2,sort_keys=True)
-  os.replace(tmp,out)
-def main():
-  ts=datetime.datetime.now(datetime.UTC).strftime("%Y%m%dT%H%M%SZ")
-  out=Path(f"analysis/freed/tmf_join_dlogB_{ts}.json")
-  files=newest_many("analysis/**/tmf_level_*.json") + newest_many(".tau_ledger/**/tmf_level_*.json")
-  vals=[]
-  for p in files[:500]:
-    v=load_num(p);
-    if v is not None and math.isfinite(v): vals.append(v)
-  status="pending"; method="pending"; mu=None; med=None; n=len(vals); note="need tmf_level_*.json to aggregate"
-  if n>0:
-    status="ok"; method="tmf_dlogB_summary"; mu=sum(vals)/n; med=sorted(vals)[n//2]; note=""
-  payload={"angle":"05_tmf_dlogB","timestamp":ts,"status":status,"method":method,"n":n,"mean":mu,"median":med,"note":note}
-  emit(out,payload); print(out.as_posix())
-if __name__=="__main__": import sys; sys.exit(main())
+import json,glob,time,math
+levels=sorted(glob.glob("analysis/freed/tmf_level_*.json"))
+rows=[]
+for p in levels:
+  try: d=json.load(open(p,"r",encoding="utf-8"))
+  except Exception: continue
+  N=None
+  for k in ("level","N","mod_level"):
+    if k in d and isinstance(d[k],(int,float)): N=int(d[k])
+  dlog=None
+  for k in ("Delta_logB","delta_logB","dlogB","d_logB"):
+    if k in d and isinstance(d[k],(int,float)): dlog=float(d[k])
+  if N is None or dlog is None: continue
+  rows.append({"level":N,"Delta_logB":dlog,"_file":p})
+rows=sorted(rows,key=lambda r:r["level"])
+stability=None
+if rows:
+  m=sum(r["Delta_logB"] for r in rows)/len(rows)
+  var=sum((r["Delta_logB"]-m)**2 for r in rows)/len(rows)
+  stability={"count":len(rows),"mean":m,"std":math.sqrt(var)}
+out={"angle":"TMF stability","rows":rows,"stability":stability,
+     "_freed_section":"2.6","_freed_citation":"Freed et al. (2024), Sec 2.6"}
+dst="analysis/freed/tmf_deltas_join_"+time.strftime("%Y%m%dT%H%M%SZ",time.gmtime())+".json"
+json.dump(out,open(dst,"w",encoding="utf-8"),ensure_ascii=False,indent=2); print(dst)
