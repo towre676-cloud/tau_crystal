@@ -1,26 +1,19 @@
 #!/usr/bin/env python3
-import json, os, glob, datetime; from pathlib import Path
-def newest(p):
-  c=[]; [c.append((os.path.getmtime(x),x)) for pat in p for x in glob.glob(pat, recursive=True) if os.path.exists(x)]
-  return sorted(c, key=lambda t:t[0], reverse=True)[0][1] if c else None
-def loadnum(p):
-  try: d=json.load(open(p,"r",encoding="utf-8"))
-  except Exception: return None
-  for k in ("logB","B","value"):
-    v=d.get(k);
+import json,sys,time,hashlib,os
+def h(p): return hashlib.sha256(open(p,"rb").read()).hexdigest()
+def num(p):
+  d=json.load(open(p,"r",encoding="utf-8"))
+  for v in d.values():
     if isinstance(v,(int,float)): return float(v)
-  return None
-ts=datetime.datetime.now(datetime.UTC).strftime("%Y%m%dT%H%M%SZ")
-out=Path(f"analysis/freed/atlas_swap_{ts}.json")
-a=newest(["analysis/**/logB_atlas_A_*.json",".tau_ledger/**/logB_atlas_A_*.json"])
-b=newest(["analysis/**/logB_atlas_B_*.json",".tau_ledger/**/logB_atlas_B_*.json"])
-status="pending"; method="pending"; delta=None; ratio=None; note="need A and B atlas receipts"
-if a and b:
-  va=loadnum(a); vb=loadnum(b)
-  if va is not None and vb is not None:
-    status="ok"; method="atlas_swap_diff_ratio"; delta=vb-va; ratio=(vb/va) if abs(va)>1e-15 else None; note=""
-  else: note="could not parse numeric logB values"
-inputs={"atlas_A":a,"atlas_B":b}; inputs_norm={k:(Path(v).as_posix() if isinstance(v,str) else v) for k,v in inputs.items()}
-out.parent.mkdir(parents=True, exist_ok=True)
-json.dump({"angle":"03_atlas_swap","timestamp":ts,"status":status,"method":method,"delta":delta,"ratio":ratio,"inputs":inputs_norm,"note":note}, open(out.with_suffix(".json.tmp"),"w",encoding="utf-8"), indent=2, sort_keys=True); os.replace(out.with_suffix(".json.tmp"), out)
-print(out.as_posix())
+  raise SystemExit("no numeric in "+p)
+if len(sys.argv)<2: raise SystemExit("usage: atlas_swap.py <A> <B>")
+A,B=sys.argv[1],sys.argv[2]
+for p in (A,B):
+  if not (p and os.path.exists(p) and os.path.getsize(p)>0): raise SystemExit("missing: "+str((A,B)))
+la,lb=num(A),num(B); res=abs(la-lb); ok=res<=1e-12
+rec={"angle":"Atlas swap","theorem":"permute coords ⇒ same logB","tolerance":1e-12,
+     "values":{"logB_A":la,"logB_B":lb,"residual":res},"pass":bool(ok),
+     "_inputs":{"A":A,"B":B}, "_sha256":{"A":h(A),"B":h(B)},
+     "_freed_section":"2.6","_freed_citation":"Freed et al. (2024), Sec 2.6"}
+out=".tau_ledger/freed/axiom_atlas_swap_"+time.strftime("%Y%m%dT%H%M%SZ",time.gmtime())+".json"
+json.dump(rec,open(out,"w",encoding="utf-8"),ensure_ascii=False,indent=2); print(out)
