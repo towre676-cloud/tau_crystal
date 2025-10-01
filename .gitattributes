@@ -1,7 +1,4 @@
-*.sh text eol=lf
-corridor/capsules/index.tsv text eol=lf
-.tau_ledger/capsules/index.sha256 text eol=lf
-*.py   text eol=lf
-*.sh   text eol=lf
-*.json text eol=lf
-*.md   text eol=lf
+* text=auto eol=lf
+*.ps1 -text
+*.bat -text
+ops/*.stdout text
