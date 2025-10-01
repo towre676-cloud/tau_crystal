@@ -367,3 +367,182 @@ h_{\\mathrm{def}}=\\mathrm{Hash}_{256}\\bigl(\\texttt{\"SPEC\\_DEF\"}\\parallel 
 \]
 Upon acceptance, \\(h_{\\mathrm{spec}}\\) enters the master root \\(H_\\tau\\); any mismatch (non-integer BPS count, failed KS identity, failed \\(B_5\\) equivariance) flips the corresponding \\texttt{ok} and breaks the master hash at the spectral leaf, isolating the fault.
 
+
+### 12.  p-adic interpolation (rigid RG, analytic Weyl action, whitening, Darboux, Iwasawa) 
+
+Fix an odd prime \(p\) with \(p\nmid \mathrm{den}(b\,\mu_0)\). Work over the non-Archimedean base
+\[
+\boxed{\;k_p=\mathbb Q_p(b)\;,}
+\]
+and choose Teichmüller lifts for units: for any \(u\in\mathbb Z_p^\times\),
+\[
+\boxed{\;u=\omega(u)\,\langle u\rangle,\quad \omega(u)^{p-1}=1,\ \ \langle u\rangle\in 1+p\mathbb Z_p,\quad \log_p(u):=\log_p(\langle u\rangle)\;.}
+\]
+
+#### 12.1  p-adic RG equation and Hensel–Newton flow
+Define the p-adic deformation of the first-integral equation by replacing logarithms with \(\log_p\) on the domain where they converge:
+\[
+\boxed{\;F_p(\mu;\ell):=\ell+\frac{1}{b\mu}-\frac{b_1}{b^{2}}\Bigl(\log_p(b+b_1\mu)-\log_p(\mu)\Bigr)=0\;,}
+\]
+with derivative (valid on the analytic domain where both logs are defined)
+\[
+\boxed{\;F_p'(\mu)= -\frac{1}{b\mu^{2}}-\frac{b_{1}}{b^{2}}\Bigl(\frac{b_1}{b+b_1\mu}-\frac{1}{\mu}\Bigr)\;.}
+\]
+Newton–Hensel iteration:
+\[
+\boxed{\;\mu_{n+1}=\mu_n-\frac{F_p(\mu_n;\ell)}{F_p'(\mu_n)}\;,}
+\]
+converges quadratically provided a Hensel condition holds at the seed \(\mu_0^{\mathrm{seed}}\):
+\[
+\boxed{\;v_p\Bigl(F_p(\mu_0^{\mathrm{seed}};\ell)\Bigr)\ >\ 2\,v_p\Bigl(F_p'(\mu_0^{\mathrm{seed}})\Bigr)\;.}
+\]
+The p-adic period of the leaf’s closed 1-form remains
+\[
+\boxed{\;\lambda_p(\ell)=\mu(\ell)^{-1}\,d\ell,\qquad \mathrm{per}_p(\omega)=(\mu_0^{(p)})^{-1}\in\mathbb Z_p\;,}
+\]
+with \(\mu_0^{(p)}=\omega(\mu_0)\in\mathbb Z_p^\times\) the Teichmüller lift (Sec. 6).
+
+#### 12.2  Rigid domain and Haar normalization
+Choose a closed p-adic disc (or annulus) \(D\subset\mathbb Z_p\) on which all series converge (logs and Newton flow). Normalize the Haar measure \(d\ell\) so that
+\[
+\boxed{\;\int_D 1\,d\ell=1\;.}
+\]
+
+#### 12.3  p-adic sections, covariance, and whitening
+Define p-adic log-sections
+\[
+\boxed{\;s_i(\ell)=\log_p\!\Bigl(\frac{m_i(\ell)}{m_0(\ell)}\Bigr),\qquad \bar s_i=\int_D s_i\,d\ell\;,}
+\]
+and the rigid covariance (a symmetric, non-degenerate bilinear form over \(k_p\))
+\[
+\boxed{\;\Sigma^{(p)}_{ij}=\int_D \bigl(s_i-\bar s_i\bigr)\bigl(s_j-\bar s_j\bigr)\,d\ell\in k_p\;.}
+\]
+Compute an inverse square-root via a p-adic Denman–Beavers iteration with scaling. Choose \(\alpha\in k_p^\times\) such that \(\|I-\alpha\Sigma^{(p)}\|_p<1\), set
+\[
+\boxed{\;Y_0=I,\quad Z_0=\alpha\Sigma^{(p)}\;,}
+\]
+and iterate
+\[
+\boxed{\;Y_{n+1}=\tfrac12\,Y_n\bigl(3I-Z_nY_n\bigr),\qquad Z_{n+1}=\tfrac12\,\bigl(3I-Z_nY_n\bigr)Z_n\;,}
+\]
+which converges p-adically to \(Y_\infty=(\alpha\Sigma^{(p)})^{-1/2}\), \(Z_\infty=(\alpha\Sigma^{(p)})^{1/2}\). Then set
+\[
+\boxed{\;W_p=\sqrt{\alpha}\,Y_\infty\in \mathrm{GL}_5(k_p),\qquad W_p^{T}\,\Sigma^{(p)}\,W_p=I\;.}
+\]
+Exact \(B_5\) equivariance is checked by signed permutation matrices \(P_w\) (entries \(\pm1\in\mathbb Z_p\)):
+\[
+\boxed{\;W_p\,P_w\,\Sigma^{(p)}\,P_w^{T}\,W_p^{T}=O_w^{(p)},\quad (O_w^{(p)})^{T}O_w^{(p)}=I,\ \ w\in W(B_5)\;.}
+\]
+
+#### 12.4  p-adic chamber index and receipts
+For \(c\in\mathbb Q^5\subset k_p^5\),
+\[
+\boxed{\;\rho^{(p)}=W_p\,c,\qquad r^{(p)}=(\Sigma^{(p)})^{-1}c\;,}
+\]
+and the chamber predicate is
+\[
+\boxed{\;r^{(p)}\in \mathcal C\quad\Longleftrightarrow\quad \text{run accepted at }p\;.}
+\]
+Record verified valuations for acceptance at precision \(N\):
+\[
+\boxed{\;v_p\bigl(F_p(\mu_N)\bigr)\ge N,\quad \|W_p^{T}\Sigma^{(p)}W_p-I\|_p\le p^{-N}\;.}
+\]
+
+#### 12.5  p-adic Darboux coordinates and analytic Weyl action
+Define p-adic central charges by Coleman integration on the spectral curve \(\Sigma\) (Sec. 11):
+\[
+\boxed{\;Z_\gamma^{(p)}=\oint_\gamma \lambda_p\in k_p,\qquad \gamma\in H_1(\Sigma,\mathbb Z)\;,}
+\]
+and (on the convergence domain \(v_p(Z_\gamma^{(p)})>0\)) the p-adic Darboux coordinates
+\[
+\boxed{\;\mathcal X_\gamma^{(p)}=\exp_p\!\bigl(Z_\gamma^{(p)}\bigr)\;,}
+\]
+with the standard Poisson brackets (intersection pairing unchanged):
+\[
+\boxed{\;\{\log \mathcal X_\gamma^{(p)},\log \mathcal X_{\gamma'}^{(p)}\}=\langle\gamma,\gamma'\rangle\;.}
+\]
+Exact \(B_5\)-equivariance:
+\[
+\boxed{\;Z_{w_*\gamma}^{(p)}=Z_\gamma^{(p)},\quad \mathcal X_{w_*\gamma}^{(p)}=\mathcal X_\gamma^{(p)}\;.}
+\]
+
+#### 12.6  Iwasawa interpolation (cyclotomic tower)
+Let \(\Lambda=\mathbb Z_p[[T]]\) and \(\kappa:\mathbb Z_p^\times\to \Lambda^\times\) the universal character \(\kappa(u)=(1+T)^{\log_p(u)/\log_p(1+p)}\). A \(\Lambda\)–adic family of periods/intersections is a function
+\[
+\boxed{\;L^{(p)}(s)=\int_{\mathbb Z_p^\times} u^{\,s}\,d\nu(u)\in\Lambda\;,}
+\]
+such that for integers \(s\) in a prescribed congruence class,
+\[
+\boxed{\;L^{(p)}(s)=\sum_{\gamma}\Omega(\gamma)\,\bigl(Z_\gamma^{(p)}\bigr)^{s}\quad\text{(finite sum on a wall-finite window)}\;,}
+\]
+with \(\nu\) a bounded p-adic measure determined by the motivic capsule (Sec. 1/6). Coherence along the Iwasawa tower \(\mathbb Q_p(\zeta_{p^n})\) is enforced by the distribution relation
+\[
+\boxed{\;\nu(a+p^{n}\mathbb Z_p)=\sum_{j=0}^{p-1}\nu(a+jp^{n}+p^{n+1}\mathbb Z_p)\;.}
+\]
+
+#### 12.7  p-adic coupling to anomaly and master hash
+At the canonical test pair \((M_\star,f_\rho)\) (Sec. 10),
+\[
+\boxed{\;e^{\,\log B^{(p)}}:=Z_{\mathrm{anom}}^{(p)}(M_\star,f_\rho)\in \mathbb C_p^\times,\qquad \log B^{(p)}\equiv \log_p Z_{\mathrm{anom}}^{(p)}\ (\mathrm{mod}\ p^N)\;,}
+\]
+and cross-place compatibility (on \(p\)–integral data) is recorded as
+\[
+\boxed{\;\iota_p\bigl(\mathrm{per}(\omega)\bigr)\equiv \mathrm{per}_p(\omega)\ (\mathrm{mod}\ p^N),\quad \iota_p\bigl(Z_\gamma\bigr)\equiv Z_\gamma^{(p)}\ (\mathrm{mod}\ p^N)\;.}
+\]
+
+---
+
+## p-adic receipt capsules and acceptance
+
+**RG capsule (p-adic):**
+\[
+\boxed{\ \texttt{padic\_rg.json}=\bigl\{p,\ D,\ b,b_1,\ \mu_0^{(p)},\ \texttt{hensel}=[v_p(F_p(\mu_0))>2v_p(F'_p(\mu_0))],\ \texttt{res}=v_p(F_p(\mu_N)),\ N\bigr\},}
+\]
+\[
+\boxed{\ h_{\mathrm{rg}}^{(p)}=\mathrm{Hash}_{256}\bigl(\texttt{\"PADIC\_RG\"}\parallel \texttt{padic\_rg.json}\bigr).}
+\]
+
+**Whitening capsule (p-adic):**
+\[
+\boxed{\ \texttt{padic\_white.json}=\bigl\{p,\ \Sigma^{(p)},\ \alpha,\ W_p,\ \delta=\|W_p^{T}\Sigma^{(p)}W_p-I\|_p,\ N\bigr\},}
+\]
+\[
+\boxed{\ h_{\mathrm{white}}^{(p)}=\mathrm{Hash}_{256}\bigl(\texttt{\"PADIC\_WHITE\"}\parallel \texttt{padic\_white.json}\bigr).}
+\]
+
+**Darboux capsule (p-adic):**
+\[
+\boxed{\ \texttt{padic\_coords.json}=\bigl\{p,\ \{\gamma_i\},\ Z_{\gamma_i}^{(p)},\ \mathcal X_{\gamma_i}^{(p)},\ \texttt{dom}=[v_p(Z_{\gamma_i}^{(p)})>0]\bigr\},}
+\]
+\[
+\boxed{\ h_{\mathrm{coords}}^{(p)}=\mathrm{Hash}_{256}\bigl(\texttt{\"PADIC\_COORDS\"}\parallel \texttt{padic\_coords.json}\bigr).}
+\]
+
+**Equivariance capsule (p-adic):**
+\[
+\boxed{\ \texttt{padic\_equiv.json}(w)=\bigl\{w,\ Z_{w_*\gamma}^{(p)}\overset{?}{=}Z_\gamma^{(p)},\ \mathcal X_{w_*\gamma}^{(p)}\overset{?}{=}\mathcal X_\gamma^{(p)}\bigr\},}
+\]
+\[
+\boxed{\ h_{\mathrm{equiv}}^{(p)}(w)=\mathrm{Hash}_{256}\bigl(\texttt{\"PADIC\_EQUIV\"}\parallel \texttt{padic\_equiv.json}(w)\bigr).}
+\]
+
+**Iwasawa capsule:**
+\[
+\boxed{\ \texttt{padic\_iwasawa.json}=\bigl\{\Lambda,\ \nu,\ \texttt{dist\_ok},\ L^{(p)}(T)\bigr\},\qquad
+h_{\mathrm{iwa}}^{(p)}=\mathrm{Hash}_{256}\bigl(\texttt{\"PADIC\_IWASAWA\"}\parallel \texttt{padic\_iwasawa.json}\bigr).}
+\]
+
+**p-adic digest and acceptance:**
+\[
+\boxed{\ h_{\mathrm{p}}=\mathrm{Merkle}_{256}\Bigl(h_{\mathrm{rg}}^{(p)},\ h_{\mathrm{white}}^{(p)},\ h_{\mathrm{coords}}^{(p)},\ \{h_{\mathrm{equiv}}^{(p)}(w)\},\ h_{\mathrm{iwa}}^{(p)}\Bigr),}
+\]
+\[
+\boxed{\ \text{accept at }p\iff \begin{cases}
+v_p(F_p(\mu_N))\ge N,\\[2pt]
+\|W_p^{T}\Sigma^{(p)}W_p-I\|_p\le p^{-N},\\[2pt]
+\text{all p-adic equivariance checks true},\\[2pt]
+\text{Iwasawa distribution relation holds.}
+\end{cases}}
+\]
+Upon acceptance, include \(h_{\mathrm{p}}\) among the place-tagged leaves in the master Merkle root \(H_\tau\). Any failure (Newton residual too small, whitening not orthonormal to precision, broken \(B_5\) equivariance, or Iwasawa incoherence) flips the corresponding \(\texttt{ok}\) and isolates the p-adic fault by its sibling path.
+
