@@ -7,8 +7,10 @@ for mode in on off; do
   res="$(python - <<'PY' "$p"
 import json,sys
 d=json.load(open(sys.argv[1],'r',encoding='utf-8'))
+val=None
 for k in ("residual","resid","error","delta"):
-  if k in d and isinstance(d[k],(int,float)): print(d[k]); break
+  if k in d and isinstance(d[k],(int,float)): val=float(d[k]); break
+print("NaN" if val is None else val)
 PY
 )"
   echo "[phi=${mode}] residual=${res}"
