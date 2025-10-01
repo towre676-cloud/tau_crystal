@@ -20,8 +20,7 @@ lhs=lv; rhs=bv-0.5*ev
 diff=lhs-rhs; n=int(round(diff)); resid=abs(diff-n); ok=resid<=tol
 rec={"angle":"APS split equality","theorem":"logB = bulk - eta/2 + Z","tolerance":tol,
      "values":{"logB":lhs,"bulk":bv,"eta":ev,"rhs":rhs,"diff":diff,"nearest_Z":n,"residual":resid},
-     "pass":bool(ok),
-     "_inputs":{"bulk":bulk,"eta":eta,"logB":logB},
+     "pass":bool(ok),"_inputs":{"bulk":bulk,"eta":eta,"logB":logB},
      "_sha256":{"bulk":sha(bulk),"eta":sha(eta),"logB":sha(logB)},
      "_freed_section":"4.1","_freed_citation":"Freed et al. (2024), Sec 4.1"}
 out=".tau_ledger/freed/axiom_aps_split_"+time.strftime("%Y%m%dT%H%M%SZ",time.gmtime())+".json"
