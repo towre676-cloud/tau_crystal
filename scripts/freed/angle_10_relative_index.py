@@ -87,11 +87,11 @@ def main():
         "status": status,
         "value": value,
         "units":"arb",
-        "inputs": inputs,
+        \"inputs\": inputs_norm,
         "note": note
     }
     emit(out, payload)
-    print(str(out))
+    print(out.as_posix())
 
 if __name__=="__main__":
     sys.exit(main())
