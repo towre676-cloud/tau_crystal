@@ -7,6 +7,7 @@ def num(d,keys):
   for v in d.values():
     if isinstance(v,(int,float)): return float(v)
   raise SystemExit("numeric not found")
+if len(sys.argv)<4: raise SystemExit("usage: aps_equality_check.py <bulk> <eta> <logB>")
 bulk,eta,logB=sys.argv[1:4]
 tol=float(os.environ.get("APS_TOL","1e-9"))
 Db=json.load(open(bulk,"r",encoding="utf-8"))
