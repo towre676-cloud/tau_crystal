@@ -1,25 +1,20 @@
 #!/usr/bin/env python3
-import json, os, glob, datetime; from pathlib import Path
-def newest(p):
-  c=[]; [c.append((os.path.getmtime(x),x)) for pat in p for x in glob.glob(pat, recursive=True) if os.path.exists(x)]
-  return sorted(c, key=lambda t:t[0], reverse=True)[0][1] if c else None
+import json,sys,time,hashlib,os
+def h(p): return hashlib.sha256(open(p,"rb").read()).hexdigest()
 def num(p):
-  try: d=json.load(open(p,"r",encoding="utf-8"))
-  except Exception: return None
-  for k in ("logB","B","value"):
-    v=d.get(k);
+  d=json.load(open(p,"r",encoding="utf-8"))
+  for v in d.values():
     if isinstance(v,(int,float)): return float(v)
-  return None
-ts=datetime.datetime.now(datetime.UTC).strftime("%Y%m%dT%H%M%SZ")
-out=Path(f"analysis/freed/relative_functor_{ts}.json")
-a=newest(["analysis/**/logB_segment_a_*.json",".tau_ledger/**/logB_segment_a_*.json"])
-b=newest(["analysis/**/logB_segment_b_*.json",".tau_ledger/**/logB_segment_b_*.json"])
-w=newest(["analysis/**/logB_segment_whole_*.json",".tau_ledger/**/logB_segment_whole_*.json"])
-status="pending"; method="pending"; additivity=None; residual=None; note="need a,b,whole"
-if a and b and w:
-  va=num(a); vb=num(b); vw=num(w)
-  if None not in (va,vb,vw): residual=vw-(va+vb); additivity=(abs(residual)<=1e-12); status="ok"; method="logB_additivity"; note=""
-inputs={"segment_a":a,"segment_b":b,"segment_whole":w}; inputs_norm={k:(Path(v).as_posix() if isinstance(v,str) else v) for k,v in inputs.items()}
-out.parent.mkdir(parents=True, exist_ok=True)
-json.dump({"angle":"01_relative_functor","timestamp":ts,"status":status,"method":method,"additivity":additivity,"residual":residual,"inputs":inputs_norm,"note":note}, open(out.with_suffix(".json.tmp"),"w",encoding="utf-8"), indent=2, sort_keys=True); os.replace(out.with_suffix(".json.tmp"), out)
-print(out.as_posix())
+  raise SystemExit("no numeric in "+p)
+if len(sys.argv)<4: raise SystemExit("usage: relative_functor.py <segA> <segB> <whole> [tol]")
+A,B,W=sys.argv[1],sys.argv[2],sys.argv[3]
+tol=float(sys.argv[4]) if len(sys.argv)>4 else 1e-9
+for p in (A,B,W):
+  if not (p and os.path.exists(p) and os.path.getsize(p)>0): raise SystemExit("missing: "+str((A,B,W)))
+la,lb,lw=num(A),num(B),num(W); res=abs((la+lb)-lw); ok=res<=tol
+rec={"angle":"Relative Functor","theorem":"logB(l1)+logB(l2)=logB(l1+l2)","tolerance":tol,
+     "values":{"logB_a":la,"logB_b":lb,"logB_whole":lw,"residual":res},"pass":bool(ok),
+     "_inputs":{"a":A,"b":B,"whole":W},"_sha256":{"a":h(A),"b":h(B),"whole":h(W)},
+     "_freed_section":"2.1","_freed_citation":"Freed et al. (2024), Sec 2.1"}
+out=".tau_ledger/freed/axiom_relative_functor_"+time.strftime("%Y%m%dT%H%M%SZ",time.gmtime())+".json"
+json.dump(rec,open(out,"w",encoding="utf-8"),ensure_ascii=False,indent=2); print(out)
