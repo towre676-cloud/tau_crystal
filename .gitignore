@@ -112,3 +112,5 @@ analysis/
 !.tau_ledger/ci/
 !.tau_ledger/arith/
 notebooks/*.html
+
+!analysis/freed/*.json
