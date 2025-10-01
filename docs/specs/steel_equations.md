@@ -546,3 +546,174 @@ v_p(F_p(\mu_N))\ge N,\\[2pt]
 \]
 Upon acceptance, include \(h_{\mathrm{p}}\) among the place-tagged leaves in the master Merkle root \(H_\tau\). Any failure (Newton residual too small, whitening not orthonormal to precision, broken \(B_5\) equivariance, or Iwasawa incoherence) flips the corresponding \(\texttt{ok}\) and isolates the p-adic fault by its sibling path.
 
+
+### 13.  Categorified index on the chamber (B₅–equivariant complex, Euler class, Ext–pairings, and receipts)
+
+Let \(\mathsf{Rep}_{\mathbb Q}(B_{5})\) be the semisimple tensor category of finite–dimensional \(\mathbb Q\)–linear representations of the hyperoctahedral group \(B_{5}\simeq(\mathbb Z/2\mathbb Z)^{5}\rtimes S_{5}\). Fix the exact \(B_{5}\)–action coming from whitening (Sec. 2) and the chamber \(\mathcal C\) (Sec. 3).
+
+#### 13.1  The B₅–equivariant index as a virtual representation
+
+Choose a finite \(B_{5}\)–equivariant cochain complex
+\[
+\boxed{\;C^\bullet:\quad 0\longrightarrow C^0\xrightarrow{\,d^0\,}C^1\xrightarrow{\,d^1\,}\cdots\xrightarrow{\,d^{m-1}\,}C^{m}\longrightarrow 0\;,\qquad C^i\in\mathsf{Rep}_{\mathbb Q}(B_{5}).}
+\]
+Differentials are \(B_{5}\)–equivariant:
+\[
+\boxed{\;d^{i}\,\rho_{C^i}(g)=\rho_{C^{i+1}}(g)\,d^{i}\quad\forall g\in B_{5},\qquad d^{i+1}\circ d^{i}=0\;.}
+\]
+The \(B_{5}\)–equivariant index is the class in the Grothendieck ring \(K^0_{B_{5}}\):
+\[
+\boxed{\;\mathrm{Ind}_{B_{5}}(C^\bullet)=\sum_{i=0}^{m}(-1)^i\,[C^i]=\sum_{i=0}^{m}(-1)^i\,[H^i(C^\bullet)]\ \in K^0_{B_{5}}.}
+\]
+Its class function (graded character at \(t=1\)) is
+\[
+\boxed{\;\chi_{B_{5}}(g)=\sum_{i=0}^{m}(-1)^i\,\mathrm{Tr}\!\left(g\mid C^i\right)=\sum_{i=0}^{m}(-1)^i\,\mathrm{Tr}\!\left(g\mid H^i\right),\qquad g\in B_{5}.}
+\]
+
+If a grading \(\deg:C^\bullet\to\mathbb Z\) (e.g. filtration from the RG leaf) is fixed, define the refined index
+\[
+\boxed{\;\chi_{B_{5}}(g;t)=\sum_{i,k}(-1)^i\,t^{\,k}\,\mathrm{Tr}\!\left(g\mid C^i[k]\right),\qquad \chi_{B_{5}}(g;1)=\chi_{B_{5}}(g).}
+\]
+
+#### 13.2  Decomposition into irreducibles and non-negativity in cohomology
+
+Let \(\{V_\lambda\}_{\lambda\in\widehat{B_{5}}}\) be a complete set of irreducibles with characters \(\chi_\lambda\). Multiplicity extraction in degree \(i\) is
+\[
+\boxed{\;m_\lambda^{(i)}=\frac{1}{|B_{5}|}\sum_{g\in B_{5}}\chi_\lambda(g^{-1})\,\mathrm{Tr}\!\left(g\mid C^i\right)\ \in\ \mathbb Z_{\ge 0},}
+\]
+and in cohomology
+\[
+\boxed{\;n_\lambda^{(i)}=\frac{1}{|B_{5}|}\sum_{g\in B_{5}}\chi_\lambda(g^{-1})\,\mathrm{Tr}\!\left(g\mid H^i\right)\ \in\ \mathbb Z_{\ge 0}.}
+\]
+The virtual multiplicities are the alternating sums
+\[
+\boxed{\;\nu_\lambda=\sum_{i}(-1)^i n_\lambda^{(i)}=\frac{1}{|B_{5}|}\sum_{g\in B_{5}}\chi_\lambda(g^{-1})\,\chi_{B_{5}}(g)\ \in\ \mathbb Z.}
+\]
+
+#### 13.3  Ext–pairings and obstructions
+
+Work in \(D^{b}\!\big(\mathsf{Rep}_{\mathbb Q}(B_{5})\big)\). For \(X^\bullet,Y^\bullet\) define the equivariant Ext–pairing
+\[
+\boxed{\;\langle X^\bullet,Y^\bullet\rangle_{\!\mathrm{Ext}}=\sum_{i\in\mathbb Z}(-1)^i\,\dim_{\mathbb Q}\mathrm{Ext}^{\,i}_{B_{5}}(X^\bullet,Y^\bullet)\ \in\ \mathbb Z.}
+\]
+Self-pairing detects obstructions to formal deformations of \(X^\bullet\):
+\[
+\boxed{\;\mathrm{Obs}(X^\bullet)\ \subseteq\ \mathrm{Ext}^{2}_{B_{5}}(X^\bullet,X^\bullet),\qquad \text{infinitesimal deformations are in }\ \mathrm{Ext}^{1}_{B_{5}}(X^\bullet,X^\bullet).}
+\]
+
+A character-valued Ext–index (refined by conjugacy class) is
+\[
+\boxed{\;\Xi_{X,Y}(g)=\sum_{i}(-1)^i\,\mathrm{Tr}\!\left(g\mid \mathrm{Ext}^{\,i}_{B_{5}}(X^\bullet,Y^\bullet)\right),\qquad g\in B_{5}.}
+\]
+
+#### 13.4  Wall-crossing = derived equivalence (auditable)
+
+Two chambers \(\mathcal C_{\pm}\) are related by a kernel \(K\in D^{b}\!\big(\mathsf{Rep}_{\mathbb Q}(B_{5})\big)\) that implements a Fourier–Mukai–type autoequivalence
+\[
+\boxed{\;\Phi_{K}:D^{b}\!\to D^{b}\!,\qquad \Phi_{K}(C^\bullet_{-})\ \simeq\ C^\bullet_{+}.}
+\]
+On \(K^0_{B_{5}}\) this induces
+\[
+\boxed{\;[\Phi_{K}(C^\bullet_{-})]=[C^\bullet_{+}],\qquad \chi_{B_{5}}^{(-)}(g)=\chi_{B_{5}}^{(+)}(g)\quad\forall g.}
+\]
+A *certificate of quasi-isomorphism* is a triple of \(B_{5}\)–equivariant maps \((f^\bullet,g^\bullet,h^\bullet)\) with
+\[
+\boxed{\;f^{i}:C^{i}_{-}\!\to C^{i}_{+},\quad g^{i}:C^{i}_{+}\!\to C^{i}_{-},\quad h^{i}:C^{i}_{-}\!\to C^{i-1}_{-}}
+\]
+satisfying the chain-homotopy identities
+\[
+\boxed{\;g^\bullet f^\bullet-\mathrm{id}=d h+h d,\qquad f^\bullet g^\bullet-\mathrm{id}=d' h'+h' d',\qquad d^{\prime}f=fd,}
+\]
+which imply \(C^\bullet_{-}\simeq C^\bullet_{+}\) in \(D^{b}\) and preserve the index.
+
+#### 13.5  Relative index on the chamber
+
+Given a null (randomized) chamber complex \(C^\bullet_{\mathrm{null}}\) and the canonical chamber complex \(C^\bullet\), define the *relative* \(B_{5}\)–index
+\[
+\boxed{\;\Delta\mathrm{Ind}_{B_{5}}=\mathrm{Ind}_{B_{5}}(C^\bullet)-\mathrm{Ind}_{B_{5}}(C^\bullet_{\mathrm{null}})\ \in K^0_{B_{5}},}
+\]
+and its scalar reduction via the augmentation \(\varepsilon:K^0_{B_{5}}\to \mathbb Z\) (dimension)
+\[
+\boxed{\;\varepsilon\!\left(\Delta\mathrm{Ind}_{B_{5}}\right)=\sum_{i}(-1)^i\bigl(\dim H^{i}-\dim H^{i}_{\mathrm{null}}\bigr)\ \in \mathbb Z.}
+\]
+More generally, the log-Bayes observable (Sec. 3) is the metric-normalized scalar shadow of a class function:
+\[
+\boxed{\;\log B=\mathcal F\!\left(\chi_{B_{5}}-\chi^{\mathrm{null}}_{B_{5}};\,\Sigma\right),}
+\]
+for an explicit linear functional \(\mathcal F\) determined by the covariance \(\Sigma\) (fixed once for the corridor).
+
+---
+
+## Receipts for the categorified index
+
+**(a) Complex capsule (equivariant matrices).** Serialize differentials as matrices over the group algebra \(\mathbb Q[B_{5}]\):
+\[
+\boxed{\ \texttt{index\_complex.json}=\Bigl\{\ n_i,\ d^{i}\in \mathrm{Mat}_{n_{i+1}\times n_i}\!\big(\mathbb Q[B_{5}]\big),\ \texttt{check}=[d^{i+1}\! \cdot d^{i}=0]_{i}\ \Bigr\},}
+\]
+\[
+\boxed{\ h_{\mathrm{cmp}}=\mathrm{Hash}_{256}\bigl(\texttt{\"INDEX\_CPLX\"}\parallel \texttt{index\_complex.json}\bigr).}
+\]
+
+**(b) Character capsule (degree-wise and Euler).**
+\[
+\boxed{\ \texttt{index\_char.json}=\Bigl\{\ \chi_{C^i}(g)\ \text{per conjugacy class and }i,\ \chi_{B_{5}}(g)=\sum_i(-1)^i\chi_{C^i}(g)\ \Bigr\},}
+\]
+\[
+\boxed{\ h_{\mathrm{char}}=\mathrm{Hash}_{256}\bigl(\texttt{\"INDEX\_CHAR\"}\parallel \texttt{index\_char.json}\bigr).}
+\]
+
+**(c) Homology capsule (multiplicities in \(H^{i}\)).**
+\[
+\boxed{\ \texttt{index\_hom.json}=\Bigl\{\ n_\lambda^{(i)}\ \text{for all }\lambda\in\widehat{B_{5}},\ i=0,\dots,m\ \Bigr\},}
+\]
+\[
+\boxed{\ h_{\mathrm{hom}}=\mathrm{Hash}_{256}\bigl(\texttt{\"INDEX\_HOM\"}\parallel \texttt{index\_hom.json}\bigr).}
+\]
+
+**(d) Orthogonality and non-negativity checks.**
+\[
+\boxed{\ \texttt{index\_checks.json}=\Bigl\{\ \langle \chi_{B_{5}},\chi_\lambda\rangle=\nu_\lambda,\ \ n_\lambda^{(i)}\ge 0,\ \ \sum_i(-1)^in_\lambda^{(i)}=\nu_\lambda\ \Bigr\},}
+\]
+\[
+\boxed{\ h_{\mathrm{chk}}=\mathrm{Hash}_{256}\bigl(\texttt{\"INDEX\_CHECKS\"}\parallel \texttt{index\_checks.json}\bigr).}
+\]
+
+**(e) Ext–pairing capsule (obstructions).**
+\[
+\boxed{\ \texttt{index\_ext.json}=\Bigl\{\ \dim \mathrm{Ext}^{\,i}_{B_{5}}(C^\bullet,C^\bullet),\ \Xi_{C,C}(g)\ \Bigr\},}
+\]
+\[
+\boxed{\ h_{\mathrm{ext}}=\mathrm{Hash}_{256}\bigl(\texttt{\"INDEX\_EXT\"}\parallel \texttt{index\_ext.json}\bigr).}
+\]
+
+**(f) Wall-crossing/quasi-isomorphism certificate.**
+\[
+\boxed{\ \texttt{index\_qiso.json}=\Bigl\{\ f^\bullet,g^\bullet,h^\bullet\ \text{as } \mathbb Q[B_{5}]\text{–matrices},\ \texttt{ok}=[g f-\mathrm{id}=d h+h d,\ f g-\mathrm{id}=d' h'+h' d']\ \Bigr\},}
+\]
+\[
+\boxed{\ h_{\mathrm{qiso}}=\mathrm{Hash}_{256}\bigl(\texttt{\"INDEX\_QISO\"}\parallel \texttt{index\_qiso.json}\bigr).}
+\]
+
+**(g) Relative index capsule (vs. null chamber).**
+\[
+\boxed{\ \texttt{index\_rel.json}=\Bigl\{\ \chi_{B_{5}}-\chi^{\mathrm{null}}_{B_{5}},\ \Delta\mathrm{Ind}_{B_{5}},\ \varepsilon(\Delta\mathrm{Ind}_{B_{5}})\ \Bigr\},}
+\]
+\[
+\boxed{\ h_{\mathrm{rel}}=\mathrm{Hash}_{256}\bigl(\texttt{\"INDEX\_REL\"}\parallel \texttt{index\_rel.json}\bigr).}
+\]
+
+**(h) Index digest and acceptance.**
+\[
+\boxed{\ h_{\mathrm{index}}=\mathrm{Merkle}_{256}\Bigl(\,h_{\mathrm{cmp}},\,h_{\mathrm{char}},\,h_{\mathrm{hom}},\,h_{\mathrm{chk}},\,h_{\mathrm{ext}},\,h_{\mathrm{qiso}},\,h_{\mathrm{rel}}\Bigr).}
+\]
+The ledger **accepts** the categorified-index layer iff
+\[
+\boxed{\;\begin{aligned}
+&d^{i+1}d^{i}=0\ \text{for all }i;\\
+&\chi_{B_{5}}(g)=\sum_i(-1)^i\mathrm{Tr}\!\left(g\mid H^i\right)\ \text{for all conjugacy classes};\\
+&n_\lambda^{(i)}\in\mathbb Z_{\ge 0},\ \ \sum_i(-1)^i n_\lambda^{(i)}=\nu_\lambda\ \text{for all }\lambda;\\
+&\texttt{ok}=\text{true in }\texttt{index\_qiso.json}\ \text{(when wall-crossing is claimed).}
+\end{aligned}}
+\]
+On acceptance, \(h_{\mathrm{index}}\) enters the master root \(H_{\tau}\); any failed check flips the corresponding \(\texttt{ok}\) and isolates the index fault by its Merkle sibling path.
+
