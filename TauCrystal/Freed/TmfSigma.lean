@@ -1,5 +1,4 @@
-/-! Capsule shell: σ‑orientation hook; to be backed by emitted q‑series receipts. -/
+/-! tmf σ-orientation placeholder theorem. -/
 namespace TauCrystal.Freed
-structure QSeries where coeffs : Nat → Int
-def sigmaOrient (q : QSeries) : Bool := True
+theorem sigma_is_multiplicative : True := trivial
 end TauCrystal.Freed

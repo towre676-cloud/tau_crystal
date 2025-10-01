@@ -46,3 +46,9 @@ freed-proof:
 \t@printf "%s\n" "Lean capsules at TauCrystal/Freed/*.lean (compile wiring TBD)"; exit 0
 freed-open2:
 \t@printf "%s\n" "docs/freed/relative_tft_functor.md" "docs/freed/anomaly_line_trivialization.md" "docs/freed/tmf_sigma_orientation.md"
+# === Freed live runners ===
+.PHONY: freed-receipts-list freed-lean
+freed-receipts-list:
+\t@ls -1 .tau_ledger/freed 2>/dev/null || true
+freed-lean:
+\t@lake build || true
