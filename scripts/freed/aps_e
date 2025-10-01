@@ -1,0 +1,2 @@
+      if isinstance(d, dict) and k in d: return float(d[k])
+equality_check.py

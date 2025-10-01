@@ -28,3 +28,11 @@ report-progress:
 \t@printf '%s\n' 'Report → docs/progress/resurrection_progress_2025-09-29.md'
 \t@printf '%s\n' 'Ledger → .tau_ledger/summary/resurrection_progress_2025-09-29.json'
 \t@sed -n '1,60p' docs/progress/resurrection_progress_2025-09-29.md | sed 's/\r$//'
+# === Freed alignment ===
+.PHONY: freed-receipts freed-verify freed-open
+freed-receipts:
+\t@bash scripts/freed/generate_receipts.sh
+freed-verify:
+\t@bash scripts/freed/verify_pullbacks.sh
+freed-open:
+\t@printf "%s\n" "docs/freed/alignment_table.md" "docs/freed/relative_tft_functor.md" "docs/freed/anomaly_line_trivialization.md" "docs/freed/tmf_sigma_orientation.md"
