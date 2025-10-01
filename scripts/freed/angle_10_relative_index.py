@@ -5,7 +5,7 @@ from pathlib import Path
 def newest(patterns):
     cands=[]
     for pat in patterns:
-        for p in glob.glob(pat):
+        for p in glob.glob(pat, recursive=True):
             try:
                 cands.append((os.path.getmtime(p), p))
             except FileNotFoundError:
@@ -29,7 +29,7 @@ def emit(out_path, payload):
     os.replace(tmp,out_path)
 
 def main():
-    ts=datetime.datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+    ts=datetime.datetime.now(datetime.UTC).strftime("%Y%m%dT%H%M%SZ")
     out=Path(f"analysis/freed/relative_index_{ts}.json")
     # Inputs: prefer volume pre/post; else fall back to sigma/logB; else proxy
     pre=newest([
