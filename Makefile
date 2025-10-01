@@ -36,3 +36,13 @@ freed-verify:
 \t@bash scripts/freed/verify_pullbacks.sh
 freed-open:
 \t@printf "%s\n" "docs/freed/alignment_table.md" "docs/freed/relative_tft_functor.md" "docs/freed/anomaly_line_trivialization.md" "docs/freed/tmf_sigma_orientation.md"
+# === Freed alignment (proof+meas) ===
+.PHONY: freed-phi freed-tmf freed-proof freed-open2
+freed-phi:
+\t@bash scripts/freed/run_phi_checks.sh
+freed-tmf:
+\t@bash scripts/freed/run_tmf_sigma.sh
+freed-proof:
+\t@printf "%s\n" "Lean capsules at TauCrystal/Freed/*.lean (compile wiring TBD)"; exit 0
+freed-open2:
+\t@printf "%s\n" "docs/freed/relative_tft_functor.md" "docs/freed/anomaly_line_trivialization.md" "docs/freed/tmf_sigma_orientation.md"
