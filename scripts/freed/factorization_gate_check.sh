@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
-set -euo pipefail; set +H; umask 022; export LC_ALL=C LANG=C
-ts="$(date -u +%Y%m%dT%H%M%SZ)"
-out=".tau_ledger/freed/factorization_gate_${ts}.json"
-mkdir -p ".tau_ledger/freed"
-have_logB="$(ls -1t analysis/freed/logB_receipt_*.json 2>/dev/null | head -n1 || true)"
-have_relidx="$(ls -1t analysis/freed/relative_index_*.json 2>/dev/null | head -n1 || true)"
-status="pending"; note="awaiting inputs for fuller checks"
-[ -n "$have_logB" ] && [ -n "$have_relidx" ] && status="ok" && note="minimal gate satisfied: logB+relative_index present"
-printf "{\\n  \\"angle\\": \\"06_factorization_gate\\",\\n  \\"timestamp\\": \\"%s\\",\\n  \\"status\\": \\"%s\\",\\n  \\"have_logB\\": \\"%s\\",\\n  \\"have_relative_index\\": \\"%s\\",\\n  \\"note\\": \\"%s\\"\\n}\\n" "$ts" "$status" "$have_logB" "$have_relidx" "$note" > "$out"
-echo "$out"
+set +e; umask 022; export LC_ALL=C LANG=C
+TOL_ON="${TOL_ON:-1e-7}"; TOL_OFF="${TOL_OFF:-1e-10}"
+for mode in on off; do
+  p="$(ls -1 analysis/freed/*_factorization_phi_${mode}.json 2>/dev/null | tail -n1 || true)"
+  if [ -z "$p" ]; then echo "[warn] no factorization file for phi=${mode}"; continue; fi
+  res="$(python - <<'PY' "$p"
+import json,sys
+d=json.load(open(sys.argv[1],'r',encoding='utf-8'))
+for k in ("residual","resid","error","delta"):
+  if k in d and isinstance(d[k],(int,float)): print(d[k]); break
+PY
+)"
+  echo "[phi=${mode}] residual=${res}"
+done
