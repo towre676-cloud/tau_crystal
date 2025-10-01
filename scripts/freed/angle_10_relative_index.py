@@ -18,7 +18,7 @@ if Vpre is None or Vpost is None:
   sg=latest("analysis/freed/sigma_leaf_*.json")
   if sg:
     S=json.load(open(sg,"r",encoding="utf-8")); S=sorted(S,key=lambda r:r.get("ell",0.0))
-    def det(diag): 
+    def det(diag):
       p=1.0
       for x in diag: p*=x
       return p
