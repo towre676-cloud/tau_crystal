@@ -114,3 +114,6 @@ analysis/
 notebooks/*.html
 
 !analysis/freed/*.json
+
+# keep release payloads
+!releases/monograph/**
