@@ -1,0 +1,17 @@
+installed toolchains
+--------------------
+
+leanprover/lean4-nightly:nightly-2024-09-05
+leanprover/lean4-nightly:nightly-2025-06-15
+leanprover/lean4:v4.22.0
+leanprover/lean4:v4.23.0 (resolved from default 'stable')
+leanprover/lean4:v4.23.0-rc2
+leanprover/lean4:v4.24.0-rc1
+leanprover/lean4:v4.8.0
+
+active toolchain
+----------------
+
+leanprover/lean4:v4.22.0 (directory override for '\\?\C:\Users\Cody\Desktop\tau_crystal\tau_crystal')
+Lean (version 4.22.0, x86_64-w64-windows-gnu, commit ba2cbbf09d4978f416e0ebd1fceeebc2c4138c05, Release)
+
