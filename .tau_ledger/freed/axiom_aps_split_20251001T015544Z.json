@@ -1,0 +1,27 @@
+{
+  "angle": "APS split equality",
+  "theorem": "logB = bulk - eta/2 + Z",
+  "tolerance": 1e-09,
+  "values": {
+    "logB": 0.0,
+    "bulk": 0.0,
+    "eta": 0.0,
+    "rhs": 0.0,
+    "diff": 0.0,
+    "nearest_Z": 0,
+    "residual": 0.0
+  },
+  "pass": true,
+  "_inputs": {
+    "bulk": "analysis/freed/bulk_logdet_20250930T233145Z.json",
+    "eta": "analysis/freed/eta_boundary_20250930T233145Z.json",
+    "logB": "analysis/freed/logB_receipt_20250930T233145Z.json"
+  },
+  "_sha256": {
+    "bulk": "3af8007bcab66a654039953eaaef4a7ce6ba18b8f6266709b540b1217e67accd",
+    "eta": "3766d39b3d162650e4a9b60426b6a1d20586717c7d7cf826d8a1c64368e69f0a",
+    "logB": "f1811f0f918e8ad0298e7540fa43ceca4bd6afecdc985b277a827bbf08c3814d"
+  },
+  "_freed_section": "4.1",
+  "_freed_citation": "Freed et al. (2024), Sec 4.1"
+}
