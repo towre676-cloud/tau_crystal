@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail; set +H; umask 022; export LC_ALL=C LANG=C
+. "$(dirname "$0")/_hash.sh"
+size_of(){ [ -f "$1" ] && wc -c < "$1" | tr -d "[:space:]" || echo 0; }
+ROOT="${1:-analysis/_runs}"; BULK="${2:-bulk_logdet.json}"; ETA="${3:-eta_boundary.json}"; REL="${4:-logB_receipt.json}"
+STAMP="$(date -u +%Y%m%dT%H%M%SZ)"; OUT="$ROOT/anomaly_$STAMP"; mkdir -p "$OUT"
+[ -f "$BULK" ] || : > "$BULK"
+[ -f "$ETA" ]  || : > "$ETA"
+[ -f "$REL" ]  || : > "$REL"
+BH="$(hash_file "$BULK")"; EH="$(hash_file "$ETA")"; RH="$(hash_file "$REL")"
+BSZ="$(size_of "$BULK")"; ESZ="$(size_of "$ETA")"; RSZ="$(size_of "$REL")"
+DK="$OUT/dK_triplet.json"; : > "$DK"
+{
+  printf "{\n"
+  printf "  \"type\": \"differential_K_triplet\",\n"
+  printf "  \"bulk_K_index_hash\": \"%s\",\n" "$BH"
+  printf "  \"boundary_eta_hash\": \"%s\",\n" "$EH"
+  printf "  \"relative_logB_hash\": \"%s\",\n" "$RH"
+  printf "  \"model\": \"FHS_stub\",\n"
+  printf "  \"stamp\": \"%s\",\n" "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  printf "  \"inputs\": {\n"
+  printf "    \"bulk\": {\"path\": \"%s\", \"bytes\": %s, \"sha256\": \"%s\"},\n" "$BULK" "$BSZ" "$BH"
+  printf "    \"eta\":  {\"path\": \"%s\", \"bytes\": %s, \"sha256\": \"%s\"},\n" "$ETA"  "$ESZ" "$EH"
+  printf "    \"rel\":  {\"path\": \"%s\", \"bytes\": %s, \"sha256\": \"%s\"}\n"  "$REL"  "$RSZ" "$RH"
+  printf "  }\n"
+  printf "}\n"
+} >> "$DK"
+echo "[ok] dK triplet → $DK"
