@@ -232,3 +232,138 @@ The ledger accepts the anomaly run precisely when every recorded \(\texttt{ok}\)
 \]
 so any failure in locality, gluing, gauge invariance, or coupling to \(\log B\) breaks \(H_{\tau}\) and isolates the offending leaf via its Merkle sibling path.
 
+
+### 11.  Spectral network realization (exact WKB, Darboux coordinates, and BPS integers)
+
+Let \(C\) be the Riemann surface of the RG “time” coordinate \\(\\ell\\) (analytically \(C\simeq\\mathbb P^1_\\ell\) with marked points at the poles/zeros below). From the affine leaf and its two-loop deformation (Sec. 4), define the *spectral differential*
+\[
+\boxed{\;\\lambda(b,b_1;\\ell)=\\mu(\\ell;b,b_1)^{-1}\,d\\ell\;},
+\]
+where \\(\\mu(\\ell;b,b_1)\\) is the (exactly computed) solution of \(F(\\mu;\\ell)=0\) with
+\[
+F(\\mu;\\ell)=\\ell+\\frac{1}{b\\mu}-\\frac{b_1}{b^2}\\log\\!\\Bigl(\\frac{b+b_1\\mu}{\\mu}\\Bigr).
+\]
+The associated *quadratic differential* on \(C\) is
+\[
+\boxed{\;\\varphi(b,b_1;\\ell)\,d\\ell^{2}=\\bigl(\\mu(\\ell;b,b_1)^{-1}\\bigr)^{2}\,d\\ell^{2}\;}. 
+\]
+
+#### Spectral curve and branch data
+Introduce the double cover \\(\\pi:\\Sigma\\to C\\) (“spectral curve”)
+\[
+\boxed{\;\\Sigma:\;y^{2}=\\varphi(b,b_1;\\ell)\;},\qquad \boxed{\;\\lambda=y\,d\\ell\;}
+\]
+with *branch points* at the zeros of \\(\\varphi\\) (equivalently, \\(\\mu^{-1}(\\ell)=0\\)) and with marked poles at the poles of \\(\\varphi\\) (including \\(\\ell=\\infty\\)). Write \\(\u{1D51D}=\\{\\ell_a\\}\\subset C\\) for the set of branch points; near \\(\\ell_a\\) there are two *sheets* with local coordinate \\(y=\\pm\\sqrt{\\varphi}\\).
+
+#### WKB trajectories and the spectral network
+For any *phase* \\(\\theta\\in\\mathbb R/2\\pi\\mathbb Z\\), the *WKB trajectories* of phase \\(\\theta\\) are the integral curves on \(C\) solving
+\[
+\boxed{\;\\mathrm{Im}\\!\left(e^{-i\\theta}\\!\\int^{\\ell}\\lambda\right)=\\text{const}\;}\quad\\Longleftrightarrow\\quad
+\boxed{\;e^{-i\\theta}\\lambda\\in\\mathbb R_{\\ge 0}\,d s\;}
+\]
+in local arclength \(s\). The *spectral network* at phase \\(\\theta\\) is the union of *finite* WKB trajectories (also called *saddle connections*) emanating from the branch points:
+\[
+\boxed{\;\\mathcal W_\\theta=\\bigcup_{\\ell_a\\in\\mathfrak b}\\ \{\\text{finite trajectories of phase }\\theta\\ \text{from }\\ell_a\\}.}
+\]
+*Critical phases* \\(\\theta_c\\) are those for which new finite trajectories appear/disappear; between critical phases the combinatorial type of \\(\\mathcal W_\\theta\\) is constant.
+
+#### Darboux/spectral coordinates and Poisson structure
+Fix a symplectic basis of charges \\({\\gamma_i}\\) in \(H_1(\\Sigma,\\mathbb Z)\). Define *central charges* and *Darboux (spectral) coordinates*
+\[
+\boxed{\;Z_\\gamma=\\oint_\\gamma \\lambda\\in\\mathbb C,\qquad \\mathcal X_\\gamma=\\exp\\!\left(\\oint_\\gamma \\lambda\right)\;}
+\]
+for any \\(\\gamma\\in H_1(\\Sigma,\\mathbb Z)\\). The intersection pairing \\(\u{27E8}\\cdot,\\cdot\\u{27E9}:H_1(\\Sigma)\\times H_1(\\Sigma)\\to\\mathbb Z\\) induces the standard Poisson brackets
+\[
+\boxed{\;\\{\\log \\mathcal X_\\gamma,\\ \\log \\mathcal X_{\\gamma'}\\}=\\langle \\gamma,\\gamma'\\rangle\;}. 
+\]
+
+#### BPS rays, degeneracies, and wall–crossing
+A *BPS ray* in the \\(\\zeta\\)–plane is \\(\u{2113}_\\gamma=\\mathbb R_{>0}\,Z_\\gamma\\). The *BPS index* \\(\\Omega(\\gamma)\\in\\mathbb Z\\) counts (with signs) the finite webs in \\(\\mathcal W_\\theta\\) at the *aligned* phase \\(\\theta=\\arg Z_\\gamma\\). Across a critical phase, the spectral coordinates jump by a *KS/cluster transformation*. With a chosen quadratic refinement sign \\(\\sigma(\\gamma)\\in\\{\\pm1\\}\\),
+\[
+\boxed{\;\\mathcal K_\\gamma:\ \\mathcal X_\\beta\\ \longmapsto\\ \\mathcal X_\\beta\\(1-\\sigma(\\gamma)\,\\mathcal X_\\gamma)^{\\langle \\beta,\\gamma\\rangle\\,\\Omega(\\gamma)}\;}. 
+\]
+Let \\(\\theta_\\pm\\) be phases just below/above a wall. The exact wall–crossing identity is the equality of ordered products
+\[
+\boxed{\;\\prod_{\\arg Z_\\gamma=\\theta_-}\\mathcal K_\\gamma^{\\Omega(\\gamma)}\\ =\\ \\prod_{\\arg Z_\\gamma=\\theta_+}\\mathcal K_\\gamma^{\\Omega(\\gamma)}\;}
+\]
+(where products are taken in the clockwise order of BPS rays).
+
+#### Exact \\(B_{5}\\) equivariance
+The exact \\(B_{5}\\) symmetry acts by signed permutations on sheets; it induces an action \\(w_*:H_1(\\Sigma,\\mathbb Z)\\to H_1(\\Sigma,\\mathbb Z)\\). Equivariance is *exactly* checked as
+\[
+\boxed{\;Z_{w_*\\gamma}=Z_\\gamma,\quad \\mathcal X_{w_*\\gamma}=\\mathcal X_\\gamma,\quad \\Omega(w_*\\gamma)=\\Omega(\\gamma),\\qquad \\forall\,w\\in W(B_5)\;}
+\]
+and at the network level by a sheet relabeling that takes \\(\\mathcal W_\\theta\\) to itself.
+
+---
+
+## Two-loop deformation of the network
+With the two-loop deformed \\(\\mu(\\ell;b,b_1)\\), define
+\[
+\boxed{\;\\lambda(b,b_1;\\ell)=\\mu(\\ell;b,b_1)^{-1}\,d\\ell,\qquad \\varphi(b,b_1;\\ell)=\\bigl(\\mu(\\ell;b,b_1)^{-1}\\bigr)^2\;}
+\]
+and construct \\(\\mathcal W_\\theta(b,b_1)\\) accordingly. On *generic* deformations (no BPS walls crossed) the ordered product of KS factors is constant:
+\[
+\boxed{\;\\frac{d}{db_1}\\Big|_{\\text{no wall}} \\ \prod_{\\arg Z_\\gamma=\\theta}\\mathcal K_\\gamma^{\\Omega(\\gamma)}\\ =\\ 0\;}. 
+\]
+When \(b_1\) crosses a wall, the set of factors changes by a *cluster flip* but preserves the product equality above (Kontsevich–Soibelman).
+
+---
+
+## Spectral receipts and the ledger
+
+**Network capsule.** Serialize the exact combinatorics of \\(\\mathcal W_\\theta\\):
+\[
+\boxed{\ \texttt{spec\\_net.json}=\\Bigl\\{\ b,b_1,\\ \\mu_0,\\ \\{\\ell_a\\\\}\\_{\\text{branch}},\\ \\{\\theta_c\\\\}\\_{\\text{critical}},\\ \\texttt{walls}=\\{(\\theta,\\text{edges},\\text{endpoints})\\},\\ \\texttt{sheets},\\ \\texttt{monodromy}\\Bigr\\}\\ ,}
+\]
+\[
+\boxed{\ h_{\\mathrm{net}}=\\mathrm{Hash}_{256}\\bigl(\\texttt{\"SPEC\\_NET\"}\\parallel \\texttt{spec\\_net.json}\\bigr).}
+\]
+
+**Darboux/charge capsule.** Record periods, intersection, and coordinates:
+\[
+\boxed{\ \\texttt{spec\\_coords.json}=\\Bigl\\{\\ \\{\\gamma_i\\},\\ I_{ij}=\\langle\\gamma_i,\\gamma_j\\rangle,\\ Z_{\\gamma_i},\\ \\mathcal X_{\\gamma_i}\\Bigr\\}\\ ,\quad
+h_{\\mathrm{coords}}=\\mathrm{Hash}_{256}\\bigl(\\texttt{\"SPEC\\_COORDS\"}\\parallel \\texttt{spec\\_coords.json}\\bigr).}
+\]
+
+**BPS capsule.** Record integer indices and KS factors (per wall and ordering):
+\[
+\boxed{\ \\texttt{spec\\_bps.json}=\\Bigl\\{\\ (\\gamma,\\Omega(\\gamma),\\sigma(\\gamma))\\_{\\text{all BPS}},\\ \\texttt{KS\\_order}(\\theta)=\\prod \\mathcal K_\\gamma^{\\Omega(\\gamma)}\\Bigr\\}\\ ,}
+\]
+\[
+\boxed{\ h_{\\mathrm{bps}}=\\mathrm{Hash}_{256}\\bigl(\\texttt{\"SPEC\\_BPS\"}\\parallel \\texttt{spec\\_bps.json}\\bigr).}
+\]
+
+**Equivariance checks.** For each \(w\\in W(B_5)\),
+\[
+\boxed{\ \\texttt{spec\\_equiv.json}(w)=\\Bigl\\{\\ w,\\ Z_{w_*\\gamma}\\overset{?}{=}Z_\\gamma,\\ \\mathcal X_{w_*\\gamma}\\overset{?}{=}\\mathcal X_\\gamma,\\ \\Omega(w_*\\gamma)\\overset{?}{=}\\Omega(\\gamma)\\Bigr\\},}
+\]
+\[
+\boxed{\ h_{\\mathrm{equiv}}(w)=\\mathrm{Hash}_{256}\\bigl(\\texttt{\"SPEC\\_EQUIV\"}\\parallel \\texttt{spec\\_equiv.json}(w)\\bigr).}
+\]
+
+**Wall–crossing receipts.** For adjacent phases \\(\\theta_\\pm\\),
+\[
+\boxed{\ \\texttt{spec\\_wc.json}(\\theta_\\pm)=\\Bigl\\{\\ \\theta_\\pm,\\ \\texttt{KS\\_order}(\\theta_-),\\ \\texttt{KS\\_order}(\\theta_+),\\ \\texttt{ok}=[\\texttt{KS\\_order}(\\theta_-)\\overset{?}{=}\\texttt{KS\\_order}(\\theta_+)]\\Bigr\\},}
+\]
+\[
+\boxed{\ h_{\\mathrm{wc}}(\\theta_\\pm)=\\mathrm{Hash}_{256}\\bigl(\\texttt{\"SPEC\\_WC\"}\\parallel \\texttt{spec\\_wc.json}(\\theta_\\pm)\\bigr).}
+\]
+
+**Deformation receipts.** For \(b_1\\to b_1'\) across a *regular* path (no walls),
+\[
+\boxed{\ \\texttt{spec\\_deform.json}=\\Bigl\\{\\ b_1\\to b_1',\\ \\theta,\\ \\texttt{KS\\_order}(\\theta)\\ \\text{constant?}\\Bigr\\},\quad
+h_{\\mathrm{def}}=\\mathrm{Hash}_{256}\\bigl(\\texttt{\"SPEC\\_DEF\"}\\parallel \\texttt{spec\\_deform.json}\\bigr).}
+\]
+
+**Spectral digest.** Aggregate with a Merkle root to localize failures:
+\[
+\boxed{\ h_{\\mathrm{spec}}=\\mathrm{Merkle}_{256}\\Bigl(h_{\\mathrm{net}},\\ h_{\\mathrm{coords}},\\ h_{\\mathrm{bps}},\\ \\{h_{\\mathrm{equiv}}(w)\\}\\_{w\\in W(B_5)},\\ \\{h_{\\mathrm{wc}}(\\theta_\\pm)\\},\\ h_{\\mathrm{def}}\\Bigr).}
+\]
+
+**Acceptance predicate.** The ledger accepts the spectral layer iff:
+\[
+\boxed{\ \\Omega(\\gamma)\\in\\mathbb Z\\ \forall\\gamma;\\ \\texttt{ok}= \\text{true in all } \\texttt{spec\\_wc.json};\\ \\text{all equivariance checks hold}. }
+\]
+Upon acceptance, \\(h_{\\mathrm{spec}}\\) enters the master root \\(H_\\tau\\); any mismatch (non-integer BPS count, failed KS identity, failed \\(B_5\\) equivariance) flips the corresponding \\texttt{ok} and breaks the master hash at the spectral leaf, isolating the fault.
+
