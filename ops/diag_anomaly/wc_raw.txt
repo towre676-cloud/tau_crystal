@@ -1,0 +1,5 @@
+ 44 analysis/anomaly/anomaly_M1_raw.json
+ 44 analysis/anomaly/anomaly_M2_raw.json
+ 76 analysis/anomaly/anomaly_glued_bad_raw.json
+ 72 analysis/anomaly/anomaly_glued_raw.json
+236 total

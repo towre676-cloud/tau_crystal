@@ -1,0 +1,29 @@
+===== jcs_glued.stderr =====
+C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\receipt\jcs.py:4: ResourceWarning: unclosed file <_io.TextIOWrapper name='analysis/anomaly/anomaly_glued_raw.json' mode='r' encoding='utf-8'>
+  data = sys.stdin.read() if path == "-" else open(path, "r", encoding="utf-8").read()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+[rc] jcs_glued = 0
+===== jcs_glued_bad.stderr =====
+C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\receipt\jcs.py:4: ResourceWarning: unclosed file <_io.TextIOWrapper name='analysis/anomaly/anomaly_glued_bad_raw.json' mode='r' encoding='utf-8'>
+  data = sys.stdin.read() if path == "-" else open(path, "r", encoding="utf-8").read()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+[rc] jcs_glued_bad = 0
+===== jsoncheck_glued.stderr =====
+[rc] jsoncheck_glued_raw = 0
+===== jsoncheck_glued_bad.stderr =====
+[rc] jsoncheck_glued_bad_raw = 0
+===== hexdump: analysis/anomaly/anomaly_glued_raw.json =====
+ 7b 0a 20 20 22 69 64 22 3a 22 4d 31 5f 63 75 70
+ 5f 4d 32 22 2c 0a 20 20 22 68 22 3a 32 2c 0a 20
+ 20 22 74 6f 72 73 69 6f 6e 22 3a 31 33 2c 0a 20
+ 20 22 73 6f 75 72 63 65 22 3a 5b 22 4d 31 22 2c
+===== hexdump: analysis/anomaly/anomaly_glued_bad_raw.json =====
+ 7b 0a 20 20 22 69 64 22 3a 22 4d 31 5f 63 75 70
+ 5f 4d 32 5f 62 61 64 22 2c 0a 20 20 22 68 22 3a
+ 36 2c 0a 20 20 22 74 6f 72 73 69 6f 6e 22 3a 31
+ 33 2c 0a 20 20 22 73 6f 75 72 63 65 22 3a 5b 22
+===== canon existence =====
+-rw-r--r-- 1 Cody 197121 32 Oct  1 17:45 analysis/anomaly/anomaly_M1_canon.json
+-rw-r--r-- 1 Cody 197121 32 Oct  1 17:45 analysis/anomaly/anomaly_M2_canon.json
+-rw-r--r-- 1 Cody 197121 64 Oct  1 17:47 analysis/anomaly/anomaly_glued_bad_canon.json
+-rw-r--r-- 1 Cody 197121 60 Oct  1 17:47 analysis/anomaly/anomaly_glued_canon.json

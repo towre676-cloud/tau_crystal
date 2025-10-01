@@ -1,0 +1,4 @@
+-rw-r--r-- 1 Cody 197121 44 Oct  1 17:43 analysis/anomaly/anomaly_M1_raw.json
+-rw-r--r-- 1 Cody 197121 44 Oct  1 17:43 analysis/anomaly/anomaly_M2_raw.json
+-rw-r--r-- 1 Cody 197121 76 Oct  1 17:46 analysis/anomaly/anomaly_glued_bad_raw.json
+-rw-r--r-- 1 Cody 197121 72 Oct  1 17:46 analysis/anomaly/anomaly_glued_raw.json

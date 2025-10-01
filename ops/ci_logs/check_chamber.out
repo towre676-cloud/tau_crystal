@@ -1,0 +1,3 @@
+.tau_ledger\ch_ok_canon_20251001T232248Z.receipt.json
+.tau_ledger\ch_bad_canon_20251001T232248Z.receipt.json
+[chamber] good/permutation: True ; bad degenerate: True

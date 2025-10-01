@@ -1,0 +1,55 @@
+name: τ-Crystal Spine
+
+on:
+  push:
+    branches: [ "**" ]
+    paths:
+      - "analysis/**"
+      - "scripts/**"
+      - ".github/workflows/tau-spine.yml"
+  pull_request:
+    branches: [ "**" ]
+    paths:
+      - "analysis/**"
+      - "scripts/**"
+      - ".github/workflows/tau-spine.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tau-spine-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  spine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: (Optional) Install deps
+        run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Make scripts executable
+        run: |
+          chmod +x scripts/ci/*.sh || true
+          chmod +x scripts/receipt/*.py || true
+
+      - name: Run all capsule checks
+        run: |
+          bash scripts/ci/run_all.sh
+
+      - name: Upload CI logs (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-spine-logs
+          path: ops/ci_logs/
