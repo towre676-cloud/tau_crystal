@@ -6,7 +6,7 @@ def num(p):
   for v in d.values():
     if isinstance(v,(int,float)): return float(v)
   raise SystemExit("no numeric in "+p)
-if len(sys.argv)<4: raise SystemExit("usage: relative_functor.py <segA> <segB> <whole> [tol]")
+if len(sys.argv)<4: raise SystemExit("usage: relative_functor.py <segA> <segB> <whole> [tol=1e-9]")
 A,B,W=sys.argv[1],sys.argv[2],sys.argv[3]
 tol=float(sys.argv[4]) if len(sys.argv)>4 else 1e-9
 for p in (A,B,W):
