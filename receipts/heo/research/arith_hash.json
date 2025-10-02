@@ -1,0 +1,24 @@
+{
+  "id": "heo.research.arith_hash",
+  "type": "Definition",
+  "title": "Arithmetic HEO-based Hash",
+  "tier": 14,
+  "statement_md": "Define **ArithHash** by building a prime-weighted cumulative sequence from message bytes, measuring a grid of HEO-like counts for \\(d \\in \\{2,3,5\\}\\) and small offsets \\(k\\), XOR-folding 32-bit scalars \\(\\lfloor 2^{32} H_{d,k} \\rfloor\\), then applying SHA-256.",
+  "proof_status": "Definition",
+  "evidence": ["tools/crypto/arith_hash.py"],
+  "verification": {
+    "mode": "Optional",
+    "tests": [
+      {
+        "name": "arith_hash_smoketest",
+        "script": "ci/heo/research/arith_hash_smoketest.py",
+        "args": [],
+        "expect": { "status": "pass" }
+      }
+    ]
+  },
+  "provenance": {
+    "spec_file": "docs/specs/heo_universal_structure.md",
+    "box_anchor": "Tier 14 — Cryptographic Application"
+  }
+}
