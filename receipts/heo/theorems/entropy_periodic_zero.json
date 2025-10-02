@@ -1,0 +1,24 @@
+{
+  "id": "heo.thm.entropy_periodic_zero",
+  "type": "Theorem",
+  "title": "Periodic symbolic dynamics has zero topological entropy",
+  "tier": 12,
+  "statement_md": "If $X$ is periodic, then $h_{\\text{top}}(X)=0$. This receipt verifies the claim on fixtures by block-complexity and compression proxies.",
+  "assumptions_md": "Binary periodic sequence; exact result, numerically illustrated.",
+  "proof_status": "Proved",
+  "verification": {
+    "mode": "Optional",
+    "tests": [
+      {
+        "name": "entropy_zero_on_periodic_fixture",
+        "script": "ci/heo/research/symbolic_dynamics_entropy_test.py",
+        "args": [],
+        "expect": { "status": "pass" }
+      }
+    ]
+  },
+  "provenance": {
+    "spec_file": "docs/specs/heo_universal_structure.md",
+    "box_anchor": "Tier 12 — Dynamical systems / entropy"
+  }
+}
