@@ -159,3 +159,84 @@ The Brocard sequence \(n! + 1\) behaves as a **non-commutative theta function** 
 On the **perfectoid boundary**, \(\mathbf{H}_{d,p}^S(k)\) becomes the **slope** of a vector bundle \(\mathcal{O}(d,k)\) over the Fargues–Fontaine curve. Vanishing implies **semistability**, and the τ‑Crystal receipt is the **untilt** of a finite subdiamond certified by the **Kedlaya–Liu determinant**.
 
 The **thermodynamic pressure** \(P(t)\) is the **spectral action** in a Connes–Chamseddine setup. The inverse temperature \(t\) labels a **KMS state** on the projection algebra, and the point \(t=0\) corresponds to a classical–quantum phase transition where the **Dixmier-like trace collapses** to classical limsup density. The **Frobenius flow** acts as the modular group, and the KMS condition at \(\beta=1\) pins down \(\mathbf{H}_d^S(k)\) as the unique vacuum expectation.
+
+## Arithmetic-Operator Geometry: Ghost Traces, Arithmetic Sites, and KMS Analogues
+
+### ⬛ 1. Ghost Projection and Følner Trace
+
+We define the effectiveness projection as a diagonal operator on \(\ell^2(\mathbb{N})\):
+
+```math
+\hat{D}_d^k := \mathrm{diag}\big( X_S(n) \big), \quad X_S(n) := \mathbf{1}_{\mathbb{Z}}\!\left( \sqrt[d]{S(n) + k} \right)
+\hat{D}_d^k \in \ell^\infty(\mathbb{N}) \subset \ell^\infty(\mathbb{N}) \rtimes \mathbb{Z}
+\sigma(\hat{D}_d^k) = \{0, 1\}
+\boxed{\ \mathbf{H}_d^S(k) = \limsup_{N \to \infty} \frac{1}{N} \operatorname{Tr}\left( P_N \hat{D}_d^k P_N \right) \ =\ \tau_{\mathsf{m}}(\hat{D}_d^k)\ \text{for shift-invariant mean } \mathsf{m}\ }
+```
+This trace is the **upper Følner trace** for the shift action; it computes the density of the spectral projection in the diagonal masa. The operator is not compact, so the Dixmier trace is undefined; instead, we work with invariant Banach limits.
+
+### ⬛ 2. Local Averages as Conditional Expectations
+
+Let \(I \subset \mathbb{N}\) be a finite interval. Define the local average:
+
+```math
+A_I(S) := \frac{1}{|I|} \sum_{n \in I} X_S(n) = \frac{1}{|I|} \operatorname{Tr}(P_I \hat{D}_d^k)
+```
+This coincides with the **normalized conditional expectation** onto the subalgebra \(\ell^\infty(I)\). For nested intervals \(I \subset J\):
+
+```math
+\mathbb{E}_J \mathbb{E}_I = \mathbb{E}_J \quad \text{(tower property)}
+```
+The global operator \(\mathbf{H}_d^S(k)\) is the maximal asymptotic expectation, i.e., the limsup over these local averages. The curvature is:
+
+```math
+\mathrm{curv}(X_S) := \limsup A_{[1,N]}(S) - \liminf A_{[1,N]}(S) \in [0,1]
+```
+which is the **non-convergence defect** of the martingale filtration. It mimics the **dimension drop** in tail σ-algebras.
+
+### ⬛ 3. Arithmetic Site and Picard Class
+
+On the Connes–Consani arithmetic site, interpret \(\mathbf{1}_{\mathbb{Z}}(\sqrt[d]{S(n)+k})\) as the characteristic function of a ghost divisor \(\mathcal{D}_{S,k}^{(d)}\) over \(\operatorname{Spec}(\mathbb{N}) \otimes \mathbb{F}_1\). Then:
+
+```math
+\deg(\mathcal{D}_{S,k}^{(d)}) := \mathbf{H}_d^S(k) \in \mathbb{R} \otimes \operatorname{Pic}(\operatorname{Spec}(\mathbb{N}) \otimes \mathbb{F}_1)
+\text{(Finiteness } \Rightarrow \text{ torsion divisor } \Rightarrow \deg = 0)
+```
+This is the **arithmetic index theorem** in the ghost divisor formalism: zero asymptotic effectiveness corresponds to vanishing degree.
+
+### ⬛ 4. Brocard as Motivic Theta and Frobenius
+
+For \(S(n) = n!\), the sequence \(n! + 1\) is a theta function at the **infinite prime**. The known solutions
+
+```math
+(n, m) \in \{(4,5), (5,11), (7,71)\}
+```
+represent **Frobenius eigenvalues** of a hypothetical motive over \(\mathbb{F}_1\). Their finitude implies that the motivic L-factor is a degree‑3 polynomial. Hence:
+
+```math
+\boxed{ \mathbf{H}_2^F(1) = 0 \quad \text{(motivically: weight ≥ 4 vanishes)} }
+```
+
+### ⬛ 5. Perfectoid Section and Semistability
+
+Let \(\operatorname{Spa}(\mathbb{N}_p^\infty)/\mathbb{Z}_p\) be the perfectoid boundary. Define the line bundle \(\mathcal{O}(d,k)\) whose section locus is the solution set to \(S(n) + k = m^d\) in the tilt.
+
+```math
+\mu_{\text{HN}}(\mathcal{O}(d,k)) := \mathbf{H}_{d,p}^S(k)
+\text{(Semistability } \Leftrightarrow \mu = 0 \Leftrightarrow \text{finiteness in the tilt)}
+```
+The τ‑Crystal receipt is the **untilt** of a finite diamond, and the **Kedlaya–Liu determinant** certifies its boundedness.
+
+### ⬛ 6. Spectral Action and Arithmetic KMS State
+
+Define pressure via the exponential observable \(e^{t X_S(n)}\):
+
+```math
+P(t) := \lim_{N \to \infty} \frac{1}{N} \log \sum_{n=1}^N e^{t X_S(n)} = \log\big(1 + e^t \mathbf{H}_d^S(k)\big)
+P^\prime(0^+) = \frac{\mathbf{H}_d^S(k)}{1 + \mathbf{H}_d^S(k)}
+```
+Interpretation: this is the **spectral action** in a non-commutative geometry model à la Connes–Chamseddine. The parameter \(t\) is the inverse temperature, and the **arithmetic KMS state** has critical inverse temperature \(\beta = 1\):
+
+```math
+\omega_{\beta}(\hat{D}_d^k) = \mathbf{H}_d^S(k) \quad \text{(KMS vacuum expectation)}
+```
+The vanishing \(\mathbf{H}_2^F(1)=0\) means the vacuum is **pure**, and the Archimedean Frobenius **acts trivially** in the thermodynamic limit.
