@@ -1,0 +1,9 @@
+time	2025-09-22T04:45:15Z
+dataset	analysis/validation/SIGNED_DATASET.bin
+sha256	6218d32e786b37749fc9a5a3e921c4f6fd33ed94edfa8be2479b9d3cd5e1b076
+op_return_hex	6a206218d32e786b37749fc9a5a3e921c4f6fd33ed94edfa8be2479b9d3cd5e1b076
+broadcast_instructions	use your wallet to push OP_RETURN with this data
+dataset_bin	analysis/validation/SIGNED_DATASET.bin
+receipt	analysis/validation/SIGNED_DATASET.receipt.tsv
+DONE	2025-09-22T04:45:15Z
+WITNESS_SHA=04963843ce0cf65c365181ca112ab7e01b421eac841680307e64dc09ab37404e

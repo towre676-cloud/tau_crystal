@@ -1,0 +1,11 @@
+1:import Mathlib
+1:import Mathlib
+1:import Mathlib
+1:import Mathlib.Algebra.FreeAbelianGroup
+2:import Mathlib.Data.Int.Basic
+3:import Mathlib.Data.List.Basic
+1:import Mathlib.GroupTheory.FreeAbelianGroup
+2:import Mathlib.Data.List.Basic
+1:import Mathlib.Algebra.FreeAbelianGroup
+2:import Mathlib.Data.Int.Basic
+3:import Mathlib.Data.List.Basic

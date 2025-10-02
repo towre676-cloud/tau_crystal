@@ -1,0 +1,18 @@
+{
+  "cohomology": {
+    "src_id": "",
+    "dst_id": "",
+    "src_root": "",
+    "dst_root": "",
+    "src_env": "",
+    "dst_env": "",
+    "tau_src": 42,
+    "tau_dst": 41,
+    "merkle_sensitivity_hex_hamming": 0,
+    "tau_drift_abs": 1,
+    "alpha": 1,
+    "beta": 1,
+    "obstruction": 1,
+    "timestamp": "%Y-%m-%dT%H:%M:%SZ"
+  }
+}

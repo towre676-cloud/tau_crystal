@@ -1,0 +1,12 @@
+total 48
+drwxr-xr-x 1 Cody 197121 0 Sep 20 12:45 ./
+drwxr-xr-x 1 Cody 197121 0 Sep 20 21:35 ../
+drwxr-xr-x 1 Cody 197121 0 Sep 20 12:45 Cli/
+drwxr-xr-x 1 Cody 197121 0 Sep 20 12:57 LeanSearchClient/
+drwxr-xr-x 1 Cody 197121 0 Sep 20 12:56 Qq/
+drwxr-xr-x 1 Cody 197121 0 Sep 20 12:56 aesop/
+drwxr-xr-x 1 Cody 197121 0 Sep 20 12:45 batteries/
+drwxr-xr-x 1 Cody 197121 0 Sep 20 12:58 importGraph/
+drwxr-xr-x 1 Cody 197121 0 Sep 20 12:44 mathlib/
+drwxr-xr-x 1 Cody 197121 0 Sep 20 12:56 plausible/
+drwxr-xr-x 1 Cody 197121 0 Sep 20 12:44 proofwidgets/

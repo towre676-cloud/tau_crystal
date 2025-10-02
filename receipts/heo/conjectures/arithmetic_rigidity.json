@@ -1,0 +1,23 @@
+{
+  "id": "heo.conj.arithmetic_rigidity",
+  "type": "Conjecture",
+  "title": "Arithmetic Rigidity",
+  "tier": 11,
+  "statement_md": "For algebraically defined \\(S\\), \\(\\mathbf{H}_d^S(k) \\in \\{0\\}\\cup\\mathbb{Q}^+\\).",
+  "proof_status": "Conjectural",
+  "verification": {
+    "mode": "Optional",
+    "tests": [
+      {
+        "name": "periodic_case_rational",
+        "script": "ci/heo/scripts/periodic_rationality_test.py",
+        "args": ["--sequence", "ci/data/sequences/periodic_7_0010010.json"],
+        "expect": { "status": "pass" }
+      }
+    ]
+  },
+  "provenance": {
+    "spec_file": "docs/specs/heo_universal_structure.md",
+    "box_anchor": "MASTER THEOREM"
+  }
+}

@@ -1,0 +1,6 @@
+utc=20250915_203915Z
+rows=2754
+minima=2
+best_delta=1006
+best_S=293000
+best_T=-175887

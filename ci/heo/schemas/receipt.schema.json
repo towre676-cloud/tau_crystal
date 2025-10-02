@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Tau-Crystal Receipt",
+  "type": "object",
+  "required": ["id", "type", "title", "statement_md", "tier", "proof_status", "verification"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9_.-]+$" },
+    "type": { "type": "string", "enum": ["Definition", "Theorem", "Conjecture"] },
+    "title": { "type": "string" },
+    "tier": { "type": "integer", "minimum": 0, "maximum": 11 },
+    "statement_md": { "type": "string" },
+    "assumptions_md": { "type": "string", "default": "" },
+    "proof_status": { "type": "string", "enum": ["Proved", "Conditional", "Definition", "Conjectural"] },
+    "evidence": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "verification": {
+      "type": "object",
+      "required": ["mode", "tests"],
+      "properties": {
+        "mode": { "type": "string", "enum": ["Required", "Optional", "Skipped"] },
+        "tests": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "script", "args", "expect"],
+            "properties": {
+              "name": { "type": "string" },
+              "script": { "type": "string" },
+              "args": { "type": "array", "items": { "type": "string" } },
+              "expect": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string", "enum": ["pass"] },
+                  "bounds": { "type": "object" },
+                  "equals": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "spec_file": { "type": "string" },
+        "box_anchor": { "type": "string" }
+      }
+    }
+  }
+}

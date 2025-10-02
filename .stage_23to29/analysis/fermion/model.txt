@@ -1,0 +1,4 @@
+alpha=0.0334
+beta=0.673
+allowed_prime_carriers={2,3,5,12,18,30}
+scoring=Szego/Fisher-Hartwig-like; logZ = -sum_p phi(p)*alpha^k * beta^{nu(p)}

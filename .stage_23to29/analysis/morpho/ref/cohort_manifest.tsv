@@ -1,0 +1,3 @@
+dataset_name\tlandmark_count\tsubject_count\tdim\tlicense\tid\thash
+LS3D-W-Geometry\tN\t0\t3D\tCC-BY-NC-4.0\tls3d\te3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+analysis/morpho/ref/datasets/ls3d_landmarks.tsv
