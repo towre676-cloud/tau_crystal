@@ -1,0 +1,24 @@
+{
+  "id": "reo.thm.residue_heat_kernel_periodic",
+  "type": "Theorem",
+  "title": "Periodic case: heat-kernel residue equals mean H",
+  "tier": 2,
+  "statement_md": "For periodic binary X with mean H, the heat kernel K(t)=\\sum_{n\\ge1} X(n) e^{-nt} satisfies \\(\\lim_{t\\to0^+} t K(t) = H\\).",
+  "assumptions_md": "X is periodic; proof uses geometric-series decomposition. This receipt provides a numerical check.",
+  "proof_status": "Proved",
+  "verification": {
+    "mode": "Optional",
+    "tests": [
+      {
+        "name": "tK_converges_to_H",
+        "script": "ci/heo/research/heat_kernel_residue_test.py",
+        "args": [],
+        "expect": { "status": "pass" }
+      }
+    ]
+  },
+  "provenance": {
+    "spec_file": "docs/specs/heo_universal_structure.md",
+    "box_anchor": "Tier 2 — Analytic (Heat kernel ⇔ residue)"
+  }
+}

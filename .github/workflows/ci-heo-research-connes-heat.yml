@@ -1,0 +1,21 @@
+name: HEO Research — Heat kernel (optional)
+
+on:
+  push:
+    branches: [ "main", "ci-**", "feat/**", "fix/**" ]
+  pull_request:
+
+jobs:
+  heo-research-heat:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run heat-kernel periodic check (non-blocking)
+        run: |
+          chmod +x ci/heo/research/*.py
+          python ci/heo/research/heat_kernel_residue_test.py
