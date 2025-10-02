@@ -1,0 +1,24 @@
+{
+  "id": "heo.def.ml_predictor_artifact",
+  "type": "Definition",
+  "title": "ML Predictor Artifact (linear ridge model) for HEO",
+  "tier": 7,
+  "statement_md": "A trained predictor is stored as JSON with keys: `train_mae`, `test_mae`, `dof`, `lambda`, `columns` (feature names), and `weights` (bias-first). The inference map is $\\hat{H}=w_0 + \\sum_i w_i f_i$ where $f_i$ are the features computed from the binary sequence.",
+  "assumptions_md": "Sequences used for this artifact are periodic binary fixtures serving as exact labels via period-average.",
+  "proof_status": "Definition",
+  "verification": {
+    "mode": "Optional",
+    "tests": [
+      {
+        "name": "artifact_shape_ok",
+        "script": "ci/heo/research/check_model_artifact.py",
+        "args": ["--model", "ci/heo/research/models/ml_predictor_linear.json"],
+        "expect": { "status": "pass" }
+      }
+    ]
+  },
+  "provenance": {
+    "spec_file": "docs/specs/heo_universal_structure.md",
+    "box_anchor": "Tier 9: Periodic sequences — labels"
+  }
+}
