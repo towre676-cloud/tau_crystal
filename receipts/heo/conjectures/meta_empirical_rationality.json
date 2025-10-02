@@ -1,0 +1,24 @@
+{
+  "id": "heo.conj.meta_empirical_rationality",
+  "type": "Conjecture",
+  "title": "Meta-Prover: periodic sequences have rational H (empirical + tactic proof)",
+  "tier": 10,
+  "statement_md": "For periodic indicator sequences, the HEO value is the exact rational average over one period.",
+  "assumptions_md": "Binary periodic indicator model; Tier-0 definition; Tier-9 periodic rationality target.",
+  "proof_status": "Conjectural",
+  "verification": {
+    "mode": "Optional",
+    "tests": [
+      {
+        "name": "meta_prover_periodic_rational",
+        "script": "ci/heo/research/meta_prover_test.py",
+        "args": [],
+        "expect": { "status": "pass" }
+      }
+    ]
+  },
+  "provenance": {
+    "spec_file": "docs/specs/heo_universal_structure.md",
+    "box_anchor": "Tier 9 — Periodic (Exact Models)"
+  }
+}
