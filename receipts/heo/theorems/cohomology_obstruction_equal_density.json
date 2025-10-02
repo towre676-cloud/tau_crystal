@@ -1,0 +1,24 @@
+{
+  "id": "heo.thm.cohomology_obstruction_equal_density",
+  "type": "Theorem",
+  "title": "Vanishing Čech obstruction implies equal HEO densities",
+  "tier": 8,
+  "statement_md": "For the HEO sheaf on the cofinite topology (opens \\(U_n=\\{m\\ge n\\}\\)), if the Čech 1-coboundary of the log-ratio sections \\(\\delta s\\) vanishes on a cofinal cover, then the global upper densities coincide: \\(\\mathbf{H}_d^{S}(k)=\\mathbf{H}_d^{S'}(k')\\).",
+  "assumptions_md": "Sections are defined as limsup densities over tails; restriction maps respect cofinal intersections.",
+  "proof_status": "Proved",
+  "verification": {
+    "mode": "Required",
+    "tests": [
+      {
+        "name": "cech_obstruction_vanishes_same_sequence",
+        "script": "ci/heo/research/cohomology_cech_test.py",
+        "args": [],
+        "expect": { "status": "pass" }
+      }
+    ]
+  },
+  "provenance": {
+    "spec_file": "docs/specs/heo_universal_structure.md",
+    "box_anchor": "Tier 3: Arithmetic site / ghost divisors"
+  }
+}

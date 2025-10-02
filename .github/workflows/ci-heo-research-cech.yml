@@ -1,0 +1,21 @@
+name: HEO Research — Čech Obstruction
+
+on:
+  push:
+    branches: [ "main", "ci-**", "feat/**", "fix/**" ]
+  pull_request:
+
+jobs:
+  heo-research-cech:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run Čech obstruction tests
+        run: |
+          chmod +x ci/heo/research/*.py
+          python ci/heo/research/cohomology_cech_test.py
