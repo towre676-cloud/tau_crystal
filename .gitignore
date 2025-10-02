@@ -88,3 +88,11 @@ mobile/android/**/local.properties
 # never commit signing keys
 *.keystore
 *.jks
+# Python virtual/site dirs
+.py311_site/
+# Large tau artifacts
+.tau_ledger/*.tar.gz
+# Lean/Mathlib lake/package caches
+spectral_kernel/.lake/
+# Local ops logs
+ops/

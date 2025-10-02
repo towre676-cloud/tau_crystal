@@ -1,0 +1,25 @@
+name: Capsules CI
+
+on:
+  push:
+    branches: [ ci-spine-clean-* ]
+  pull_request:
+
+jobs:
+  capsules:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cap: [affine_rg, modular, specnet, chamber, padic, sset, anomaly]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install minimal deps (if any)
+        run: |
+          python -V
+      - name: Run ${{ matrix.cap }} checker
+        run: |
+          bash scripts/ci/check_${{ matrix.cap }}.sh
