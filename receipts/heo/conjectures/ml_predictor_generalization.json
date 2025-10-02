@@ -1,0 +1,28 @@
+{
+  "id": "heo.conj.ml_predictor_generalization",
+  "type": "Conjecture",
+  "title": "Feature-based linear predictor generalizes for periodic HEO",
+  "tier": 7,
+  "statement_md": "A lightweight linear model on theory-guided features (autocorrelations, run statistics, low-frequency spectrum, modular profiles) achieves small generalization error for predicting $\\mathbf{H}_d^S(k)$ on synthetic periodic corpora; concretely, the mean absolute error on held-out data is $\\le 0.02$.",
+  "assumptions_md": "Sequences are binary periodic fixtures drawn from a family with bounded period and varied densities; target is the global HEO $\\mathbf{H}=\\limsup_N \\frac{1}{N}\\sum_{n\\le N} X(n)$ which equals the period average.",
+  "proof_status": "Conjectural",
+  "evidence": [
+    "Empirical risk minimization with ridge regression on synthetic periodic datasets",
+    "Theoretic sufficiency: mean density is a linear functional of the indicator; features approximate it without leaking the label"
+  ],
+  "verification": {
+    "mode": "Optional",
+    "tests": [
+      {
+        "name": "train_eval_mae_le_0.02",
+        "script": "ci/heo/research/ml_predictor.py",
+        "args": ["--train", "--eval", "--target_mae", "0.02"],
+        "expect": { "status": "pass" }
+      }
+    ]
+  },
+  "provenance": {
+    "spec_file": "docs/specs/heo_universal_structure.md",
+    "box_anchor": "Tier 9: Periodic Sequences (exact models) — serves as supervised labels"
+  }
+}
