@@ -82,3 +82,9 @@ validation/work/
 validation/input/
 validation/input_norm/
 *.bak
+# Android build caches & local config
+mobile/android/**/.gradle/
+mobile/android/**/local.properties
+# never commit signing keys
+*.keystore
+*.jks
