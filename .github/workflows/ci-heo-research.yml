@@ -1,0 +1,41 @@
+name: HEO Research (non-blocking)
+
+on:
+  push:
+    branches: [ "main", "ci-**", "feat/**", "fix/**" ]
+  pull_request:
+
+jobs:
+  research-miner:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run pattern miner (emit conjecture receipts)
+        run: |
+          chmod +x ci/heo/research/run_miner.sh || true
+          python3 ci/heo/research/algebraic_relation_engine.py \
+            --sequences-glob "ci/data/sequences/*.json" \
+            --out-dir "receipts/heo/discovered" \
+            --ds "2,3,5" \
+            --max-k 16
+
+      - name: Verify discovered relations (optional)
+        run: |
+          chmod +x ci/heo/research/verify_relation.py
+          shopt -s nullglob
+          files=(receipts/heo/discovered/*.json)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No discovered receipts; nothing to verify."
+            exit 0
+          fi
+          for f in "${files[@]}"; do
+            echo "Verifying $f"
+            python3 ci/heo/research/verify_relation.py --relation-json "$f"
+          done
