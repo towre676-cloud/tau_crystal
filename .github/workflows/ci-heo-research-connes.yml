@@ -1,0 +1,21 @@
+name: HEO Research — Connes/Residue (optional)
+
+on:
+  push:
+    branches: [ "main", "ci-**", "feat/**", "fix/**" ]
+  pull_request:
+
+jobs:
+  heo-research-connes:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run periodic residue check (non-blocking)
+        run: |
+          chmod +x ci/heo/research/*.py
+          python ci/heo/research/connes_trace_test.py

@@ -1,0 +1,24 @@
+{
+  "id": "heo.thm.residue_equals_density_periodic",
+  "type": "Theorem",
+  "title": "Periodic case: residue at s=1 equals periodic mean H",
+  "tier": 2,
+  "statement_md": "For binary periodic sequences X with period T and mean H = T^{-1}\\sum_{n=1}^T X(n), the Dirichlet series \\(\\zeta_X(s) = \\sum_{n \\ge 1} X(n) n^{-s}\\) has a simple pole at s=1 with residue H.",
+  "assumptions_md": "X is periodic (Tier-9 exact models); numerical verification here is auxiliary.",
+  "proof_status": "Proved",
+  "verification": {
+    "mode": "Optional",
+    "tests": [
+      {
+        "name": "numeric_residue_matches_mean",
+        "script": "ci/heo/research/connes_trace_test.py",
+        "args": [],
+        "expect": { "status": "pass" }
+      }
+    ]
+  },
+  "provenance": {
+    "spec_file": "docs/specs/heo_universal_structure.md",
+    "box_anchor": "Tier 2 — Analytic (Residue Formula)"
+  }
+}
