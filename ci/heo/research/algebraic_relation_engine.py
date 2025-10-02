@@ -1,44 +1,51 @@
 #!/usr/bin/env python3
 """
-Algebraic Relation Discovery Engine (dependency-light)
+Algebraic Relation Discovery Engine (stable IDs + index emission)
 
-Design:
-- Treat each sequence JSON as an "observable" X_S(n) over {0,1}.
-- Build a proxy grid H_{d}(k) by residue-class or window averages of X_S.
-- Discover robust, low-variance relations:
-    * equalities H_d(k) == H_d(k')
-    * periodicity in k
-    * cross-d equality H_{d1}(k) == H_{d2}(k') (when numerically identical)
+Discovers simple algebraic relations among HEO values computed from sequence fixtures,
+then emits machine-readable receipts in receipts/heo/discovered/ with stable IDs:
 
-Notes:
-- This miner is *empirical*; it writes τ-Crystal "Conjecture" receipts
-  into receipts/heo/discovered/, marked verification.mode="Optional".
-- No external libs; works on periodic/explicit fixtures.
+  id = "heo.discovered.<seq_basename>_<type>_<index>"
+
+Supported relation types:
+  - equality_in_k        : H_d(k) == H_d(k') for selected pairs
+  - periodicity          : H_d(k) == H_d(k + p) for detected period p
+  - cross_degree_equality: H_{d1}(k1) == H_{d2}(k2)
+
+All receipts are Conjecture/Empirical and non-blocking in CI.
 """
-import argparse, json, glob, os, math
-from statistics import mean
+import argparse, glob, json, math, os, re, sys
+from collections import defaultdict
+from fractions import Fraction
 
-# ---------- helpers ----------
+TOL = 1e-9
+
+def seq_basename_from_path(path: str) -> str:
+    base = os.path.basename(path)
+    if base.lower().endswith(".json"):
+        base = base[:-5]
+    # normalize: keep alnum + _ only
+    return re.sub(r'[^A-Za-z0-9_]+', '_', base)
+
 def load_sequence(path):
     with open(path, "r") as f:
         obj = json.load(f)
     kind = obj.get("kind", "periodic")
     if kind == "periodic":
         patt = obj["pattern"]
-        assert all(x in (0,1) for x in patt), "pattern must be 0/1"
-        return {"kind":"periodic", "pattern": patt, "period": len(patt)}
+        if not patt: raise ValueError("empty periodic pattern")
+        return {"kind":"periodic","pattern":patt,"period":len(patt)}
     elif kind == "explicit":
         vals = obj["values"]
-        return {"kind":"explicit", "values": vals, "period": len(vals)}
+        if not vals: raise ValueError("empty explicit values")
+        return {"kind":"explicit","values":vals,"period":len(vals)}
     else:
         raise ValueError(f"unsupported kind: {kind}")
 
-def residue_density_periodic(pattern, residue, modulus):
-    """Density over indices n ≡ residue (mod modulus), 1-indexed."""
+def residue_density_periodic(pattern, k):
+    # Indexing: positions 1..T map to residues 0..T-1
     T = len(pattern)
-    # in periodic model, X(n) depends only on n mod T; density on a residue class
-    # modulo T is just the pattern value at that class.
-    r = (residue - 1) % T
+    r = (k - 1) % T
     return float(pattern[r])
 
 def window_avg(values, start, width):
@@ -49,157 +56,146 @@ def window_avg(values, start, width):
         acc += values[(start + i) % N]
     return acc / width
 
-def build_H_grid(seq, ds=(2,3,5), max_k=12):
-    """
-    Construct H-values for (d,k).
-    Strategy:
-      - If periodic: use residue-class density mod T for k=1..min(T, max_k).
-      - If explicit: use sliding-window averages (width = min(32, N)).
-    """
+def compute_H_grid(seq, ds, max_k=64):
     H = {}
     if seq["kind"] == "periodic":
         patt = seq["pattern"]
         T = len(patt)
-        K = min(T, max_k)
+        K = min(T, max_k if max_k>0 else T)
         for d in ds:
             for k in range(1, K+1):
-                H[(d, k)] = residue_density_periodic(patt, k, T)
+                H[(d,k)] = residue_density_periodic(patt, k)
     else:
         vals = seq["values"]
         N = len(vals)
         W = max(1, min(32, N))
-        K = min(N, max_k)
+        K = min(N, max_k if max_k>0 else N)
         for d in ds:
-            for k in range(0, K):
-                H[(d, k+1)] = window_avg(vals, k, W)
+            for k in range(1, K+1):
+                H[(d,k)] = window_avg(vals, k-1, W)
     return H
 
-def almost_equal(a, b, tol=1e-9):
-    return abs(a-b) <= tol
+def almost_equal(a, b, tol=TOL):
+    return abs(a - b) <= tol
 
-# ---------- relation mining ----------
-def discover_equalities(H_grid):
-    """Find pairs (k,k') with H_d(k) == H_d(k')."""
-    relations = []
-    # group by fixed d
-    by_d = {}
-    for (d,k), h in H_grid.items():
-        by_d.setdefault(d, []).append((k, h))
-    for d, items in by_d.items():
-        items.sort()
-        for i in range(len(items)):
-            k_i, h_i = items[i]
-            for j in range(i+1, len(items)):
-                k_j, h_j = items[j]
-                if almost_equal(h_i, h_j):
-                    relations.append({
-                        "type": "equality_in_k",
-                        "d": d,
-                        "k": k_i,
-                        "k_prime": k_j,
-                        "value": h_i,
-                        "confidence": 0.99
+def discover_relations_for_sequence(seq, ds, max_k):
+    H = compute_H_grid(seq, ds, max_k)
+    rels = []
+
+    # 1) equality_in_k per fixed d: scan pairs (k,k')
+    by_d = defaultdict(list)
+    for (d,k), h in H.items():
+        by_d[d].append((k,h))
+    for d, arr in by_d.items():
+        arr.sort()
+        n = len(arr)
+        # simple n^2 scan for small k-range
+        for i in range(n):
+            k, h = arr[i]
+            for j in range(i+1, n):
+                kp, hp = arr[j]
+                if almost_equal(h, hp):
+                    rels.append({
+                        "type":"equality_in_k",
+                        "d": int(d),
+                        "k": int(k),
+                        "k_prime": int(kp),
+                        "H": h
                     })
-    return relations
 
-def discover_periodicity(H_grid, max_period=12):
-    """Detect minimal period p in k for each fixed d (if any)."""
-    relations = []
-    by_d = {}
-    for (d,k), h in H_grid.items():
-        by_d.setdefault(d, []).append((k, h))
-    for d, items in by_d.items():
-        items.sort()
-        ks = [k for k,_ in items]
-        hs = [h for _,h in items]
-        L = len(hs)
-        if L < 2: 
-            continue
-        for p in range(1, min(max_period, L)+1):
+    # 2) periodicity guess: check smallest p s.t. many equalities hold
+    for d, arr in by_d.items():
+        ks = [k for (k,_) in arr]
+        if not ks: continue
+        Kmax = max(ks)
+        T_candidates = list(range(1, min(16, Kmax)+1))
+        for p in T_candidates:
             ok = True
-            for i in range(L):
-                if not almost_equal(hs[i], hs[(i+p)%L]):
-                    ok = False; break
-            if ok:
-                relations.append({
-                    "type": "periodicity",
-                    "d": d,
-                    "period": p,
-                    "confidence": 0.95
+            checks = 0
+            for (k,h) in arr:
+                k2 = k + p
+                if (d,k2) in H:
+                    checks += 1
+                    if not almost_equal(h, H[(d,k2)]):
+                        ok = False
+                        break
+            if ok and checks >= max(3, Kmax//3):
+                rels.append({
+                    "type":"periodicity",
+                    "d": int(d),
+                    "period": int(p),
+                    "evidence_checks": int(checks)
                 })
-                break
-    return relations
+                break  # record the smallest p
 
-def discover_cross_degree_equalities(H_grid):
-    """Find (d1,k1) and (d2,k2) with the same value."""
-    relations = []
-    items = list(H_grid.items())  # [((d,k), h)]
-    for i in range(len(items)):
-        (d1,k1), h1 = items[i]
-        for j in range(i+1, len(items)):
-            (d2,k2), h2 = items[j]
-            if d1 == d2: 
-                continue
-            if almost_equal(h1, h2):
-                relations.append({
-                    "type": "cross_degree_equality",
-                    "d1": d1, "k1": k1,
-                    "d2": d2, "k2": k2,
-                    "value": h1,
-                    "confidence": 0.9
-                })
-    return relations
+    # 3) cross_degree_equality: align ks where both present
+    ds_sorted = sorted(set(d for (d,_) in H.keys()))
+    for i in range(len(ds_sorted)):
+        for j in range(i+1, len(ds_sorted)):
+            d1, d2 = ds_sorted[i], ds_sorted[j]
+            for k in range(1, max_k+1):
+                if (d1,k) in H and (d2,k) in H and almost_equal(H[(d1,k)], H[(d2,k)]):
+                    rels.append({
+                        "type":"cross_degree_equality",
+                        "d1": int(d1), "k1": int(k),
+                        "d2": int(d2), "k2": int(k),
+                        "H": H[(d1,k)]
+                    })
+    return rels
 
-# ---------- receipts ----------
-def generate_latex_statement(rel, seq_label):
+def latex_statement(rel, seq_name):
     t = rel["type"]
     if t == "equality_in_k":
-        d = rel["d"]; k = rel["k"]; k2 = rel["k_prime"]
-        return (f"For sequence {seq_label}, "
-                f"\\(\\mathbf{{H}}_{{{d}}}^S({k}) = "
-                f"\\mathbf{{H}}_{{{d}}}^S({k2})\\).")
+        d,k,kp = rel["d"], rel["k"], rel["k_prime"]
+        return (f"For sequence {seq_name}, "
+                f"\\(\\mathbf{{H}}_{{{d}}}^S({k}) = \\mathbf{{H}}_{{{d}}}^S({kp})\\).")
     if t == "periodicity":
-        d = rel["d"]; p = rel["period"]
-        return (f"For sequence {seq_label}, \\(\\mathbf{{H}}_{{{d}}}^S(k)\\) "
-                f"is periodic in \\(k\\) with period \\({p}\\).")
+        d,p = rel["d"], rel["period"]
+        return (f"For sequence {seq_name}, "
+                f"\\(\\mathbf{{H}}_{{{d}}}^S(k) = \\mathbf{{H}}_{{{d}}}^S(k + {p})\\) for all admissible \\(k\\).")
     if t == "cross_degree_equality":
-        d1 = rel["d1"]; k1 = rel["k1"]; d2 = rel["d2"]; k2 = rel["k2"]
-        return (f"For sequence {seq_label}, "
-                f"\\(\\mathbf{{H}}_{{{d1}}}^S({k1}) = "
-                f"\\mathbf{{H}}_{{{d2}}}^S({k2})\\).")
-    return "Empirical relation"
+        d1,k1,d2,k2 = rel["d1"], rel["k1"], rel["d2"], rel["k2"]
+        return (f"For sequence {seq_name}, "
+                f"\\(\\mathbf{{H}}_{{{d1}}}^S({k1}) = \\mathbf{{H}}_{{{d2}}}^S({k2})\\).")
+    return "Unspecified relation."
 
-def emit_receipts(seq_path, seq_label, relations, out_dir):
+def emit_receipts(relations, out_dir, seq_basename):
     os.makedirs(out_dir, exist_ok=True)
-    out_files = []
-    for i, rel in enumerate(relations):
-        rid = f"{os.path.splitext(os.path.basename(seq_path))[0]}_{rel['type']}_{i}"
+    emitted = []
+    counters = defaultdict(int)
+    for rel in relations:
+        rtype = rel["type"]
+        counters[rtype] += 1
+        rid_local = f"{seq_basename}_{rtype}_{counters[rtype]}"
+        rid_full  = f"heo.discovered.{rid_local}"
         receipt = {
-            "id": f"heo.discovered.{rid}",
+            "id": rid_full,
             "type": "Conjecture",
-            "title": f"Discovered relation: {rel['type']} ({seq_label})",
+            "title": f"Discovered relation ({rtype}) on {seq_basename}",
             "tier": 10,
-            "statement_md": generate_latex_statement(rel, seq_label),
+            "statement_md": latex_statement(rel, seq_basename),
             "proof_status": "Empirical",
-            "evidence": [f"auto-mined from {seq_path}"],
             "verification": {
                 "mode": "Optional",
                 "tests": [{
-                    "name": f"verify_{rel['type']}",
+                    "name": f"verify_{rtype}",
                     "script": "ci/heo/research/verify_relation.py",
-                    "args": ["--relation-json", f"receipts/heo/discovered/{rid}.json"],
+                    "args": ["--relation-json", f"receipts/heo/discovered/{rid_local}.json"],
                     "expect": {"status": "pass"}
                 }]
             },
-            "metadata": rel
+            "metadata": {"type": rtype, **rel, "seq_basename": seq_basename}
         }
-        out_file = os.path.join(out_dir, f"{rid}.json")
-        with open(out_file, "w") as f:
+        path = os.path.join(out_dir, f"{rid_local}.json")
+        with open(path, "w") as f:
             json.dump(receipt, f, indent=2)
-        out_files.append(out_file)
-    return out_files
+        emitted.append({"id": rid_full, "path": path, "type": rtype})
+    return emitted
 
-# ---------- CLI ----------
+def write_index(index_path, entries):
+    with open(index_path, "w") as f:
+        json.dump({"relations": entries}, f, indent=2)
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--sequences-glob", default="ci/data/sequences/*.json")
@@ -209,33 +205,19 @@ def main():
     args = ap.parse_args()
 
     ds = tuple(int(x) for x in args.ds.split(",") if x.strip())
-    seq_paths = sorted(glob.glob(args.sequences_glob))
-    all_receipts = []
-
-    for path in seq_paths:
+    entries = []
+    for spath in sorted(glob.glob(args.sequences_glob)):
         try:
-            seq = load_sequence(path)
+            seq = load_sequence(spath)
         except Exception as e:
-            print(json.dumps({"warning":"skip", "path":path, "error":str(e)}))
-            continue
+            print(f"[skip] {spath}: {e}", file=sys.stderr); continue
+        seq_name = seq_basename_from_path(spath)
+        rels = discover_relations_for_sequence(seq, ds, args.max_k)
+        emitted = emit_receipts(rels, args.out_dir, seq_name)
+        entries.extend(emitted)
 
-        label = os.path.splitext(os.path.basename(path))[0]
-        H = build_H_grid(seq, ds=ds, max_k=args.max_k)
-
-        rels = []
-        rels += discover_equalities(H)
-        rels += discover_periodicity(H)
-        rels += discover_cross_degree_equalities(H)
-
-        out_files = emit_receipts(path, label, rels, args.out_dir)
-        all_receipts.extend(out_files)
-
-    print(json.dumps({
-        "status":"ok",
-        "sequences_seen": len(seq_paths),
-        "receipts_emitted": len(all_receipts),
-        "out_dir": args.out_dir
-    }, indent=2))
+    write_index(os.path.join(args.out_dir, "index.json"), entries)
+    print(json.dumps({"emitted": len(entries), "out_dir": args.out_dir}, indent=2))
 
 if __name__ == "__main__":
     main()

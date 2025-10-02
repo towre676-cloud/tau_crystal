@@ -19,13 +19,8 @@ jobs:
 
       - name: Run pattern miner (emit conjecture receipts)
         run: |
-          chmod +x ci/heo/research/run_miner.sh || true
-          python3 ci/heo/research/algebraic_relation_engine.py \
-            --sequences-glob "ci/data/sequences/*.json" \
-            --out-dir "receipts/heo/discovered" \
-            --ds "2,3,5" \
-            --max-k 16
-
+          chmod +x ci/heo/research/run_miner.sh
+          ./ci/heo/research/run_miner.sh
       - name: Verify discovered relations (optional)
         run: |
           chmod +x ci/heo/research/verify_relation.py
