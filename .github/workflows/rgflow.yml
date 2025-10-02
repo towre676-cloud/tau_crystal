@@ -7,6 +7,7 @@ on:
       - 'Tau/Distance/**'
       - 'docs/monographs/rg_flow.md'
   workflow_dispatch: {}
+    branches-ignore: [ ci-spine-clean-* ]
 jobs:
   smoke:
     runs-on: ubuntu-latest

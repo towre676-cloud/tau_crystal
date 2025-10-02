@@ -2,6 +2,7 @@ name: morpho-ci
 on:
   push:
   workflow_dispatch:
+    branches-ignore: [ ci-spine-clean-* ]
 jobs:
   morpho:
     runs-on: ubuntu-latest

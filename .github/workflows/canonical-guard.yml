@@ -4,6 +4,7 @@ on:
     branches: [ main ]
   pull_request:
   workflow_dispatch:
+    branches-ignore: [ ci-spine-clean-* ]
     inputs:
       allow_recanonize:
         description: 'Set true to bypass guard intentionally'

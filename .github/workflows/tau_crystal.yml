@@ -15,6 +15,7 @@ on:
       - '.tau_ledger/**'
       - '.github/workflows/**'
 
+    branches-ignore: [ ci-spine-clean-* ]
 jobs:
   attested-delivery-openssl:
     runs-on: ubuntu-latest

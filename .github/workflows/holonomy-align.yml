@@ -2,6 +2,7 @@ name: holonomy-align
 on:
   push:
   workflow_dispatch:
+    branches-ignore: [ ci-spine-clean-* ]
 jobs:
   guard:
     if: !startsWith(github.ref_name, 'ci-spine-clean-')

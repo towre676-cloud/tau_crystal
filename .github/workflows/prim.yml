@@ -13,6 +13,8 @@ on:
       - "docs/prim/**"
       - ".github/workflows/prim.yml"
   workflow_dispatch:
+    branches-ignore: [ ci-spine-clean-* ]
+    branches-ignore: [ ci-spine-clean-* ]
 
 jobs:
   run-prim-abelian:

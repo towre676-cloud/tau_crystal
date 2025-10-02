@@ -2,6 +2,7 @@ name: cheby-moments
 on:
   push:
   workflow_dispatch:
+    branches-ignore: [ ci-spine-clean-* ]
 jobs:
   gate:
     runs-on: ubuntu-latest

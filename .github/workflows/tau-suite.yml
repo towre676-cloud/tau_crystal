@@ -9,6 +9,8 @@ on:
       - ".github/workflows/tau-suite.yml"
   pull_request:
 jobs:
+    branches-ignore: [ ci-spine-clean-* ]
+    branches-ignore: [ ci-spine-clean-* ]
   fanout:
     runs-on: ubuntu-latest
     strategy:
