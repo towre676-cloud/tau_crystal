@@ -1,0 +1,28 @@
+{
+  "id": "heo.lean.formalization.tier0_2.status",
+  "type": "Theorem",
+  "title": "Lean formalization scaffolding for Tier 0–2",
+  "tier": 0,
+  "statement_md": "Core HEO definitions (`X`, partial sums, density, limsup `H`) with formal statements for finite-implies-zero, finite-surgery invariance, and periodic rationality.",
+  "assumptions_md": "Uses mathlib4; current file includes `sorry` placeholders to keep CI non-blocking.",
+  "proof_status": "Conditional",
+  "evidence": [
+    "lean/HEO/HEO/Core.lean",
+    ".github/workflows/ci-heo-lean.yml"
+  ],
+  "verification": {
+    "mode": "Optional",
+    "tests": [
+      {
+        "name": "lean_build_nonblocking",
+        "script": "bash",
+        "args": ["ci/heo/scripts/lean_ci.sh"],
+        "expect": { "status": "pass" }
+      }
+    ]
+  },
+  "provenance": {
+    "spec_file": "docs/specs/heo_universal_structure.md",
+    "box_anchor": "TIER 0–2 (formal)"
+  }
+}
