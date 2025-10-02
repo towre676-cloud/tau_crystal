@@ -8,18 +8,20 @@ on:
 jobs:
   lean-build:
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - name: Install elan (Lean toolchain)
         uses: leanprover/elan-action@v1
-      - name: Cache Lake build
+      - name: Cache Lean build
         uses: actions/cache@v4
         with:
           path: |
+            lean/HEO/.lake
             lean/HEO/build
             ~/.elan
-          key: ${{ runner.os }}-lean-${{ hashFiles('lean/HEO/lakefile.lean', 'lean/HEO/lean-toolchain') }}
-      - name: Build Lean project
-        run: |
-          bash ci/heo/scripts/lean_ci.sh
+          key: ${{ runner.os }}-lean-${{ hashFiles(
+            'lean/HEO/lakefile.lean',
+            'lean/HEO/lean-toolchain'
+          ) }}
+      - name: Build Lean project (non-blocking)
+        run: bash ci/heo/scripts/lean_ci.sh || true

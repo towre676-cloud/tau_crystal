@@ -5,7 +5,7 @@
   "tier": 0,
   "statement_md": "Core HEO definitions (`X`, partial sums, density, limsup `H`) with formal statements for finite-implies-zero, finite-surgery invariance, and periodic rationality.",
   "assumptions_md": "Uses mathlib4; current file includes `sorry` placeholders to keep CI non-blocking.",
-  "proof_status": "Conditional",
+  "proof_status": "Scaffolded",
   "evidence": [
     "lean/HEO/HEO/Core.lean",
     ".github/workflows/ci-heo-lean.yml"
