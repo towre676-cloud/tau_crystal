@@ -1,0 +1,24 @@
+{
+  "id": "heo.research.homotopy_space",
+  "type": "Definition",
+  "title": "HEO Sequence-Space and Higher-Homotopy Diagnostics",
+  "tier": 15,
+  "statement_md": "Construct a sequence-space whose points are HEO indicator sequences with finite-surgery equivalence; define computational diagnostics for \\(\\pi_0\\), \\(\\pi_1\\) (via finite-surgery loops), and a Whitehead-style filtration by density thresholds.",
+  "proof_status": "Definition",
+  "evidence": ["tools/homotopy/heo_homotopy.py"],
+  "verification": {
+    "mode": "Optional",
+    "tests": [
+      {
+        "name": "homotopy_smoketest",
+        "script": "ci/heo/research/homotopy_smoketest.py",
+        "args": [],
+        "expect": { "status": "pass" }
+      }
+    ]
+  },
+  "provenance": {
+    "spec_file": "docs/specs/heo_universal_structure.md",
+    "box_anchor": "Tier 15 — Higher Homotopy"
+  }
+}
