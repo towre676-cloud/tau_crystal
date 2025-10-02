@@ -1,0 +1,24 @@
+{
+  "id": "heo.def.grover_planner",
+  "type": "Definition",
+  "title": "Grover search planner for HEO-marked indices",
+  "tier": 10,
+  "statement_md": "For a search space of size $N$ with $t$ marked items (solutions to $S(n)+k=m^d$ in $\\{1,\\dots,N\\}$), choose $r \\approx \\left\\lfloor \\frac{\\pi}{4\\arcsin\\sqrt{t/N}} - \\tfrac{1}{2} \\right\\rfloor$ Grover iterations. Success probability is $\\sin^2((2r+1)\\arcsin\\sqrt{t/N})$. Classical queries $\\approx N/t$ vs. Grover $\\approx \\frac{\\pi}{4}\\sqrt{N/t}$.",
+  "assumptions_md": "Assumes at least one marked index ($t>0$) and a standard Grover oracle consistent with the indicator $X_S$ on the chosen domain.",
+  "proof_status": "Definition",
+  "verification": {
+    "mode": "Optional",
+    "tests": [
+      {
+        "name": "periodic_fixture_512_space",
+        "script": "ci/heo/research/grover_search.py",
+        "args": ["--sequence", "ci/data/sequences/periodic_7_0010010.json", "--N", "512"],
+        "expect": { "status": "pass" }
+      }
+    ]
+  },
+  "provenance": {
+    "spec_file": "docs/specs/heo_universal_structure.md",
+    "box_anchor": "Tier 0 density + algorithmic search"
+  }
+}

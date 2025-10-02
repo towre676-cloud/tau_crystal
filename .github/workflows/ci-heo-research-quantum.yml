@@ -1,0 +1,20 @@
+name: HEO Research — Grover Planner
+
+on:
+  push:
+    branches: [ "main", "ci-**", "feat/**", "fix/**" ]
+  pull_request:
+
+jobs:
+  grover-planner:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run Grover planner on periodic fixture
+        run: |
+          python ci/heo/research/grover_search.py --sequence ci/data/sequences/periodic_7_0010010.json --N 512
