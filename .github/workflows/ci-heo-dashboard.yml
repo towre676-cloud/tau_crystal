@@ -1,0 +1,24 @@
+name: HEO Research — Dashboard backend (optional)
+
+on:
+  push:
+    branches: [ "main", "ci-**", "feat/**", "fix/**" ]
+  pull_request:
+
+jobs:
+  heo-dashboard:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install fastapi "uvicorn[standard]" httpx
+      - name: Run smoke test
+        run: |
+          python ci/heo/research/dashboard_smoketest.py

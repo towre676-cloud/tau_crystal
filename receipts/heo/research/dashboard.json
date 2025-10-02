@@ -1,0 +1,24 @@
+{
+  "id": "heo.research.dashboard",
+  "type": "Definition",
+  "title": "Experimental Dashboard Backend",
+  "tier": 13,
+  "statement_md": "FastAPI endpoints `/compute_heo` and `/compute_spectrum` expose the HEO density and a spectrum heatmap for interactive exploration.",
+  "proof_status": "Definition",
+  "evidence": ["tools/dashboard/backend/main.py"],
+  "verification": {
+    "mode": "Optional",
+    "tests": [
+      {
+        "name": "dashboard_smoketest",
+        "script": "ci/heo/research/dashboard_smoketest.py",
+        "args": [],
+        "expect": { "status": "pass" }
+      }
+    ]
+  },
+  "provenance": {
+    "spec_file": "docs/specs/heo_universal_structure.md",
+    "box_anchor": "Tier 13 — Experimental Dashboard"
+  }
+}
