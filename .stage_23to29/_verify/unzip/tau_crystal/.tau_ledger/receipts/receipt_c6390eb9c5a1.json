@@ -1,0 +1,17 @@
+{
+  "kind": "tau.receipt+langlands",
+  "commit": "c6390eb",
+  "utc": "2025-09-15T21:38:04Z",
+  "runner": "MINGW64_NT-10.0-26100 x86_64",
+  "langlands": {
+    "grid": {
+      "rows": 2964,
+      "bounds": {"S_MIN": 244000, "S_MAX": 372190, "T_MIN": -241381, "T_MAX": -126000},
+      "step": {"S": 2000, "T": 2000}
+    },
+    "minima_count": 0
+0,
+    "best": {"S_micro": 294000, "T_micro": -176000, "Delta": 0}
+  },
+  "artifacts": [{"sha256":"50ee845546fb66c2399a362ba649877df3900b1f4a031251069d918636c96d5c","path":"analysis/bash_theta_scan.tsv"},{"sha256":"8f1a22f1f19bb26c9b629945571d4fff4730fd1b01eedcc5bb01ad30fa4a2528","path":"analysis/morse_crit.tsv"},{"sha256":"63a0096934a88f71c3a0a140176f99d22967bcb332f9cc6e20af344aa6f0c853","path":"analysis/atlas_line.tsv"},{"sha256":"f9ecc53dc3fef60d54410e74d96107431d863d08d87ce7cf9e93c2e7298f3a33","path":"analysis/plots/atlas_line.svg"},{"sha256":"27c0b38fc70459b31e6bd7ce38cd4deaf0009dc77962df78c1633eb51e495a95","path":"analysis/plots/basins.svg"},{"sha256":"d6c515e2e1340ce5fedbe3b91160bcc08651a9b50ad6a3f98854059ca7a6c0b4","path":"analysis/ramanujan.tsv"}]
+}

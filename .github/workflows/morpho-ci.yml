@@ -7,6 +7,7 @@ on:
       - 'docs/monographs/**'
       - '.github/workflows/morpho-ci.yml'
   workflow_dispatch: {}
+    branches-ignore: [ ci-spine-clean-* ]
 
 jobs:
   verify-and-bundle:

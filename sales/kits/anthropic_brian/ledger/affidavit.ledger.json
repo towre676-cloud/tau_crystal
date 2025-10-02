@@ -1,0 +1,8 @@
+{
+  "capsule_id": "TBD-ID",
+  "sha256": "TBD-SHA256-HEX",
+  "affidavit_pdf": "docs/affidavit.pdf",
+  "notary": { "name": "", "state": "", "commission": "", "method": "in-person|RON" },
+  "notarized_utc": "",
+  "docket_or_ref": ""
+}

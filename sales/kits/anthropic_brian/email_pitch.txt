@@ -1,0 +1,9 @@
+Subject: Sealed delivery you can prove in 30 seconds
+
+Hi — attaching a tiny starter that shows exactly what you receive on delivery.
+You’ll get the file, its fingerprint (SHA-256), a signed receipt, and—if you want—the notarized page that prints the same hash.
+Run the two commands in VERIFY.txt; if they pass, you know you have precisely what we promised.
+If this fits your handoff, we can drop your real payload this week.
+
+Best,
+—

@@ -1,0 +1,40 @@
+name: Tau-Crystal CI Demo Receipt
+on:
+  push:
+    branches: ["feat/arith-integration-phi-sigma-gcd"]
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Prepare ledger and wrapper
+        run: |
+          set -euxo pipefail
+          mkdir -p .tau_ledger/receipts
+          chmod +x tcrystal || true
+      - name: Prepare ledger and wrapper
+        run: |
+          set -euxo pipefail
+          mkdir -p .tau_ledger/receipts
+          chmod +x tcrystal || true
+      - name: Demo run (Chebyshev τ-pulse)
+        run: |
+          set -euxo pipefail
+          : > ci_demo.py
+          printf '%s\n' 'import json, math, time' >> ci_demo.py
+          printf '%s\n' 'steps=64' >> ci_demo.py
+          printf '%s\n' 'data=[math.cos(steps*math.acos(-1+2*k/(steps-1))) for k in range(steps)]' >> ci_demo.py
+          printf '%s\n' 'tau=sum(x*x for x in data)/len(data)' >> ci_demo.py
+          printf '%s\n' 'print(json.dumps({"tau_pulse":round(tau,8),"timestamp_utc":time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}, indent=2))' >> ci_demo.py
+          ./tcrystal run python3 ci_demo.py
+          test -f .tau_ledger/receipts/last.json && sed -n "1,120p" .tau_ledger/receipts/last.json
+      - name: Upload receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-ledger-receipts
+          path: .tau_ledger/receipts
+          if-no-files-found: error

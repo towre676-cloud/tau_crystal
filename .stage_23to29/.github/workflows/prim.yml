@@ -1,0 +1,38 @@
+name: prim-corridor
+
+on:
+  push:
+    paths:
+      - "scripts/prim/**"
+      - "docs/prim/**"
+      - ".github/workflows/prim.yml"
+      - ".ci-ping"
+  pull_request:
+    paths:
+      - "scripts/prim/**"
+      - "docs/prim/**"
+      - ".github/workflows/prim.yml"
+  workflow_dispatch:
+
+jobs:
+  run-prim-abelian:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Primitive Hybrid (abelian) run
+        shell: bash
+        run: |
+          set -euo pipefail; set +H
+          bash scripts/prim/prim_abelian_run.sh docs/prim/examples_abelian.tsv
+          echo "---- receipts ----"
+          ls -lah .tau_ledger/prim || true
+      - name: Upload receipt artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prim-receipts
+          path: .tau_ledger/prim/
+          if-no-files-found: warn

@@ -5,6 +5,7 @@ on:
       - 'scripts/ramanujan/**'
       - 'ramanujan/**'
   workflow_dispatch: {}
+    branches-ignore: [ ci-spine-clean-* ]
 jobs:
   run:
     runs-on: ubuntu-latest

@@ -1,0 +1,2 @@
+PRODUCER CONTRACT v1.0 (digest-to-be-stamped)
+Inputs: declare all file and env inputs; Outputs: declare all files and their stable order; Return: 0 only when all declared outputs exist and are deterministic under fixed seeds; Receipts: write a list of produced paths to analysis/.provenance/<producer>.artifacts; Args: print argv in first line of stdout; Env: print a sorted env block to stderr for hashing.

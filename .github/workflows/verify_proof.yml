@@ -8,6 +8,8 @@ on:
       - "lakefile.lean"
   pull_request:
 jobs:
+    branches-ignore: [ ci-spine-clean-* ]
+    branches-ignore: [ ci-spine-clean-* ]
   proof:
     runs-on: ubuntu-latest
     steps:

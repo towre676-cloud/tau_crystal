@@ -1,0 +1,2 @@
+WITNESS CONTRACT v1.0
+A witness capsule must include: machine manifest (manifest.json), human note (status.txt or verification.json), all receipts referenced by the claim, and environment hash. All members must be immutable and content-addressed. The capsule name is a stable key. No private data included.

@@ -1,0 +1,21 @@
+Verify auto-20250922T220241Z (offline)
+
+SHA-256: d94ba6cb3f347bfceb1cf00b4e4174811f128ee6bad2de7526e464c3e500f3aa
+Size: 36276625 bytes
+
+Files:
+- auto-20250922T220241Z.tar.gz
+- auto-20250922T220241Z.tar.gz.sha256
+- auto-20250922T220241Z.receipt.json
+- seller_ed25519.pub.pem
+
+1) Check hash:
+   sha256sum auto-20250922T220241Z.tar.gz | awk '{print auto-20250922T220241Z}' | diff -u - auto-20250922T220241Z.tar.gz.sha256
+
+2) Check receipt hash matches:
+   grep -o '"sha256":"[^"]*' auto-20250922T220241Z.receipt.json | cut -d: -f3 | tr -d '"' \
+     | diff -u - auto-20250922T220241Z.tar.gz.sha256
+
+3) Verify seller signature (OpenSSL/Ed25519):
+   grep -o '"seller_sig":"ed25519_openssl:[^"]*' auto-20250922T220241Z.receipt.json      | sed 's/.*ed25519_openssl://' | tr -d '\r' | openssl base64 -d -A > sig.bin
+   openssl pkeyutl -verify -pubin -inkey seller_ed25519.pub.pem -rawin      -sigfile sig.bin -in auto-20250922T220241Z.tar.gz && echo "Signature OK"

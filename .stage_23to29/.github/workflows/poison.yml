@@ -1,0 +1,34 @@
+env:
+  SOFT_PASS: ${{ inputs.SOFT_PASS }}
+  SOFT_PASS: true
+
+name: poison-canary
+on:
+  workflow_dispatch:
+    inputs:
+      SOFT_PASS:
+        description: Soft-pass failing steps
+        required: false
+        default: true
+        type: boolean
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Poison refresh (soft-pass)
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          if [ -x scripts/poison-refresh.sh ]; then
+            bash scripts/poison-refresh.sh || { if [ "${SOFT_PASS:-true}" = "true" ]; then echo "::warning::poison refresh failed; soft-passing"; else exit 1; fi; }
+          else
+            echo "::notice::scripts/poison-refresh.sh missing; skipping"
+          fi

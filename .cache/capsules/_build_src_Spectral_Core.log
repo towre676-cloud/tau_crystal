@@ -1,0 +1,6 @@
+exe/.capsule_each/src_Spectral_Core.lean:1:0: error: unknown module prefix 'Spectral'
+
+No directory 'Spectral' or file 'Spectral.olean' in the search path entries:
+C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.lake\build\lib\lean
+c:\Users\Cody\.elan\toolchains\leanprover--lean4---v4.22.0\lib\lean
+c:\Users\Cody\.elan\toolchains\leanprover--lean4---v4.22.0\lib\lean

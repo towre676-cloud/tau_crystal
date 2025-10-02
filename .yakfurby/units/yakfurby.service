@@ -1,0 +1,11 @@
+[Unit]
+Description=Yak-Furby AV Sealing Node
+After=network.target
+[Service]
+Type=simple
+WorkingDirectory=%h/tau_crystal/tau_crystal
+ExecStart=%h/tau_crystal/tau_crystal/.yakfurby/bin/run_node.sh
+Restart=always
+RestartSec=3
+[Install]
+WantedBy=multi-user.target

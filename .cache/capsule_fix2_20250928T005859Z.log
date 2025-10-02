@@ -1,0 +1,185 @@
++ cd /c/Users/Cody/Desktop/tau_crystal/tau_crystal
++ set -euo pipefail
++ set +H
++ umask 022
++ export LC_ALL=C LANG=C
++ LC_ALL=C
++ LANG=C
++ BASE=.tau_ledger/lean_module_capsules
++ IDX=.tau_ledger/lean_module_capsules/index.json
++ :
++ printf '['
++ sep=
++ find .tau_ledger/lean_module_capsules -type f -name '*.json' '!' -name index.json '!' -name capsule_set.seal.json -print0
++ sort -z
++ IFS=
++ read -r -d '' j
++ printf %s ''
++ cat .tau_ledger/lean_module_capsules/src_Spectral_Core.json
++ sep=,
++ IFS=
++ read -r -d '' j
++ printf %s ,
++ cat .tau_ledger/lean_module_capsules/src_Spectral_face_plumbing.json
++ sep=,
++ IFS=
++ read -r -d '' j
++ printf %s ,
++ cat .tau_ledger/lean_module_capsules/src_Spectral_plumbing.json
++ sep=,
++ IFS=
++ read -r -d '' j
++ printf ']\n'
++ command -v sha256sum
++ sha256sum .tau_ledger/lean_module_capsules/index.json
++ cd /c/Users/Cody/Desktop/tau_crystal/tau_crystal
++ set -euo pipefail
++ set +H
++ umask 022
++ export LC_ALL=C LANG=C
++ LC_ALL=C
++ LANG=C
++ BASE=.tau_ledger/lean_module_capsules
++ IDX=.tau_ledger/lean_module_capsules/index.json
++ SHA=.tau_ledger/lean_module_capsules/index.sha256
++ '[' -s .tau_ledger/lean_module_capsules/index.json ']'
+++ cut '-d ' -f1 .tau_ledger/lean_module_capsules/index.sha256
++ root=1d90d22288c1afe7bb94377491b7461a9e6cdf1f0428b2c89af9ad7f2edd42ea
++ '[' -n 1d90d22288c1afe7bb94377491b7461a9e6cdf1f0428b2c89af9ad7f2edd42ea ']'
+++ lake env lean --version
+++ head -n1
++ tc='Lean (version 4.22.0, x86_64-w64-windows-gnu, commit ba2cbbf09d4978f416e0ebd1fceeebc2c4138c05, Release)'
+++ lake --version
+++ head -n1
++ lv='Lake version 5.0.0-src+ba2cbbf (Lean version 4.22.0)'
+++ find .tau_ledger/lean_module_capsules -type f -name '*.json' '!' -name index.json '!' -name capsule_set.seal.json
+++ awk 'END{print NR}'
++ tot=3
+++ grep -o '"build_ok"[[:space:]]*:[[:space:]]*1' .tau_ledger/lean_module_capsules/index.json
+++ awk 'END{print NR}'
++ ok=0
++ cd /c/Users/Cody/Desktop/tau_crystal/tau_crystal
++ set -euo pipefail
++ set +H
++ umask 022
++ export LC_ALL=C LANG=C
++ LC_ALL=C
++ LANG=C
++ BASE=.tau_ledger/lean_module_capsules
++ SEAL=.tau_ledger/lean_module_capsules/capsule_set.seal.json
++ IDX=.tau_ledger/lean_module_capsules/index.json
++ '[' -s .tau_ledger/lean_module_capsules/capsule_set.seal.json ']'
++ out=docs/ledger/lean_capsule_manifest.json
++ :
++ printf '{'
++ printf '"kind":"corridor.manifest.lean_capsules",'
+++ cat .tau_ledger/lean_module_capsules/capsule_set.seal.json
++ printf '"seal":%s,' '{"kind":"lean.module.capsule.set","root_hash":"5dac14e2a278130e504c2fba31eaab3e6213e488e8a93eed28c4694981c6502c","sealed_at":"2025-09-28T00:55:29Z","toolchain":"Lean (version 4.22.0, x86_64-w64-windows-gnu, commit ba2cbbf09d4978f416e0ebd1fceeebc2c4138c05, Release)","lake":"Lake version 5.0.0-src+ba2cbbf (Lean version 4.22.0)","total_modules":4,"build_ok":0
+0,"build_fail":4,"index_path":".tau_ledger/lean_module_capsules/index.json"}'
++ printf '"index_path":"%s"' .tau_ledger/lean_module_capsules/index.json
++ printf '}\n'
++ cd /c/Users/Cody/Desktop/tau_crystal/tau_crystal
++ set -euo pipefail
++ set +H
++ umask 022
++ export LC_ALL=C LANG=C
++ LC_ALL=C
++ LANG=C
++ BASE=.tau_ledger/lean_module_capsules
++ OUT=docs/modules/index.html
++ :
++ printf '%s\n' '<!doctype html><meta charset=utf-8><title>Lean Module Capsules</title>'
++ printf '%s\n' '<h1>Lean Module Capsules</h1><p>Sealed per-module build receipts.</p><table border=1 cellpadding=6 cellspacing=0><tr><th>Module</th><th>Build</th><th>ms</th><th>src bytes</th><th>olean bytes</th><th>sealed</th></tr>'
++ find .tau_ledger/lean_module_capsules -type f -name '*.json' '!' -name index.json '!' -name capsule_set.seal.json -print0
++ sort -z
++ IFS=
++ read -r -d '' j
++ grep -q '"module":' .tau_ledger/lean_module_capsules/src_Spectral_Core.json
+++ grep -m1 '"module":' .tau_ledger/lean_module_capsules/src_Spectral_Core.json
+++ sed -E 's/.*"module":"([^"]+)".*/\1/'
++ mod=src.Spectral.Core
+++ grep -m1 '"build_ok":' .tau_ledger/lean_module_capsules/src_Spectral_Core.json
+++ sed -E 's/.*"build_ok":([0-9]+).*/\1/'
++ ok=0
+++ grep -m1 '"build_time_ms":' .tau_ledger/lean_module_capsules/src_Spectral_Core.json
+++ sed -E 's/.*"build_time_ms":([0-9]+).*/\1/'
++ ms=1036
+++ grep -m1 '"src_bytes":' .tau_ledger/lean_module_capsules/src_Spectral_Core.json
+++ sed -E 's/.*"src_bytes":([0-9]+).*/\1/'
++ sb=1869
+++ grep -m1 '"olean_bytes":' .tau_ledger/lean_module_capsules/src_Spectral_Core.json
+++ sed -E 's/.*"olean_bytes":([0-9]+).*/\1/'
++ ob=0
+++ grep -m1 '"run_utc":' .tau_ledger/lean_module_capsules/src_Spectral_Core.json
+++ sed -E 's/.*"run_utc":"([^"]+)".*/\1/'
++ ts=2025-09-28T00:55:18Z
++ badge=OK
++ '[' 0 = 1 ']'
++ badge=FAIL
++ printf '%s\n' '<tr><td>src.Spectral.Core</td><td>FAIL</td><td>1036</td><td>1869</td><td>0</td><td>2025-09-28T00:55:18Z</td></tr>'
++ IFS=
++ read -r -d '' j
++ grep -q '"module":' .tau_ledger/lean_module_capsules/src_Spectral_face_plumbing.json
+++ grep -m1 '"module":' .tau_ledger/lean_module_capsules/src_Spectral_face_plumbing.json
+++ sed -E 's/.*"module":"([^"]+)".*/\1/'
++ mod=src.Spectral.face_plumbing
+++ grep -m1 '"build_ok":' .tau_ledger/lean_module_capsules/src_Spectral_face_plumbing.json
+++ sed -E 's/.*"build_ok":([0-9]+).*/\1/'
++ ok=0
+++ grep -m1 '"build_time_ms":' .tau_ledger/lean_module_capsules/src_Spectral_face_plumbing.json
+++ sed -E 's/.*"build_time_ms":([0-9]+).*/\1/'
++ ms=1065
+++ grep -m1 '"src_bytes":' .tau_ledger/lean_module_capsules/src_Spectral_face_plumbing.json
+++ sed -E 's/.*"src_bytes":([0-9]+).*/\1/'
++ sb=248
+++ grep -m1 '"olean_bytes":' .tau_ledger/lean_module_capsules/src_Spectral_face_plumbing.json
+++ sed -E 's/.*"olean_bytes":([0-9]+).*/\1/'
++ ob=0
+++ grep -m1 '"run_utc":' .tau_ledger/lean_module_capsules/src_Spectral_face_plumbing.json
+++ sed -E 's/.*"run_utc":"([^"]+)".*/\1/'
++ ts=2025-09-28T00:55:22Z
++ badge=OK
++ '[' 0 = 1 ']'
++ badge=FAIL
++ printf '%s\n' '<tr><td>src.Spectral.face_plumbing</td><td>FAIL</td><td>1065</td><td>248</td><td>0</td><td>2025-09-28T00:55:22Z</td></tr>'
++ IFS=
++ read -r -d '' j
++ grep -q '"module":' .tau_ledger/lean_module_capsules/src_Spectral_plumbing.json
+++ grep -m1 '"module":' .tau_ledger/lean_module_capsules/src_Spectral_plumbing.json
+++ sed -E 's/.*"module":"([^"]+)".*/\1/'
++ mod=src.Spectral.plumbing
+++ grep -m1 '"build_ok":' .tau_ledger/lean_module_capsules/src_Spectral_plumbing.json
+++ sed -E 's/.*"build_ok":([0-9]+).*/\1/'
++ ok=0
+++ grep -m1 '"build_time_ms":' .tau_ledger/lean_module_capsules/src_Spectral_plumbing.json
+++ sed -E 's/.*"build_time_ms":([0-9]+).*/\1/'
++ ms=1062
+++ grep -m1 '"src_bytes":' .tau_ledger/lean_module_capsules/src_Spectral_plumbing.json
+++ sed -E 's/.*"src_bytes":([0-9]+).*/\1/'
++ sb=372
+++ grep -m1 '"olean_bytes":' .tau_ledger/lean_module_capsules/src_Spectral_plumbing.json
+++ sed -E 's/.*"olean_bytes":([0-9]+).*/\1/'
++ ob=0
+++ grep -m1 '"run_utc":' .tau_ledger/lean_module_capsules/src_Spectral_plumbing.json
+++ sed -E 's/.*"run_utc":"([^"]+)".*/\1/'
++ ts=2025-09-28T00:55:24Z
++ badge=OK
++ '[' 0 = 1 ']'
++ badge=FAIL
++ printf '%s\n' '<tr><td>src.Spectral.plumbing</td><td>FAIL</td><td>1062</td><td>372</td><td>0</td><td>2025-09-28T00:55:24Z</td></tr>'
++ IFS=
++ read -r -d '' j
++ printf '%s\n' '</table>'
++ cd /c/Users/Cody/Desktop/tau_crystal/tau_crystal
++ set -euo pipefail
++ set +H
++ umask 022
++ export LC_ALL=C LANG=C
++ LC_ALL=C
++ LANG=C
++ IDX=.tau_ledger/lean_module_capsules/index.json
++ '[' -s .tau_ledger/lean_module_capsules/index.json ']'
++ grep -q '"build_ok":0' .tau_ledger/lean_module_capsules/index.json
++ echo '[gate] FAIL: some modules failed cold capsule test'
+[gate] FAIL: some modules failed cold capsule test
++ exit 66

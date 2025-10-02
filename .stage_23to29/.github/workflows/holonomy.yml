@@ -1,0 +1,20 @@
+name: holonomy
+on:
+  push:
+  pull_request:
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run holonomy gate
+        shell: bash
+        run: |
+          set -euo pipefail; set +H; umask 022
+          bash scripts/gates/holonomy_align_test.sh
+      - name: Upload holonomy logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: holonomy-ledger
+          path: .tau_ledger/holonomy/

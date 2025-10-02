@@ -1,0 +1,37 @@
+name: tau-plumbing
+on:
+  push:
+    branches: [ "**" ]
+  workflow_dispatch: {}
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Show tree
+        run: |
+          set -eux
+          ls -la
+          git status
+      - name: Run plumbing demo
+        shell: bash
+        run: |
+          set -euxo pipefail
+          bash scripts/plumbing/box_build.sh box-CI-D23 -23 1
+          bash scripts/plumbing/hysteresis_loop.sh box-CI-D23 96 1.0 0.07 0.0 0
+          for p in 3 5 23; do bash scripts/plumbing/hysteresis_prime.sh box-CI-D23 "$p" 96 0.02 0.0 0; done
+          bash scripts/plumbing/theta_lift.sh box-CI-D23 box-CI-D23 1
+          bash scripts/plumbing/framing_phase.sh box-CI-D23 1
+          bash scripts/plumbing/verify_hysteresis.sh box-CI-D23
+          bash scripts/plumbing/receipt_emit.sh box-CI-D23 cm-sector
+      - name: Print receipts
+        run: |
+          set -eux
+          ls -la .tau_ledger/hysteresis/box-CI-D23
+          sed -n "1,120p" .tau_ledger/hysteresis/box-CI-D23/hysteresis.json
+          sed -n "1,80p"  .tau_ledger/hysteresis/box-CI-D23/cm-sector_receipt.json

@@ -1,0 +1,76 @@
++ set -euo pipefail
++ set +H
++ umask 022
++ export LC_ALL=C LANG=C
++ LC_ALL=C
++ LANG=C
+++ date -u +%Y%m%d
++ TODAY_UTC=20250926
+++ date -u +%Y%m%dT%H%M%SZ
++ NOW_UTC=20250926T220314Z
++ LOG=.tau_ledger/daily/20250926.log
++ TMP=.cache/daily_20250926_1279.tmp
++ rm -f .cache/daily_20250926_2426.tmp
++ :
++ printf '%s\n' '==== TAU-CRYSTAL DAILY LOG ===='
++ printf '%s\n' 'date_utc: 20250926T220314Z'
+++ pwd
++ printf '%s\n' 'repo: /c/Users/Cody/Desktop/tau_crystal/tau_crystal'
++ printf '%s\n' ''
++ export GIT_PAGER=cat
++ GIT_PAGER=cat
++ export GIT_OPTIONAL_LOCKS=0
++ GIT_OPTIONAL_LOCKS=0
++ printf '%s\n' '== git/identity (hardened) =='
++ timeout 3s git rev-parse --is-inside-work-tree
+++ timeout 2s git rev-parse --abbrev-ref HEAD
++ BRANCH=work-20250926
+++ timeout 2s git rev-parse HEAD
++ HEADREF=4fd5890e3fa301fd467edb0d70b08017cdf890a6
++ printf '%s\n' 'branch: work-20250926'
++ printf '%s\n' 'head:   4fd5890e3fa301fd467edb0d70b08017cdf890a6'
++ printf '%s\n' 'remote(s):'
++ timeout 2s git remote -v
++ sed 's/^/  /'
++ rm -f /tmp/.rem_1279
++ printf '%s\n' ''
++ printf '%s\n' '== git/status (hardened) =='
++ timeout 3s git rev-parse --is-inside-work-tree
++ timeout 5s git -c status.submoduleSummary=false status --porcelain=v1 -z -uno
++ tr '\0' '\n'
++ printf '%s\n' ''
++ printf '%s\n' '== git/diff --cached (summary) =='
++ git diff --cached --stat
++ printf '%s\n' ''
++ printf '%s\n' '== git/diff --cached (patch) =='
++ git diff --cached
++ printf '%s\n' ''
++ printf '%s\n' '== git/diff (summary) =='
++ git diff --stat
++ printf '%s\n' ''
++ printf '%s\n' '== git/diff (patch) =='
++ git diff
++ printf '%s\n' ''
++ printf '%s\n' '== git/log since 00:00Z =='
+++ date -u +%Y-%m-%d
++ git log '--since=2025-09-26 00:00' '--pretty=format:%H %ad %an %s' --date=iso-strict
++ printf '%s\n' ''
++ printf '%s\n' '== git/log --name-status since 00:00Z =='
+++ date -u +%Y-%m-%d
++ git log '--since=2025-09-26 00:00' --name-status --pretty=tformat:
++ printf '%s\n' ''
++ printf '%s\n' '== fs/mtime touched today (UTC) =='
+++ date -u +%Y-%m-%d
++ MIDNIGHT_UTC=2025-09-26T00:00:00Z
++ timeout 3s bash -lc 'find . -type f -not -path "./.git/*" -newermt "$(date -u +%Y-%m-%d) 00:00" -printf "%TY-%Tm-%TdT%TH:%TM:%TSZ %p\n" >/dev/null 2>&1'
++ command -v powershell.exe
++ powershell.exe -NoLogo -NoProfile -Command '
+        $mid=[DateTime]::Parse('\''2025-09-26T00:00:00Z'\'',[Globalization.CultureInfo]::InvariantCulture,[System.Globalization.DateTimeStyles]::AdjustToUniversal);
+        Get-ChildItem -Recurse -File -Force |
+          Where-Object { $_.FullName -notmatch '\''\.git(\|/)'\'' -and $_.LastWriteTimeUtc -ge $mid } |
+          ForEach-Object { '\''{0:yyyy-MM-ddTHH:mm:ssZ} {1}'\'' -f $_.LastWriteTimeUtc, (Resolve-Path -LiteralPath $_.FullName).Path } |
+          Sort-Object
+      '
++ sed 's#\r$##'
++ printf '%s\n' ''
+scripts/ops/daily_log.sh: line 119: unexpected EOF while looking for matching ``'

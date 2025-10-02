@@ -1,0 +1,34 @@
+name: Capsules CI
+
+on:
+  push:
+    branches: [ ci-spine-clean-* ]
+  pull_request:
+
+jobs:
+  capsules:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cap: [affine_rg, modular, specnet, chamber, padic, sset, anomaly]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Normalize line endings & perms
+        shell: bash
+        run: |
+          find scripts -type f -name '*.sh' -print0 | xargs -0 -I{} bash -c "tr -d '\r' < '{}' > '{}.lf' && mv '{}.lf' '{}'"
+          chmod +x scripts/ci/*.sh || true
+      - name: Show versions
+        run: |
+          bash --version || true
+          python -V
+      - name: Run ${{ matrix.cap }} checker
+      - name: Prepare seeds
+        run: |
+          bash scripts/ci/prepare_seeds.sh "${{ matrix.cap }}"
+        run: |
+          bash -x scripts/ci/check_${{ matrix.cap }}.sh

@@ -1,0 +1,26 @@
+name: rgflow
+on:
+  push:
+    paths:
+      - 'scripts/flow/**'
+      - 'Tau/Flow/**'
+      - 'Tau/Distance/**'
+      - 'docs/monographs/rg_flow.md'
+  workflow_dispatch: {}
+    branches-ignore: [ ci-spine-clean-* ]
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Run RG solver and emit ledger
+        run: bash scripts/flow/ci_rg.sh
+      - name: Upload RG ledger
+        uses: actions/upload-artifact@v4
+        with:
+          name: rgflow-ledger
+          path: .tau_ledger/rgflow

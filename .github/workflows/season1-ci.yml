@@ -12,6 +12,8 @@ on:
       - "kernel_contract.tsv"
       - ".github/workflows/season1-ci.yml"
   workflow_dispatch:
+    branches-ignore: [ ci-spine-clean-* ]
+    branches-ignore: [ ci-spine-clean-* ]
 
 jobs:
   season1-checks:

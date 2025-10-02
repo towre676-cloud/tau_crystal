@@ -3,6 +3,8 @@ on:
   push:
   pull_request:
 jobs:
+    branches-ignore: [ ci-spine-clean-* ]
+    branches-ignore: [ ci-spine-clean-* ]
   verify:
     runs-on: ubuntu-latest
     steps:

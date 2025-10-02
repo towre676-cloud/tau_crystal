@@ -1,0 +1,1 @@
+[{"module":"src.Spectral.Core","imports":["Spectral.Kernel.Minimal","Spectral.Kernel.Minimal","Mathlib.CategoryTheory.Site.Sheaf"]},{"module":"src.Spectral.face_plumbing","imports":["Spectral.Core"]},{"module":"src.Spectral.plumbing","imports":["Spectral.Core"]},{"module":"src.TauCrystal.TauSheaf","imports":["Mathlib.CategoryTheory.Site.Sheaf","Mathlib.CategoryTheory.Oppoite"]}]

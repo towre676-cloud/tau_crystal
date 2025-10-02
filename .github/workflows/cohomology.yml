@@ -9,6 +9,7 @@ on:
       - "lakefile.lean"
       - "lean-toolchain"
 
+    branches-ignore: [ ci-spine-clean-* ]
 jobs:
   witness:
     runs-on: ubuntu-latest

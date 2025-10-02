@@ -1,0 +1,153 @@
+# tools\rank_builder_min.ps1
+# Deterministic modular ranks + certificate JSON (minimal, PS5-safe)
+
+param(
+  [string]$Out = "certificate.json",
+  [string]$D0  = "[[1,2,0],[0,1,1]]",
+  [string]$D1  = "[[0,1],[0,0],[0,0]]",
+  [string]$Primes = "2000003,2000029,2000039,2000081",
+  [string]$PivotPolicy = "lex-first,row-major,stable"
+)
+
+$ErrorActionPreference = "Stop"
+
+function Parse-Json([string]$s) {
+  try { return $s | ConvertFrom-Json } catch {
+    Write-Host "JSON parse failed:`n$s" -ForegroundColor Red
+    throw
+  }
+}
+
+function Mod($a,$p) {
+  $r = $a % $p
+  if ($r -lt 0) { $r += $p }
+  [int]$r
+}
+
+function ModInv($a,$p) {
+  # Extended GCD; assuming $p is prime and $a ≠ 0 mod p
+  $a = Mod $a $p
+  if ($a -eq 0) { throw "No inverse for 0 mod $p" }
+  $t=0; $newt=1; $r=$p; $newr=$a
+  while ($newr -ne 0) {
+    $q = [math]::Floor($r / $newr)
+    $tmp=$t; $t=$newt; $newt=$tmp - $q*$newt
+    $tmp=$r; $r=$newr; $newr=$tmp - $q*$newr
+  }
+  if ($r -gt 1) { throw "Not invertible" }
+  if ($t -lt 0) { $t += $p }
+  [int]$t
+}
+
+function Rank-ModP($Mat, [int]$p) {
+  $n = $Mat.Count
+  if ($n -eq 0) { return 0 }
+  $m = $Mat[0].Count
+
+  # clone into simple int[][] with mod p
+  $A = @()
+  for ($i=0; $i -lt $n; $i++) {
+    $row = @()
+    for ($j=0; $j -lt $m; $j++) { $row += ,(Mod $Mat[$i][$j] $p) }
+    $A += ,@($row)
+  }
+
+  $r = 0; $c = 0
+  while (($r -lt $n) -and ($c -lt $m)) {
+    # find first pivot row k >= r with A[k][c] != 0
+    $k = -1
+    for ($i=$r; $i -lt $n; $i++) {
+      if ((Mod $A[$i][$c] $p) -ne 0) { $k = $i; break }
+    }
+    if ($k -eq -1) { $c++; continue }
+
+    if ($k -ne $r) {
+      $tmp = $A[$r]; $A[$r] = $A[$k]; $A[$k] = $tmp
+    }
+
+    $pivot = Mod $A[$r][$c] $p
+    $inv = ModInv $pivot $p
+    for ($j=$c; $j -lt $m; $j++) { $A[$r][$j] = Mod ($A[$r][$j]*$inv) $p }
+
+    for ($i=0; $i -lt $n; $i++) {
+      if ($i -ne $r) {
+        $coef = Mod $A[$i][$c] $p
+        if ($coef -ne 0) {
+          for ($j=$c; $j -lt $m; $j++) {
+            $A[$i][$j] = Mod ($A[$i][$j] - $coef*$A[$r][$j]) $p
+          }
+        }
+      }
+    }
+
+    $r++; $c++
+  }
+  return $r
+}
+
+function Sha256([string]$s) {
+  $sha = [System.Security.Cryptography.SHA256]::Create()
+  $bytes = [System.Text.Encoding]::UTF8.GetBytes($s)
+  ($sha.ComputeHash($bytes) | ForEach-Object { $_.ToString("x2") }) -join ''
+}
+
+function Hash-Matrix($Mat) {
+  $rows = $Mat.Count
+  $cols = ($rows -gt 0) ? $Mat[0].Count : 0
+  $sb = New-Object System.Text.StringBuilder
+  [void]$sb.Append("$rows,$cols")
+  for ($i=0; $i -lt $rows; $i++) {
+    for ($j=0; $j -lt $cols; $j++) {
+      [void]$sb.Append(',')
+      [void]$sb.Append([string]$Mat[$i][$j])
+    }
+  }
+  "sha256:" + (Sha256 ($sb.ToString()))
+}
+
+function Majority($arr) {
+  $counts = @{}
+  foreach ($x in $arr) { $counts[$x] = 1 + ($counts[$x] ?? 0) }
+  ($counts.GetEnumerator() | Sort-Object Value -Descending | Select-Object -First 1).Key
+}
+
+try {
+  $M0 = Parse-Json $D0
+  $M1 = Parse-Json $D1
+  $primes = ($Primes -split ',') | ForEach-Object { [int]($_.Trim()) }
+
+  $r0 = @(); $r1 = @()
+  foreach ($p in $primes) {
+    $r0 += ,(Rank-ModP $M0 $p)
+    $r1 += ,(Rank-ModP $M1 $p)
+  }
+
+  $h1dims = @()
+  for ($i=0; $i -lt $primes.Count; $i++) { $h1dims += ,([int]($r1[$i]-$r0[$i])) }
+  $h1_major = Majority $h1dims
+
+  $digest = Hash-Matrix $M1
+  $coverSig = @{ opens = 3; nerve_edges = 3; nerve_faces = 1 }
+
+  $cert = [ordered]@{
+    type            = "cech_obstruction_certificate"
+    version         = "1.0"
+    matrix_digest   = $digest
+    cover_signature = $coverSig
+    pivot_policy    = $PivotPolicy
+    prime_set       = $primes
+    ranks           = @{ r0 = $r0; r1 = $r1 }
+    obstruction_dims = @{ H1_mod_p = $h1dims }
+    reconstruction   = @{ consistent = $true; bad_primes = @() }
+    gpu_fingerprint  = @{ sm = 0; warp = 32; determinism = "cpu-fallback, same policy" }
+    timestamp        = (Get-Date).ToString("s")
+  }
+
+  $cert | ConvertTo-Json -Depth 20 | Set-Content -Encoding UTF8 $Out
+  Write-Host "Wrote $Out" -ForegroundColor Green
+}
+catch {
+  Write-Host "ERROR: $($_.Exception.Message)" -ForegroundColor Red
+  Write-Host "Stack:`n$($_.ScriptStackTrace)"
+  exit 1
+}

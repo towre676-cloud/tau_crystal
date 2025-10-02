@@ -1,0 +1,8 @@
+{
+  "version": "v1.1.0",
+  "capsules": [
+    {"capsule_name":"Z_runtime_capsule_v1","entrypoint":"src/Z/ZRuntime.lean"},
+    {"capsule_name":"entropy_capsule_v1","entrypoint":".tau_ledger/atlas/atlas.json"},
+    {"capsule_name":"cohomology_capsule_v1","entrypoint":".tau_ledger/drift/drift.json"}
+  ]
+}
