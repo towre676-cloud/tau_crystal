@@ -1,0 +1,12 @@
++ set -euo pipefail
++ set +H
++ umask 022
++ export LC_ALL=C LANG=C
++ LC_ALL=C
++ LANG=C
++ PYBIN=python
++ command -v python
++ command -v python
++ python scripts/ci/py/check_affine_rg.py
+[ok] affine_rg: scalar-reparam invariant check passed; normalized digests equal
++ python scripts/receipt/verify_receipt_digest.py

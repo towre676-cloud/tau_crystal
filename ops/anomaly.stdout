@@ -1,0 +1,19 @@
++ set -euo pipefail
++ set +H
++ umask 022
++ export LC_ALL=C LANG=C
++ LC_ALL=C
++ LANG=C
+++ dirname scripts/ci/check_anomaly.sh
++ exec scripts/ci/check_anomaly_glue.sh
+[ci] anomaly glue check — start
+[ci] bind analysis/anomaly/anomaly_M1_canon.json
+.tau_ledger\anomaly_M1_canon_20251002T005006Z.receipt.json
+[ci] bind analysis/anomaly/anomaly_M2_canon.json
+.tau_ledger\anomaly_M2_canon_20251002T005006Z.receipt.json
+[ci] bind analysis/anomaly/anomaly_glued_canon.json
+.tau_ledger\anomaly_glued_canon_20251002T005006Z.receipt.json
+[ci] bind analysis/anomaly/anomaly_glued_bad_canon.json
+.tau_ledger\anomaly_glued_bad_canon_20251002T005006Z.receipt.json
+[glue-ok] 2 2 True
+[glue-bad] 2 6 True

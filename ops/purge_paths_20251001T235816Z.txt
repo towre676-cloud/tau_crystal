@@ -1,0 +1,4 @@
+.py311_site/
+.tau_ledger/**/*.tar.gz
+.tau_ledger/**/witness-*.tar.gz
+*.dll

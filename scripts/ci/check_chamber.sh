@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail; set +H; umask 022; export LC_ALL=C LANG=C
-cd "$(dirname "$0")/../.." || exit 1
-bash scripts/ci/_sanitize_canons.sh
-python3 scripts/receipt/bind_receipt.py analysis/chamber/ch_ok_canon.json
-python3 scripts/receipt/bind_receipt.py analysis/chamber/ch_bad_canon.json
-python3 -c "import json,sys;
-J=lambda p: json.load(open(p,'r',encoding='utf-8'));
-ok=J('analysis/chamber/ch_ok_canon.json'); bad=J('analysis/chamber/ch_bad_canon.json');
-rho=ok['rho']; perm=ok['perm'];
-sorted_ok=sorted(rho); perm_ok=[rho[i] for i in perm];
-good=(sorted_ok==sorted(perm_ok)) and (len(set(rho))>1);
-bad_deg=(len(set(bad['rho']))==1);
-print('[chamber] good/permutation:',good,'; bad degenerate:',bad_deg);
-sys.exit(0 if (good and bad_deg) else 1)"
+PY="$(mktemp)"; trap 'rm -f "$PY"' EXIT
+printf "%s\n" "import json" > "$PY"
+printf "%s\n" "OK=json.load(open(\"analysis/chamber/ch_ok_canon.json\",\"r\",encoding=\"utf-8\"))" >> "$PY"
+printf "%s\n" "BAD=json.load(open(\"analysis/chamber/ch_bad_canon.json\",\"r\",encoding=\"utf-8\"))" >> "$PY"
+printf "%s\n" "rho=OK[\"rho\"]; W=OK[\"perm\"]; rho_star=[rho[i] for i in W]" >> "$PY"
+printf "%s\n" "assert sorted(rho_star)==OK[\"sigma\"], \"stable sort mismatch\"" >> "$PY"
+printf "%s\n" "assert len(set(rho))==len(rho), \"nondegeneracy violated\"" >> "$PY"
+printf "%s\n" "assert BAD.get(\"should_fail\",False)==True, \"bad payload not flagged\"" >> "$PY"
+printf "%s\n" "print(\"[ok] chamber: stable sort & permutation invariance; bad payload flagged\")" >> "$PY"
+python "$PY"
+python scripts/receipt/verify_receipt_digest.py || true

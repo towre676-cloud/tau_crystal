@@ -1,0 +1,8 @@
+affine_rg  rc=0  ok
+modular  rc=0  ok
+specnet  rc=0  ok
+chamber  rc=0  ok
+padic  rc=0  ok
+sset  rc=0  ok
+anomaly  rc=0  ok
+verify_receipt_digest rc=0

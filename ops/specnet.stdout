@@ -1,0 +1,19 @@
++ set -euo pipefail
++ set +H
++ umask 022
++ export LC_ALL=C LANG=C
++ LC_ALL=C
++ LANG=C
+++ mktemp
++ PY=/tmp/tmp.Nq6zgAEFgK
++ trap 'rm -f "$PY"' EXIT
++ printf '%s\n' 'import json,collections'
++ printf '%s\n' 'pre=json.load(open("analysis/specnet/sn_pre_canon.json","r",encoding="utf-8"))'
++ printf '%s\n' 'post=json.load(open("analysis/specnet/sn_post_canon.json","r",encoding="utf-8"))'
++ printf '%s\n' 'F=lambda D: collections.Counter(D["factors"]) # symbolic multiset of KS factors'
++ printf '%s\n' 'assert F(pre)==F(post), "KS product changed under wall permutation"'
++ printf '%s\n' 'print("[ok] KS product invariant under wall step (symbolic multiset check)")'
++ python /tmp/tmp.Nq6zgAEFgK
+[ok] KS product invariant under wall step (symbolic multiset check)
++ python scripts/receipt/verify_receipt_digest.py
++ rm -f /tmp/tmp.Nq6zgAEFgK
