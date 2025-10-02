@@ -1,0 +1,24 @@
+{
+  "id": "heo.def.spectral_matrix",
+  "type": "Definition",
+  "title": "Spectral diagnostic: covariance kernel over k-space",
+  "tier": 5,
+  "statement_md": "Define a covariance-like kernel $\\Sigma_{k,k'} = \\mathbf{H}(1-\\mathbf{H})\\, e^{-|k-k'|/\\xi}$ on the $k$-index set and study its spectrum. The leading eigenvalue/mode summarize cross-k correlations.",
+  "assumptions_md": "Periodic fixture for empirical $\\mathbf{H}$; exponential kernel chosen to ensure PSD and finite correlation length $\\xi$.",
+  "proof_status": "Definition",
+  "verification": {
+    "mode": "Optional",
+    "tests": [
+      {
+        "name": "spectral_matrix_periodic_fixture",
+        "script": "ci/heo/research/spectral_matrix.py",
+        "args": ["--sequence", "ci/data/sequences/periodic_7_0010010.json", "--k-min", "-6", "--k-max", "6", "--xi", "2.0", "--top", "5"],
+        "expect": { "status": "pass" }
+      }
+    ]
+  },
+  "provenance": {
+    "spec_file": "docs/specs/heo_universal_structure.md",
+    "box_anchor": "TIER 5 — Statistical Mechanics"
+  }
+}
