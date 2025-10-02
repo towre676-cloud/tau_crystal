@@ -1,0 +1,24 @@
+{
+  "id": "heo.conj.bsd_link",
+  "type": "Conjecture",
+  "title": "BSD-style link: L(E,1) nonvanishing predicts vanishing HEO",
+  "tier": 9,
+  "statement_md": "For cubic sequences \\(S(n)=n^3 + a n + b\\) and elliptic curve \\(E: y^2 = x^3 + a x + b\\), the nonvanishing of \\(L(E,1)\\) predicts \\(\\mathbf{H}_2^{S}(k)=0\\) for fixed \\(k\\).",
+  "assumptions_md": "Interprets \\(S\\) as arithmetic data of \\(E\\); Euler products truncated; empirical HEO over finite prefixes.",
+  "proof_status": "Conjectural",
+  "verification": {
+    "mode": "Optional",
+    "tests": [
+      {
+        "name": "bsd_probe_runs",
+        "script": "ci/heo/research/bsd_lfunction_test.py",
+        "args": [],
+        "expect": { "status": "pass" }
+      }
+    ]
+  },
+  "provenance": {
+    "spec_file": "docs/specs/heo_universal_structure.md",
+    "box_anchor": "Tier 6–7 (Motivic/Hodge) — conditional lanes"
+  }
+}
