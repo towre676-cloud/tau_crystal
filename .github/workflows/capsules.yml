@@ -27,5 +27,8 @@ jobs:
           bash --version || true
           python -V
       - name: Run ${{ matrix.cap }} checker
+      - name: Prepare seeds
+        run: |
+          bash scripts/ci/prepare_seeds.sh "${{ matrix.cap }}"
         run: |
           bash -x scripts/ci/check_${{ matrix.cap }}.sh
