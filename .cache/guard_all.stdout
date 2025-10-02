@@ -1,0 +1,6 @@
+[WARN] missing step scripts/meta/thresholds_verify.sh
+[OK] Entropy within Heegner bound: 0.000000
+[OK] No unauthorized +X mappings
+[FAIL] Barcode regression exceeds bottleneck threshold: 0.020000
+[TRIP] scripts/ci/check_barcode_regression.sh exit=66
+[GUARD] verdict=FAIL rc=1 failures=scripts/ci/check_barcode_regression.sh:66

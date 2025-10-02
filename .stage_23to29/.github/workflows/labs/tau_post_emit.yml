@@ -1,0 +1,28 @@
+name: tau-post-emit
+on:
+  workflow_run:
+    workflows: ["assure","Assumption Census + Conformance (Warn-Only)","Boundary and Rationale Checks (Warn-Only)","codeql","Receipt Verification","tau-crystal","Lake Receipts","Lean Proofs","lean-ci","receipt","τ‑Crystal Docs Verification","tau-receipt","tau-trace (Jupyter receipts)","tau-adapter-smoke","tau-seal","tau_bundled","tau_test","lean","lean-remote-cache","Lake Receipts","repo-guard","smart-ci","smoke","spec-guard","three-streams","τ-Crystal Verify (Consumer)"]
+    types: [completed]
+jobs:
+  emit:
+    if: ${{ github.event.workflow_run.conclusion == success }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Emit H1 and spectral pages
+        run: |
+          set -Eeuo pipefail
+          set +H
+          umask 022
+          bash scripts/cohomology/h1_receipt_cech.sh || true
+          bash scripts/spectral/sseq_build.sh || true
+      - name: Upload tau artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-epistemic-artifacts
+          path: |
+            .tau_ledger/metrics/h1_cech.json
+            .tau_ledger/sseq/E_pages.svg

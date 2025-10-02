@@ -1,0 +1,23 @@
+name: spectral-kernel
+on: { push: { branches: ["**"] }, workflow_dispatch: {} }
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.x" }
+      - name: Install Lean
+        run: |
+          set -eux
+          curl -L https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+      - name: Build & emit
+        run: |
+          set -eux
+          lake update
+          lake build
+          lake env lean --run Src/Spectral/plumbing.lean > trace.json
+          python3 - <<PY
+import json; d=json.load(open("trace.json")); print("NODES=",len(d.get("nodes",[])), "EDGES=",len(d.get("edges",[])))
+PY

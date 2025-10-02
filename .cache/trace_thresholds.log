@@ -1,0 +1,11 @@
++ cd /c/Users/Cody/Desktop/tau_crystal/tau_crystal
++ set -euo pipefail
++ set +H
++ umask 022
++ T=.tau_ledger/stability/thresholds.json
++ S=.tau_ledger/stability/thresholds.seal.json
++ '[' -s .tau_ledger/stability/thresholds.json ']'
++ '[' -s .tau_ledger/stability/thresholds.seal.json ']'
+++ sha256sum .tau_ledger/stability/thresholds.json
+scripts/meta/thresholds_verify.sh: line 5: $1: unbound variable
++ H=

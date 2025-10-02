@@ -1,0 +1,11 @@
+^analysis/morpho/decrypted/
+^analysis/morpho/input/
+^analysis/morpho/output/
+^analysis/morpho/index/
+^analysis/ls3dw_runs/
+^.secrets/
+^.tau_ledger/discovery/witness-.*\.tar\.gz$
+^analysis/tmp/
+^_cache/
+^.lake/
+^.garden/

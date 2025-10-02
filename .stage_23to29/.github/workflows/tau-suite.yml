@@ -1,0 +1,55 @@
+name: tau-suite
+on:
+  push:
+    paths:
+      - "tcrystal"
+      - ".tau_ledger/**"
+      - "scripts/**"
+      - ".github/workflows/_tau-core.yml"
+      - ".github/workflows/tau-suite.yml"
+  pull_request:
+jobs:
+  fanout:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: demo-echo
+            command: "echo 'ok from demo-echo'"
+          - label: demo-cheby
+            command: "python3 ci_demo.py"
+          - label: verify-last
+            command: "bash -lc 'test -f .tau_ledger/receipts/last.json || exit 3'"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Write tiny deterministic demo (used by demo-cheby)
+        run: |
+          : > ci_demo.py
+          printf '%s\n' 'import json, math, time' >> ci_demo.py
+          printf '%s\n' 'steps=64' >> ci_demo.py
+          printf '%s\n' 'data=[math.cos(steps*math.acos(-1+2*k/(steps-1))) for k in range(steps)]' >> ci_demo.py
+          printf '%s\n' 'tau=sum(x*x for x in data)/len(data)' >> ci_demo.py
+          printf '%s\n' 'print(json.dumps({"tau_pulse":round(tau,8),"timestamp_utc":time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}, indent=2))' >> ci_demo.py
+      - name: Call core
+        uses: ./.github/workflows/_tau-core.yml
+        with:
+          label: ${{ matrix.label }}
+          command: ${{ matrix.command }}
+
+  bundle:
+    needs: fanout
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all receipts
+        uses: actions/download-artifact@v4
+        with:
+          path: receipts_bundle
+      - name: Repack
+        run: |
+          tar -czf tau-receipts-${{ github.run_id }}.tar.gz -C receipts_bundle .
+      - name: Upload bundled receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-receipts-bundle-${{ github.run_id }}
+          path: tau-receipts-${{ github.run_id }}.tar.gz

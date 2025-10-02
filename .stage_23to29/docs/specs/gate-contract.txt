@@ -1,0 +1,2 @@
+GATE CONTRACT v1.0
+A gate script must exit nonzero on any violation, write a single-line PASS/FAIL summary, and depend only on committed files plus declared tools. The three keystone gates are: idempotent normalization, atlas-to-ledger equality, and proof graph render-and-parse.

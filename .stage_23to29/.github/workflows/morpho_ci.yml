@@ -1,0 +1,30 @@
+name: morpho-ci
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  morpho:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Show face outputs if present
+        run: |
+          set -euo pipefail
+          for f in analysis/morpho/output/FACE.txt analysis/morpho/output/face2.txt; do
+            [ -s "$f" ] && { echo "----- $f -----"; sed -n "1,999999p" "$f"; } || true
+          done
+          for f in analysis/morpho/public/FACE.txt analysis/morpho/public/face2.txt; do
+            [ -s "$f" ] && { echo "----- $f -----"; sed -n "1,999999p" "$f"; } || true
+          done
+      - name: Upload morpho-receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: morpho-receipts
+          retention-days: 365
+          path: |
+            analysis/morpho/output/FACE.txt
+            analysis/morpho/output/face2.txt
+            analysis/morpho/public/FACE.txt
+            analysis/morpho/public/face2.txt
+            analysis/morpho/public/coin_id.txt

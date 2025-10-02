@@ -1,0 +1,13 @@
+{
+  "timestamp_utc": "20250927T002145Z",
+  "prime_p": 7,
+  "base_b": 10,
+  "ord_d": 6,
+  "A_lcm": 6,
+  "divides": true,
+  "cover_index_Q": 1,
+  "euler_class": { "numer": 1, "denom": 1, "is_zero": false },
+  "chi_sign": 0,
+  "regime": "NIL",
+  "pairs": [{"a":2,"b":1} ]
+}

@@ -1,0 +1,13 @@
+name: arith-ci
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.x' }
+      - name: run metrics
+        run: |
+          python scripts/metrics/rigidity_energy.py 5 12
+          python scripts/metrics/qcro_trace.py 6 10

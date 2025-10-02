@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><title>τ‑Crystal — Attestation</title>
+<style>body{font:16px/1.5 system-ui;background:#0b0f1a;color:#e6edf3;margin:40px}
+a{color:#7aa2f7;text-decoration:none} .card{background:#111827;padding:16px;border-radius:12px;
+box-shadow:0 0 0 1px #1f2a44 inset;margin-bottom:16px}</style>
+<h1>τ‑Crystal</h1>
+<div class="card"><p>See <a href="../README.md">README</a>, <a href="manifest.md">manifest</a>,
+and <a href="../.tau_ledger/attestation.txt">attestation.txt</a>.</p>
+<p><img src="diagram-architecture.svg" alt="diagram" width="560"></p></div>
+<section style="margin-top:24px"><h2>Verify this release (cosign)</h2><pre><code>
+TAG=v0.1.0
+FILE=tau_crystal-$TAG.tgz
+DIGEST=sha256:<image-or-asset-digest>
+
+cosign verify-attestation --type cyclonedx \
+  --certificate-oidc-issuer 'https://token.actions.githubusercontent.com' \
+  --certificate-identity 'https://github.com/towre676-cloud/tau_crystal/.github/workflows/release.yml@refs/tags/$TAG' \
+  ghcr.io/towre676-cloud/tau_crystal@$DIGEST
+
+cosign verify-blob --certificate "$FILE.cert" --signature "$FILE.sig" "$FILE"
+</code></pre></section>

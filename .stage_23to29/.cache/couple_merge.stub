@@ -1,0 +1,54 @@
+import json,sys,math,os,importlib.util,pathlib
+rec, ai_raw, e_val, kin = sys.argv[1:5]
+# Make repository root importable *and* provide a hard fallback by path
+this = pathlib.Path(__file__).resolve()
+repo = this.parent.parent  # .cache -> repo root
+sys.path.insert(0, str(repo))
+def _fallback_load_phi_sigma():
+    p = repo / 'scripts' / 'metrics' / '_arith.py'
+    spec = importlib.util.spec_from_file_location('_arith_fallback', str(p))
+    mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+    return mod.phi, mod.sigma
+try:
+    from scripts.metrics._arith import phi, sigma  # normal path
+except Exception:
+    phi, sigma = _fallback_load_phi_sigma()
+ai = [int(x) for x in ai_raw.split(',')] if ai_raw.strip() else []
+n = 1
+for x in ai:
+    if x>0:
+        g = math.gcd(n,x); n = (n*x)//g if g>0 else n
+p = phi(n) if n>0 else 1
+s = sigma(n) if n>0 else 1
+omega = (p/s) if s>0 else 0.0
+try: e = float(e_val)
+except Exception: e = 0.0
+W = abs(e)
+try: kinv = float(kin)
+except Exception: kinv = 1.0
+tau = omega * kinv
+deltaE = 0.0
+if n>1:
+    for k in range(2,n+1):
+        pk = phi(k); sk = sigma(k)
+        deltaE += 0.0 if pk==0 else (sk/pk - 1.0)*W
+m = max(ai) if ai else max(1, n-1)
+if n>0 and m>0:
+    g = math.gcd(n,m); L = (n*m)//g if g>0 else 0
+    phg = phi(g) if g>0 else 0; sgg = sigma(g) if g>0 else 0
+    gamma = 0.0 if (L==0 or phg==0) else (g/L)*(sgg/phg)
+else:
+    gamma = 0.0
+try:
+    R = json.load(open(rec,'r',encoding='utf-8'))
+except Exception:
+    R = {}
+R.setdefault('seifert',{})['a_i'] = ai
+R['seifert']['e'] = e
+R.setdefault('diagnostics',{})['omega_n'] = omega
+R['diagnostics']['tau_pulse'] = tau
+R['diagnostics']['deltaE'] = deltaE
+R['diagnostics']['gamma_peak'] = max(R['diagnostics'].get('gamma_peak',0.0), gamma)
+R['diagnostics']['R_frobenius'] = R['diagnostics'].get('R_frobenius', 0.0)
+json.dump(R,open(rec,'w',encoding='utf-8'),ensure_ascii=False,indent=2)
+print('[ok] seifert coupling merged:', json.dumps({'n':n,'W':W,'tau':tau,'deltaE':deltaE,'gamma':gamma}))

@@ -1,0 +1,15 @@
+Src/Spectral/face_plumbing.lean:1:0: error: unknown module prefix 'Spectral'
+
+No directory 'Spectral' or file 'Spectral.olean' in the search path entries:
+C:\Users\Cody\Desktop\tau_crystal\tau_crystal\spectral_kernel\.lake\packages\Cli\.lake\build\lib\lean
+C:\Users\Cody\Desktop\tau_crystal\tau_crystal\spectral_kernel\.lake\packages\batteries\.lake\build\lib\lean
+C:\Users\Cody\Desktop\tau_crystal\tau_crystal\spectral_kernel\.lake\packages\Qq\.lake\build\lib\lean
+C:\Users\Cody\Desktop\tau_crystal\tau_crystal\spectral_kernel\.lake\packages\aesop\.lake\build\lib\lean
+C:\Users\Cody\Desktop\tau_crystal\tau_crystal\spectral_kernel\.lake\packages\proofwidgets\.lake\build\lib\lean
+C:\Users\Cody\Desktop\tau_crystal\tau_crystal\spectral_kernel\.lake\packages\importGraph\.lake\build\lib\lean
+C:\Users\Cody\Desktop\tau_crystal\tau_crystal\spectral_kernel\.lake\packages\LeanSearchClient\.lake\build\lib\lean
+C:\Users\Cody\Desktop\tau_crystal\tau_crystal\spectral_kernel\.lake\packages\plausible\.lake\build\lib\lean
+C:\Users\Cody\Desktop\tau_crystal\tau_crystal\spectral_kernel\.lake\packages\mathlib\.lake\build\lib\lean
+C:\Users\Cody\Desktop\tau_crystal\tau_crystal\spectral_kernel\.lake\build\lib\lean
+c:\Users\Cody\.elan\toolchains\leanprover--lean4---v4.24.0-rc1\lib\lean
+c:\Users\Cody\.elan\toolchains\leanprover--lean4---v4.24.0-rc1\lib\lean

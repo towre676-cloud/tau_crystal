@@ -1,0 +1,208 @@
+[run] scripts/meta/scaffold_tau_sheaf.sh
+bash: scripts/meta/scaffold_tau_sheaf.sh: No such file or directory
+[rc=127] scripts/meta/scaffold_tau_sheaf.sh
+[run] scripts/meta/build_descent_chain.sh
++ cd /c/Users/Cody/Desktop/tau_crystal/tau_crystal
++ set -euo pipefail
++ set +H
++ umask 022
++ export LC_ALL=C LANG=C
++ LC_ALL=C
++ LANG=C
++ BASE=.tau_ledger/lean_module_capsules
++ OUT=docs/ledger/descent_chains.json
++ :
++ printf '['
++ sep=
++ find .tau_ledger/lean_module_capsules -type f -name '*.json' '!' -name index.json '!' -name capsule_set.seal.json -print0
++ sort -z
++ IFS=
++ read -r -d '' j
+++ grep -m1 '"module":' .tau_ledger/lean_module_capsules/src_Spectral_Core.json
+++ sed -E 's/.*"module":"([^"]+)".*/\1/'
++ mod=src.Spectral.Core
++ '[' -n src.Spectral.Core ']'
++ mapfile -t imps
+++ grep -o '"imports":[[][^]]*[]]' .tau_ledger/lean_module_capsules/src_Spectral_Core.json
+++ sed -E 's/.*\[\s*(.*)\s*\].*/\1/'
+++ tr , '\n'
+++ sed -E 's/["\s]//g'
+++ sed '/^$/d'
++ printf '%s{' ''
++ sep=,
++ printf '"module":"%s","imports":' src.Spectral.Core
++ '[' 3 -eq 0 ']'
++ printf '['
++ s2=
++ for x in "${imps[@]}"
++ printf '%s"%s"' '' Spectral.Kernel.Minimal
++ s2=,
++ for x in "${imps[@]}"
++ printf '%s"%s"' , Spectral.Kernel.Minimal
++ s2=,
++ for x in "${imps[@]}"
++ printf '%s"%s"' , Mathlib.CategoryTheory.Site.Sheaf
++ s2=,
++ printf ']'
++ printf '}'
++ IFS=
++ read -r -d '' j
+++ grep -m1 '"module":' .tau_ledger/lean_module_capsules/src_Spectral_face_plumbing.json
+++ sed -E 's/.*"module":"([^"]+)".*/\1/'
++ mod=src.Spectral.face_plumbing
++ '[' -n src.Spectral.face_plumbing ']'
++ mapfile -t imps
+++ grep -o '"imports":[[][^]]*[]]' .tau_ledger/lean_module_capsules/src_Spectral_face_plumbing.json
+++ sed -E 's/.*\[\s*(.*)\s*\].*/\1/'
+++ tr , '\n'
+++ sed -E 's/["\s]//g'
+++ sed '/^$/d'
++ printf '%s{' ,
++ sep=,
++ printf '"module":"%s","imports":' src.Spectral.face_plumbing
++ '[' 1 -eq 0 ']'
++ printf '['
++ s2=
++ for x in "${imps[@]}"
++ printf '%s"%s"' '' Spectral.Core
++ s2=,
++ printf ']'
++ printf '}'
++ IFS=
++ read -r -d '' j
+++ grep -m1 '"module":' .tau_ledger/lean_module_capsules/src_Spectral_plumbing.json
+++ sed -E 's/.*"module":"([^"]+)".*/\1/'
++ mod=src.Spectral.plumbing
++ '[' -n src.Spectral.plumbing ']'
++ mapfile -t imps
+++ grep -o '"imports":[[][^]]*[]]' .tau_ledger/lean_module_capsules/src_Spectral_plumbing.json
+++ sed -E 's/.*\[\s*(.*)\s*\].*/\1/'
+++ tr , '\n'
+++ sed -E 's/["\s]//g'
+++ sed '/^$/d'
++ printf '%s{' ,
++ sep=,
++ printf '"module":"%s","imports":' src.Spectral.plumbing
++ '[' 1 -eq 0 ']'
++ printf '['
++ s2=
++ for x in "${imps[@]}"
++ printf '%s"%s"' '' Spectral.Core
++ s2=,
++ printf ']'
++ printf '}'
++ IFS=
++ read -r -d '' j
+++ grep -m1 '"module":' .tau_ledger/lean_module_capsules/src_TauCrystal_TauSheaf.json
+++ sed -E 's/.*"module":"([^"]+)".*/\1/'
++ mod=src.TauCrystal.TauSheaf
++ '[' -n src.TauCrystal.TauSheaf ']'
++ mapfile -t imps
+++ grep -o '"imports":[[][^]]*[]]' .tau_ledger/lean_module_capsules/src_TauCrystal_TauSheaf.json
+++ sed -E 's/.*\[\s*(.*)\s*\].*/\1/'
+++ tr , '\n'
+++ sed -E 's/["\s]//g'
+++ sed '/^$/d'
++ printf '%s{' ,
++ sep=,
++ printf '"module":"%s","imports":' src.TauCrystal.TauSheaf
++ '[' 2 -eq 0 ']'
++ printf '['
++ s2=
++ for x in "${imps[@]}"
++ printf '%s"%s"' '' Mathlib.CategoryTheory.Site.Sheaf
++ s2=,
++ for x in "${imps[@]}"
++ printf '%s"%s"' , Mathlib.CategoryTheory.Oppoite
++ s2=,
++ printf ']'
++ printf '}'
++ IFS=
++ read -r -d '' j
++ printf ']\n'
+[rc=0] scripts/meta/build_descent_chain.sh
+[run] scripts/meta/bind_corridor_receipt.sh
++ cd /c/Users/Cody/Desktop/tau_crystal/tau_crystal
++ set -euo pipefail
++ set +H
++ umask 022
++ export LC_ALL=C LANG=C
++ LC_ALL=C
++ LANG=C
++ LBASE=.tau_ledger/lean_module_capsules
++ LSEAL=.tau_ledger/lean_module_capsules/capsule_set.seal.json
+++ ls -1d 'run_20*'
+++ tail -n1
+++ echo ''
++ RDIR=
++ RREP=
++ '[' -n '' ']'
++ '[' -s .tau_ledger/lean_module_capsules/capsule_set.seal.json ']'
++ OUT=docs/ledger/corridor_receipt.json
++ :
++ printf '{'
++ printf '"kind":"CorridorReceipt.v2",'
+++ cat .tau_ledger/lean_module_capsules/capsule_set.seal.json
++ printf '"lean_capsule_set":%s,' '{"kind":"lean.module.capsule.set","root_hash":"5dac14e2a278130e504c2fba31eaab3e6213e488e8a93eed28c4694981c6502c","sealed_at":"2025-09-28T00:55:29Z","toolchain":"Lean (version 4.22.0, x86_64-w64-windows-gnu, commit ba2cbbf09d4978f416e0ebd1fceeebc2c4138c05, Release)","lake":"Lake version 5.0.0-src+ba2cbbf (Lean version 4.22.0)","total_modules":4,"build_ok":0
+0,"build_fail":4,"index_path":".tau_ledger/lean_module_capsules/index.json"}'
++ '[' -n '' ']'
++ printf '"tau_reflection":null'
++ printf '}\n'
+[rc=0] scripts/meta/bind_corridor_receipt.sh
+[run] scripts/meta/stamp_timefold_langlands.sh
++ cd /c/Users/Cody/Desktop/tau_crystal/tau_crystal
++ set -euo pipefail
++ set +H
++ umask 022
++ export LC_ALL=C LANG=C
++ LC_ALL=C
++ LANG=C
++ TS=docs/ledger/timefold_receipt.json
++ LS=docs/ledger/langlands_capsule.json
++ :
++ :
+++ date -u +%Y-%m-%dT%H:%M:%SZ
++ now=2025-09-29T03:03:27Z
++ printf '{'
++ printf '"kind":"TimefoldReceipt","sealed_at":"%s"' 2025-09-29T03:03:27Z
++ printf '}\n'
++ printf '{'
++ printf '"kind":"LanglandsCapsule","sealed_at":"%s"' 2025-09-29T03:03:27Z
++ printf '}\n'
+[rc=0] scripts/meta/stamp_timefold_langlands.sh
+[run] scripts/meta/gen_volume2_monograph.sh
++ cd /c/Users/Cody/Desktop/tau_crystal/tau_crystal
++ set -euo pipefail
++ set +H
++ umask 022
++ export LC_ALL=C LANG=C
++ LC_ALL=C
++ LANG=C
++ f=doc/monographs/volume2_descent_spectrum.md
+++ dirname doc/monographs/volume2_descent_spectrum.md
++ d=doc/monographs
++ mkdir -p doc/monographs
++ :
++ printf '%s\n' '# Volume II: Descent, Spectrum, and Obstruction'
++ printf '%s\n' ''
++ printf '%s\n' 'This volume lifts 🪞τ‑Reflection from a runtime oracle to a corridor‑wide epistemic protocol.'
+This volume lifts 🪞τ‑Reflection from a runtime oracle to a corridor‑wide epistemic protocol.
++ printf '%s\n' ''
++ printf '%s\n' '• τSheaf(J,C) := Sheaf(J,C) × TauCapsule  (tailL1, ρ, ε).'
++ printf '%s\n' '• Descent chains are extracted from per‑module capsules (imports → chains).'
++ printf '%s\n' '• CorridorReceipt binds Lean capsules with τ‑Reflection capsules for attested reproducibility.'
+[rc=0] scripts/meta/gen_volume2_monograph.sh
+[run] scripts/ci/volume2_gate.sh
++ cd /c/Users/Cody/Desktop/tau_crystal/tau_crystal
++ set -euo pipefail
++ set +H
++ umask 022
++ export LC_ALL=C LANG=C
++ LC_ALL=C
++ LANG=C
++ bash scripts/meta/capsule_index.sh
++ bash scripts/meta/capsule_seal_set.sh
+[rc=1] scripts/ci/volume2_gate.sh
+branch 'feat/arith-integration-phi-sigma-gcd' set up to track 'origin/feat/arith-integration-phi-sigma-gcd'.
+To https://github.com/towre676-cloud/tau_crystal
+   e0ca7b05..3c3c9541  feat/arith-integration-phi-sigma-gcd -> feat/arith-integration-phi-sigma-gcd

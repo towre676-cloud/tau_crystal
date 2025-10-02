@@ -1,0 +1,9 @@
+[2025-09-25T22:10:46Z] captured seg=test_20250925T221045Z_yakfurby-001_0 from 2025-09-25T22:10:46Z to 2025-09-25T22:10:46Z
+[2025-09-25T22:11:50Z] captured seg=test_20250925T221150Z_yakfurby-001_0 from 2025-09-25T22:11:50Z to 2025-09-25T22:11:50Z
+[2025-09-25T22:11:50Z] FATAL: no software key for fallback
+[2025-09-25T22:13:23Z] captured seg=test_20250925T221323Z_yakfurby-001_0 from 2025-09-25T22:13:23Z to 2025-09-25T22:13:23Z
+[2025-09-25T22:13:24Z] sealed seg=test_20250925T221323Z_yakfurby-001_0 sha256=9035983aeb2eed979884d02f7b6d5640118cfdbf347777788e279e414fbba483 link=99db2efca867f03faf1ad020ef048383887f813eaa95e7326bbae67e0181ed86 provenance=ed25519_software_ssh
+[2025-09-25T22:13:24Z] smoke complete: analysis/capsules/test_20250925T221323Z_yakfurby-001_0.cap.tar
+[2025-09-25T22:58:02Z] captured seg=test_20250925T225801Z_yakfurby-001_0 from 2025-09-25T22:58:01Z to 2025-09-25T22:58:01Z
+[2025-09-25T22:58:23Z] sealed seg=test_20250925T225801Z_yakfurby-001_0 sha256=2fef1bf13a92cfe04ff37bf05b33c72e2b9e19a0e3aa2c57169674628ee464e6 link=fc1cbf6179073cbf7b5d9924f5c29165b84defe09ee409ba830abbd5422c8c0b provenance=ed25519_software_ssh
+[2025-09-25T22:58:23Z] smoke complete: analysis/capsules/test_20250925T225801Z_yakfurby-001_0.cap.tar

@@ -1,0 +1,12 @@
+{
+  "duration_sec": 0.002028,
+  "exception": null,
+  "label": "ci-hello",
+  "result_repr_sha256": "4a44dc15364204a80fe80e9039455cc1608281820fe2b24f1e5233ade6af1dd5",
+  "schema": "taucrystal/jupyter_cell/v1",
+  "source_sha256": "18aec2a0bb87356fe42d20fe70ef06cc9720698d91ca16be7597acfe8ea6cc64",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "1645ba100b20455023e95ae8257e4e6e93d2c82a55270d899fd16a23762526b6",
+  "utc": "20250913T151114Z",
+  "witness_sha256": "ac02ea2e714937cbe3b5bce3a0160c9df75b525e2c2d737a6ca880d2a5a64723"
+}

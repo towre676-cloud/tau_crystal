@@ -1,0 +1,22 @@
+name: tau-experimental
+on:
+  workflow_dispatch:
+jobs:
+  experimental:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: BSD rank-1 + Sym² zeros + Iwasawa μ
+        run: |
+          set -Eeuo pipefail
+          python scripts/experimental/bsd_rank1.py || true
+          HJSON=$(ls .tau_ledger/automorphic/hecke_*.json 2>/dev/null | head -n1 || true)
+          [ -n "$HJSON" ] && python scripts/experimental/symsquare_zero.py "$HJSON" || true
+          python scripts/experimental/iwasawa_mu.py || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tau-experimental-primary
+          path: |
+            .tau_ledger/experimental/bsd_rank1.json
+            .tau_ledger/experimental/symsquare_zeros.json
+            .tau_ledger/iwasawa/mu_sampling.json

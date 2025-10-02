@@ -1,0 +1,28 @@
+name: geom-anchor
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+jobs:
+  anchor-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build manifest
+        run: |
+          bash scripts/geom/make_manifest.sh "/home/runner/work/tau_crystal/tau_crystal/LS3D-W" "analysis/geom/ls3dw_mat_manifest.tsv" || true
+      - name: Anchor + Verify
+        run: |
+          bash scripts/geom/run_anchor_verify.sh "analysis/geom/ls3dw_mat_manifest.tsv" "analysis/geom/ls3dw_params.tsv"
+      - name: Guard ANCHOR/VERIFY flags
+        run: |
+          grep -q '^ANCHOR=TRUE' analysis/geom/anchor.receipt
+          grep -q '^VERIFY=TRUE' analysis/geom/anchor.receipt
+      - name: Guard novelty vs merkle spine
+        run: |
+          if [ -f .tau_ledger/merkle_spine.tsv ]; then
+            last=$(tail -n 1 .tau_ledger/merkle_spine.tsv | awk -F"\t" '{print $1}')
+            new=$(awk -F"\t" 'NR==1{print $1}' analysis/geom/proof_tree.tsv)
+            [ "$last" != "$new" ] || { echo "::error::no new proof_tree digest"; exit 1; }
+          fi

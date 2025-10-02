@@ -1,0 +1,13 @@
+HOW TO VERIFY IN 30 SECONDS
+
+1) Compute the fingerprint (SHA-256):
+   sha256sum artifacts/your_bundle.zip
+
+2) Compare to the expected fingerprint printed in ledger/receipt.json
+   (field: expected_sha256). They must match character-for-character.
+
+3) Verify the signature on the receipt with the pinned public key:
+   openssl dgst -sha256 -verify ../../keys/public_key.pem -signature ledger/receipt.sig ledger/receipt.json
+   # expect: Verified OK
+
+If steps 1–3 pass, keep the file, receipt.json+receipt.sig, and affidavit.pdf together as your evidence set.

@@ -1,0 +1,36 @@
+name: _tau-core
+on:
+  workflow_call:
+    inputs:
+      label:
+        required: true
+        type: string
+      command:
+        required: true
+        type: string
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: tau/${{ github.ref }}/core/${{ inputs.label }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Prepare ledger & wrapper
+        run: |
+          mkdir -p .tau_ledger/receipts
+          chmod +x tcrystal || true
+      - name: Execute (strict in CI)
+        env:
+          TCRYSTAL_STRICT: "1"
+        run: |
+          ./tcrystal run ${{ inputs.command }}
+      - name: Upload receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-receipts-${{ inputs.label }}-${{ github.run_id }}
+          path: .tau_ledger/receipts
+          if-no-files-found: error

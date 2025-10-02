@@ -1,0 +1,8 @@
+code\tdescription\tcause\tfrequency\tautofix\tautoenforced\tassistant_fault
+HEREDOC\tShell heredoc crash\tUnsafe '<<' block in Bash\t6\tyes\tyes\tyes
+BAD_VAR\tBroken variable expansion\tTypo like $A_PPY\t4\tyes\tyes\tyes
+BACKTICK_ESC\tInline ` or $ not escaped in printf\tUnescaped $ or `` in double quotes\t7\tyes\tyes\tyes
+SMART_QUOTES\tNon-ASCII quotes pasted\tU+2018–U+201D in script blocks\t5\tyes\tyes\tyes
+TRUNCATED_PRINTF\tPrintf split mid-line\tCutoff line leads to syntax error\t3\tyes\tyes\tyes
+LONG_CHAT_COLLISION\tChat paste overlaps code\tTrailing non-code breaks shell\t2\tyes\tyes\tyes
+BAD_JSON_LIT\tUnescaped JSON keys in printf\tUnquoted {key:...} block\t1\tyes\tyes\tyes

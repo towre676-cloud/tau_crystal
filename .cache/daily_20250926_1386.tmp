@@ -1,0 +1,1016 @@
+==== TAU-CRYSTAL DAILY LOG ====
+date_utc: 20250926T220357Z
+repo: /c/Users/Cody/Desktop/tau_crystal/tau_crystal
+
+== git/identity (hardened) ==
+branch: work-20250926
+head:   4fd5890e3fa301fd467edb0d70b08017cdf890a6
+remote(s):
+  origin	https://github.com/towre676-cloud/tau_crystal (fetch)
+  origin	https://github.com/towre676-cloud/tau_crystal (push)
+
+== git/status (hardened) ==
+ M docs/monographs/crash_proofing_doctrine.md
+ M mobile/android/comcapsule/app/src/main/java/com/capsule/MainActivity.kt
+
+== git/diff --cached (summary) ==
+
+== git/diff --cached (patch) ==
+
+== git/diff (summary) ==
+ docs/monographs/crash_proofing_doctrine.md         |  32 ++++---
+ .../app/src/main/java/com/capsule/MainActivity.kt  | 106 +++++++++++++--------
+ 2 files changed, 84 insertions(+), 54 deletions(-)
+
+== git/diff (patch) ==
+diff --git a/docs/monographs/crash_proofing_doctrine.md b/docs/monographs/crash_proofing_doctrine.md
+index e266c443..c9addc3f 100644
+--- a/docs/monographs/crash_proofing_doctrine.md
++++ b/docs/monographs/crash_proofing_doctrine.md
+@@ -1,21 +1,29 @@
+-# Crash‑Proofing Doctrine (CACBE‑Proof Discipline)
++# Crash-Proofing Doctrine (CACBE Discipline)
+ 
+-Every shell/script fragment must begin by asserting the working root, enforcing strict error handling, disabling history expansion, and defaulting to portable POSIX behavior: `cd "$HOME/Desktop/tau_crystal/tau_crystal" || exit 1; set -euo pipefail; set +H; umask 022`. All file writes are performed with printf (never heredocs), all paths are quoted, and all environment inputs are validated or defaulted. CI YAML is strictly quoted; Makefiles use real tabs; Windows Git Bash compatibility is assumed. The linter enumerates violations and the gate refuses commits until the attention ledger is green.
++Every shell or script must start with:
++`cd "$HOME/Desktop/tau_crystal/tau_crystal" || exit 1`
++`set -euo pipefail; set +H; umask 022`
++All file writes use printf (never heredocs). Paths are quoted.
++Inputs are validated or defaulted. CI YAML is safely quoted.
++Makefiles use real tabs. Windows Git Bash compatibility is assumed.
++The linter enumerates violations. The gate blocks until green.
+ 
+ ## Canonical Table of Hazards
+ | Code | Hazard | Signature | Severity |
+ |---|---|---|---|
+ | HEREDOC | Heredoc usage in shell | `<<` or `<<-` | High |
+-| NO_ROOT_CD | Missing repo‑root `cd` guard | start of script lacks canonical cd | High |
+-| NO_STRICT | Missing `set -euo pipefail` or `set +H` | absent or overridden | High |
+-| BAD_VAR | Misspelled/unused var names | inconsistent identifier use | High |
+-| UNQUOTED | Unquoted paths/globs | unquoted $VAR in rm/mv/cp args | High |
+-| CRLF | DOS line endings in sh/mk | CR bytes present | Medium |
+-| NONASCII | Fancy quotes / non‑ASCII | U+2018/2019/201C/201D present | Medium |
+-| YAML_Q | Unsafe GitHub Actions quoting | unquoted ${{ }} or YAML scalars with colons | Medium |
+-| MAKE_TAB | Space where tab required | spaces before make rules | Medium |
++| NO_ROOT_CD | Missing repo-root cd guard | script start lacks canonical cd | High |
++| NO_STRICT | Missing strict modes | no set -euo pipefail or no set +H | High |
++| BAD_VAR | Misspelled or unused var | inconsistent identifier use | High |
++| UNQUOTED | Unquoted paths or globs | unquoted $VAR in rm/mv/cp args | High |
++| CRLF | DOS line endings | CR bytes in sh or mk | Medium |
++| NONASCII | Fancy quotes or symbols | non-ASCII bytes present | Medium |
++| YAML_Q | Unsafe Actions quoting | unquoted ${{ }} or colon scalars | Medium |
++| MAKE_TAB | Space where tab needed | spaces before make rules | Medium |
+ | ADB_CONV | MSYS path conversion risk | unquoted remote adb paths | Medium |
+-| LONG_PASTE | Overlong paste blocks | single pasted file > 400 lines | Medium |
++| LONG_PASTE | Overlong paste block | single file > 400 lines | Medium |
+ 
+ ## Operational Law
+-Time is central, quoting is universal, heredocs are forbidden, and every change is scanned. The ledger ranks hazards by frequency×severity (attention score) and blocks on red. “Debugging” becomes structural prevention recorded in `.tau_ledger/cacbe/`.
++Time is central. Quoting is universal. Heredocs are forbidden.
++Every change is scanned. The ledger ranks hazards by count x severity.
++Blocking on red turns debugging into prevention. Ledger: `.tau_ledger/cacbe/`.
+diff --git a/mobile/android/comcapsule/app/src/main/java/com/capsule/MainActivity.kt b/mobile/android/comcapsule/app/src/main/java/com/capsule/MainActivity.kt
+index ff5be16c..5063aedd 100644
+--- a/mobile/android/comcapsule/app/src/main/java/com/capsule/MainActivity.kt
++++ b/mobile/android/comcapsule/app/src/main/java/com/capsule/MainActivity.kt
+@@ -15,10 +15,14 @@ import android.media.AudioRecord
+ import android.media.MediaRecorder
+ import java.io.File
+ import java.io.FileOutputStream
++import java.io.FileDescriptor
++import java.lang.reflect.Method
+ import java.security.MessageDigest
+ import org.json.JSONObject
+ 
+ class MainActivity : Activity() {
++  private var didCapture = false
++
+   private fun provenance(tag: String) {
+     try {
+       val p = packageManager.getPackageInfo(packageName, 0)
+@@ -33,106 +37,124 @@ class MainActivity : Activity() {
+     provenance("onCreate")
+ 
+     val tv = TextView(this).apply {
+-      text = "Capsule — witness zero\n\nRecording 5s test on first launch…"
++      text = "Capsule — witness zero\n\nRecording 5s test…"
+       textSize = 18f
+       gravity = Gravity.CENTER
+       layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+     }
+     setContentView(tv)
+ 
+-    // Request mic permission if needed, then run deterministic capture once.
++    // Request mic permission if needed
+     if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+       ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), 1001)
+-    } else {
+-      captureOnce()
+     }
+   }
+ 
+   override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+     super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+     if (requestCode == 1001 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+-      captureOnce()
++      Log.i("Capsule", "[perm] RECORD_AUDIO=true (granted via prompt)")
++      // Defer actual capture to onResume to ensure we’re foreground
+     } else {
+-      Log.w("Capsule", "[perm] RECORD_AUDIO denied; skipping capture")
++      Log.w("Capsule", "[perm] RECORD_AUDIO=false; skipping capture")
+     }
+   }
+ 
+   override fun onResume() {
+     super.onResume()
+     provenance("onResume")
++    val have = (checkSelfPermission(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED)
++    Log.i("Capsule", "[perm] RECORD_AUDIO=$have")
++    if (have && !didCapture) {
++      didCapture = true
++      // Post to message queue to ensure UI is drawn before we do work
++      window?.decorView?.post { captureOnce() }
++    }
++  }
++
++  private fun fsync(fd: FileDescriptor) {
++    // Reflective fsync to harden writes; safe no-op if unavailable
++    try {
++      val m: Method = FileDescriptor::class.java.getMethod("sync")
++      m.invoke(fd)
++    } catch (_: Throwable) { /* ignore */ }
+   }
+ 
+   private fun captureOnce() {
+-    // Fixed, deterministic settings
+     val sampleRate = 16_000
+     val channelConfig = AudioFormat.CHANNEL_IN_MONO
+     val audioFormat = AudioFormat.ENCODING_PCM_16BIT
+     val seconds = 5
+     val bytesPerSample = 2
+-    val totalBytes = sampleRate * seconds * bytesPerSample
++    val targetBytes = sampleRate * seconds * bytesPerSample
+ 
+-    // Ensure buffer is at least minBufferSize
+     val minBuf = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)
+     val bufSize = maxOf(minBuf, 4096)
+-    val audio = AudioRecord(
+-      MediaRecorder.AudioSource.MIC,
+-      sampleRate,
+-      channelConfig,
+-      audioFormat,
+-      bufSize
+-    )
++    val audio = AudioRecord(MediaRecorder.AudioSource.MIC, sampleRate, channelConfig, audioFormat, bufSize)
+ 
+     val outRaw = File(filesDir, "witness_${System.currentTimeMillis()}_${sampleRate}Hz.pcm")
+     var fos: FileOutputStream? = null
++    var bytesWritten = 0
++    val md = MessageDigest.getInstance("SHA-256")
++
+     try {
+       audio.startRecording()
+       fos = FileOutputStream(outRaw)
+       val buf = ByteArray(bufSize)
+-      var bytesWritten = 0
+-      val md = MessageDigest.getInstance("SHA-256")
+ 
+-      while (bytesWritten < totalBytes) {
+-        val toRead = minOf(buf.size, totalBytes - bytesWritten)
++      while (bytesWritten < targetBytes) {
++        val toRead = minOf(buf.size, targetBytes - bytesWritten)
+         val n = audio.read(buf, 0, toRead)
+         if (n > 0) {
+           fos.write(buf, 0, n)
+           md.update(buf, 0, n)
+           bytesWritten += n
++        } else if (n == 0) {
++          // brief yield
++          Thread.sleep(5)
+         } else {
+-          // read may return 0 or negative on transient; don't spin forever
++          Log.w("Capsule", "[capture] audio.read returned $n; stopping early")
+           break
+         }
+       }
++
+       fos.flush()
++      fsync(fos.fd)
+ 
+       val hash = md.digest().joinToString("") { "%02x".format(it) }
+-      val p = packageManager.getPackageInfo(packageName, 0)
+-      val meta = JSONObject().apply {
+-        put("package", packageName)
+-        put("versionName", p.versionName)
+-        put("versionCode", p.longVersionCode)
+-        put("class", this@MainActivity::class.java.name)
+-        put("sampleRateHz", sampleRate)
+-        put("channels", 1)
+-        put("encoding", "PCM_16BIT")
+-        put("durationSec", seconds)
+-        put("bytes", bytesWritten)
+-        put("sha256", hash)
+-        put("file", outRaw.name)
+-        put("ts", System.currentTimeMillis())
+-      }
+-      val sidecar = File(outRaw.parentFile, outRaw.nameWithoutExtension + ".json")
+-      FileOutputStream(sidecar).use { it.write(meta.toString().toByteArray(Charsets.UTF_8)) }
++      Log.i("Capsule", "[capture] wrote=${bytesWritten}B pcm=${outRaw.name} sha256=$hash")
+ 
+-      Log.i("Capsule", "[capture] wrote=${bytesWritten}B pcm=${outRaw.absolutePath} sha256=$hash sidecar=${sidecar.name}")
++      // Sidecar JSON (guarded)
++      try {
++        val p = packageManager.getPackageInfo(packageName, 0)
++        val meta = JSONObject().apply {
++          put("package", packageName)
++          put("versionName", p.versionName)
++          put("versionCode", p.longVersionCode)
++          put("class", this@MainActivity::class.java.name)
++          put("sampleRateHz", sampleRate)
++          put("channels", 1)
++          put("encoding", "PCM_16BIT")
++          put("durationSec", seconds)
++          put("bytes", bytesWritten)
++          put("sha256", hash)
++          put("file", outRaw.name)
++          put("ts", System.currentTimeMillis())
++        }
++        val sidecar = File(outRaw.parentFile, outRaw.nameWithoutExtension + ".json")
++        FileOutputStream(sidecar).use { it.write(meta.toString().toByteArray(Charsets.UTF_8)) }
++        Log.i("Capsule", "[sidecar] ${sidecar.name} written")
++      } catch (e: Exception) {
++        Log.e("Capsule", "[sidecar] write failed", e)
++      }
+     } catch (e: SecurityException) {
+       Log.e("Capsule", "[capture] mic permission error", e)
+     } catch (e: Exception) {
+       Log.e("Capsule", "[capture] failed", e)
+     } finally {
+-      try { fos?.close() } catch (_: Exception) {}
+-      try { audio.stop() } catch (_: Exception) {}
+-      try { audio.release() } catch (_: Exception) {}
++      try { fos?.close(); } catch (_: Exception) {}
++      try { audio.stop(); } catch (_: Exception) {}
++      try { audio.release(); } catch (_: Exception) {}
+     }
+   }
+ }
+
+== git/log since 00:00Z ==
+4fd5890e3fa301fd467edb0d70b08017cdf890a6 2025-09-26T17:33:23-04:00 Cody Holonomy alignment layer: gate, case, monograph, and CI workflow; jq-free, Bash-only.
+6d4f51b5e6ca89c5498711502d0400da6f3be73f 2025-09-26T17:30:53-04:00 Cody Add holonomy alignment layer: Bash gate (jq‑free), sample case, monograph. Certifies d|A and Euler split for χ(B)=0.
+1f8b49abfd4ffcee036c0bedcc4cb1c150effe1e 2025-09-26T17:04:03-04:00 Cody Docs: crash-proofing doctrine written with single-quoted printf (no expansion, shell-safe)
+90225e5f941c341aa16795f315fa3cafa4d5a9fe 2025-09-26T16:12:35-04:00 Cody τ‑Crystal: Execution Geometry monograph + invariants/guard + CI gate
+== git/log --name-status since 00:00Z ==
+A	.github/workflows/holonomy.yml
+A	cases/seifert_example.ini
+A	docs/monographs/holonomy_alignment.md
+A	scripts/gates/holonomy_align.sh
+A	scripts/gates/holonomy_align_test.sh
+A	docs/monographs/crash_proofing_doctrine.md
+A	.exec_geom/exceptionals.tsv
+A	.exec_geom/symbol.conf
+A	.github/workflows/exec-geometry.yml
+A	docs/monographs/execution_geometry_seifert.md
+A	scripts/ci/check_execution_geometry.sh
+A	scripts/exec_geom/guard.sh
+A	scripts/exec_geom/invariants.sh
+
+== fs/mtime touched today (UTC) ==
+2025-09-26T00:18:31Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\README.md
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\05\f3fb3eb46373e0183f2a6d22c7c3270bd5c398
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\07\615786dd22a6c2df1ebd0b3a53fcd204d49d6c
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\07\d5da9cbf141911847041df5d7b87f0dd5ef9d4
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\10\7acd32c4e687021ef32db511e8a206129b88ec
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\12\17e928894cecf247fd980964e5e9f7fad16e4e
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\18\d81f86495fce6de573aad4e48e73d490a55419
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\1b\9a6956b3acdc11f40ce2bb3f6efbd845cc243f
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\20\e2a01520742aff4ec9ce578ed4fe5f3a76fe77
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\28\d4b77f9f036a47549d47db79c16788749dca10
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\2b\068d11462a4b96669193de13a711a3a36220a0
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\2d\05e691c42cc357def16dc6a8f5b5341956a106
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\30\df70f4f36105d1a21bcce5503c3ef2b35ecbe0
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\39\832f2b7c68e7bd91932aefa28d015eb5e7675e
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\3d\847f2416cce3c9c13bad04bb8eb0eb76b27b01
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\3f\25eeb2e8abafb609d7e5afab8ad860fe75405a
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\41\30c298461dfa3828fc2f54a055eb66501ef28c
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\42\022c214b8c47a5d5f9774197529f763d5716a0
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\42\afabfd2abebf31384ca7797186a27a4b7dbee8
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\46\123c8a05f7c8ae0d069692786b4f3b1a0648d7
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\48\1bb434814107eb79d7a30b676d344b0df2f8ce
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\49\be0fb43cc54900c19d5de629001496641f58a2
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\4b\17f70c2f79d6fa1421a0f61bc732b401fefae1
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\4d\f925582478cf0d469c4cff9a4bb50859f3230a
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\4e\cf2f98a697b2b183f513d771c78775d852d0be
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\4f\0f1d64e58ba64d180ce43ee13bf9a17835fbca
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\4f\906e0c811fc9e230eb44819f509cd0627f2600
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\51\6abe05699b4a4d708524ba0d8a6ebbd734ec1a
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\56\cd01fe93b96c88630bf95a75d267d29c558ca6
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\61\6ab0feda534cb7624b2dd2693d746b2b408dbc
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\62\92753afc769f197a5ce168cbe617844e262f7e
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\62\b611da081676d42f6c3f78a2c91e7bcedddedb
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\63\00e2868b8a44e2a5f210c641f10f7da92706da
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\6b\3d273d5c2313df8ab8ea1efb42ea811b16ee6c
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\6f\30a304fd8989e1e5953247cc67bc68b2644173
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\6f\3b755bf50c6b03d8714a9c6184705e6a08389f
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\78\4269c608b6c19e7475aa70198b6320cda1dc4e
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\7b\ad2c47c5ae2aacfb804e2220cb7b1dcd7dd528
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\7c\262462995e07d753e232ff3b19a20c3f5657f4
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\88\c8d57db52f15d0ad9a4f2630978741f0af0871
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\8f\aaf51598dcbb5da61b29b9c0f24334139d6f67
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\91\26ae37cbc3587421d6889eadd1d91fbf1994d4
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\92\87f5083623b375139afb391af71cc533a7dd37
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\94\8a3070fe34c611c42c0d3ad3013a0dce358be0
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\9e\e9997b0b4726e57c27b2f7b21462b604ff8a88
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\9f\b18aaff3cd8b2eaa311d40d9e6e64e135a4d7e
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\a3\de34961096076e3ad578310142d8e33859d1bb
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\a5\98fee41e0e5c79132bc01b2fcbbfe94759356a
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\aa\7d6427e6fa1074b79ccd52ef67ac15c5637e85
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\ad\0ccec9257dae2a4dfbb6b9e6e40a1ec7afb7e6
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\b2\dfe3d1ba5cf3ee31b3ecc1ced89044a1f3b7a9
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\b4\88094f7a8e1a10364b87ff1cdecff42c4bb7a1
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\b9\e2347c56c86e160b813f7ea5c8941315eea783
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\c0\33b6b2e70a2d6993c415f583601bc6745f63fb
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\c1\a7fb88f369f499b526801bfdce92f5a01e9dfe
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\c2\09e78ecd372343283f4157dcfd918ec5165bb3
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\cf\217f803c63c821fc919178d1372562cb65c478
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\d0\9ca4ec04c992c31c7681d84b4c0a8eaa26bd50
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\d2\690e4108d5613b9fb09d1ead3d33bf795bcdce
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\d5\f17545cb374f242e4f4b6b0aee8df207842e55
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\de\34f12834db6414125399ab5349779953eaa1dc
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\e3\690c974cfb254c2abe513e1e422aa7693fb78e
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\e4\68fb2cfe21ca995ce2bab96ab38022ff521bd1
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\e6\dd1aa387e27c1ca31d75ef83b8118850c72f93
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\e7\08b1c023ec8b20f512888fe07c5bd3ff77bb8f
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\ea\54ea35e15452024d367456436a32056d3064fb
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\f3\ddae4c76a5c5a8093322c03c27bd43c2515625
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\f4\c40839347a67ba4425952de0ade4ce1b0b1016
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\f8\c6127d327620c93d2b2d00342a68e97b98a48d
+2025-09-26T00:18:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\fc\9fac270d24d71fc5863954adda407d5538ff41
+2025-09-26T00:56:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\ef\93f23481b5e577a2e5b9c4f5d5e62f7b8c463d
+2025-09-26T00:56:36Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\00\5684729de3bdf7a7c8ec8d89f3415cae14217e
+2025-09-26T00:56:36Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\16\86db9bbce94c634e275f50dc0f3e77a0194c85
+2025-09-26T00:56:36Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\83\ea37bcf5734da5e151c0016f65cbac671bb3f3
+2025-09-26T00:56:36Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\88\7fc20aadcfef0fa5b994b63f66efad18095356
+2025-09-26T01:03:14Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\.gradle\file-system.probe
+2025-09-26T01:03:14Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\navigation_json\debug\extractDeepLinksDebug\navigation.json
+2025-09-26T01:03:20Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\source_set_path_map\debug\mapDebugSourceSetPaths\file-map.txt
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values\values.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-af\values-af.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-am\values-am.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-ar\values-ar.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-as\values-as.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-az\values-az.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-b+sr+Latn\values-b+sr+Latn.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-be\values-be.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-bg\values-bg.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-bn\values-bn.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-bs\values-bs.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-ca\values-ca.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-cs\values-cs.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-da\values-da.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-de\values-de.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-el\values-el.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-en-rAU\values-en-rAU.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-en-rCA\values-en-rCA.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-en-rGB\values-en-rGB.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-en-rIN\values-en-rIN.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-en-rXC\values-en-rXC.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-es\values-es.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-es-rUS\values-es-rUS.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-et\values-et.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-eu\values-eu.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-fa\values-fa.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-fi\values-fi.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-fr\values-fr.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-fr-rCA\values-fr-rCA.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-gl\values-gl.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-gu\values-gu.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-h720dp-v13\values-h720dp-v13.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-hdpi-v4\values-hdpi-v4.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-hi\values-hi.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-hr\values-hr.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-hu\values-hu.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-hy\values-hy.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-in\values-in.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-is\values-is.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-it\values-it.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-iw\values-iw.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-ja\values-ja.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-ka\values-ka.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-kk\values-kk.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-km\values-km.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-kn\values-kn.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-ko\values-ko.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-ky\values-ky.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-land\values-land.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-large-v4\values-large-v4.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-ldltr-v21\values-ldltr-v21.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-lo\values-lo.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-lt\values-lt.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-lv\values-lv.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-mk\values-mk.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-ml\values-ml.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-mn\values-mn.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-mr\values-mr.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-ms\values-ms.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-my\values-my.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-nb\values-nb.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-ne\values-ne.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-night-v8\values-night-v8.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-nl\values-nl.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-or\values-or.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-pa\values-pa.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-pl\values-pl.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-port\values-port.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-pt\values-pt.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-pt-rBR\values-pt-rBR.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-pt-rPT\values-pt-rPT.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-ro\values-ro.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-ru\values-ru.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-si\values-si.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-sk\values-sk.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-sl\values-sl.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-sq\values-sq.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-sr\values-sr.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-sv\values-sv.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-sw\values-sw.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-sw600dp-v13\values-sw600dp-v13.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-ta\values-ta.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-te\values-te.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-th\values-th.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-tl\values-tl.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-tr\values-tr.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-uk\values-uk.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-ur\values-ur.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-uz\values-uz.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-v16\values-v16.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-v17\values-v17.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-v18\values-v18.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-v21\values-v21.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-v22\values-v22.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-v23\values-v23.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-v24\values-v24.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-v25\values-v25.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-v26\values-v26.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-v28\values-v28.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-vi\values-vi.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-watch-v20\values-watch-v20.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-watch-v21\values-watch-v21.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-xlarge-v4\values-xlarge-v4.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-zh-rCN\values-zh-rCN.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-zh-rHK\values-zh-rHK.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-zh-rTW\values-zh-rTW.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merged.dir\values-zu\values-zu.xml
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-ar.json
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-b+sr+Latn.json
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-be.json
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-de.json
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-ka.json
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-km.json
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-kn.json
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-land.json
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-large-v4.json
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-nl.json
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-pl.json
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-pt-rPT.json
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-sk.json
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-zh-rCN.json
+2025-09-26T01:03:21Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\nested_resources_validation_report\debug\generateDebugResources\nestedResourcesValidationReport.txt
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\compile-file-map.properties
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\mergeDebugResources\merger.xml
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\packageDebugResources\compile-file-map.properties
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir\values\values.xml
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug\packageDebugResources\merger.xml
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\drawable_ic_launcher_background.xml.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\drawable_ic_launcher_foreground.xml.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\mipmap-anydpi_ic_launcher.xml.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\mipmap-anydpi_ic_launcher_round.xml.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\mipmap-hdpi_ic_launcher.webp.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\mipmap-hdpi_ic_launcher_round.webp.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\mipmap-mdpi_ic_launcher.webp.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\mipmap-mdpi_ic_launcher_round.webp.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\mipmap-xhdpi_ic_launcher.webp.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\mipmap-xhdpi_ic_launcher_round.webp.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\mipmap-xxhdpi_ic_launcher.webp.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\mipmap-xxhdpi_ic_launcher_round.webp.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\mipmap-xxxhdpi_ic_launcher.webp.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\mipmap-xxxhdpi_ic_launcher_round.webp.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values_values.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-af_values-af.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-am_values-am.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-ar_values-ar.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-as_values-as.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-az_values-az.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-b+sr+Latn_values-b+sr+Latn.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-be_values-be.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-bg_values-bg.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-bn_values-bn.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-bs_values-bs.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-ca_values-ca.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-cs_values-cs.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-da_values-da.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-de_values-de.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-el_values-el.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-en-rAU_values-en-rAU.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-en-rCA_values-en-rCA.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-en-rGB_values-en-rGB.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-en-rIN_values-en-rIN.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-en-rXC_values-en-rXC.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-es_values-es.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-es-rUS_values-es-rUS.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-et_values-et.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-eu_values-eu.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-fa_values-fa.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-fi_values-fi.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-fr_values-fr.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-fr-rCA_values-fr-rCA.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-gl_values-gl.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-gu_values-gu.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-h720dp-v13_values-h720dp-v13.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-hdpi-v4_values-hdpi-v4.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-hi_values-hi.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-hr_values-hr.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-hu_values-hu.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-hy_values-hy.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-in_values-in.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-is_values-is.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-it_values-it.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-iw_values-iw.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-ja_values-ja.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-ka_values-ka.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-kk_values-kk.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-km_values-km.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-kn_values-kn.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-ko_values-ko.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-ky_values-ky.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-land_values-land.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-large-v4_values-large-v4.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-ldltr-v21_values-ldltr-v21.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-lo_values-lo.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-lt_values-lt.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-lv_values-lv.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-mk_values-mk.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-ml_values-ml.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-mn_values-mn.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-mr_values-mr.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-ms_values-ms.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-my_values-my.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-nb_values-nb.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-ne_values-ne.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-night-v8_values-night-v8.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-nl_values-nl.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-or_values-or.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-pa_values-pa.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-pl_values-pl.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-port_values-port.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-pt_values-pt.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-pt-rBR_values-pt-rBR.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-pt-rPT_values-pt-rPT.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-ro_values-ro.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-ru_values-ru.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-si_values-si.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-sk_values-sk.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-sl_values-sl.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-sq_values-sq.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-sr_values-sr.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-sv_values-sv.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-sw_values-sw.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-sw600dp-v13_values-sw600dp-v13.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-ta_values-ta.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-te_values-te.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-th_values-th.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-tl_values-tl.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-tr_values-tr.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-uk_values-uk.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-ur_values-ur.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-uz_values-uz.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-v16_values-v16.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-v17_values-v17.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-v18_values-v18.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-v21_values-v21.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-v22_values-v22.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-v23_values-v23.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-v24_values-v24.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-v25_values-v25.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-v26_values-v26.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-v28_values-v28.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-vi_values-vi.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-watch-v20_values-watch-v20.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-watch-v21_values-watch-v21.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-xlarge-v4_values-xlarge-v4.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-zh-rCN_values-zh-rCN.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-zh-rHK_values-zh-rHK.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-zh-rTW_values-zh-rTW.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\values-zu_values-zu.arsc.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\xml_backup_rules.xml.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res\debug\mergeDebugResources\xml_data_extraction_rules.xml.flat
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\mergeDebugResources.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-af.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-am.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-as.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-az.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-bg.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-bn.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-bs.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-ca.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-cs.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-da.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-el.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-en-rAU.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-en-rCA.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-en-rGB.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-en-rIN.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-en-rXC.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-es.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-es-rUS.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-et.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-eu.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-fa.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-fi.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-fr.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-fr-rCA.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-gl.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-gu.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-h720dp-v13.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-hdpi-v4.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-hi.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-hr.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-hu.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-hy.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-in.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-is.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-it.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-iw.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-ja.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-kk.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-ko.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-ky.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-ldltr-v21.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-lo.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-lt.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-lv.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-mk.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-ml.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-mn.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-mr.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-ms.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-my.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-nb.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-ne.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-night-v8.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-or.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-pa.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-port.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-pt.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-pt-rBR.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-ro.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-ru.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-si.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-sl.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-sq.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-sr.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-sv.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-sw.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-sw600dp-v13.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-ta.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-te.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-th.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-tl.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-tr.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-uk.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-ur.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-uz.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-v16.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-v17.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-v18.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-v21.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-v22.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-v23.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-v24.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-v25.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-v26.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-v28.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-vi.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-watch-v20.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-watch-v21.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-xlarge-v4.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-zh-rHK.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-zh-rTW.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\multi-v2\values-zu.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_res_blame_folder\debug\mergeDebugResources\out\single\mergeDebugResources.json
+2025-09-26T01:03:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\packaged_res\debug\packageDebugResources\values\values.xml
+2025-09-26T01:03:23Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\.gradle\8.13\checksums\sha1-checksums.bin
+2025-09-26T01:03:23Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\annotation_processor_list\debug\javaPreCompileDebug\annotationProcessors.json
+2025-09-26T01:03:23Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\mergeDebugAssets\merger.xml
+2025-09-26T01:03:23Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\mergeDebugShaders\merger.xml
+2025-09-26T01:03:23Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\local_only_symbol_list\debug\parseDebugLocalResources\R-def.txt
+2025-09-26T01:03:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\mergeDebugJniLibFolders\merger.xml
+2025-09-26T01:03:34Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\app_metadata\debug\writeDebugAppMetadata\app-metadata.properties
+2025-09-26T01:03:34Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\signing_config_versions\debug\writeDebugSigningConfigVersions\signing-config-versions.json
+2025-09-26T01:03:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\dex\debug\mergeExtDexDebug\classes.dex
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\dex_number_of_buckets_file\debug\dexBuilderDebug\out
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\java_res\debug\processDebugJavaRes\out\META-INF\app_debug.kotlin_module
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\project_dex_archive\debug\dexBuilderDebug\out\468f875d1f33c7758c1244740336311a6d760292edb0603ee510c7ef19e4dacf_0.jar
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\project_dex_archive\debug\dexBuilderDebug\out\468f875d1f33c7758c1244740336311a6d760292edb0603ee510c7ef19e4dacf_1.jar
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\project_dex_archive\debug\dexBuilderDebug\out\468f875d1f33c7758c1244740336311a6d760292edb0603ee510c7ef19e4dacf_2.jar
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\project_dex_archive\debug\dexBuilderDebug\out\468f875d1f33c7758c1244740336311a6d760292edb0603ee510c7ef19e4dacf_3.jar
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\inputs\source-to-output.tab.keystream
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\inputs\source-to-output.tab_i
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\class-attributes.tab.keystream
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\class-attributes.tab_i
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\class-fq-name-to-source.tab.keystream
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\class-fq-name-to-source.tab_i
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\proto.tab.keystream
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\proto.tab_i
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\source-to-classes.tab.keystream
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\source-to-classes.tab_i
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\subtypes.tab.keystream
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\subtypes.tab_i
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\supertypes.tab.keystream
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\supertypes.tab_i
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\file-to-id.tab.keystream
+2025-09-26T01:03:39Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\file-to-id.tab_i
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\dex\debug\mergeProjectDexDebug\0\classes.dex
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\merge-state
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\03FVUP3LSfTFg4hl1CWSQa0gI2s=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\15deRLQXlYthntogUsKsL2tjwzc=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\3w+N5ldmMwkTllDHEuKa1ufEnts=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\3ZLWWlPP_5HtIX8Hrh456gYHFxg=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\89aj5cegNCsWjxa5okxini2i_xc=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\a+xD5azZimxjo_OO0RoPhkZZs7Y=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\A6oQc7ZuCVn_kFB4NNHuoWsQa1U=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\Ap2GsDf+dfAgrrSzNnbnbY0pEZU=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\BiN5jy0Sqzg1jaxfiq+Fh5Prljw=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\cf9ocex3vrSR0R9OwWxt5iQCOZk=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\CwAJCozGZkja0VcmMztJz7iheeo=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\DujsETKMz2bYDfNjVVz8bqH5qRs=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\edbBvcTCni6fPhVjYbvcs0o3tIM=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\F41zFEWCMjA_c9ECYVz601m7tVU=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\FFDSZR59U+aHIoGyzXglkuk9PAk=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\FIv061dTX+VjgZ_VB5uWQiLJJnM=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\FRxVc8AzsaUnsN_b5H1HRf0Bnn8=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\G6E4OvZVuuuE58nBhHJQgYvlieI=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\H1Uu6rMxXxEZRzGUl+WOluaz2cg=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\hpvIesI55e7f_wWPut0_XOMn5hc=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\J9W+1KL7g_faSN4cVI3ChdBdu5M=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\K9B9oM8to+uY0KFDjhrTQI1a2kM=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\LDZASBHxIONLRjTAVAWAfkNk96s=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\m7sXAK2LFJ+6f4f1emcGzyce8eg=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\mUHFkiqeSY494WlbHjrueV3xIoU=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\mXdL3DhajzFJmuA1pz+_adLwfFs=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\ntEp7eposyalamppbALBITfu08o=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\NWsqPKS87oj9_446OKzhn4Z8z5U=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\OfCL0V1fkF67SRKRWuDjAaQaIsU=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\RIisBpkyOU69B9ChzsLTXHuS2LA=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\tHNfYq5Rq9642cX+nHbkAWqI_UE=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\tLwldLDTzIkbOVA4eZUbWyV1zuc=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\tvlwYGSycc0E6EZyaNAWPQxgTb8=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\ubE0wajgjZSnXhGI4Lf24MCf8TY=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\uKiBV60KR+VroT_MZZvgukAX0d0=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\v3zIXJeTogEzl3A1tit_6fKDxYw=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\VkeFhsDaay5HmdF1RBJO+++Pfbo=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\xM3Kd+G8HSunj57pvuDKEb4dZbY=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\XSWK7wfHWqEXlM_qPX0bAIqsHXY=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\Xxyyrf7DIkysG+xG30LvJIUSjwc=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\YwoCR1FH8cj29qomg8kfx9fsg68=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\ZTUnmdJSNY7H+CVDtPzVPFiqv8Q=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\debug-mergeJavaRes\zip-cache\zy6UW_K5lBifNrAuDdax+1z5Weo=
+2025-09-26T01:03:40Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_java_res\debug\mergeDebugJavaResource\base.jar
+2025-09-26T01:04:37Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build.gradle.kts
+2025-09-26T01:04:49Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\compatible_screen_manifest\debug\createDebugCompatibleScreenManifests\output-metadata.json
+2025-09-26T01:04:52Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\apk_ide_redirect_file\debug\createDebugApkListingFileRedirect\redirect.txt
+2025-09-26T01:04:52Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\packageDebug\tmp\debug\zip-cache\javaResources0
+2025-09-26T01:05:05Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\41\f962782b91648fceb2fe62d4ec769fc78817d5
+2025-09-26T01:05:05Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\59\3a2747ece1dc3ebae3de6ae75e1e8403724288
+2025-09-26T01:05:05Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\f7\2e1ad56966375e1ecd6eb29d43a24cf5b9f9c2
+2025-09-26T01:05:06Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\0a\243675ec04b207a91d883ffa0e614bc177fdb6
+2025-09-26T01:05:06Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\13\8fe0768a2232f27ec7cd9e881a19f5a9418f92
+2025-09-26T01:05:06Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\1c\9848888124a9c8614370113fea293c47758e64
+2025-09-26T01:05:06Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\26\5d066d5d675a9e19fb20c742d50709dd8f2169
+2025-09-26T01:05:06Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\54\57514dbb994448b1d4c296efb1dc5b37945c5a
+2025-09-26T01:05:06Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\56\4e5dff59876d7d395fdbc83418f7017546b618
+2025-09-26T01:05:06Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\78\02c18c4f91407e6a5cbb3fd716c8a0dfc3a3c1
+2025-09-26T01:05:06Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\7f\b99a04fb789645fc5953a99e5062700a6ae308
+2025-09-26T01:05:06Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\90\998293adb11b6f12692ca925c667baacd0c557
+2025-09-26T01:05:06Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\98\751226f123f81cef1b68243d1c57e6cc902ef8
+2025-09-26T01:05:06Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\bb\66999de19577e3c5f4e62a1f318ac0ca383a25
+2025-09-26T01:05:06Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\be\0eedc92a250019c95dbd0e8f640666e812ee89
+2025-09-26T01:05:06Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\fa\f16f0022127c9707adc05eea6f331a4b5b335d
+2025-09-26T01:05:29Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\android\build_and_install.sh
+2025-09-26T01:07:50Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\src\main\AndroidManifest.xml
+2025-09-26T01:08:09Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\manifest_merge_blame_file\debug\processDebugMainManifest\manifest-merger-blame-debug-report.txt
+2025-09-26T01:08:09Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_manifest\debug\processDebugMainManifest\AndroidManifest.xml
+2025-09-26T01:08:09Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\outputs\logs\manifest-merger-debug-report.txt
+2025-09-26T01:08:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_manifests\debug\processDebugManifest\AndroidManifest.xml
+2025-09-26T01:08:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\merged_manifests\debug\processDebugManifest\output-metadata.json
+2025-09-26T01:08:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\packaged_manifests\debug\processDebugManifestForPackage\AndroidManifest.xml
+2025-09-26T01:08:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\packaged_manifests\debug\processDebugManifestForPackage\output-metadata.json
+2025-09-26T01:08:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\compile_and_runtime_not_namespaced_r_class_jar\debug\processDebugResources\R.jar
+2025-09-26T01:08:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\linked_resources_binary_format\debug\processDebugResources\linked-resources-binary-format-debug.ap_
+2025-09-26T01:08:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\linked_resources_binary_format\debug\processDebugResources\output-metadata.json
+2025-09-26T01:08:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\runtime_symbol_list\debug\processDebugResources\R.txt
+2025-09-26T01:08:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\stable_resource_ids_file\debug\processDebugResources\stableIds.txt
+2025-09-26T01:08:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\symbol_list_with_package_name\debug\processDebugResources\package-aware-r.txt
+2025-09-26T01:08:15Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\packageDebug\tmp\debug\zip-cache\androidResources
+2025-09-26T01:08:15Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\internal-name-to-source.tab.keystream
+2025-09-26T01:08:15Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\internal-name-to-source.tab_i
+2025-09-26T01:08:34Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\HEAD
+2025-09-26T01:08:34Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\92\dc64c3c795330e501fbc2f6d17dc283ff2afab
+2025-09-26T01:08:34Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\c1\29dbcde7d5459b4237c2dda996ba8f93dbc099
+2025-09-26T01:08:34Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\ff\5be16c7f853dbbe0b2d6fe1fcc0cec334c2987
+2025-09-26T01:08:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\15\0a952d1f8306f8ec381940a5d3e76518c62925
+2025-09-26T01:08:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\19\98b9c0e187e8d8ef1a801af05c4cefceff716b
+2025-09-26T01:08:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\22\32cf9e13c6c5356692bc806a3cd6aa90a2654a
+2025-09-26T01:08:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\36\a5c0f62d1542a26261d8d3020ee8ca41c16c91
+2025-09-26T01:08:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\46\4d5114c9b1ce5041cc0529f1fc8cffcdfc6eb4
+2025-09-26T01:08:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\8e\c2b2d7b56c9947a9b4880a93a2d5136989f2fd
+2025-09-26T01:08:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\95\15ea1cbf2568771f1bc28f4183097684129280
+2025-09-26T01:08:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\96\28aed75f32845ef11923966474d7c36f13d1bf
+2025-09-26T01:08:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\b3\c9ef0f8fee67b6a19f408fd5e6f0afc01faa78
+2025-09-26T01:08:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\e1\9948ae5ca28560f9a46afc3a0372c39645449a
+2025-09-26T01:08:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\e3\4c2d121f57b155a720264032f6e7dffcb9acaa
+2025-09-26T01:08:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\ed\9c64e98926021f3348786d2d777d08ff283063
+2025-09-26T01:08:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\f5\bdc8ad38336486c9f2b919244deb7191d7cc1f
+2025-09-26T01:08:36Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\FETCH_HEAD
+2025-09-26T01:08:38Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\config
+2025-09-26T01:15:00Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\src\main\java\com\capsule\MainActivity.kt
+2025-09-26T01:15:10Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\.gradle\8.13\fileHashes\resourceHashesCache.bin
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\desugar_graph\debug\dexBuilderDebug\out\currentProject\dirs_bucket_0\graph.bin
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\desugar_graph\debug\dexBuilderDebug\out\currentProject\dirs_bucket_1\graph.bin
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\desugar_graph\debug\dexBuilderDebug\out\currentProject\dirs_bucket_2\graph.bin
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\desugar_graph\debug\dexBuilderDebug\out\currentProject\dirs_bucket_3\graph.bin
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\desugar_graph\debug\dexBuilderDebug\out\currentProject\jar_37c9dff79c35be92900d8d18ab3ac3b818c123135fde3c3a91ed737e7282cb5d_bucket_0\graph.bin
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\desugar_graph\debug\dexBuilderDebug\out\currentProject\jar_37c9dff79c35be92900d8d18ab3ac3b818c123135fde3c3a91ed737e7282cb5d_bucket_1\graph.bin
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\desugar_graph\debug\dexBuilderDebug\out\currentProject\jar_37c9dff79c35be92900d8d18ab3ac3b818c123135fde3c3a91ed737e7282cb5d_bucket_2\graph.bin
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\desugar_graph\debug\dexBuilderDebug\out\currentProject\jar_37c9dff79c35be92900d8d18ab3ac3b818c123135fde3c3a91ed737e7282cb5d_bucket_3\graph.bin
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\dex_archive_input_jar_hashes\debug\dexBuilderDebug\out
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\project_dex_archive\debug\dexBuilderDebug\out\com\capsule\MainActivity$captureOnce$hash$1.dex
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\project_dex_archive\debug\dexBuilderDebug\out\com\capsule\MainActivity.dex
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\inputs\source-to-output.tab
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\inputs\source-to-output.tab.keystream.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\inputs\source-to-output.tab.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\inputs\source-to-output.tab.values.at
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\inputs\source-to-output.tab_i.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\class-attributes.tab
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\class-attributes.tab.keystream.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\class-attributes.tab.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\class-attributes.tab.values.at
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\class-attributes.tab_i.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\class-fq-name-to-source.tab
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\class-fq-name-to-source.tab.keystream.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\class-fq-name-to-source.tab.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\class-fq-name-to-source.tab.values.at
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\class-fq-name-to-source.tab_i.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\internal-name-to-source.tab
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\internal-name-to-source.tab.keystream.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\internal-name-to-source.tab.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\internal-name-to-source.tab.values.at
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\internal-name-to-source.tab_i.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\proto.tab
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\proto.tab.keystream.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\proto.tab.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\proto.tab.values.at
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\proto.tab_i.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\source-to-classes.tab
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\source-to-classes.tab.keystream.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\source-to-classes.tab.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\source-to-classes.tab.values.at
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\source-to-classes.tab_i.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\subtypes.tab
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\subtypes.tab.keystream.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\subtypes.tab.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\subtypes.tab.values.at
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\subtypes.tab_i.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\supertypes.tab
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\supertypes.tab.keystream.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\supertypes.tab.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\supertypes.tab.values.at
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\jvm\kotlin\supertypes.tab_i.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\counters.tab
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\file-to-id.tab
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\file-to-id.tab.keystream.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\file-to-id.tab.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\file-to-id.tab.values.at
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\file-to-id.tab_i.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\id-to-file.tab
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\id-to-file.tab.keystream
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\id-to-file.tab.keystream.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\id-to-file.tab.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\id-to-file.tab.values.at
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\id-to-file.tab_i
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\id-to-file.tab_i.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\lookups.tab
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\lookups.tab.keystream
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\lookups.tab.keystream.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\lookups.tab.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\lookups.tab.values.at
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\lookups.tab_i
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\caches-jvm\lookups\lookups.tab_i.len
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\cacheable\last-build.bin
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\classpath-snapshot\shrunk-classpath-snapshot.bin
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\kotlin\compileDebugKotlin\local-state\build-history.bin
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\tmp\kotlin-classes\debug\com\capsule\MainActivity$captureOnce$hash$1.class
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\tmp\kotlin-classes\debug\com\capsule\MainActivity.class
+2025-09-26T01:15:11Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\tmp\kotlin-classes\debug\META-INF\app_debug.kotlin_module
+2025-09-26T01:15:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\.gradle\8.13\checksums\checksums.lock
+2025-09-26T01:15:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\.gradle\8.13\executionHistory\executionHistory.bin
+2025-09-26T01:15:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\.gradle\8.13\executionHistory\executionHistory.lock
+2025-09-26T01:15:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\.gradle\8.13\fileChanges\last-build.bin
+2025-09-26T01:15:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\.gradle\8.13\fileHashes\fileHashes.bin
+2025-09-26T01:15:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\.gradle\8.13\fileHashes\fileHashes.lock
+2025-09-26T01:15:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\.gradle\buildOutputCleanup\buildOutputCleanup.lock
+2025-09-26T01:15:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\.gradle\buildOutputCleanup\outputFiles.bin
+2025-09-26T01:15:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\dex\debug\mergeProjectDexDebug\8\classes.dex
+2025-09-26T01:15:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\intermediates\incremental\packageDebug\tmp\debug\dex-renamer-state.txt
+2025-09-26T01:15:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\outputs\apk\debug\app-debug.apk
+2025-09-26T01:15:12Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\mobile\android\comcapsule\app\build\outputs\apk\debug\output-metadata.json
+2025-09-26T01:36:32Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.tmp\yourfile.pcm
+2025-09-26T01:37:58Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.tmp\pcm_candidates.txt
+2025-09-26T14:13:04Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.tmp\witness_1758849895699_16000Hz.pcm
+2025-09-26T14:13:07Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.tmp\witness_1758849895699_16000Hz.json
+2025-09-26T14:33:32Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\crash.log
+2025-09-26T20:12:00Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.exec_geom\symbol.conf
+2025-09-26T20:12:01Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.exec_geom\exceptionals.tsv
+2025-09-26T20:12:15Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\exec_geom\invariants.sh
+2025-09-26T20:12:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\exec_geom\guard.sh
+2025-09-26T20:12:23Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\ci\check_execution_geometry.sh
+2025-09-26T20:12:28Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.github\workflows\exec-geometry.yml
+2025-09-26T20:12:34Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\docs\monographs\execution_geometry_seifert.md
+2025-09-26T20:12:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\14\6237d533bc207bdaf169a7dbca3577f00d81f6
+2025-09-26T20:12:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\2d\d64f7fdce0410e15daf162f84a80eae8440172
+2025-09-26T20:12:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\37\841dff82459a0931de9e5178c1ac6d56552ea8
+2025-09-26T20:12:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\41\29ce75a374e50c3ef4816760d65c679ac1adfa
+2025-09-26T20:12:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\6b\e6ec6f1d02247f713cb4d33686c9bad47958b6
+2025-09-26T20:12:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\6f\f1a78cd2f9a2ccc6e3dbe50c7dc5ebea75ad50
+2025-09-26T20:12:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\7c\774d2316f3a6ff117cbcdaf4b0b69e7fd86fdb
+2025-09-26T20:12:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\86\7a4a43c5ac3f20ffc99141a50396cc105169f5
+2025-09-26T20:12:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\90\225e5f941c341aa16795f315fa3cafa4d5a9fe
+2025-09-26T20:12:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\9d\c2e5fa6a7a443ff8a6477b5c394c3e0c951470
+2025-09-26T20:12:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\a6\cc4ac20d4e6ca5633e260cd851045d9ac9bb04
+2025-09-26T20:12:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\c6\2b2cb6cf7c655e0397687197eb0a7ce3e8edd6
+2025-09-26T20:12:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\cb\bd1c8237860612819a2664484bbcb98d0ff791
+2025-09-26T20:12:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\cc\31410e94b9039f0cd3ed35aa677da7b823a173
+2025-09-26T20:12:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\e0\a913aef5397da113c17ac60cb5f19acc9d5de9
+2025-09-26T20:12:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\e0\e7335b6b474e5acda7808b889c5cc1b8edadde
+2025-09-26T20:12:35Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\f3\d2c83eeb3d4400bc71c4be4b97c98a31deebbb
+2025-09-26T20:14:58Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\exec_geom\_math.sh
+2025-09-26T20:14:59Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.exec_geom\scenarios\index.tsv
+2025-09-26T20:15:02Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.exec_geom\adapters\python.sh
+2025-09-26T20:19:00Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.cacbe\attention.tsv
+2025-09-26T20:19:04Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\ops\cacbe_lint.sh
+2025-09-26T20:19:10Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\ops\cacbe_attention.sh
+2025-09-26T20:19:13Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\ops\cacbe_gate.sh
+2025-09-26T20:19:15Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\hooks\pre-commit
+2025-09-26T20:19:19Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.github\workflows\cacbe.yml
+2025-09-26T20:19:20Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.tau_ledger\cacbe\scan_20250926T201920Z.tsv
+2025-09-26T21:04:03Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\1f\8b49abfd4ffcee036c0bedcc4cb1c150effe1e
+2025-09-26T21:04:03Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\3c\723b852af98f824df8c3925ecd844a49759c60
+2025-09-26T21:04:03Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\4e\2f89aedfbe00d6b3e1c7a9d854e60c10dcd112
+2025-09-26T21:04:03Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\ad\10001d911631aae2e6e23201a811729facdf56
+2025-09-26T21:04:03Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\e2\66c44371d4c9aac06089d2b876ad20f75edd35
+2025-09-26T21:05:18Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.tau_ledger\cacbe\scan_20250926T210518Z.tsv
+2025-09-26T21:07:38Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.tau_ledger\cacbe\scan_20250926T210738Z.tsv
+2025-09-26T21:08:00Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.cacbe\causes.tsv
+2025-09-26T21:09:27Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.tau_ledger\cacbe\scan_20250926T210927Z.tsv
+2025-09-26T21:10:02Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.tau_ledger\cacbe\scan_20250926T211002Z.tsv
+2025-09-26T21:10:33Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.tau_ledger\cacbe\scan_20250926T211033Z.tsv
+2025-09-26T21:11:02Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\docs\monographs\crash_proofing_doctrine.md
+2025-09-26T21:11:04Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.tau_ledger\cacbe\scan_20250926T211104Z.tsv
+2025-09-26T21:30:48Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\gates\holonomy_align.sh
+2025-09-26T21:30:49Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\cases\seifert_example.ini
+2025-09-26T21:30:50Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\gates\holonomy_align_test.sh
+2025-09-26T21:30:52Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\docs\monographs\holonomy_alignment.md
+2025-09-26T21:30:53Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\05\bcb4b521dcbbeb72a087aed075d56e2454bd9f
+2025-09-26T21:30:53Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\10\0595cb736f6f4e4a02458948227e94de249583
+2025-09-26T21:30:53Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\19\a55531dc0b477f3c3157a8aa7f5c9f55880325
+2025-09-26T21:30:53Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\6d\4f51b5e6ca89c5498711502d0400da6f3be73f
+2025-09-26T21:30:53Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\6e\d5ac902032dc01da4be0db9b880a3912ff3d7b
+2025-09-26T21:30:53Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\9f\31b59a1ee342be76f0e76d229d3d4966c8d705
+2025-09-26T21:30:53Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\b9\54d4c666fc9fb74236458e2d05e82e97714662
+2025-09-26T21:30:53Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\be\0967a4754e21567c94219ac631a2ac0171d99b
+2025-09-26T21:30:53Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\c5\295ea5ce7631fdf2b6ab98a3e49c58a485bc26
+2025-09-26T21:30:53Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\ce\513086ac638be6b9b6294d715aebd09106036e
+2025-09-26T21:30:53Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\f4\bc81f756da61d3cddc978f234ba5a9ba831e6d
+2025-09-26T21:33:19Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.tau_ledger\holonomy\run_32439.log
+2025-09-26T21:33:20Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.github\workflows\holonomy.yml
+2025-09-26T21:33:22Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\29\b7b01d8be5deb2fee683a870607e0c8753cc16
+2025-09-26T21:33:23Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\COMMIT_EDITMSG
+2025-09-26T21:33:23Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\index
+2025-09-26T21:33:23Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\logs\HEAD
+2025-09-26T21:33:23Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\logs\refs\heads\work-20250926
+2025-09-26T21:33:23Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\4f\d5890e3fa301fd467edb0d70b08017cdf890a6
+2025-09-26T21:33:23Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\75\018c5b6b227eca1d9d4eae93b4a81369fc6c84
+2025-09-26T21:33:23Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\7c\97ab224c7751c203bee94553d17fd4a15c2472
+2025-09-26T21:33:23Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\objects\7d\e0cc5b6c4e80cf023fbfa734aebfa65b56abd3
+2025-09-26T21:33:23Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\refs\heads\work-20250926
+2025-09-26T21:33:25Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\logs\refs\remotes\origin\work-20250926
+2025-09-26T21:33:25Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.git\refs\remotes\origin\work-20250926
+2025-09-26T21:45:20Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.tau_ledger\daily\20250926.log
+2025-09-26T22:03:28Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.cache\daily_20250926_1279.tmp
+2025-09-26T22:03:28Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.cache\daily_debug_1245.err
+2025-09-26T22:03:47Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\ops\daily_log.sh
+2025-09-26T22:03:58Z C:\Users\Cody\Desktop\tau_crystal\tau_crystal\.cache\daily_20250926_1386.tmp
+
+== fs/top changed sizes today ==

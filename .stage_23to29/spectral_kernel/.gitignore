@@ -1,0 +1,6 @@
+/build
+/lake-packages
+/trace.json
+/.tau_ledger/
+/.elan
+__pycache__/

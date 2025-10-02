@@ -1,0 +1,55 @@
+name: tau-reflection
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  reflect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run τ-Reflection
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +H
+          umask 022
+          export LC_ALL=C LANG=C
+          if [ -x scripts/meta/sheaf_reflection.sh ]; then
+            bash scripts/meta/sheaf_reflection.sh 30 0.0001 || true
+          else
+            echo "scripts/meta/sheaf_reflection.sh not found or not executable"
+            exit 1
+          fi
+
+      - name: Print summary
+        shell: bash
+        run: |
+          set -euo pipefail
+          scripts/ci/reflect_util.sh summary || true
+
+      - name: Gate on fixpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          verdict="$(scripts/ci/reflect_util.sh verdict || echo false)"
+          echo "fixpoint verdict = $verdict"
+          if [ "$verdict" != "true" ]; then
+            echo "Reflective stability not reached — failing job."
+            exit 1
+          fi
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-reflection-artifacts
+          if-no-files-found: ignore
+          path: |
+            analysis/reflection/run_*/report.json
+            analysis/reflection/run_*/entropy.csv
+            analysis/reflection/run_*/manifest.txt
+            analysis/reflection/run_*/manifest.sha256

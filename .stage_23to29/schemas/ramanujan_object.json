@@ -1,0 +1,8 @@
+{
+  "q_series": "eta(τ)^24",
+  "level": 1,
+  "weight": 12,
+  "shadow": null,
+  "hecke_eigenvalues": {"2": -24, "3": 252},
+  "witness_sha256": "UNSET"
+}

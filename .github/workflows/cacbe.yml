@@ -1,0 +1,12 @@
+name: CACBE Crash‑Proof Gate
+on:
+  pull_request:
+  push:
+    branches: [ "main" ]
+jobs:
+  cacbe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: CACBE Gate
+        run: bash scripts/ops/cacbe_gate.sh && echo '---' && column -t -s $'\t' .cacbe/attention.tsv || (echo 'See .tau_ledger/cacbe/latest.tsv' && exit 66)

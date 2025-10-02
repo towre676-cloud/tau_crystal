@@ -1,0 +1,71 @@
+name: tau_crystal
+
+on:
+  workflow_dispatch:
+    inputs:
+      capsule_id:
+        description: Capsule ID (folder under analysis/capsules)
+        required: true
+        default: auto-20250922T220241Z
+  push:
+    paths:
+      - 'analysis/capsules/**'
+      - 'scripts/**'
+      - 'docs/witness/**'
+      - '.tau_ledger/**'
+      - '.github/workflows/**'
+
+jobs:
+  attested-delivery-openssl:
+    runs-on: ubuntu-latest
+    env:
+      ID: ${{ github.event.inputs.capsule_id || 'auto-20250922T220241Z' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify Attested Delivery (OpenSSL)
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAR="analysis/capsules/$ID/$ID.tar.gz"
+          SHAF="$TAR.sha256"
+          REC="analysis/capsules/$ID/$ID.receipt.json"
+          PUB="seller_ed25519.pub.pem"
+          test -f "$TAR" && test -f "$SHAF" && test -f "$REC" && test -f "$PUB"
+          H1=$(sha256sum "$TAR" | cut -d" " -f1)
+          H2=$(head -n1 "$SHAF" | tr -d "\r" | cut -d" " -f1)
+          H3=$(sed -n 's/.*"sha256":"\([^"]*\)".*/\1/p' "$REC" | head -n1 | tr -d "\r")
+          [ "$H1" = "$H2" ] && [ "$H1" = "$H3" ]
+          SIGB64=$(sed -n 's/.*"seller_sig":"ed25519_openssl:\([^"]*\)".*/\1/p' "$REC" | head -n1 | tr -d "\r")
+          [ -n "$SIGB64" ]
+          echo "$SIGB64" | openssl base64 -d -A > sig.bin
+          openssl pkeyutl -verify -pubin -inkey "$PUB" -rawin -sigfile sig.bin -in "$TAR"
+      - name: Upload acceptance artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: capsule-${{ env.ID }}-acceptance
+          path: |
+            analysis/capsules/${{ env.ID }}/*
+            seller_ed25519.pub.pem
+  silicon-witness-sim:
+    runs-on: ubuntu-latest
+    needs: attested-delivery-openssl
+    env:
+      ID: ${{ github.event.inputs.capsule_id || 'auto-20250922T220241Z' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate device P-256 keypair
+        run: |
+          set -e
+          mkdir -p hw/keys
+          openssl ecparam -name prime256v1 -genkey -noout -out hw/keys/device_p256.key
+          openssl ec -in hw/keys/device_p256.key -pubout -out hw/keys/device_p256.pub.pem
+      - name: Run MCU simulator & verify
+        run: |
+          set -euo pipefail
+          bash scripts/hw/ci_attest_capsule_p256.sh "$ID" SIM
+      - name: Upload silicon artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: capsule-${{ env.ID }}-silicon
+          path: |
+            hw/keys/device_p256.pub.pem

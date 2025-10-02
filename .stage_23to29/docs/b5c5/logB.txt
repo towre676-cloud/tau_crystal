@@ -1,0 +1,5 @@
+# Log Bayes Factor for B5C5 Sparse Program (Empirical Null Calibrated)
+logB = +8.6017
+> threshold = +5.0
+> null ensemble = matched alphabet, RG-grid, φ-penalty, randomized targets
+> interpretation: Weyl chamber identification statistically favored
