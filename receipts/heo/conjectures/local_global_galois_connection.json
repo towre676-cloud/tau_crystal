@@ -1,0 +1,27 @@
+{
+  "id": "heo.conj.local_global_galois",
+  "type": "Conjecture",
+  "title": "Adelic local–global relation for HEO",
+  "tier": 4,
+  "statement_md": "There exist adelic weights $(w_p)_p$ with $\\sum_p w_p = 1$ such that $$\\log \\mathbf{H}_d^S(k) \\approx \\sum_{p} w_p \\log \\mathbf{H}_{d,p}^S(k).$$ The CI checks a uniform-weights baseline on simple polynomial sequences.",
+  "assumptions_md": "Arithmetic S (here: polynomial). Local densities via exact modular enumeration for small $p^N$.",
+  "proof_status": "Conjectural",
+  "evidence": [
+    "Exact counts mod $p^N$ for small primes; numerical agreement on toy families."
+  ],
+  "verification": {
+    "mode": "Optional",
+    "tests": [
+      {
+        "name": "adelic_product_linear_S_n",
+        "script": "ci/heo/research/adelic_product_formula.py",
+        "args": ["--coeffs", "0", "1", "--k", "1", "--d", "2", "--primes", "2", "3", "5", "--N-max", "4"],
+        "expect": { "status": "pass" }
+      }
+    ]
+  },
+  "provenance": {
+    "spec_file": "docs/specs/heo_universal_structure.md",
+    "box_anchor": "TIER 4 — p-adic Geometry"
+  }
+}

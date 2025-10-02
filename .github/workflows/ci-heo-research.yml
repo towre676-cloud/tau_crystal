@@ -1,4 +1,4 @@
-name: HEO Research (non-blocking)
+name: HEO Research Modules (optional)
 
 on:
   push:
@@ -6,31 +6,15 @@ on:
   pull_request:
 
 jobs:
-  research-miner:
+  adelic-product:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
-      - name: Run pattern miner (emit conjecture receipts)
+      - name: Run adelic product check (S(n)=n, d=2, k=1)
         run: |
-          chmod +x ci/heo/research/run_miner.sh
-          ./ci/heo/research/run_miner.sh
-      - name: Verify discovered relations (optional)
-        run: |
-          chmod +x ci/heo/research/verify_relation.py
-          shopt -s nullglob
-          files=(receipts/heo/discovered/*.json)
-          if [ ${#files[@]} -eq 0 ]; then
-            echo "No discovered receipts; nothing to verify."
-            exit 0
-          fi
-          for f in "${files[@]}"; do
-            echo "Verifying $f"
-            python3 ci/heo/research/verify_relation.py --relation-json "$f"
-          done
+          python ci/heo/research/adelic_product_formula.py --coeffs 0 1 --k 1 --d 2 --primes 2 3 5 --N-max 4
