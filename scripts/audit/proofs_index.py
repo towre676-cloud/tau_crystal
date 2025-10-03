@@ -1,16 +1,23 @@
-import json
+import json, os
 from pathlib import Path
-def load_or_none(p):
-    try:
-        return json.loads(Path(p).read_text())
-    except Exception:
-        return None
-cone_p="artifacts/proofs/cone_id_gf2.json"
-cech_p="artifacts/proofs/cech_identities.json"
+def load_json(p):
+  try: return json.loads(Path(p).read_text())
+  except Exception: return None
+def exists(p): return Path(p).exists()
+cone="artifacts/proofs/cone_id_gf2.json"
+cech="artifacts/proofs/cech_identities.json"
+leans=[
+ "lean/Core/ConeIdAcyclic.lean",
+ "lean/Core/ConeAcyclicSmall.lean",
+ "lean/Core/CechIdentities.lean",
+ "lean/Core/CechProofMinimal.lean"]
 out={
-  "cone_id": cone_p,
-  "cech": cech_p,
-  "cone_id_payload": load_or_none(cone_p),
-  "cech_payload": load_or_none(cech_p)
+ "cone_id_witness": cone,
+ "cech_witness": cech,
+ "cone_exists": exists(cone),
+ "cech_exists": exists(cech),
+ "lean_files": [{"path":p,"exists":exists(p)} for p in leans],
+ "cone_payload": load_json(cone),
+ "cech_payload": load_json(cech)
 }
 Path("artifacts/audit/proofs_index.json").write_text(json.dumps(out,separators=(",",":")))
