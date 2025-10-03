@@ -4,3 +4,4 @@ namespace TauCrystal
 theorem cech_identities_skeleton : True := by
   trivial
 end TauCrystal
+// witness: artifacts/proofs/cech_identities.json
