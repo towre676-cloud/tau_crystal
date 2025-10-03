@@ -1,0 +1,9 @@
+error: unknown command 'status'
+[diag] dependency revisions (mathlib and friends)
+mathlib: 3c14b55b0faf
+plausible: 9f492660e983
+LeanSearchClient: 99657ad92e23
+aesop: 9e8de5716b16
+batteries: 6f7d05f4955e
+Cli: b62fd39acc32
+[diag] first failing build (abbreviated)

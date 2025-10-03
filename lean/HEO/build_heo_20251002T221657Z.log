@@ -1,0 +1,36 @@
+Lean (version 4.24.0-rc1, x86_64-w64-windows-gnu, commit 919e297292280cdb27598edd4e03437be5850221, Release)
+[build] lake -Kenv=dev -R build (full output follows)
+✖ [7287/7289] Building HEO.Core (65s)
+trace: .> LEAN_PATH=C:\Users\Cody\Desktop\tau_crystal\tau_crystal\lean\HEO\.lake\packages\Cli\.lake\build\lib\lean;C:\Users\Cody\Desktop\tau_crystal\tau_crystal\lean\HEO\.lake\packages\batteries\.lake\build\lib\lean;C:\Users\Cody\Desktop\tau_crystal\tau_crystal\lean\HEO\.lake\packages\Qq\.lake\build\lib\lean;C:\Users\Cody\Desktop\tau_crystal\tau_crystal\lean\HEO\.lake\packages\aesop\.lake\build\lib\lean;C:\Users\Cody\Desktop\tau_crystal\tau_crystal\lean\HEO\.lake\packages\proofwidgets\.lake\build\lib\lean;C:\Users\Cody\Desktop\tau_crystal\tau_crystal\lean\HEO\.lake\packages\importGraph\.lake\build\lib\lean;C:\Users\Cody\Desktop\tau_crystal\tau_crystal\lean\HEO\.lake\packages\LeanSearchClient\.lake\build\lib\lean;C:\Users\Cody\Desktop\tau_crystal\tau_crystal\lean\HEO\.lake\packages\plausible\.lake\build\lib\lean;C:\Users\Cody\Desktop\tau_crystal\tau_crystal\lean\HEO\.lake\packages\mathlib\.lake\build\lib\lean;C:\Users\Cody\Desktop\tau_crystal\tau_crystal\lean\HEO\.lake\build\lib\lean c:\Users\Cody\.elan\toolchains\leanprover--lean4---v4.24.0-rc1\bin\lean.exe C:\Users\Cody\Desktop\tau_crystal\tau_crystal\lean\HEO\HEO\Core.lean -o C:\Users\Cody\Desktop\tau_crystal\tau_crystal\lean\HEO\.lake\build\lib\lean\HEO\Core.olean -i C:\Users\Cody\Desktop\tau_crystal\tau_crystal\lean\HEO\.lake\build\lib\lean\HEO\Core.ilean -c C:\Users\Cody\Desktop\tau_crystal\tau_crystal\lean\HEO\.lake\build\ir\HEO\Core.c --setup C:\Users\Cody\Desktop\tau_crystal\tau_crystal\lean\HEO\.lake\build\ir\HEO\Core.setup.json --json
+warning: HEO/Core.lean:9:10: The namespace 'HEO' is duplicated in the declaration 'HEO.HEO.mk'
+
+Note: This linter can be disabled with `set_option linter.dupNamespace false`
+warning: HEO/Core.lean:11:2: The namespace 'HEO' is duplicated in the declaration 'HEO.HEO.cod'
+
+Note: This linter can be disabled with `set_option linter.dupNamespace false`
+warning: HEO/Core.lean:10:2: The namespace 'HEO' is duplicated in the declaration 'HEO.HEO.dom'
+
+Note: This linter can be disabled with `set_option linter.dupNamespace false`
+warning: HEO/Core.lean:13:2: The namespace 'HEO' is duplicated in the declaration 'HEO.HEO.linear'
+
+Note: This linter can be disabled with `set_option linter.dupNamespace false`
+warning: HEO/Core.lean:9:10: The namespace 'HEO' is duplicated in the declaration 'HEO.HEO'
+
+Note: This linter can be disabled with `set_option linter.dupNamespace false`
+warning: HEO/Core.lean:12:2: The namespace 'HEO' is duplicated in the declaration 'HEO.HEO.toFun'
+
+Note: This linter can be disabled with `set_option linter.dupNamespace false`
+error: HEO/Core.lean:16:4: failed to compile definition, consider marking it as 'noncomputable' because it depends on 'propDecidable', which is 'noncomputable'
+warning: HEO/Core.lean:16:4: The namespace 'HEO' is duplicated in the declaration 'HEO.HEO.apply'
+
+Note: This linter can be disabled with `set_option linter.dupNamespace false`
+error: Lean exited with code 1
+Some required targets logged failures:
+- HEO.Core
+error: build failed
+
+real	2m22.351s
+user	0m0.000s
+sys	0m0.031s
+[exit] rc=1
+[tail] last 120 lines:

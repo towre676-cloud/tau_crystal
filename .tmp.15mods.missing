@@ -1,0 +1,15 @@
+modules/heo
+modules/pattern_miner
+modules/qcro
+modules/tau_sheaf
+modules/langlands
+modules/receipts
+modules/entropy
+modules/diagnostics
+modules/attestation
+modules/adapter_llm
+modules/manifest
+modules/laurent
+modules/fft_bsd
+modules/symmetry
+modules/bordism
