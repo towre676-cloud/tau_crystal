@@ -1,0 +1,1 @@
+{ "type":"object","required":["symbols","boundary"],"properties":{"symbols":{"type":"array"},"boundary":{"type":"array"}} }

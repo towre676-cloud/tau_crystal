@@ -1,0 +1,1 @@
+{ "type":"object","required":["intervals","coverage"],"properties":{"intervals":{"type":"array"},"coverage":{"type":"array"}} }

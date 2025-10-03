@@ -1,0 +1,1 @@
+{ "type":"object","required":["constructors","typing","laws"],"properties":{"constructors":{"type":"array"},"typing":{"type":"array"},"laws":{"type":"array"}} }
