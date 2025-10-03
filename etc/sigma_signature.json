@@ -1,0 +1,1 @@
+{"types":["Receipt","Step","Term"],"ops":{"emit":{"arity":1,"in":["Step"],"out":"Receipt"},"bind":{"arity":2,"in":["Receipt","Step"],"out":"Receipt"},"compose":{"arity":2,"in":["Term","Term"],"out":"Term"},"id":{"arity":0,"in":[],"out":"Term"}},"laws":["compose(id,x)=x","compose(x,id)=x","assoc: compose(compose(x,y),z)=compose(x,compose(y,z))"]}
