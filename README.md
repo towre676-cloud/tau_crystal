@@ -1,5 +1,8 @@
 # τ‑Crystal
 
+τ‑Crystal implements the Freed–Hopkins–Teleman correspondence over computation: boundary‑state space of signed receipts as G, the τ‑clock as loop rotation, and the Quillen‑curvature residue as the basic twist; admissible, replay‑equivariant pipelines realize τ‑twisted, conjugation‑equivariant curved Fredholm complexes on G whose K‑classes classify stable execution behaviors, with fusion matching the Verlinde product.
+
+
 τ‑Crystal is a Bash‑only harness for reproducible science and research verification. It runs a set of precise checks (called 'gates') across a repository, seals cryptographically verifiable bundles (called 'capsules'), and records a small, four‑column table showing which subsystems are passing.
 
 Each run produces a signed receipt, a Merkle root, and a compact audit trail that survives across platforms and architectures. The system requires no Docker, no Python environment, and no internet access. Everything it produces can be re‑verified using Bash and coreutils alone.
