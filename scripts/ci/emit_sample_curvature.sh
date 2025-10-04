@@ -2,7 +2,7 @@
 set -euo pipefail; set +H; umask 022; export LC_ALL=C LANG=C
 LEDGER_DIR=${LEDGER_DIR:-.tau_ledger}
 mkdir -p "$LEDGER_DIR"
-ts=$(date -u +%Y%m%dT%H%M%SZ 2>/dev/null || date +%Y%m%dT%H%M%SZ)
+ts=$(date -u +%Y%m%dT%H%M%SZ 2>/dev/null || env TZ=UTC date +%Y%m%dT%H%M%SZ || date +%Y%m%dT%H%M%SZ)
 f="${LEDGER_DIR}/${ts}_curvature.tsv"
 : > "$f"
 printf "%s\t%s\n" "prelude"  "0.000000030000" >> "$f"
