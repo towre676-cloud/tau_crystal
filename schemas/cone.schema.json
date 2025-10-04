@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ConeCertificate",
+  "type": "object",
+  "properties": {
+    "cone_certificate": {
+      "type":"object",
+      "properties": {
+        "span":{"type":"object"},
+        "cone_hash":{"type":"string"},
+        "homotopy_hash":{"type":"string"},
+        "witness_exact":{"type":"boolean"},
+        "quillen_distance":{"type":"number"},
+        "epsilon_quillen":{"type":"number"},
+        "curvature_norm":{"type":"number"},
+        "curvature_additivity_residual":{"type":"number"},
+        "epsilon_curv":{"type":"number"},
+        "residue":{"type":"number"},
+        "abs_residue":{"type":"number"},
+        "baseline_abs_residue":{"type":"number"},
+        "unitary_iso":{"type":"boolean"},
+        "distinguished":{"type":"boolean"}
+      },
+      "required":[
+        "span","cone_hash","homotopy_hash","witness_exact","quillen_distance","epsilon_quillen",
+        "curvature_norm","curvature_additivity_residual","epsilon_curv","residue","abs_residue",
+        "baseline_abs_residue","unitary_iso","distinguished"
+      ]
+    }
+  },
+  "required":["cone_certificate"]
+}

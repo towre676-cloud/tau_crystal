@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DescentCertificate",
+  "type": "object",
+  "properties": {
+    "descent_certificate": {
+      "type": "object",
+      "properties": {
+        "run": {"type":"string"},
+        "cover": {"type":"array","items":{"type":"string"}},
+        "restrictions": {
+          "type":"object",
+          "patternProperties": {
+            ".*": {
+              "type":"object",
+              "properties": {
+                "hash":{"type":"string"},
+                "residue":{"type":"number"},
+                "abs_residue":{"type":"number"},
+                "baseline_abs_residue":{"type":"number"},
+                "spectral_window":{"type":"object"},
+                "spectral_metadata":{"type":["object","null"]},
+                "fixedpoint_witness":{"type":["object","null"]}
+              },
+              "required":["hash","residue","abs_residue","baseline_abs_residue"]
+            }
+          }
+        },
+        "cocycle":{"type":"object"},
+        "holonomy":{"type":"object"},
+        "obs_mod_2pi":{"type":"number"},
+        "glues":{"type":"boolean"}
+      },
+      "required":["run","cover","restrictions","cocycle","holonomy","obs_mod_2pi","glues"]
+    }
+  },
+  "required":["descent_certificate"]
+}

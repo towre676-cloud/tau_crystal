@@ -1,0 +1,10 @@
+{
+  "reflection_certificate": {
+    "forward":{"run":"ode:euler:h=0.01","det_abs":0.9933071490,"residue":3.5e-06,"abs_residue":-2.0000035,"baseline_abs_residue":-2.0},
+    "reverse":{"run":"ode:euler:h=0.01:rev","det_abs":0.9933071490,"residue":-3.5e-06,"abs_residue":-1.9999965,"baseline_abs_residue":-2.0},
+    "spectral_gap":{"min":-1.03e-4,"epsilon_gap":1e-4,"all_eigenvalues_above_threshold":false,"offending_eigenvalue":-1.03e-4,"source":"forward-reverse cone mismatch (O(h^2) discretization)"},
+    "residue_diff":7.0e-06,
+    "within_tolerance":true,
+    "positivity_claim":"hermitian-only"
+  }
+}

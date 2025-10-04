@@ -1,0 +1,10 @@
+{
+  "reflection_certificate": {
+    "forward":{"run":"lean:sha256:1e4b...c9","det_abs":1.0000000003,"residue":2.1e-10,"abs_residue":3e-10,"baseline_abs_residue":1e-10},
+    "reverse":{"run":"lean:sha256:1e4b...c9:rev","det_abs":1.0000000003,"residue":-2.1e-10,"abs_residue":-3e-10,"baseline_abs_residue":-1e-10},
+    "spectral_gap":{"min":0.42,"epsilon_gap":1e-4,"all_eigenvalues_above_threshold":true},
+    "residue_diff":4.2e-10,
+    "within_tolerance":true,
+    "positivity_claim":"positive-definite"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "cone_certificate": {
+    "span":{"from":"lean:sha256:1e4b...c9","to":"lean:sha256:5f0d...21"},
+    "cone_hash":"sha256:34...ef",
+    "homotopy_hash":"sha256:9a...12",
+    "witness_exact":true,
+    "quillen_distance":6.2e-10,
+    "epsilon_quillen":1e-6,
+    "curvature_norm":7.1e-10,
+    "curvature_additivity_residual":3.4e-10,
+    "epsilon_curv":1e-6,
+    "residue":1.2e-10,
+    "abs_residue":1e-10,
+    "baseline_abs_residue":0,
+    "unitary_iso":true,
+    "distinguished":true
+  }
+}
