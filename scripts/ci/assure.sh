@@ -1,3 +1,19 @@
+# STRICT policy block BEGIN
+: "${STRICT:=0}"
+BR="none"
+if [ -n "${GITHUB_REF_NAME-}" ]; then
+  BR="$GITHUB_REF_NAME"
+else
+  if command -v git >/dev/null 2>&1; then
+    BR=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo none)
+  fi
+fi
+case "$BR" in
+  main|release|release/*) STRICT=1 ;;
+  *) : ;;
+esac
+export STRICT
+# STRICT policy block END
 #!/usr/bin/env bash
 # minimal CI harness (MSYS-safe, no set -e; idempotent calls guarded)
 umask 022; export LC_ALL=C LANG=C
