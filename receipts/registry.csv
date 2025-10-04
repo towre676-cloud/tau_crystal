@@ -1,0 +1,4 @@
+timestamp_utc,run_id,kind,obs_mod_2pi,glues,notes,file
+2025-10-04T21:40:54Z,lean:synthetic_theta005,descent,0.05,false,declared U_R rotation,certificates/runs/descent_lean.synthetic_theta005.json
+2025-10-04T21:41:11Z,"lean:synthetic_theta005","descent",0.05,"false","comma, quote "" and spaces OK","certificates/runs/descent_lean.synthetic_theta005.json"
+2025-10-04T21:43:24Z,"lean:synthetic_theta005","descent",0.05,"false","declared U_R rotation","certificates/runs/descent_lean.synthetic_theta005.json"

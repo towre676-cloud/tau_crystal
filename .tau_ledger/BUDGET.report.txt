@@ -1,0 +1,10 @@
+Anomaly Report
+Files: 6
+Aggregate: 0
+AdvisoryBudget: 0.000000000000
+Mean: 0
+Std: 0
+MaxAbs: 0
+Q25: 0
+Q50: 0
+Q75: 0

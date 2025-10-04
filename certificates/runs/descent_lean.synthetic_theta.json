@@ -1,0 +1,81 @@
+{
+  "descent_certificate": {
+    "run": "lean:sha256:1e4b...c9",
+    "cover": [
+      "U_D",
+      "U_S",
+      "U_R"
+    ],
+    "restrictions": {
+      "U_D": {
+        "hash": "sha256:da..01",
+        "residue": 2.1E-10,
+        "abs_residue": 3E-10,
+        "baseline_abs_residue": 1E-10,
+        "spectral_window": {
+          "chebyshev_interval": [
+            0,
+            8
+          ],
+          "lanczos_seed": 42
+        }
+      },
+      "U_S": {
+        "hash": "sha256:fe..22",
+        "residue": 8.4E-10,
+        "abs_residue": 1.1E-9,
+        "baseline_abs_residue": 2E-10,
+        "spectral_window": {
+          "chebyshev_interval": [
+            0,
+            64
+          ],
+          "lanczos_seed": 42
+        },
+        "spectral_metadata": {
+          "breadth_series": [
+            1,
+            2,
+            2,
+            1,
+            0
+          ],
+          "chebyshev_lambda": 0.693,
+          "one_step_spectrum": [
+            0.5,
+            0.5
+          ]
+        }
+      },
+      "U_R": {
+        "hash": "sha256:ab..73",
+        "residue": 1.9E-10,
+        "abs_residue": 2E-10,
+        "baseline_abs_residue": 0,
+        "spectral_window": {
+          "chebyshev_interval": [
+            0,
+            12
+          ],
+          "lanczos_seed": 42
+        },
+        "fixedpoint_witness": {
+          "refactor_idempotent": true,
+          "theta_epoch": 1
+        },
+        "det_phase_rotation": 0.05
+      }
+    },
+    "cocycle": {
+      "delta_phi_phase": 0.05000000042,
+      "cohomology": "trivial"
+    },
+    "holonomy": {
+      "int_trK_phase": 3.7E-10,
+      "tolerance": 0.000001
+    },
+    "obs_mod_2pi": 0,
+    "glues": false,
+    "obstruction_source": "U_R phase rotation (synthetic control)"
+  }
+}

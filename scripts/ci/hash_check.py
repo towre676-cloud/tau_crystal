@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Hash verification for tau_crystal certificates (format check; recompute stub)."""
+"""Hash verification for tau_crystal certificates (ASCII-only output)."""
 import json, hashlib, sys
 from pathlib import Path
 
@@ -16,7 +16,7 @@ def verify_hashes(cert):
     for U, v in restrictions.items():
         h = v.get("hash", "")
         if not isinstance(h, str) or not h.startswith("sha256:"):
-            return False, f"Invalid hash format in {U}: {h}"
+            return False, "Invalid hash format in %s: %s" % (U, h)
     return True, "Hash format OK (full verification pending run data)"
 
 def main():
@@ -27,12 +27,13 @@ def main():
         try:
             cert = json.loads(Path(cert_file).read_text(encoding="utf-8"))
             ok, msg = verify_hashes(cert)
-            print(f"[✓] {cert_file.name}: {msg}" if ok else f"[✗] {cert_file.name}: {msg}")
-            passed += 1 if ok else 0
-            failed += 0 if ok else 1
+            if ok:
+                print("[OK]   %s: %s" % (cert_file.name, msg)); passed += 1
+            else:
+                print("[FAIL] %s: %s" % (cert_file.name, msg)); failed += 1
         except Exception as e:
-            print(f"[✗] {cert_file.name}: {e}"); failed += 1
-    print(f"\n[summary] passed={passed} failed={failed}")
+            print("[FAIL] %s: %s" % (cert_file.name, e)); failed += 1
+    print("\n[summary] passed=%d failed=%d" % (passed, failed))
     return 0 if failed == 0 else 1
 
 if __name__ == "__main__":
