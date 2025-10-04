@@ -7,7 +7,7 @@ mkdir -p "$LEDGER_DIR" 2>/dev/null || :
 i=1
 while [ "$i" -le "$N" ]; do
   f="$LEDGER_DIR/rich_r${i}_curvature.tsv"
-  : > "$f"
+  : > "$f" 2>/dev/null || touch "$f"
   awk -v run_index="$i" 'BEGIN{
     n=12; scale=1e-15;
     labels[1]="init"; labels[2]="prep"; labels[3]="probe_fft"; labels[4]="probe_cheby";
