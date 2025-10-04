@@ -1,2 +1,6 @@
 /target
 **/*.rs.bk
+.py311_site/
+.tau_ledger/**/*.tar.gz
+*.dll
+*.pyd
