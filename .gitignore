@@ -82,3 +82,8 @@ validation/work/
 validation/input/
 validation/input_norm/
 *.bak
+# tau_ledger rules
+.tau_ledger/*
+!.tau_ledger/*_curvature.tsv
+!.tau_ledger/BUDGET.*
+!.tau_ledger/*.sum
