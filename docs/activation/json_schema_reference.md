@@ -11,3 +11,6 @@
 | variety_spec.json | field:ℚ(b); eqns:[…]; basepoints | Algebraic variety spec | Well‑formed; param link to manifest |
 | period_values.json | per; reg; per_p; variety_name | Motivic regulator values | reg=per proof hash; Gal descent log |
 | receipt_binding.json | receipt_id; param_map | Binding map | Surjective to used params; Lean lemma hash |
+| subcat_D.json | objects; morphisms | Finite full subcategory | Closure under comp; identity witnesses |
+| delta_N.json | additions; invariants | Delta functor | Naturality wrt 𝒟 inclusion |
+| pushout_manifest.json | D_ref; N_ref; colimit_hash | Manifest pushout | Kan terminality witness; replayable |
