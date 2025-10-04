@@ -1,0 +1,3 @@
+# τ‑Crystal Activation Narrative — Chunk 05
+
+Execution order as a hard dependency chain: freeze the substrate and prove acyclicity of the identity cone and the basic Σ‑laws; run a single morphic echo on a deliberate duplicate to emit the chain map, mapping cone, Betti tuple, and graded scalar with sheaf restrictions recorded; compute a three‑window Čech curvature with glue automorphisms and cocycle witnesses, exposing edit paths and refinement stability; perform one honest motive lift for an eligible module by constructing the variety from manifest parameters and proving the regulator–period comparison; seal a minimal pushout bundle and require the verifier to replay the pushout and reproduce the Merkle root exactly, logging the entire tree and terminality witness.

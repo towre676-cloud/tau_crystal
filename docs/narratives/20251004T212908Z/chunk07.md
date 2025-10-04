@@ -1,0 +1,3 @@
+# τ‑Crystal Activation Narrative — Chunk 07
+
+Public audit endpoints form the civic surface of the system: a bundle verifier that replays pushouts and recomputes the Merkle root while listing proof objects; an echo endpoint that returns mapping‑cone homology and graded observables with Merkle siblings; a curvature endpoint that publishes covers, glue maps, cocycles, and edit paths; a motive endpoint that exposes the variety specification, periods, regulators, and the binding lemma hash; and a cross‑diagnostic observation endpoint that returns values together with monotonicity certificates and naturality proofs. These surfaces align numerical dashboards with categorical invariants so that every spike can be traced to a proof‑backed cause.
