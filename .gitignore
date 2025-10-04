@@ -1,0 +1,4 @@
+.recover/
+.tau_ledger/
+*.dll
+*.pyd
