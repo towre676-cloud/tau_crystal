@@ -46,3 +46,8 @@
 | PushoutDescent.lean | Kan extension preserves invariants | Sealing | Extension replay verified |
 | EntanglementFlat.lean | Obs(CRO⊗Ent) monotone; curvature(𝒟)=0 | Diagnostics | Naturality + monotonicity proofs |
 
+**Acceptance Criteria**
+| Criterion | Check | Descent/Audit Add‑On |
+|:--|:--|:--|
+| Substrate frozen | Types compile | Fibration descent + iso groupoid |
+| Cone works | Cone(id) acyclic | Descent for cones; H_* Merkle |
