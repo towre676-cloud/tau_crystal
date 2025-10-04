@@ -28,3 +28,4 @@ umask 022; export LC_ALL=C LANG=C
 scripts/ci/validate_curvature_tsv.sh || { echo "[CI] curvature TSV failed validation" >&2; exit 3; }
 [ -x scripts/ci/anomaly_budget.sh ]        && scripts/ci/anomaly_budget.sh        || :
 [ -x scripts/ci/anomaly_report.sh ]        && scripts/ci/anomaly_report.sh        || :
+scripts/ci/collect_budget_history.sh || true
