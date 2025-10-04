@@ -32,3 +32,8 @@
 |:--|:--|:--|:--|:--|
 | Echo | b_k = dim H_k(Cone(U)) | ℕ^k | Homology in Ch(𝓟) | Restriction‑invariant; Merkle siblings |
 | Echo | Graded ΔS | ℝ | Associated‑graded via Fᵏ(q‑CRO) | Pullback‑stable; priors logged |
+| Curvature | ℓ(c_{ijk}) | ℕ | Edit metric in G | Constant on descent classes; path logs |
+| Timefold | KL(μ_t‖μ_{−t}) | ℝ₊ | Regularized symbol measures | Prior + window recorded |
+| Motive | per, reg, per_p | ℝ, ℚ_p | Built variety + comparison | Gal‑invariant; spec replayable |
+| Sealing | H_τ | 256‑bit | Verifier pushout replay | Full Merkle tree JSON |
+
