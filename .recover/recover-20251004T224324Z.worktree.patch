@@ -1,0 +1,161 @@
+diff --git a/PRIVACY.md b/PRIVACY.md
+index 4c8aa552..61b25873 100644
+--- a/PRIVACY.md
++++ b/PRIVACY.md
+@@ -1,2 +1,2 @@
+-# Privacy Policy
+-Tau Crystal does not collect, store, or sell personal data. The app reads GitHub workflow metadata and artifact names in order to publish a PR status check. No data is persisted outside GitHub. For questions, open an issue at https://github.com/towre676-cloud/tau_crystal/issues/new/choose.
++# Privacy Policy
++Tau Crystal does not collect, store, or sell personal data. The app reads GitHub workflow metadata and artifact names in order to publish a PR status check. No data is persisted outside GitHub. For questions, open an issue at https://github.com/towre676-cloud/tau_crystal/issues/new/choose.
+diff --git a/SUPPORT.md b/SUPPORT.md
+index e3b71783..b2bdcc98 100644
+--- a/SUPPORT.md
++++ b/SUPPORT.md
+@@ -1,6 +1,6 @@
+-# Support
+-
+-Questions: open a Q&A in Discussions.  
+-Bugs: open an Issue with a minimal repro plus `lean --version` and `lake --version`.  
+-Security: use GitHub Security Advisories (private) instead of public issues.  
+-We don’t offer paid support yet; Marketplace plans affect CI verification limits only.
++# Support
++
++Questions: open a Q&A in Discussions.  
++Bugs: open an Issue with a minimal repro plus `lean --version` and `lake --version`.  
++Security: use GitHub Security Advisories (private) instead of public issues.  
++We don’t offer paid support yet; Marketplace plans affect CI verification limits only.
+diff --git a/TERMS.md b/TERMS.md
+index 014b9e8d..0c9b19bf 100644
+--- a/TERMS.md
++++ b/TERMS.md
+@@ -1,2 +1,2 @@
+-# Terms of Service
+-Tau Crystal is provided “as is,” without warranties or guarantees. Use at your own risk. The app reads workflow run metadata and artifacts to publish a PR check. You are responsible for your CI configuration and uploaded artifacts. For support, use the project’s Issues page.
++# Terms of Service
++Tau Crystal is provided “as is,” without warranties or guarantees. Use at your own risk. The app reads workflow run metadata and artifacts to publish a PR check. You are responsible for your CI configuration and uploaded artifacts. For support, use the project’s Issues page.
+diff --git a/docs/PRIVACY.md b/docs/PRIVACY.md
+index d533e3d1..79ba5bbe 100644
+--- a/docs/PRIVACY.md
++++ b/docs/PRIVACY.md
+@@ -1,9 +1,9 @@
+-# Privacy Policy
+-
+-We collect only the data needed to verify CI receipts and operate the GitHub App.
+-- Inputs: workflow metadata (repository, workflow_run id), the uploaded artifact named `tau-crystal-manifest`, and minimal account info for plan checks.
+-- Storage: a monthly usage counter keyed by account login (free/pro run counts). No source code is stored by this service.
+-- No selling or sharing of personal data. We don’t use tracking cookies or third-party ads.
+-- Security: webhooks are verified with an HMAC secret; the app uses GitHub App authentication; receipts are processed in-memory.
+-- Retention: usage counters reset monthly; logs rotate routinely.
+-Contact: open a private security advisory for sensitive issues, or a Discussion/Issue for general questions.
++# Privacy Policy
++
++We collect only the data needed to verify CI receipts and operate the GitHub App.
++- Inputs: workflow metadata (repository, workflow_run id), the uploaded artifact named `tau-crystal-manifest`, and minimal account info for plan checks.
++- Storage: a monthly usage counter keyed by account login (free/pro run counts). No source code is stored by this service.
++- No selling or sharing of personal data. We don’t use tracking cookies or third-party ads.
++- Security: webhooks are verified with an HMAC secret; the app uses GitHub App authentication; receipts are processed in-memory.
++- Retention: usage counters reset monthly; logs rotate routinely.
++Contact: open a private security advisory for sensitive issues, or a Discussion/Issue for general questions.
+diff --git a/docs/TERMS.md b/docs/TERMS.md
+index b166f9da..3d3a3ac2 100644
+--- a/docs/TERMS.md
++++ b/docs/TERMS.md
+@@ -1,9 +1,9 @@
+-# Terms of Service
+-
+-This project and the GitHub App are provided “as is,” without warranties. You are responsible for how you use the software and any outputs.
+-- License: repository code is MIT-licensed. The hosted verifier service is offered on a best-effort basis.
+-- Fair use: do not abuse the service or attempt to bypass plan limits.
+-- Availability: we aim for high availability but do not guarantee uptime.
+-- Changes: features and limits may evolve; material changes will be noted in the README or release notes.
+-- Support: community support via Discussions and Issues; security reports via GitHub Security Advisories.
+-By installing or using the service you agree to these terms.
++# Terms of Service
++
++This project and the GitHub App are provided “as is,” without warranties. You are responsible for how you use the software and any outputs.
++- License: repository code is MIT-licensed. The hosted verifier service is offered on a best-effort basis.
++- Fair use: do not abuse the service or attempt to bypass plan limits.
++- Availability: we aim for high availability but do not guarantee uptime.
++- Changes: features and limits may evolve; material changes will be noted in the README or release notes.
++- Support: community support via Discussions and Issues; security reports via GitHub Security Advisories.
++By installing or using the service you agree to these terms.
+diff --git a/docs/first-verification.md b/docs/first-verification.md
+index e51d131a..e2de9854 100644
+--- a/docs/first-verification.md
++++ b/docs/first-verification.md
+@@ -1,18 +1,18 @@
+-# First verification in 90 seconds
+-
+-This demo shows τ-Crystal catching a deliberate divergence and pointing at the exact lines that changed.
+-
+-## 1) Emit a receipt
+-./scripts/emit-receipt.sh
+-cp out/manifest.json out/manifest-A.json
+-
+-## 2) Flip one knob and emit again
+-TAU_SEED=99 ./scripts/emit-receipt.sh
+-cp out/manifest.json out/manifest-B.json
+-
+-## 3) See the difference
+-git diff --no-index -- out/manifest-A.json out/manifest-B.json || true
+-
+-You should see `tau_series` and `rank_kernel` differ and the
+-`timestamp_utc` advance. That’s the “first red vs green” moment τ-Crystal
+-surfaces in CI on every PR.
++# First verification in 90 seconds
++
++This demo shows τ-Crystal catching a deliberate divergence and pointing at the exact lines that changed.
++
++## 1) Emit a receipt
++./scripts/emit-receipt.sh
++cp out/manifest.json out/manifest-A.json
++
++## 2) Flip one knob and emit again
++TAU_SEED=99 ./scripts/emit-receipt.sh
++cp out/manifest.json out/manifest-B.json
++
++## 3) See the difference
++git diff --no-index -- out/manifest-A.json out/manifest-B.json || true
++
++You should see `tau_series` and `rank_kernel` differ and the
++`timestamp_utc` advance. That’s the “first red vs green” moment τ-Crystal
++surfaces in CI on every PR.
+diff --git a/docs/index.md b/docs/index.md
+index 171490e1..604ab3b4 100644
+--- a/docs/index.md
++++ b/docs/index.md
+@@ -1,17 +1,17 @@
+----
+-title: τ-Crystal
+-layout: none
+----
+-
+-# τ-Crystal Documentation
+-
+-- **Canonical Manifest (HTML)** → [tau-crystal.html](./tau-crystal.html)
+-- **Manifest (Markdown)** → [manifest.md](./manifest.md)
+-- **SHA-256 digest** → [manifest.sha256](./manifest.sha256)
+-
+-Extras:
+-- [Privacy Policy](./PRIVACY.md)
+-- [Terms](./TERMS.md)
+-- [Monograph](./MONOGRAPH.md)
+-
+-- [First verification](first-verification.md)
++---
++title: τ-Crystal
++layout: none
++---
++
++# τ-Crystal Documentation
++
++- **Canonical Manifest (HTML)** → [tau-crystal.html](./tau-crystal.html)
++- **Manifest (Markdown)** → [manifest.md](./manifest.md)
++- **SHA-256 digest** → [manifest.sha256](./manifest.sha256)
++
++Extras:
++- [Privacy Policy](./PRIVACY.md)
++- [Terms](./TERMS.md)
++- [Monograph](./MONOGRAPH.md)
++
++- [First verification](first-verification.md)
