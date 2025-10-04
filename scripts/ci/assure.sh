@@ -30,3 +30,4 @@ scripts/ci/validate_curvature_tsv.sh || { echo "[CI] curvature TSV failed valida
 [ -x scripts/ci/anomaly_report.sh ]        && scripts/ci/anomaly_report.sh        || :
 scripts/ci/collect_budget_history.sh || true
 python3 scripts/ci/plot_budget.py 2>/dev/null || py -3 scripts/ci/plot_budget.py 2>/dev/null || scripts/ci/plot_budget.py 2>/dev/null || true
+tests/known_truth/verify.sh || echo "[known-truth] advisory failure (does not block)" >&2
