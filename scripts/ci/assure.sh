@@ -1,3 +1,4 @@
+# FHT dictionary: τ‑Crystal implements the Freed–Hopkins–Teleman correspondence over computation: boundary‑state space of signed receipts as G, the τ‑clock as loop rotation, and the Quillen‑curvature residue as the basic twist; admissible, replay‑equivariant pipelines realize τ‑twisted, conjugation‑equivariant curved Fredholm complexes on G whose K‑classes classify stable execution behaviors, with fusion matching the Verlinde product.
 # STRICT policy block BEGIN
 : "${STRICT:=0}"
 BR="none"
