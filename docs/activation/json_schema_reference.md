@@ -8,3 +8,6 @@
 | glue_gij.json | pairs:[(i,j)]; gij: generators | Automorphisms in G | Generator paths valid; preserves type/order/hash |
 | cocycle_cijk.json | triples:[(i,j,k)]; c_val; edit_length | Čech 2‑cocycle values | δg=c and δc=1 verified; edit path sound |
 | length_metrics.json | metric:edit; lengths:[…] | Group metric report | Minimality witness; generator counts |
+| variety_spec.json | field:ℚ(b); eqns:[…]; basepoints | Algebraic variety spec | Well‑formed; param link to manifest |
+| period_values.json | per; reg; per_p; variety_name | Motivic regulator values | reg=per proof hash; Gal descent log |
+| receipt_binding.json | receipt_id; param_map | Binding map | Surjective to used params; Lean lemma hash |
