@@ -23,3 +23,7 @@
 |:--|:--|:--|:--|
 | 1 | Freeze 𝒞, Σ, 𝓟(∂), 𝓛, Ch(𝓟) | Cone(id) acyclic; Σ laws | Fibration descent ok; type‑iso groupoid emitted |
 | 2 | Morphic Echo prototype | Betti(Cone(U)); graded ΔS | Sheafified Cone; verifier replay H_* |
+| 3 | Čech curvature (3‑window cover) | δg=c; δc=1; ℓ(c) finite | Refine cover descent; edit‑path logs |
+| 4 | One motive lift (eligible only) | reg=per; comp_{B,dR} (example) | Gal descent and binding verified |
+| 5 | Sealed pushout bundle | H_τ reproduced; terminality | Kan descent; full Merkle tree in JSON |
+
