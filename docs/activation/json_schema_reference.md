@@ -14,3 +14,6 @@
 | subcat_D.json | objects; morphisms | Finite full subcategory | Closure under comp; identity witnesses |
 | delta_N.json | additions; invariants | Delta functor | Naturality wrt 𝒟 inclusion |
 | pushout_manifest.json | D_ref; N_ref; colimit_hash | Manifest pushout | Kan terminality witness; replayable |
+| verifier_certificate.json | valid; merkle_root; proofs:[…] | Replay certificate | Deterministic outputs; seed + toolchain IDs |
+| descent_cone.json | restrictions:{U↦cone_slice} | Sheafified Cone | Functorial restriction maps |
+| descent_c.json | refinements; pullbacks | Descended cocycle | Compatibility across covers |
