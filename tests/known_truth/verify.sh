@@ -6,6 +6,7 @@ mkdir -p "$LEDGER_DIR"
 out="$LEDGER_DIR/KNOWN_TRUTH_RESULTS.tsv"
 : > "$out"; printf "test\tstatus\tvalue\tthreshold\n" >> "$out"
 fail=0
+scripts/arith/residue_complex_demo.sh tests/known_truth/motives/period_demo.tsv >/dev/null 2>&1 || true
 pfile="$ROOT/tests/known_truth/motives/period_demo.tsv"
 dfile="$ROOT/tests/known_truth/motives/period_declared.txt"
 psum=$(awk "NR>1 {s+=\$2} END{printf \"%.12f\", (s+0)}" "$pfile")
