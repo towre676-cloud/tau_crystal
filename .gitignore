@@ -87,3 +87,7 @@ validation/input_norm/
 !.tau_ledger/*_curvature.tsv
 !.tau_ledger/BUDGET.*
 !.tau_ledger/*.sum
+# tau_ledger history/plots
+!.tau_ledger/BUDGET_history.tsv
+!.tau_ledger/budget_history.png
+!.tau_ledger/budget_history.svg
