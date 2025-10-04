@@ -17,3 +17,5 @@
 | verifier_certificate.json | valid; merkle_root; proofs:[…] | Replay certificate | Deterministic outputs; seed + toolchain IDs |
 | descent_cone.json | restrictions:{U↦cone_slice} | Sheafified Cone | Functorial restriction maps |
 | descent_c.json | refinements; pullbacks | Descended cocycle | Compatibility across covers |
+| descent_gal.json | Gal elements; actions | Galois descent record | Equivariance checks |
+| descent_kan.json | inclusions; extensions | Kan descent metadata | Colimit maps; commutative squares |
