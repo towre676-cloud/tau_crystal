@@ -19,3 +19,4 @@
 | descent_c.json | refinements; pullbacks | Descended cocycle | Compatibility across covers |
 | descent_gal.json | Gal elements; actions | Galois descent record | Equivariance checks |
 | descent_kan.json | inclusions; extensions | Kan descent metadata | Colimit maps; commutative squares |
+
