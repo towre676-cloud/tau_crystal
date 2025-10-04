@@ -6,6 +6,7 @@ out_sum="${LEDGER_DIR}/BUDGET.sum"
 out_tsv="${LEDGER_DIR}/BUDGET.tsv"
 mkdir -p "${LEDGER_DIR}"
 
+# Scan for "*_curvature.tsv", write a per-file .sum, then sum them into BUDGET.{sum,tsv}.
 total=0
 found=0
 OIFS=$IFS; IFS='\n'
@@ -32,7 +33,6 @@ printf "%.12f\n" "$total" > "$out_sum"
 printf "key\tvalue\n" >> "$out_tsv"
 printf "curvature_sum\t%.12f\n" "$total" >> "$out_tsv"
 printf "strict\t%s\n" "$STRICT" >> "$out_tsv"
-
 echo "[anomaly] budget curvature_sum=$total (STRICT=$STRICT)"
 if [ "$STRICT" = "1" ]; then
   awk -v s="$total" "BEGIN{ if (s < -1e-12 || s > 1e-12) exit 1; else exit 0 }" || { echo "[anomaly] nonzero curvature budget under STRICT"; exit 2; }
