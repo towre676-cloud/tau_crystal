@@ -54,4 +54,5 @@
 | Echo measured | Betti ≥ 0; ΔS present | Sheaf restriction logs; priors |
 | Čech valid | δg=c; δc=1; ℓ(c) finite | Finer cover descent; edit paths |
 | Motive honest | Example passes; eligible only | Gal actions; variety replay |
-| Seal reproducible | H_τ matches on replay | Kan descent; full tree JSON |
+| Seal reproducible | H_τ matches on replay | Kan descent; full Merkle tree JSON |
+
