@@ -27,3 +27,8 @@
 | 4 | One motive lift (eligible only) | reg=per; comp_{B,dR} (example) | Gal descent and binding verified |
 | 5 | Sealed pushout bundle | H_τ reproduced; terminality | Kan descent; full Merkle tree in JSON |
 
+**Observables / Invariants (Dashboard‑Safe, Proof‑Backed)**
+| Layer | Observable | Type | Source of Truth | Descent/Audit Extension |
+|:--|:--|:--|:--|:--|
+| Echo | b_k = dim H_k(Cone(U)) | ℕ^k | Homology in Ch(𝓟) | Restriction‑invariant; Merkle siblings |
+| Echo | Graded ΔS | ℝ | Associated‑graded via Fᵏ(q‑CRO) | Pullback‑stable; priors logged |
