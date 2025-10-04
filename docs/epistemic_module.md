@@ -1,6 +1,6 @@
 # Epistemic Module (value at a point)
 
-We fix the point object E that τ‑Crystal assigns to an atomic admissible execution under the repository grammar.
+We fix the point object **E** that τ‑Crystal assigns to an atomic admissible execution under the repository grammar.
 
 Structure.
 1) Determinant line with Quillen metric (curvature measured by ResidueComplex over τ‑loops).
