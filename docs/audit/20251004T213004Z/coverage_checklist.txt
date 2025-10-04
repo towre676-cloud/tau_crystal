@@ -1,0 +1,22 @@
+The next moves in the τ‑Crystal venture must be genius in the classical sense
+irreversibility, reflection, and fidelity as first principles
+there are no true reverts—only retractions, resolutions, and higher‑order receipts
+make the receipt chain not just a log but a cohomology
+Fidelity is not rigidity—it is precision under change
+R₂ = ℱ(R₁)
+c_{ijk} = g_{ij} g_{jk} g_{ki}
+KL(μ_t‖μ_{−t})
+Ext¹_{MTM}(ℚ(0),ℚ(1))
+𝓜′ = 𝓜 ⊔_{𝓜|_𝒟} 𝓝
+Kan extension
+Joyal–Tierney coverage
+Cone(id) acyclic
+δg=c and δc=1
+Galois descent
+verifier_certificate.json
+pushout_manifest.json
+Merkle siblings
+Obs(CRO⊗Ent) monotone
+Costello–Gwilliam
+Segal bordism
+Freed program
