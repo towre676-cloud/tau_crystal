@@ -37,3 +37,8 @@
 | Motive | per, reg, per_p | ℝ, ℚ_p | Built variety + comparison | Gal‑invariant; spec replayable |
 | Sealing | H_τ | 256‑bit | Verifier pushout replay | Full Merkle tree JSON |
 
+**Core Lean Obligations**
+| File/Lemma | Statement | Scope | Descent/Audit Add‑On |
+|:--|:--|:--|:--|
+| ConeIdAcyclic.lean | H•(Cone(id_C)) = 0 | Echo base | Acyclicity descends; proof exported |
+| CechIdentities.lean | δg=c and δc=1 | Curvature | Refinement‑stable; G‑action proved |
