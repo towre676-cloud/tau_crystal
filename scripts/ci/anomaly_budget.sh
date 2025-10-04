@@ -2,38 +2,39 @@
 set -euo pipefail; set +H; umask 022; export LC_ALL=C LANG=C
 STRICT=${STRICT:-0}
 LEDGER_DIR=${LEDGER_DIR:-.tau_ledger}
-out_sum=${LEDGER_DIR}/BUDGET.sum
-out_tsv=${LEDGER_DIR}/BUDGET.tsv
+out_sum="${LEDGER_DIR}/BUDGET.sum"
+out_tsv="${LEDGER_DIR}/BUDGET.tsv"
 mkdir -p "${LEDGER_DIR}"
 
+total=0
 found=0
-for f in "${LEDGER_DIR}"/*_curvature.tsv; do
+OIFS=$IFS; IFS='\n'
+for f in $(find "${LEDGER_DIR}" -maxdepth 1 -type f -name "*_curvature.tsv" | sort); do
   [ -f "$f" ] || continue
   found=1
-  raw=$(awk 'NF>=2{ s+=$2 } END{ print (s+0) }' "$f")
-  printf "%.12f
-" "${raw:-0}" > "${f}.sum"
+  awk "NF>=2 {s+=\$2} END{printf \"%.12f\n\", (s+0)}" "$f" > "${f}.sum"
 done
+IFS=$OIFS
 
 if [ "$found" -eq 1 ]; then
-  agg=$(awk '{ s+=$1 } END{ print (s+0) }' "${LEDGER_DIR}"/*.tsv.sum 2>/dev/null || echo 0)
+  OIFS=$IFS; IFS='\n'
+  for s in $(find "${LEDGER_DIR}" -maxdepth 1 -type f -name "*_curvature.tsv.sum" | sort); do
+    v=$(awk "{print \$1+0}" "$s" 2>/dev/null || echo 0)
+    total=$(awk -v a="$total" -v b="$v" "BEGIN{printf \"%.12f\n\", a+b}")
+  done
+  IFS=$OIFS
 else
-  agg=0
+  total=0
 fi
 
-printf "%.12f
-" "$agg" > "$out_sum"
+printf "%.12f\n" "$total" > "$out_sum"
 : > "$out_tsv"
-printf "key	value
-" >> "$out_tsv"
-printf "curvature_sum	%.12f
-" "$agg" >> "$out_tsv"
-printf "strict	%s
-" "$STRICT" >> "$out_tsv"
-echo "[anomaly] budget curvature_sum=$(cat "$out_sum") (STRICT=$STRICT)"
+printf "key\tvalue\n" >> "$out_tsv"
+printf "curvature_sum\t%.12f\n" "$total" >> "$out_tsv"
+printf "strict\t%s\n" "$STRICT" >> "$out_tsv"
 
+echo "[anomaly] budget curvature_sum=$total (STRICT=$STRICT)"
 if [ "$STRICT" = "1" ]; then
-  # Fail if |sum| > 1e-12 (shell test via awk without printf)
-  awk -v s="$agg" 'BEGIN{ if (s< -1e-12 || s>1e-12) exit 1; else exit 0 }' || { echo "[anomaly] nonzero curvature budget under STRICT"; exit 2; }
+  awk -v s="$total" "BEGIN{ if (s < -1e-12 || s > 1e-12) exit 1; else exit 0 }" || { echo "[anomaly] nonzero curvature budget under STRICT"; exit 2; }
 fi
 exit 0
