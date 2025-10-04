@@ -13,3 +13,8 @@
 |:--|:--|:--|:--|
 | 𝒞 | Typed execution category with receipts | Objects S; morphisms f:S→S′ with ρ(f); π:𝒞→τ | Fibered in groupoids; simulations as 2‑cells |
 | Σ | Typed signature algebra | Constructors; typing; assoc/identity | Sheaf descent for Σ‑terms; proof‑trace morphisms |
+| 𝓟 | Provenance algebra | ℤ⟨receipt symbols⟩; boundary ∂ from grammar | ∂ natural w.r.t. pullbacks; homology exposed |
+| Ch(𝓟) | dg‑category over 𝓟 | Complexes; chain maps; cones; H_* | Stackifies over 𝓛; H_* with Merkle siblings |
+| 𝓛 | Site of τ‑intervals | Joyal–Tierney coverage | Effective epis; cover recomputation |
+| G | Relabeling automorphism group | Generators/relations preserve type/order/hash | Compatible descent action; generator metrics |
+
