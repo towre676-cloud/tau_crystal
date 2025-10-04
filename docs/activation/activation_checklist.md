@@ -42,3 +42,7 @@
 |:--|:--|:--|:--|
 | ConeIdAcyclic.lean | H•(Cone(id_C)) = 0 | Echo base | Acyclicity descends; proof exported |
 | CechIdentities.lean | δg=c and δc=1 | Curvature | Refinement‑stable; G‑action proved |
+| MotiveExample.lean | reg(R)=per(R); comp_{B,dR} iso | Arithmetic module | Gal‑equivariant; binding lemma |
+| PushoutDescent.lean | Kan extension preserves invariants | Sealing | Extension replay verified |
+| EntanglementFlat.lean | Obs(CRO⊗Ent) monotone; curvature(𝒟)=0 | Diagnostics | Naturality + monotonicity proofs |
+
