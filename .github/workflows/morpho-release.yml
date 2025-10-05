@@ -1,0 +1,24 @@
+name: morpho-release
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - scripts/morpho/**
+      - scripts/ci/morpho_release_steps.sh
+      - analysis/morpho/**
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Morpho publish + stamp + tag + release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/ci/morpho_release_steps.sh

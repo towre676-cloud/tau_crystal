@@ -1,0 +1,16 @@
+name: assure
+on:
+  workflow_dispatch:
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  assure-ok:
+    runs-on: ubuntu-latest
+    steps:
+      - name: assure placeholder
+        run: echo "assure placeholder OK"

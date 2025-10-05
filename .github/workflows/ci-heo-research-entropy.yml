@@ -1,0 +1,21 @@
+name: HEO Research — Symbolic dynamics (optional)
+
+on:
+  push:
+    branches: [ "main", "ci-**", "feat/**", "fix/**" ]
+  pull_request:
+
+jobs:
+  heo-research-entropy:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run entropy & complexity analysis (non-blocking)
+        run: |
+          chmod +x ci/heo/research/*.py
+          python ci/heo/research/symbolic_dynamics_entropy_test.py

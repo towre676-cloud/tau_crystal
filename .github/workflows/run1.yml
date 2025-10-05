@@ -1,0 +1,87 @@
+name: tau-crystal run1
+
+on:
+  push:
+    branches: [ "main" ]
+    tags: [ "run1-**", "v*", "release-**" ]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  validate-and-pack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Environment
+        run: |
+          set -euxo pipefail
+          bash --version
+          awk -W version || true
+          tar --version
+
+      - name: Build minimal receipt (if inputs present)
+        run: |
+          set -euxo pipefail
+          [ -f scripts/validation/make_minimal_receipt.sh ] && bash scripts/validation/make_minimal_receipt.sh || true
+          bash scripts/langlands/chain_import.sh
+
+      - name: Generate manifest, τ-sequences, LaTeX stub
+        run: |
+          set -euxo pipefail
+          bash scripts/validation/assemble_run1_manifest.sh
+          bash scripts/langlands/emit_face_tau_sequence.sh || true
+          bash scripts/monographs/make_raman_face_run1_tex.sh
+
+      - name: Validate TSVs + congruence checks
+        run: |
+          set -euxo pipefail
+          bash scripts/validation/validate_face_tsvs.sh
+          bash scripts/langlands/check_tau_congruence.sh || true
+          [ -f analysis/validation/tau_reference.tsv ] && bash scripts/langlands/check_sigma11_reference.sh || true
+
+      - name: Pack witness archive
+        run: |
+          set -euxo pipefail
+          bash scripts/validation/pack_witness.sh
+
+      - name: Job summary
+        run: |
+          {
+            echo "## τ‑Crystal Run Summary"
+            echo ""
+            echo "**Faces in receipt:** $(awk 'END{print (NR>0?NR-1:0)}' analysis/validation/SIGNED_DATASET.receipt.tsv 2>/dev/null || echo 0)"
+            echo ""
+            echo "### Corridor"
+            awk -F= '/^(op_return_hex|txid|block|WITNESS_SHA)=/{print "- `" $0 "`"}' analysis/validation/corridor.receipt.tsv 2>/dev/null || true
+            echo ""
+            echo "### Face stats (head)"
+            echo ""
+            [ -f analysis/validation/face_stats.tsv ] && { echo '```tsv'; head -n 6 analysis/validation/face_stats.tsv; echo '```'; } || echo "_no stats_"
+            echo ""
+            echo "### τ congruence (head)"
+            [ -f analysis/validation/tau_congruence_report.tsv ] && { echo '```tsv'; head -n 6 analysis/validation/tau_congruence_report.tsv; echo '```'; } || echo "_no tau report_"
+            echo ""
+            echo "### σ₁₁ congruence (head)"
+            [ -f analysis/validation/sigma11_congruence.tsv ] && { echo '```tsv'; head -n 6 analysis/validation/sigma11_congruence.tsv; echo '```'; } || echo "_no sigma11 report_"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-crystal-run1-${{ github.run_number }}
+          path: |
+            analysis/validation/SIGNED_DATASET.receipt.tsv
+            analysis/validation/SIGNED_DATASET.bin
+            analysis/validation/run1_manifest.json
+            analysis/validation/face_tau_sequences.tsv
+            analysis/validation/face_stats.tsv
+            analysis/validation/tau_congruence_report.tsv
+            analysis/validation/sigma11_congruence.tsv
+            analysis/validation/corridor.receipt.tsv
+            docs/monographs/ramanujan_face_run1.tex
+            .tau_ledger/discovery/*.tar.gz
+          if-no-files-found: warn

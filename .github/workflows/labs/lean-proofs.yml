@@ -1,0 +1,27 @@
+name: Lean Proofs
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'Core/**'
+      - 'TauCrystal/**'
+      - 'lakefile.lean'
+  pull_request:
+    paths:
+      - 'Core/**'
+      - 'TauCrystal/**'
+      - 'lakefile.lean'
+jobs:
+  verify-proofs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lean
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+      - name: Run Lean proofs
+        run: lake build proofs
+        env:
+          ELAN_TOOLCHAIN: leanprover/lean4:stable
+      - name: Check exit code
+        run: test $? -eq 0 || { echo "Proofs failed"; exit 1; }

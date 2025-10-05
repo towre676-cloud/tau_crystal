@@ -1,0 +1,21 @@
+name: HEO Research — Meta-Prover (optional)
+
+on:
+  push:
+    branches: [ "main", "ci-**", "feat/**", "fix/**" ]
+  pull_request:
+
+jobs:
+  heo-research-meta:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run meta-prover (non-blocking)
+        run: |
+          chmod +x ci/heo/research/*.py
+          python ci/heo/research/meta_prover_test.py

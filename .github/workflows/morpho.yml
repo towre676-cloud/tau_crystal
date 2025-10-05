@@ -1,0 +1,88 @@
+name: Morpho Batch & Discovery
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'scripts/**'
+      - 'analysis/morpho/**'
+      - '.tau_ledger/**'
+      - '.github/workflows/morpho.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'scripts/**'
+      - 'analysis/morpho/**'
+      - '.tau_ledger/**'
+      - '.github/workflows/morpho.yml'
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: morpho-batch-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  batch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Normalize line endings (scripts)
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y dos2unix
+          find scripts -type f -name "*.sh" -print0 | xargs -0 dos2unix || true
+          chmod +x scripts/**/*.sh || true
+
+      - name: Run batch_all
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x scripts/discovery/batch_all.sh
+          scripts/discovery/batch_all.sh
+          echo "LATEST_REC=$(ls -1t .tau_ledger/faces/face-batch-*.tsv | head -n1)" >> $GITHUB_ENV
+          echo "LATEST_SCORE=$(ls -1t .tau_ledger/discovery/face_scores-*.tsv | head -n1)" >> $GITHUB_ENV
+          echo "LATEST_PLOT=$(ls -1t .tau_ledger/discovery/face_scores_plot-*.html | head -n1)" >> $GITHUB_ENV
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-crystal-ledger-${{ github.run_id }}
+          path: |
+            .tau_ledger/faces/face-batch-*.tsv
+            .tau_ledger/discovery/face_scores-*.tsv
+            .tau_ledger/discovery/face_scores_plot-*.html
+            .tau_ledger/discovery/modcurves/*.json
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Commit & push ledger updates
+        shell: bash
+        run: |
+          set -e
+          git config user.name  "tau-crystal-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add .tau_ledger/faces/face-batch-*.tsv .tau_ledger/discovery/face_scores-*.tsv .tau_ledger/discovery/face_scores_plot-*.html .tau_ledger/discovery/modcurves/*.json || true
+          if ! git diff --cached --quiet; then
+            git commit -m "ci: morpho batch & discovery (auto) [skip ci]"
+            git push
+          else
+            echo "No ledger changes to commit."
+          fi
+
+      - name: Echo latest outputs
+        shell: bash
+        run: |
+          echo "Receipt : $LATEST_REC"
+          echo "Scores  : $LATEST_SCORE"
+          echo "Plot    : $LATEST_PLOT"

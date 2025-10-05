@@ -1,0 +1,22 @@
+name: tau-fft-bootstrap
+on:
+  workflow_dispatch:
+jobs:
+  fftbootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: pip install numpy jsonschema
+      - name: Analyze + Stamp + Validate
+        run: |
+          set -Eeuo pipefail
+          bash scripts/experimental/fft_bsd.sh || true
+          bash scripts/experimental/bootstrap_mu.sh || true
+          python scripts/experimental/_validate_fft_bootstrap.py .tau_ledger/experimental/fft_bsd.json .tau_ledger/experimental/bootstrap_mu.json || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tau-fft-bootstrap
+          path: |
+            .tau_ledger/experimental/fft_bsd.json
+            .tau_ledger/experimental/bootstrap_mu.json

@@ -1,0 +1,12 @@
+name: receipt
+on:
+  push:
+    paths: ['manifests/**','scripts/**']
+  pull_request:
+    paths: ['manifests/**','scripts/**']
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: scripts/verify-all.sh

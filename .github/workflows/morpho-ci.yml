@@ -1,0 +1,68 @@
+name: morpho-ci
+on:
+  push:
+    paths:
+      - 'scripts/**'
+      - 'analysis/**'
+      - 'docs/monographs/**'
+      - '.github/workflows/morpho-ci.yml'
+  workflow_dispatch: {}
+
+jobs:
+  verify-and-bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: install python deps (best-effort)
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy scipy reportlab || true
+
+      - name: normalize line endings + chmod
+        shell: bash
+        run: |
+          for f in $(git ls-files | tr '\n' ' '); do
+            sed -i 's/\r$//' "$f" || true
+          done
+          find scripts -type f -name "*.sh" -exec chmod +x {} \; || true
+
+      - name: judge latest cert (safe)
+        shell: bash
+        run: |
+          scripts/morpho/judge_latest.sh || true
+          sed -n '1,200p' analysis/morpho/judge_latest.log || true
+
+      - name: verify latest pack if present
+        shell: bash
+        run: |
+          PACK=$(ls -1dt analysis/morpho/packs/run_* 2>/dev/null | head -n 1 || true)
+          if [ -n "$PACK" ]; then
+            echo "Verifying $PACK"
+            scripts/morpho/pack_verify.sh "$PACK"
+          else
+            echo "No pack found; skipping pack_verify."
+          fi
+
+      - name: upload monograph artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: monograph
+          path: |
+            docs/monographs/craniofacial_certificate.pdf
+            docs/monographs/craniofacial_certificate.rtf
+          if-no-files-found: warn
+
+      - name: upload latest pack (if any)
+        if: ${{ hashFiles('analysis/morpho/packs/run_*') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: latest-pack
+          path: analysis/morpho/packs/run_*
+          if-no-files-found: warn
