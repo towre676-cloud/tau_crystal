@@ -1,0 +1,20 @@
+name: HEO Research — Tropical Limit
+
+on:
+  push:
+    branches: [ "main", "ci-**", "feat/**", "fix/**" ]
+  pull_request:
+
+jobs:
+  tropical-limit:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Tropical limit on periodic fixture
+        run: |
+          python ci/heo/research/tropical_limit.py --sequence ci/data/sequences/periodic_7_0010010.json --N 2048 --assert

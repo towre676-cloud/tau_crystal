@@ -1,0 +1,29 @@
+name: HEO Research — ML Inference
+
+on:
+  push:
+    branches: [ "main", "ci-**", "feat/**", "fix/**" ]
+  pull_request:
+
+jobs:
+  heo-ml-infer:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install numpy
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy
+      - name: Train model (if not present) and run inference
+        run: |
+          if [ ! -f ci/heo/research/models/ml_predictor_linear.json ]; then
+            python ci/heo/research/ml_predictor.py --train --eval --target_mae 0.02
+          fi
+          python ci/heo/research/ml_infer.py \
+            --model ci/heo/research/models/ml_predictor_linear.json \
+            --sequence ci/data/sequences/periodic_7_0010010.json

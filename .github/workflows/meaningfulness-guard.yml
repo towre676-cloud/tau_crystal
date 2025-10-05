@@ -1,0 +1,15 @@
+name: meaningfulness-guard
+on:
+  push: { branches: [ main ] }
+  pull_request:
+  workflow_dispatch: {}
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check meaningfulness scaffolding present
+        run: |
+          test -f docs/instrumentation/MEANINGFULNESS.md
+          test -f docs/instrumentation/PROTOCOL_VALIDATION.md
+          echo "Meaningfulness framing present."

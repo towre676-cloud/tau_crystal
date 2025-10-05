@@ -1,0 +1,20 @@
+name: HEO Research — Arithmetic Hash (optional)
+
+on:
+  push:
+    branches: [ "main", "ci-**", "feat/**", "fix/**" ]
+  pull_request:
+
+jobs:
+  heo-crypto:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run hash smoketest
+        run: |
+          python ci/heo/research/arith_hash_smoketest.py

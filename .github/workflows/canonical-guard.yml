@@ -1,0 +1,20 @@
+name: canonical-truths-guard
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      allow_recanonize:
+        description: 'Set true to bypass guard intentionally'
+        required: false
+        default: 'false'
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run canonical SHA guard
+        env:
+          ALLOW_RECANONIZE: ${{ github.event.inputs.allow_recanonize || 'false' }}
+        run: bash scripts/geom/guard_canon.sh

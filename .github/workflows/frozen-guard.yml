@@ -1,0 +1,12 @@
+name: frozen-guard
+on:
+  push: { branches: [ main ] }
+  pull_request:
+  workflow_dispatch: {}
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify frozen determinants
+        run: scripts/arith/guard_frozen.sh
