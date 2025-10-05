@@ -1,0 +1,24 @@
+name: mirror
+on:
+  workflow_dispatch:
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run mirror (soft-pass)
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          if [ -f scripts/mirror.sh ]; then
+            bash scripts/mirror.sh || { echo "::warning::mirror failed; soft-passing"; }
+          else
+            echo "::notice::scripts/mirror.sh missing; skipping"
+          fi

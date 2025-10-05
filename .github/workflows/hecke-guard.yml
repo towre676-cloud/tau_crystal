@@ -1,0 +1,11 @@
+name: hecke-guard
+on: [push, pull_request]
+jobs:
+  hecke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Sage
+        run: sudo apt-get update && sudo apt-get install -y sagemath
+      - name: Verify Hecke equivariance (stub)
+        run: sage scripts/ramanujan/hecke_commute.sage

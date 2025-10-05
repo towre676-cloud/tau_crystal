@@ -1,0 +1,19 @@
+name: tau-phys-guards
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lattice JSON
+        run: bash scripts/phys/lattice_from_params.sh .tau_ledger/phys/lattice.json
+      - name: Spectral gap (hard)
+        run: EPS=1e-6 SOFT=0 bash scripts/phys/spectral_gap_guard.sh .tau_ledger/phys/lattice.json
+      - name: Debye cap
+        run: bash scripts/phys/debye_cap_from_lattice.sh .tau_ledger/phys/lattice.json .tau_ledger/phys/debye_cap.txt
+      - name: Recursion guard (hard)
+        run: HARD=1 bash scripts/lean/recursion_cap_guard.sh .tau_ledger/phys/debye_cap.txt src
+# policy: pinned Γ via K0=1e-3

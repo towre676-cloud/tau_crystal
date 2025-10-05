@@ -1,0 +1,21 @@
+name: tau-experimental-v2
+on:
+  workflow_dispatch:
+jobs:
+  experimental:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: BSD rank-1 + dynamic Sym² + stamp & validate
+        run: |
+          set -Eeuo pipefail
+          python scripts/experimental/bsd_rank1.py || true
+          HJSON=$(ls .tau_ledger/automorphic/hecke_*.json | head -n1 || true)
+          [ -n "$HJSON" ] && bash scripts/experimental/symsquare_dynamic.sh "$HJSON" || true
+          python scripts/experimental/_validate_schema.py .tau_ledger/experimental/*.json || true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tau-experimental-v2
+          path: |
+            .tau_ledger/experimental/bsd_rank1.json
+            .tau_ledger/experimental/symsquare_zeros.json

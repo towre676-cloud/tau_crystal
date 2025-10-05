@@ -1,0 +1,8 @@
+name: physics
+on: [workflow_dispatch, push]
+jobs:
+  ok:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "physics ok"

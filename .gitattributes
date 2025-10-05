@@ -1,0 +1,3 @@
+*.sh text eol=lf
+corridor/capsules/index.tsv text eol=lf
+.tau_ledger/capsules/index.sha256 text eol=lf

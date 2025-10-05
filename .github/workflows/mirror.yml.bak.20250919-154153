@@ -1,0 +1,74 @@
+name: mirror-world
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/atlas/**'
+      - 'analysis/atlas/**'
+      - '.github/workflows/mirror.yml'
+  schedule:
+    - cron: '17 3 * * 2'
+permissions:
+  contents: write
+jobs:
+  build:
+    name: build-${{ matrix.image }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image: [ubuntu:24.04, alpine:3.20]
+    container:
+      image: ${{ matrix.image }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: deps (ubuntu)
+        if: contains(matrix.image, 'ubuntu')
+        run: apt-get update && apt-get install -y jq coreutils awk git
+      - name: deps (alpine)
+        if: contains(matrix.image, 'alpine')
+        run: apk add --no-cache jq coreutils gawk git
+      - name: build atlas
+        run: |
+          bash scripts/atlas/build_atlas.sh
+          tar -czf atlas-${{ matrix.image//[:\/]/_ }}.tgz analysis/atlas
+      - uses: actions/upload-artifact@v4
+        with:
+          name: atlas-${{ matrix.image }}
+          path: atlas-${{ matrix.image//[:\/]/_ }}.tgz
+
+  compare:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: atlas-ubuntu:24.04, path: u }
+      - uses: actions/download-artifact@v4
+        with: { name: atlas-alpine:3.20, path: a }
+      - name: unpack
+        run: |
+          tar -xzf u/*.tgz -C u
+          tar -xzf a/*.tgz -C a
+      - name: compare panels + L(1/2)
+        id: cmp
+        run: |
+          mkdir -p analysis/metrics
+          ok=1
+          for d in $(find u/analysis/atlas -maxdepth 1 -mindepth 1 -type d -printf '%f\n' | sort); do
+            diff -u "u/analysis/atlas/$d/ap.tsv" "a/analysis/atlas/$d/ap.tsv" || ok=0
+            L1=$(jq -r '.numerics.L_half' "u/analysis/atlas/$d/leaf.json")
+            L2=$(jq -r '.numerics.L_half' "a/analysis/atlas/$d/leaf.json")
+            [ "$L1" = "$L2" ] || ok=0
+          done
+          echo "ok=$ok" >> $GITHUB_OUTPUT
+          ts=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          jq -n --arg ts "$ts" --arg verdict "$([ "$ok" -eq 1 ] && echo pass || echo fail)" \
+                '{timestamp:$ts, mirror_verdict:$verdict}' >> analysis/metrics/mirror.jsonl
+      - name: commit mirror verdict
+        if: always()
+        run: |
+          git config user.name "mirror-bot"
+          git config user.email "mirror-bot@users.noreply.github.com"
+          git add analysis/metrics/mirror.jsonl
+          git diff --cached --quiet || git commit -m "metrics: mirror verdict (${{ steps.cmp.outputs.ok == '1' && 'pass' || 'fail' }})"
+          git push

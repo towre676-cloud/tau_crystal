@@ -1,0 +1,26 @@
+name: tau-langlands
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+jobs:
+  emit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Langlands invariants
+        run: |
+          set -Eeuo pipefail; set +H; umask 022
+          bash scripts/langlands/tau_L_function.sh || true
+          bash scripts/motivic/decompose_motives.sh || true
+          bash scripts/arithmetic/compute_rank.sh || true
+      - name: Upload Langlands artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tau-langlands
+          path: |
+            .tau_ledger/langlands/L_tau.json
+            .tau_ledger/langlands/motives.json
+            .tau_ledger/langlands/rank.json

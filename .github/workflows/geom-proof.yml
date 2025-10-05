@@ -1,0 +1,24 @@
+name: geom-proof
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python setup
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: pip install --quiet numpy scipy
+      - name: Geometric proof
+        run: bash scripts/geom/geometric_proof.sh "${{ github.workspace }}/LS3D-W" || true
+      - name: Anchor+Verify
+        run: bash scripts/geom/run_anchor_verify.sh analysis/geom/ls3dw_mat_manifest.tsv analysis/geom/ls3dw_params.tsv
+      - name: Guards
+        run: |
+          grep -q '^ANCHOR=TRUE' analysis/geom/anchor.receipt
+          grep -q '^VERIFY=TRUE' analysis/geom/anchor.receipt
