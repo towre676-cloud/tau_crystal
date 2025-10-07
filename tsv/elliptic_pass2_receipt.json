@@ -25,16 +25,16 @@
       "sha256": "82517136534a9e1a13105dd2da74846376ceacc41a188b02f3303683f36d0ad7"
     },
     "tsv/elliptic_q1_conditioning_summary.txt": {
-      "sha256": "2dd32887b74a75a2e0b43ad7888ca0da56a6a3a43d0922b7a1f8e0a4bbf48942"
+      "sha256": "a35c170441842cc489655867dbfc648ebb21d02871be0913330635c7c28a4ee2"
     },
     "tsv/elliptic_q1_conditioning_audit.tsv": {
-      "sha256": "2c2759a0dd68f022ef52abc802bc214733f40bd1bfc5364eb6b882ccf3bfc73b"
+      "sha256": "3cd075a889fdb14f816786208032ff218908096663e7521b9fca668e6a22b3c6"
     }
   },
-  "merkle_root": "8320c4b5b378690572620c4470c8abab51bcabcd5c999e52d8c4d4e971cdbb1b",
+  "merkle_root": "676765388591955e2e5d1cdb05bdfa50f94c2ec7e07c656f82b591ca5ad39cfe",
   "conditioning_certificate": {
     "threshold_rel_abs_diff": 0.1,
-    "median_rel_abs_diff": 1.0,
+    "median_rel_abs_diff": 0.0001842,
     "p90_rel_abs_diff": null,
     "passed": false,
     "tauB_present": true,
