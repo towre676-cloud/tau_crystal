@@ -1,0 +1,9 @@
+(1) Microscope / holomorphy: Laurent symmetry across charges reflects a holomorphic
+    weak Jacobi form (w=0, m=3/2); poles cancel in the CY3 product.
+
+(2) Cubic factor: with c1=0, only the cubic symmetric polynomial survives and equals
+    3*c3(TX). Our contraction against sum x_i^3 makes the factor 3 automatic.
+
+(3) Universal normal form: Ell_X = (chi(X)/2) * phi_{0,3/2}. For the quintic,
+    chi=-200 => Ell = -100 * phi. In code, phi_{0,3/2} = C/6 with
+    C := (1/6) * d^3/dz^3 Phi |_{z=0}.

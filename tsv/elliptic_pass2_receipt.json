@@ -31,7 +31,7 @@
       "sha256": "3cd075a889fdb14f816786208032ff218908096663e7521b9fca668e6a22b3c6"
     }
   },
-  "merkle_root": "b255c429e8e54d0f3a2f4aaba951468c7dcb2719b195d7884122a5d613caf91c",
+  "merkle_root": "7b99d41bf0748e3c2c4061ff726e20401527cb921f30cbaf3826cdd2066c95b8",
   "conditioning_certificate": {
     "threshold_rel_abs_diff": 0.1,
     "median_rel_abs_diff": 0.0001842,
@@ -65,6 +65,22 @@
         "median": null,
         "count": 0
       }
+    }
+  },
+  "annotations": {
+    "cy3_normal_form": {
+      "statement": "Ell_X(q,y) = (chi(X)/2) * phi_{0,3/2}(q,y)",
+      "quintic": {
+        "chi": -200,
+        "scale": -100
+      },
+      "phi_vs_C": "phi_{0,3/2} = C/6; C = (1/6)*d^3 Phi/dz^3 at z=0",
+      "cubic_factor": "c1=0 -> linear/quadratic vanish; cubic symmetric polynomial = 3*c3(TX)",
+      "holomorphy": "theta-ratio poles cancel across three Chern roots; holomorphic weak Jacobi form",
+      "docs": [
+        "docs/universal_normal_form.md",
+        "docs/notes/three_adjustments.txt"
+      ]
     }
   }
 }

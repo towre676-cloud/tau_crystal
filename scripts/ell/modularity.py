@@ -1,3 +1,10 @@
+## [CY3 Normal Form]
+## Ell_X(q,y) = (chi(X)/2) * phi_{0,3/2}(q,y)   (weight 0, index 3/2)
+## Quintic: chi = -200 -> Ell = -100 * phi_{0,3/2}
+## Dictionary:
+##   C := (1/6) * d^3/dz^3 Phi |_{z=0},   phi_{0,3/2} = C/6
+##   cubic factor = geometric: with c1=0, cubic symmetric polynomial = 3*c3(TX)
+## Holomorphy: theta-ratio poles cancel over three Chern roots (CY3), giving a holomorphic weak Jacobi form.
 import cmath, math, os, sys
 m=1.5  # Jacobi index (quintic)
 sys.path.insert(0, os.path.dirname(__file__))
