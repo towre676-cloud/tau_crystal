@@ -1,3 +1,15 @@
+"""CY3 normal form (docs only)
+Ell_X(τ,z) = (χ/2)·φ_{0,3/2}(τ,z),   φ_{0,3/2} = C/6,   index m = 3/2.
+On CY^3: ∑ x_i^3 = 3 c_3 ⇒ Ell_X = 3·C·∫ c_3 = (χ/2)·C.
+Quintic: χ = -200 ⇒ Ell_X = -100·φ_{0,3/2}; note “-600 = 3·∫ c_3”.
+This file computes C via (1/6)∂_x^3 Φ|_{x=0}; *numerics unchanged*.
+"""
+"""CY3 normal form (documentation only)
+Ell_X(τ,z) = (χ/2)·φ_{0,3/2}(τ,z),   φ_{0,3/2} = C/6,   index m = 3/2.
+On CY^3: ∑ x_i^3 = 3 c_3 ⇒ Ell_X = 3·C·∫ c_3 = (χ/2)·C.
+Quintic: χ=-200 ⇒ Ell_X = -100·φ_{0,3/2}; note “-600 = 3·∫ c_3”.
+This file computes C via (1/6)∂_x^3 Φ|_{x=0}; numerics unchanged.
+"""
 ## [CY3 Normal Form]
 ## Ell_X(q,y) = (chi(X)/2) * phi_{0,3/2}(q,y)   (weight 0, index 3/2)
 ## Quintic: chi = -200 -> Ell = -100 * phi_{0,3/2}

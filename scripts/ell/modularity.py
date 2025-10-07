@@ -1,3 +1,4 @@
+# Note: φ_{0,3/2} = C/6 (CY3). Index m=3/2. Two-τ checks test Jacobi modularity.
 ## [CY3 Normal Form]
 ## Ell_X(q,y) = (chi(X)/2) * phi_{0,3/2}(q,y)   (weight 0, index 3/2)
 ## Quintic: chi = -200 -> Ell = -100 * phi_{0,3/2}
