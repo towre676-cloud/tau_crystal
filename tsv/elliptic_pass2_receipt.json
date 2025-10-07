@@ -1,0 +1,44 @@
+{
+  "kind": "elliptic_pass2_freeze",
+  "scale_S": "<insert your fitted complex scale here>",
+  "tau_pairs": [
+    [
+      "0.12+3.4i",
+      "0.19+2.7i"
+    ],
+    [
+      "ALT",
+      "ALT"
+    ]
+  ],
+  "artifacts": {
+    "git_head": {
+      "abbr": "2ba197cf84e1"
+    },
+    "tsv/elliptic_q1_fourier_sane_bps.tsv": {
+      "sha256": "18794bafd3dbe3617c0d06ffb2ce792fb04d01a77e63775a789ae62cbff7c26f"
+    },
+    "tsv/elliptic_q1_samples.tsv": {
+      "sha256": "5bb352d1a9c67dd08f85284cf2b0c2c23cc7e70aba1799fd173f7742068f95e7"
+    },
+    "tsv/elliptic_q_series.tsv": {
+      "sha256": "82517136534a9e1a13105dd2da74846376ceacc41a188b02f3303683f36d0ad7"
+    },
+    "tsv/elliptic_q1_conditioning_summary.txt": {
+      "sha256": "2dd32887b74a75a2e0b43ad7888ca0da56a6a3a43d0922b7a1f8e0a4bbf48942"
+    },
+    "tsv/elliptic_q1_conditioning_audit.tsv": {
+      "sha256": "2c2759a0dd68f022ef52abc802bc214733f40bd1bfc5364eb6b882ccf3bfc73b"
+    }
+  },
+  "merkle_root": "8320c4b5b378690572620c4470c8abab51bcabcd5c999e52d8c4d4e971cdbb1b",
+  "conditioning_certificate": {
+    "threshold_rel_abs_diff": 0.1,
+    "median_rel_abs_diff": 1.0,
+    "p90_rel_abs_diff": null,
+    "passed": false,
+    "tauB_present": true,
+    "summary_file": "tsv/elliptic_q1_conditioning_summary.txt",
+    "audit_file": "tsv/elliptic_q1_conditioning_audit.tsv"
+  }
+}
