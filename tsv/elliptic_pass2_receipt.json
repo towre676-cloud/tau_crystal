@@ -31,12 +31,12 @@
       "sha256": "3cd075a889fdb14f816786208032ff218908096663e7521b9fca668e6a22b3c6"
     }
   },
-  "merkle_root": "676765388591955e2e5d1cdb05bdfa50f94c2ec7e07c656f82b591ca5ad39cfe",
+  "merkle_root": "5c59e489033a983201efb445de138939f552c467dbcf6a617e3b9fddd179ea1b",
   "conditioning_certificate": {
     "threshold_rel_abs_diff": 0.1,
     "median_rel_abs_diff": 0.0001842,
-    "p90_rel_abs_diff": null,
-    "passed": false,
+    "p90_rel_abs_diff": 0.000422,
+    "passed": true,
     "tauB_present": true,
     "summary_file": "tsv/elliptic_q1_conditioning_summary.txt",
     "audit_file": "tsv/elliptic_q1_conditioning_audit.tsv"
