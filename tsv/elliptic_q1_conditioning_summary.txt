@@ -1,5 +1,5 @@
 conditioning audit
 pairs compared: 13
-median rel_abs_diff: 1.000e+00
-P90    rel_abs_diff: 1.000e+00
+median rel_abs_diff: 1.842e-04
+P90    rel_abs_diff: 4.220e-04
 OUT: tsv/elliptic_q1_conditioning_audit.tsv
