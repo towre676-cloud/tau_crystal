@@ -31,7 +31,7 @@
       "sha256": "3cd075a889fdb14f816786208032ff218908096663e7521b9fca668e6a22b3c6"
     }
   },
-  "merkle_root": "10d05315b932da1c4fb98943f016c5a57fe5f166f7f8d435cd620f9fac712eac",
+  "merkle_root": "b255c429e8e54d0f3a2f4aaba951468c7dcb2719b195d7884122a5d613caf91c",
   "conditioning_certificate": {
     "threshold_rel_abs_diff": 0.1,
     "median_rel_abs_diff": 0.0001842,
@@ -42,8 +42,29 @@
     "audit_file": "tsv/elliptic_q1_conditioning_audit.tsv"
   },
   "pass3_modularity": {
-    "threshold": "1e-8",
+    "index": "3/2",
     "tsv": "tsv/elliptic_modularity_checks.tsv",
-    "index": "3/2"
+    "summary": {
+      "tau+1": {
+        "max": null,
+        "median": null,
+        "count": 0
+      },
+      "S": {
+        "max": null,
+        "median": null,
+        "count": 0
+      },
+      "z+1": {
+        "max": null,
+        "median": null,
+        "count": 0
+      },
+      "z+tau": {
+        "max": null,
+        "median": null,
+        "count": 0
+      }
+    }
   }
 }

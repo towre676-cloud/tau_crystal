@@ -1,4 +1,5 @@
 import cmath, math, os, sys
+m=1.5  # Jacobi index (quintic)
 sys.path.insert(0, os.path.dirname(__file__))
 from ell_fourier import theta1_and_derivs
 EPS = 1e-18
