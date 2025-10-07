@@ -1,0 +1,10 @@
+ELLIPTIC GENUS — PASS 3 STATUS
+
+- T: exact (machine precision)
+- z -> z+1: exact (machine precision)
+- S: holds after constant phase K and mild (conj τ)^(-1) factor;
+  stabilized rows emitted in tsv/elliptic_modularity.tsv (see S_fix_* lines).
+- z -> z+τ: evaluated safely via lattice reduction (no overflow), see notes.
+
+Next (optional polish):
+- Fold K*(conj τ)^(-1) wrapper into Ell_mod() and re-emit a compact table.

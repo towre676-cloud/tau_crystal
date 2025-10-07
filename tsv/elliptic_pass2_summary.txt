@@ -1,0 +1,17 @@
+ELLIPTIC GENUS — PASS 2 COMPLETE
+
+Topological limit (q^0):
+- Target: χ_y = -y^{-1} + 101
+- Achieved: a_0(y) matches with rel_err ~ 1e-3 across z-grid
+- Scale S used: (see fit in repo log / modularity notes)
+
+BPS coefficient (q^1):
+- Two-τ solve stable (τ1=0.12+3.4i, τ2=0.19+2.7i, N=360)
+- Symmetry (Jacobi parity) after y^{-3/2}:
+  |ĉ_{-6}| = |ĉ_2| ≈ 1.467e-4
+  |ĉ_{-3}| = |ĉ_5| ≈ 4.149e-4
+- Artifacts:
+  - tsv/elliptic_q_series.tsv
+  - tsv/elliptic_q1_samples.tsv
+  - tsv/elliptic_q1_fourier_sane.tsv
+  - tsv/elliptic_q1_fourier_sane_bps.tsv
