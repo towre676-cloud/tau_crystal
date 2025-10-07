@@ -31,7 +31,7 @@
       "sha256": "3cd075a889fdb14f816786208032ff218908096663e7521b9fca668e6a22b3c6"
     }
   },
-  "merkle_root": "e8bf03a4f0c60a288c6153f826191f4ef087b7947650085922020b0901854e50",
+  "merkle_root": "10d05315b932da1c4fb98943f016c5a57fe5f166f7f8d435cd620f9fac712eac",
   "conditioning_certificate": {
     "threshold_rel_abs_diff": 0.1,
     "median_rel_abs_diff": 0.0001842,
@@ -43,6 +43,7 @@
   },
   "pass3_modularity": {
     "threshold": "1e-8",
-    "tsv": "tsv/elliptic_modularity_checks.tsv"
+    "tsv": "tsv/elliptic_modularity_checks.tsv",
+    "index": "3/2"
   }
 }
