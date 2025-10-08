@@ -1,3 +1,21 @@
+# venv & caches
+.venv/
+__pycache__/
+*.pyc
+*.pyo
 
-# Local backups (do not track)
-rescue/
+# OS junk
+.DS_Store
+Thumbs.db
+
+# local outputs
+out/
+logs/
+tmp/
+
+# large tables unless explicitly added
+tsv/*.raw
+tsv/*.bak
+
+# notebooks (optional)
+*.ipynb_checkpoints/
