@@ -1,2 +1,4 @@
 
 Elliptic stub run merkle: 1e853e9e50966b6e58e4090db177e0f217d3c796f35550115bbac9f658726972
+
+Elliptic stub run merkle (freezer v1): 1e853e9e50966b6e58e4090db177e0f217d3c796f35550115bbac9f658726972
