@@ -29,9 +29,14 @@
     },
     "tsv/elliptic_q1_conditioning_audit.tsv": {
       "sha256": "3cd075a889fdb14f816786208032ff218908096663e7521b9fca668e6a22b3c6"
+    },
+    "q1_central_sigma_tsv": {
+      "path": "tsv/elliptic_q1_central_sigma.tsv",
+      "sha256": "185d46208088d1b2668febf7c2df09311ba5a4050a5ee41f501f2022912f422c",
+      "uncertainty": "two-run SEM (|Δ|/2)"
     }
   },
-  "merkle_root": "7b99d41bf0748e3c2c4061ff726e20401527cb921f30cbaf3826cdd2066c95b8",
+  "merkle_root": "045150caa2b5ee2de1f25b37fbf22042100fbae23de996b193e95a746c54e04f",
   "conditioning_certificate": {
     "threshold_rel_abs_diff": 0.1,
     "median_rel_abs_diff": 0.0001842,
