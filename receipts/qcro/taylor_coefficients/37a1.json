@@ -1,0 +1,5 @@
+{"curve":"37a1",
+ "A1":1.66e-05,       "sigma_A1":2.5e-06,
+ "A3":0.0452,         "sigma_A3":1.0e-03,
+ "cov_A1_A3":0.0,
+ "_note":"SCALE-CONSISTENT DUMMY"}

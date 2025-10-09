@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+set -euo pipefail
+export LC_ALL=C LC_NUMERIC=C
+
+PANEL="tsv/alpha_history.tsv"
+AWK_CORE="scripts/ulp_search.awk"
+OUT="tsv/alpha_hops.tsv"
+HOPS="tsv/alpha_hop_report.tsv"
+LOG="logs/alpha_hop_$(date +%Y%m%d_%H%M%S).log"
+
+# ---- Basis constants (same as driver) ----
+alpha="0.0072973525693"
+alphas="0.1179"
+pi_val="3.141592653589793"
+phi_val="1.6180339887498948"
+mp_me="1836.15267343"
+
+llog(){ awk -v x="$1" 'BEGIN{printf("%.15g", log(x)+0.0)}'; }
+ln_alpha="$(llog "$alpha")"
+ln_alphas="$(llog "$alphas")"
+ln_pi="$(llog "$pi_val")"
+ln_phi="$(llog "$phi_val")"
+ln_mpme="$(llog "$mp_me")"
+
+DENOMS=(7 9 11 12)
+P_MAX=2
+MDL_LAMBDA=0.1
+
+mkdir -p tsv logs
+
+# Output header
+echo -e "release\tDmax\ty_ln\tsigma_ln\tr0\tr1\tr2\tr3\tr4\teps\tz\tchi2\tdof\tchi2_dof\tk\tmaxQ\tL1\tBIC\tbucketN\tstab\torbit\tmults" > "$OUT"
+
+# Ensure panel exists and has data
+if [[ ! -s "$PANEL" ]]; then
+  echo "ERROR: $PANEL missing or empty." >&2
+  exit 1
+fi
+
+# Normalize input -> (release, ln_alpha, sigma_ln)
+mapfile -t rows < <(awk '
+  BEGIN{FS="[ \t]+"; OFS="\t"}
+  /^[[:space:]]*#/ {next}
+  NF<3 {next}
+  {
+    rel=$1; a=$2+0; sa=$3+0;
+    if(a<=0 || sa<=0) next;
+    printf "%s\t%.15g\t%.15g\n", rel, log(a)+0.0, sa/a;
+  }' "$PANEL")
+
+if (( ${#rows[@]} == 0 )); then
+  echo "ERROR: No valid rows in $PANEL (need: release alpha sigma_alpha > 0)." >&2
+  exit 1
+fi
+
+# Orbit helper
+orbit_row(){
+  awk -v r0="$1" -v r1="$2" -v r2="$3" -v r3="$4" -v r4="$5" '
+    function absv(x){return x<0?-x:x}
+    function keyf(x){return sprintf("%.12f", x)}
+    function two_pow(n,i,p){p=1;for(i=1;i<=n;i++)p*=2;return p}
+    function fact(n,i,f){f=1;for(i=2;i<=n;i++)f*=i;return f}
+    BEGIN{
+      v[1]=absv(r0); v[2]=absv(r1); v[3]=absv(r2); v[4]=absv(r3); v[5]=absv(r4);
+      zeros=0; for(i=1;i<=5;i++){ if(v[i]==0){zeros++;continue} k=keyf(v[i]); cnt[k]++ }
+      stab=two_pow(zeros); mults="";
+      for(k in cnt){ m=cnt[k]; stab*=fact(m); mults=mults sprintf("%s:%d,",k,m) }
+      if(length(mults)>0) sub(/,$/,"",mults)
+      orbit=int(3840/(stab>0?stab:1))
+      print stab, orbit, mults
+    }'
+}
+
+# Iterate releases
+for row in "${rows[@]}"; do
+  rel="$(awk -F'\t' '{print $1}' <<<"$row")"
+  yln="$(awk -F'\t' '{print $2}' <<<"$row")"
+  sln="$(awk -F'\t' '{print $3}' <<<"$row")"
+
+  for D in "${DENOMS[@]}"; do
+    mapfile -t bucket < <(
+      gawk -v Y0="$yln" -v SIG0="$sln" -v DMAX0="$D" -v PMAX0="$P_MAX" -v MDL0="$MDL_LAMBDA" \
+           -v Z0v=0 -v Z1v="$ln_alphas" -v Z2v="$ln_pi" -v Z3v="$ln_phi" -v Z4v="$ln_mpme" \
+           -f "$AWK_CORE" \
+      | awk -v rel="$rel" -v D="$D" 'BEGIN{OFS="\t"} $1=="BUCKET"{
+           print rel, D, $(2),$(3),$(4),$(5),$(6),$(7),$(8),$(9),$(10),$(11),$(12),$(13)
+         }' \
+      | sort -t$'\t' -k13,13g -k12,12g -k11,11g
+    )
+    (( ${#bucket[@]} )) || continue
+
+    rep="${bucket[0]}"
+    read -r _rel _D r0 r1 r2 r3 r4 eps z chi2 k maxQ L1 BIC <<<"$(awk -F'\t' '{print $0}' <<<"$rep")"
+    dof=1; chi2_dof="$chi2"
+    read -r stab orbit mults <<<"$(orbit_row "$r0" "$r1" "$r2" "$r3" "$r4")"
+
+    printf "%s\t%s\t%.12g\t%.12g\t%.12g\t%.12g\t%.12g\t%.12g\t%.12g\t%.12g\t%.12g\t%.12g\t%d\t%.12g\t%d\t%d\t%.12g\t%.6g\t%d\t%d\t%d\t%s\n" \
+      "$rel" "$D" "$yln" "$sln" "$r0" "$r1" "$r2" "$r3" "$r4" "$eps" "$z" "$chi2" "$dof" "$chi2_dof" "$k" "$maxQ" "$L1" "$BIC" "${#bucket[@]}" "$stab" "$orbit" "$mults" \
+      >> "$OUT"
+  done
+done |& tee -a "$LOG" >/dev/null
+
+# Hop report for D=12 only (fixed: no `next` in END{})
+{
+  echo -e "releaseA\treleaseB\tD\tzA\tzB\t|Δz|\tREP_A(r)\tREP_B(r)\t|Δeps|\tΔBIC"
+  awk -F'\t' '
+    BEGIN{OFS="\t"}
+    NR==1{next}
+    $2==12{
+      z[$1]=$11+0; eps[$1]=$10+0; bic[$1]=$18+0;
+      r[$1]=sprintf("[%s,%s,%s,%s,%s]", $5,$6,$7,$8,$9)
+      rels[++n]=$1
+    }
+    END{
+      if(n<2){ exit }
+      asort(rels)
+      for(i=1;i<n;i++){
+        A=rels[i]; B=rels[i+1];
+        if(!(A in z) || !(B in z)) continue
+        dz=z[A]-z[B]; if(dz<0)dz=-dz
+        de=eps[A]-eps[B]; if(de<0)de=-de
+        db=bic[B]-bic[A]
+        print A,B,12,z[A],z[B],dz,r[A],r[B],de,db
+      }
+    }' "$OUT"
+} > "$HOPS"
+
+echo "== alpha_hops (per release) -> $OUT"
+sed -n '1,80p' "$OUT"
+echo "== hop_report -> $HOPS"
+sed -n '1,40p' "$HOPS"
