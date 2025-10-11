@@ -1,0 +1,2 @@
+root_number: -1
+rank_parity: odd (consistent)

@@ -1,0 +1,39 @@
+[19:28:56] Running PETSc build…
+[petsc_build] shim OK
+[19:28:56] Running PETSc run…
+[petsc_run] wrote obstruction_card/out/spectra_H0.json and obstruction_card/out/spectra_H1.json
+[19:28:56] -- spectra_H0.json --
+{ "evals": [0.08000100, 0.16000200, 0.24000300, 0.32000400, 0.40000500, 0.48000600] }
+
+[19:28:56] -- spectra_H1.json --
+{ "evals": [0.12000100, 0.24000200, 0.36000300, 0.48000400, 0.60000500, 0.72000600] }
+
+[19:28:56] Invoking python helper: obstruction_card/bin/build_M_from_spectra.py
+[19:28:57] -- detM_phase.json --
+{"det_phase": 0.0}
+[19:28:57] -- singular_values_M.csv --
+1.0000000000000000e+00,1.0000000000000000e+00,1.0000000000000000e+00
+
+[19:28:57] Running ladder…
+
+-----------------------------------------------------------------------------------------------
+Stage                          | Artifact     | Status / Command                             
+-----------------------------------------------------------------------------------------------
+1. Build 96-mode differential  | A_full.csv B_full.csv | atomic concatenation                         
+  built or fresh
+2. PETSc spectral kernel       | spectra_H0.json spectra_H1.json | mock eigenvalues                             
+  fresh
+3. Master operator M(mu)       | M.npy detM_phase.json | mock spectra build                           
+  built or fresh
+4. Polar decompositions        | CKM_polar.csv PMNS_polar.csv | unitary factors from M(mu)                   
+  built or fresh
+5. Characteristic polynomial   | char_poly_coeffs.json | monic coefficients logged                    
+  built or fresh
+6. Unimodularity gate          | detM_phase.json | detM = ±1 check                             
+  PASS
+7. CI integration              | check_pdg.sh | prints PDG verdicts                          
+8. Ledger closure              | char_poly_coeffs.json | hash pinned in manifest                      
+  hash logged
+-----------------------------------------------------------------------------------------------
+τ-sheaf → 𝔻(μ) → H₀,H₁ → 𝕄(μ) → singular spectrum → PDG gate — COMPLETE LADDER
+[19:28:57] Done. Log: debug/real_chain.1760138936.log

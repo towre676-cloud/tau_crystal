@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -euo pipefail; umask 022; export LC_ALL=C LANG=C
+ROOT="${ROOT:-$HOME/Desktop/tau_crystal/tau_crystal}"; cd "$ROOT" || exit 1

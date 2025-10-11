@@ -1,0 +1,22 @@
+name: atlas
+on:
+  push:
+    paths:
+      - 'docs/equation_atlas.csv'
+      - 'scripts/atlas/**'
+      - 'docs/equation_atlas.md'
+  pull_request:
+    paths:
+      - 'docs/equation_atlas.csv'
+      - 'scripts/atlas/**'
+      - 'docs/equation_atlas.md'
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python3 scripts/atlas/check_atlas.py
+

@@ -1,0 +1,25 @@
+=== χ² test: arithmetic–spectral matching ===
+arithmetic receipts: ./receipts/qcro/taylor_coefficients
+spectral receipts:   ./receipts/monogon/fh_constants
+
+spectral invariants:
+  ε = 0.00412 ± 0.00008
+  ε² = 1.6974400000000005e-05
+  Ξ  = 0.0439 ± 0.0008
+  Cov(ε,Ξ) = 0.0
+
+fit (first pass):
+  c1 = 1.0027349506180085 ± 0.096190324250487486
+  c3 = 1.0165576701692507 ± 0.021813110596490173
+
+=== results ===
+curves used: 2
+degrees of freedom: 2
+c1 = 1.0027349506180085 ± 0.096190324250487486
+c3 = 1.0165576701692507 ± 0.021813110596490173
+χ² = 0.49319127909860166
+χ²/dof = 0.24659563954930083
+verdict: error model too conservative (χ²/dof < 0.5)
+z-scores vs canonical gauge: (c1-1)/Δc1=0.028432699851250232, (c3-1)/Δc3=0.75906964740347005
+residuals → ./results/chi2_fit/residuals.dat
+log       → ./results/chi2_fit/fit.log

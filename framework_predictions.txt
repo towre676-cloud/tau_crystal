@@ -1,0 +1,11 @@
+# Framework predictions for E29 connection
+type_identity: Ell_K3(τ,z) : Bord^spin_4 -> Jacobi
+protected_observable.generic_rank: 17
+protected_observable.specialized_rank: 29
+protected_observable.rank_jump: 12
+anomaly.root_number: -1 (odd rank expected)
+bsd.type_equality: ord_{s=1} L(E29,s) == rank(E29(Q))
+tmf_evaluation_equals_VOA_evaluation: true (target = 29)
+testables.c00_or_nearby_encodes_rank: true
+testables.height_determinant_order: ~1e36 (to check)
+testables.conductor_prime_visibility_in_twist: expect 17 primes

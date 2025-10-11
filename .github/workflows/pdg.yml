@@ -1,0 +1,17 @@
+name: PDG Gate
+on: [push, pull_request]
+jobs:
+  pdg:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Normalize line endings
+        run: |
+          git config core.autocrlf false
+          git config core.eol lf
+      - name: PDG comparison
+        run: |
+          set -euo pipefail
+          umask 022
+          export LC_ALL=C LANG=C
+          bash ci/check_pdg.sh

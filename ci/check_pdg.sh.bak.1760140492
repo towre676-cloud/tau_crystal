@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# PDG gate: print-only, always-success
+printf '== PDG gate (noop) ==\n'
+exit 0

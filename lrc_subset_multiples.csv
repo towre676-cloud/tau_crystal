@@ -1,0 +1,7 @@
+N,k,family,a_list,cont_s_num,cont_s_den,cont_max_num,cont_max_den,cont_OK,disc_s_num,disc_s_den,disc_max_num,disc_max_den,disc_OK,s_den_divides_N,agree_max,why_miss,thr_num,thr_den,slack_num,slack_den,beats_bound
+5,4,AP,"1 2 3 4",1,5,1,5,YES,1,5,1,5,YES,YES,YES,,1,5,0,1,NO
+5,4,COPRIME,"4 1 3 2",1,5,1,5,YES,1,5,1,5,YES,YES,YES,,1,5,0,1,NO
+5,4,COPRIME,"1 3 2 4",1,5,1,5,YES,1,5,1,5,YES,YES,YES,,1,5,0,1,NO
+5,4,COPRIME,"1 3 2 4",1,5,1,5,YES,1,5,1,5,YES,YES,YES,,1,5,0,1,NO
+5,4,CLUSTER,"4 2 3 1",1,5,1,5,YES,1,5,1,5,YES,YES,YES,,1,5,0,1,NO
+5,4,CLUSTER,"2 1 3 4",1,5,1,5,YES,1,5,1,5,YES,YES,YES,,1,5,0,1,NO

@@ -1,0 +1,16 @@
+# Elliptic Curve E29 (Rank 29, Elkies–Klagsbrun 2024)
+Weierstrass: y^2 + x*y = x^3 + a4*x + a6
+a1: 1
+a2: 0
+a3: 0
+a4: -27006183241630922218434652145297453784768054621836357954737385
+a6: 55258058551342376475736699591118191821521067032535079608372404779149413277716173425636721497
+discriminant_sign: -1
+prime_factors: 2^19 3^7 5^7 7^4 11^5 13^3 17^4 31^3 41^2 43^2 61^2 233 241^2 4139
+composite_factor_digits: 129
+conductor_primes: 17
+root_number: -1
+expected_rank_parity: odd
+proven_rank: 29
+generic_fibration_rank: 17
+rank_jump: 12

@@ -1,0 +1,10 @@
+# Elkies–Klagsbrun K3 surface fibration
+fibration_type: elliptic_fibration
+base: P^1
+generic_fiber: elliptic_curve
+generic_mordell_weil_rank: 17
+mw_lattice_type: Z^17
+specialization_target: E29_curve
+special_fiber_rank: 29
+rank_increase: 12
+interpretation: exceptional divisors + sections become rational at the special fiber; should map to BPS multiplicities in Ell_K3

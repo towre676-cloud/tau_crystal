@@ -1,0 +1,11 @@
+EqID,Equation,Anchor,Repo,Test
+C1,Obs=pi_!(1)=Index_{E,tau}(D_M),Quantization as theorem,docs/quantization_index.md,tests/atlas/test_C1.py
+C5,Eval_seq=Eval_asm=Eval_lab=0-trunc(Lambda),Mathematical ontology explanation,scripts/eval/triangle.ts,tests/atlas/test_C5.py
+M1,Ell_X=pi_!(Â e^{tauhat}),Topological Compiler Manual,receipts/elliptic,tests/atlas/test_M1.py
+M6,parity a_-n~(-1)^p a_n,Computational proof unification,scripts/elliptic/parity_check.py,tests/atlas/test_M6.py
+T4,d_tau^2=0,Sharing discoveries impact,docs/verification_algebra.md,tests/atlas/test_T4.py
+T5,R^2=0 and d_tau R + R d_tau = 0,Lost works exploration,receipts/reflection,tests/atlas/test_T5.py
+A1,Reg_q=L_q'(E,1)/Omega_E,HEO and elliptic genus,receipts/qcro,tests/atlas/test_A1.py
+V2,N_ab^c=sum S_{a nu} S_{b nu} S_{c nu}/S_{0 nu},Verlinde Sobolev Dixmier,scripts/verlinde/fusion.py,tests/atlas/test_V2.py
+H1,int_{∂M} J_tau = int_M d_tau R,Quantum field theory explanation,scripts/holo/flux_balance.py,tests/atlas/test_H1.py
+R1,C(N)=aN+b with dC/dN=a,Computational proof unification,receipts/assurance,tests/atlas/test_R1.py

@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+cd "$HOME/Desktop/tau_crystal/tau_crystal" || exit 1
+set +H; set -euo pipefail; umask 022; export LC_ALL=C LANG=C
+
+json_val(){ grep -Eo "\"$1\"[[:space:]]*:[[:space:]]*[0-9.eE+-]+" tau_crystal/data/pdg/constants.json | awk -F: "{print \$2}" | head -1; }
+
+check_thetaW(){
+  [ -f obstruction_card/out/thetaW.csv ] || { echo "θ_W file missing" >&2; return 1; }
+  [ -f tau_crystal/data/pdg/constants.json ] || { echo "PDG constants missing" >&2; return 1; }
+  local ref tol meas diff
+  ref=$(json_val thetaW); tol=$(json_val thetaW_tol)
+  meas=$(head -1 obstruction_card/out/thetaW.csv | tr -d "\r" | awk -F, "{print \$1+0}")
+  diff=$(awk -v a="$meas" -v b="$ref" "BEGIN{d=a-b;if(d<0)d=-d;den=(a+b)/2;if(den==0)den=1;print d/den;}")
+  if awk -v d="$diff" -v t="$tol" "BEGIN{exit(d>t)}"; then printf "θ_W   meas=%.6f  pdg=%.6f  Δ=%.3e  OK\n" "$meas" "$ref" "$diff"; else printf "θ_W   meas=%.6f  pdg=%.6f  Δ=%.3e  FAIL\n" "$meas" "$ref" "$diff"; return 1; fi
+}
+
+check_alphaEM(){
+  [ -f obstruction_card/out/alpha_EM.csv ] || { echo "α_EM file missing" >&2; return 1; }
+  [ -f tau_crystal/data/pdg/constants.json ] || { echo "PDG constants missing" >&2; return 1; }
+  local pdg tol
+  pdg=$(json_val alphaEM); tol=$(json_val alphaEM_tol)
+  awk -v pdg="$pdg" -v tol="$tol" 'FNR==1{meas=$1} END{delta=(meas-pdg)/pdg; ok=((delta<0?-delta:delta)<tol); printf "α_EM  meas=%.12f  pdg=%.12f  Δ=%.3e  %s\n", meas, pdg, delta, (ok?"OK":"FAIL"); exit(!ok)}' obstruction_card/out/alpha_EM.csv /dev/null
+}
+
+check_GF(){
+  [ -f obstruction_card/out/G_F.csv ] || { echo "G_F file missing" >&2; return 1; }
+  [ -f tau_crystal/data/pdg/constants.json ] || { echo "PDG constants missing" >&2; return 1; }
+  local pdg tol
+  pdg=$(json_val G_F); tol=$(json_val G_F_tol)
+  awk -v pdg="$pdg" -v tol="$tol" 'FNR==1{meas=$1} END{delta=(meas-pdg)/pdg; ok=((delta<0?-delta:delta)<tol); printf "G_F   meas=%.12e  pdg=%.12e  Δ=%.3e  %s\n", meas, pdg, delta, (ok?"OK":"FAIL"); exit(!ok)}' obstruction_card/out/G_F.csv /dev/null
+}
+
+check_mZ(){
+  [ -f obstruction_card/out/m_Z.csv ] || { echo "m_Z file missing" >&2; return 1; }
+  [ -f tau_crystal/data/pdg/constants.json ] || { echo "PDG constants missing" >&2; return 1; }
+  local pdg tol
+  pdg=$(json_val m_Z); tol=$(json_val m_Z_tol)
+  awk -v pdg="$pdg" -v tol="$tol" 'FNR==1{meas=$1} END{delta=(meas-pdg)/pdg; ok=((delta<0?-delta:delta)<tol); printf "m_Z   meas=%.8f  pdg=%.8f  Δ=%.3e  %s\n", meas, pdg, delta, (ok?"OK":"FAIL"); exit(!ok)}' obstruction_card/out/m_Z.csv /dev/null
+}
+
+main_check_pdg(){ local fail=0; check_thetaW || fail=1; check_alphaEM || fail=1; check_GF || fail=1; check_mZ || fail=1; [ "$fail" -eq 0 ] && echo "All PDG comparisons passed" || { echo "At least one PDG comparison failed" >&2; return 1; }; }
+ local fail=0; check_thetaW || fail=1; check_alphaEM || fail=1; check_GF || fail=1; check_mZ || fail=1; check_CKM_PMNS || fail=1; [ "$fail" -eq 0 ] && echo "All PDG comparisons passed" || { echo "At least one PDG comparison failed" >&2; return 1; };
+  check_CKM_PMNS || fail=1

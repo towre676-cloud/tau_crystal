@@ -1,0 +1,3 @@
+[skip] k=2 N=5 (no denom divides)
+[skip] k=3 N=5 (no denom divides)
+[keep] k=4 N=5 hits learned denom

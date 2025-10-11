@@ -32,11 +32,11 @@
     },
     "q1_central_sigma_tsv": {
       "path": "tsv/elliptic_q1_central_sigma.tsv",
-      "sha256": "185d46208088d1b2668febf7c2df09311ba5a4050a5ee41f501f2022912f422c",
+      "sha256": "866db4fe8cd72af3f1384b4bd5ed52ce2fc460178121541a185196041560816a",
       "uncertainty": "two-run SEM (|Δ|/2)"
     }
   },
-  "merkle_root": "045150caa2b5ee2de1f25b37fbf22042100fbae23de996b193e95a746c54e04f",
+  "merkle_root": "f31ef98d4ba0c06035b877ccaf12794a87d4420ebd92aeb5d39cab86260827fa",
   "conditioning_certificate": {
     "threshold_rel_abs_diff": 0.1,
     "median_rel_abs_diff": 0.0001842,

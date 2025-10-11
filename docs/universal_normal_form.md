@@ -1,16 +1,47 @@
-# Universal Normal Form (CY3, ASCII)
+# CY3 Elliptic Genus — Canonical Normal Form
 
-Claim. For any Calabi–Yau threefold X (c1(TX)=0),
-  Ell_X(q,y) = (chi(X)/2) * phi_{0,3/2}(q,y)
-where phi_{0,3/2} is the universal weak Jacobi form (weight 0, index 3/2).
+**Statement.** For any Calabi–Yau threefold \(X\),
+\[
+\mathrm{Ell}_X(\tau,z)=\frac{\chi(X)}{2}\,\phi_{0,\frac{3}{2}}(\tau,z),
+\qquad \chi(X)=\int_X c_3(TX).
+\]
+The unique weak Jacobi form \(\phi_{0,\frac{3}{2}}\) relates to our computational
+building block \(C(\tau,z)\) by
+\[
+\phi_{0,\frac{3}{2}}(\tau,z)=\frac{1}{6}\,C(\tau,z),
+\]
+so \(\mathrm{Ell}_X=(\chi/12)\,C\).
 
-Quintic. chi = -200  =>  Ell_Quintic = -100 * phi_{0,3/2}.
+**Holomorphy.** For unitary compact \((0,2)\) SCFTs the elliptic genus is holomorphic
+in \((\tau,z)\) and transforms as a weak Jacobi form (weight 0, index \(m=c/6\)).
+On a CY\(^3\) (\(c=18\Rightarrow m=3/2\)) any apparent \(z\)-poles in intermediate
+\(\vartheta\)-ratios cancel across the three Chern roots; the finished invariant is poleless.
+The observed Laurent symmetry in \(y=e^{2\pi i z}\) reflects this holomorphy.
 
-Cubic factor (geometry). With c1=0, linear/quadratic symmetric polynomials vanish;
-the cubic symmetric polynomial equals 3*c3(TX). Our theta-product channel contracts
-against sum x_i^3, so the factor 3 appears automatically. In code units:
-  C(z;τ) := (1/6) * d^3/dz^3 Phi |_{z=0},  and  phi_{0,3/2} = C/6,
-hence the apparent -600 = 6 * (-100): (six from cubic derivative) * (chi/2).
+**Cubic contraction (CY\(^3\)).**
+With Chern roots \(x_i\) and
+\[
+\Phi(x;z,\tau)=\frac{\vartheta_1\!\big(\tfrac{x}{2\pi i}-z\big)}{\vartheta_1\!\big(\tfrac{x}{2\pi i}\big)}\,
+\frac{\vartheta_1'(0)}{\vartheta_1(-z)},\qquad
+C(z,\tau)=\frac{1}{6}\,\partial_x^3\Phi(0;z,\tau),
+\]
+the Witten-class expansion gives
+\[
+\prod_{i=1}^3\Phi(x_i;z,\tau)=1+C\,\sum_i x_i^3+\cdots.
+\]
+On a CY\(^3\), \(c_1=0\) and \(\sum_i x_i^3 = c_1^3-3c_1c_2+3c_3=3c_3\), hence
+\[
+\mathrm{Ell}_X(\tau,z)=3\,C(\tau,z)\!\int_X\!c_3 \;=\; \chi(X)\,\tfrac{C}{2}
+\;=\;\frac{\chi(X)}{2}\,\phi_{0,\frac{3}{2}}.
+\]
 
-Holomorphy. Pole cancellation across the three Chern roots yields a holomorphic
-weak Jacobi form. Numerically: stable charge-conjugation symmetry; no blowups.
+**Quintic specialization.** \(\chi(X)=-200\) so
+\[
+\mathrm{Ell}_X=-100\,\phi_{0,\frac{3}{2}}=-600\,\frac{C}{6}=-600\,C/6.
+\]
+The familiar “\(-600\)” is \(3\times\!\int_X c_3\), i.e. the cubic symmetric factor times Euler characteristic.
+
+**What the code computes.** \(C\) via third \(x\)-derivative of \(\Phi\) at \(x=0\);
+Fourier coefficients are extracted by two-\(\tau\) linear solves. Conditioning audit
+(Branch `work/resume-20251005`) shows median \(1.842\times10^{-4}\), P90 \(4.220\times10^{-4}\).
+Receipt Merkle (remote): see `tsv/elliptic_pass2_receipt.json`.
