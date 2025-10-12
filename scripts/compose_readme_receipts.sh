@@ -54,6 +54,6 @@ w "root(A)=root(B)=57f0ffa07c3fd1830a59d254acf0c92bafa7825d053bdc9af839ccb4ba9eb
 w ""
 w "Receipt field glossary (one-liners)"
 w ""
-w "kind chart (loop|family|feed|sw_pf) · steps/tau_points/z_points discretization · seed twist · phase_frac circle holonomy · root_sha256 Merkle root · file TSV source · rows,res_L1,res_Linf residuals. Aux: LEAVES -> path to <u>\\t<leaf_hash> for first-difference forensics."
+w "kind chart (loop|family|feed|sw_pf) · steps/tau_points/z_points discretization · seed twist · phase_frac circle holonomy · root_sha256 Merkle root · file TSV source · rows,res_L1,res_Linf residuals. Aux: LEAVES -> path to <u>\t<leaf_hash> for first-difference forensics."
 sed -i 's/\r$//' "$OUT" 2>/dev/null || true
 printf "[OK] Wrote %s\n" "$OUT"
