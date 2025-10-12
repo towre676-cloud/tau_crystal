@@ -1,0 +1,7 @@
+To https://github.com/towre676-cloud/tau_crystal.git
+   667a1b85..f8e21ac0  work/resume-20251005 -> work/resume-20251005
+To https://github.com/towre676-cloud/tau_crystal.git
+ * [new tag]           v1.3.0-rc1 -> v1.3.0-rc1
+ ! [rejected]          elliptic-pass2-5c59e489033a -> elliptic-pass2-5c59e489033a (already exists)
+error: failed to push some refs to 'https://github.com/towre676-cloud/tau_crystal.git'
+hint: Updates were rejected because the tag already exists in the remote.
