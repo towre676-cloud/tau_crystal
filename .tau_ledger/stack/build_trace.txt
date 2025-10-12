@@ -1,0 +1,51 @@
++ set +H
++ set -euo pipefail
++ umask 022
++ export LC_ALL=C
++ LC_ALL=C
++ trap 'echo "[ERROR] line $LINENO status=$?" >&2' ERR
++ '[' .tau_ledger/stack/quintic_root.txt '!=' '' ']'
++ geo=quintic
++ tors=geo/quintic/torsion.txt
++ out_json=.tau_ledger/stack/quintic_stack.json
++ out_root=.tau_ledger/stack/quintic_root.txt
++ need sort
++ command -v sort
++ need awk
++ command -v awk
++ need sed
++ command -v sed
++ need tr
++ command -v tr
++ '[' -f geo/quintic/torsion.txt ']'
++ '[' -s geo/quintic/torsion.txt ']'
++ '[' -x ./scripts/atlas/make_fiber.sh ']'
++ dir=.tau_ledger/stack/quintic
++ mkdir -p .tau_ledger/stack/quintic
++ tr -d '\r'
++ sed 's/#.*$//'
++ sed '/^[[:space:]]*$/d'
++ sort
++ uniq
++ :
++ IFS=
++ read -r alpha
++ '[' -z 0 ']'
+++ printf %s 0
+++ tr -cs A-Za-z0-9_- _
++ tag=0
++ leaf=.tau_ledger/stack/quintic_alpha0.json
++ ./scripts/atlas/make_fiber.sh quintic 0 .tau_ledger/stack/quintic_alpha0.json
+Traceback (most recent call last):
+  File "C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\atlas\stack_pack.py", line 43, in <module>
+    if __name__=="__main__": main()
+                             ~~~~^^
+  File "C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\atlas\stack_pack.py", line 42, in main
+    dump(fiber,outp)
+    ~~~~^^^^^^^^^^^^
+  File "C:\Users\Cody\Desktop\tau_crystal\tau_crystal\scripts\atlas\stack_pack.py", line 12, in dump
+    with open(p,"w",encoding="utf-8",newline="\\n") as f: f.write(s)
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: illegal newline value: \n
+++ echo '[ERROR] line 21 status=1'
+[ERROR] line 21 status=1

@@ -1,0 +1,1 @@
+{"automorphy":{"S":"0.0","T":"0.0","elliptic":"0.0"},"coeffs":{"0":{"0":-200}},"geometry":{"chi":-200,"tag":"quintic"},"grid":{"tau":["i","0.5i","0.7745966692i","1.154700538i"],"z":["0","1/6","1/3","1/2"]},"mde":{"coeffs":{"a0":"1","a1":"0","a2":"0","a3":"0","a4":"0"},"order":4,"sup_resid":"0.0"},"nmax":120,"physics":{},"polars":[],"rmax":6,"slices":{"tau0":-200}}
