@@ -4,7 +4,21 @@ This repository emits cryptographically sealed receipts for differential-charact
 
 ### Reproduce (single lines)
 
-
+    bash
+if command -v sed >/dev/null 2>&1; then sed -i 's/\r$//' scripts/*.sh 2>/dev/null; fi
+    bash scripts/dchar_loop.sh --steps 64 --seed 0
+    bash scripts/dchar_loop.sh --steps 64 --seed 1
+    bash scripts/dchar_naturality.sh 8 0
+    bash scripts/dchar_refine.sh 0 "8,16,32,64"
+    bash scripts/dchar_family.sh family-A
+    bash scripts/dchar_family.sh family-B
+    bash scripts/dchar_modcov.sh S   --weight 0 --index 1
+    bash scripts/dchar_modcov.sh T:3 --weight 0 --index 1
+printf 'u\ta\ta1\ta2\tp2\tp1\tp0\tseed\n1\t1\t1\t1\t1\t0\t-1\tswpf0\n2\t1\t0\t-1\t1\t0\t-1\tswpf0\n' > A.tsv
+cp A.tsv B.tsv
+    bash scripts/sw_certify.sh A.tsv B.tsv A B swpf0
+    bash scripts/sw_diff_first.sh A.tsv B.tsv swpf0
+    # end code block marker removed
 
 Concrete outputs
 
