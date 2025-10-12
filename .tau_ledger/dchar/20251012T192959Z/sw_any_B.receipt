@@ -1,0 +1,7 @@
+kind=sw_any
+file=B.tsv
+tag=B
+rows=0
+phase_frac=0.0
+root_sha256=5ea156216dae8c6d2817cde88e03758dc0b2e715dfd1e04cdd7987b34d0143fb
+leaves_path=.tau_ledger/dchar/20251012T192959Z/sw_any_B.leaves.txt
