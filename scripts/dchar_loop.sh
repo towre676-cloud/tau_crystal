@@ -4,6 +4,11 @@ set -euo pipefail; set +H; umask 022; export LC_ALL=C
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"; REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 # shellcheck source=scripts/dchar_lib.sh
 source "${SCRIPT_DIR}/dchar_lib.sh"
+command -v log_info  >/dev/null 2>&1 || log_info(){  printf '[INFO] %s\n'  "$*"; }
+command -v log_ok    >/dev/null 2>&1 || log_ok(){    printf '[OK] %s\n'    "$*"; }
+command -v log_warn  >/dev/null 2>&1 || log_warn(){  printf '[WARN] %s\n'   "$*" >&2; }
+command -v log_error >/dev/null 2>&1 || log_error(){ printf '[ERROR] %s\n'  "$*" >&2; }
+command -v log_fatal >/dev/null 2>&1 || log_fatal(){ log_error "$@"; exit 1; }
 if [ -f "${SCRIPT_DIR}/utils.sh" ]; then source "${SCRIPT_DIR}/utils.sh"; fi
 
 usage(){ echo "Usage: $0 [--steps N] [--seed S]"; }
