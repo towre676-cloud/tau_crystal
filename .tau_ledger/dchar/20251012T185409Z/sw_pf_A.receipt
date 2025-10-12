@@ -1,0 +1,9 @@
+kind=sw_pf
+file=A.tsv
+method=A
+rows=2
+phase_frac=0.91621910414404428
+res_L1=2
+res_Linf=2
+res_u_at_max=2
+root_sha256=57f0ffa07c3fd1830a59d254acf0c92bafa7825d053bdc9af839ccb4ba9ebe06

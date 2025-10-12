@@ -1,0 +1,7 @@
+kind=sw_any
+file=pf_dual.tsv
+tag=pfD
+rows=0
+phase_frac=0.0
+root_sha256=d7f5d72815dc0901cf96695b192e0ac8356d0029b32d148267af44472b5c287a
+leaves_path=.tau_ledger/dchar/20251012T203051Z/sw_any_pfD.leaves.txt

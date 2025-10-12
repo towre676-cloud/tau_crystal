@@ -1,0 +1,7 @@
+kind=sw_any
+file=pf_S_Tc_int_can.tsv
+tag=B
+rows=0
+phase_frac=0.0
+root_sha256=65b9df46b44c7228d52eb175908bb0a2d80ce80722ff88748e4c1199c5329075
+leaves_path=.tau_ledger/dchar/20251012T212743Z/sw_any_B.leaves.txt

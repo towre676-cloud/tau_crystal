@@ -1,0 +1,7 @@
+kind=sw_any
+file=nek_dual.tsv
+tag=A
+rows=0
+phase_frac=0.0
+root_sha256=593cf7a67e08cb94e9762ae1d7027cfef4c9096b0a43c60a595acb025ebc7e2c
+leaves_path=.tau_ledger/dchar/20251012T203120Z/sw_any_A.leaves.txt

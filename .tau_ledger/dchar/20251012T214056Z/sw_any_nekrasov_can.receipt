@@ -1,0 +1,7 @@
+kind=sw_any
+file=nekrasov_int_can.tsv
+tag=nekrasov_can
+rows=0
+phase_frac=0.0
+root_sha256=813b141ca848c92614eaaf61c1203d031650bbace17801974b6faa0fde45ef4a
+leaves_path=.tau_ledger/dchar/20251012T214056Z/sw_any_nekrasov_can.leaves.txt

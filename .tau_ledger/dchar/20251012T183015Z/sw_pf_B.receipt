@@ -1,0 +1,9 @@
+kind=sw_pf
+file=/tmp/tmp.c5idkHisLn
+method=B
+rows=2
+phase_frac=0.19931340794037333
+res_L1=2.000006
+res_Linf=2.000003
+res_u_at_max=2
+root_sha256=4f5ed065893c2018d66059f4c9ea20005ab274ee75870fa0ab7a0fb073e8cb27

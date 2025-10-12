@@ -1,0 +1,9 @@
+kind=sw_pf
+file=/tmp/tmp.T8ahsGPUg0
+method=A
+rows=2
+phase_frac=0.00085273736187874
+res_L1=2
+res_Linf=2
+res_u_at_max=2.00000
+root_sha256=e782eaad6f5b270aa515941ff8bb4d4a95a2e7b81ec518ee10f3cd4a7757b89f

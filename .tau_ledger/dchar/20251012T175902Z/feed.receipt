@@ -1,0 +1,4 @@
+kind=feed
+file=/tmp/example.tsv
+phase_frac=0.0
+root_sha256=bfb905a7a2c8dca6798ee9130d53419b6b6130f3b645de787815ecbf3f36f570

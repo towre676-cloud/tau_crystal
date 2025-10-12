@@ -1,0 +1,7 @@
+kind=sw_any
+file=pf_S_Tc_int.tsv
+tag=pf_S_Tc_int
+rows=0
+phase_frac=0.0
+root_sha256=4e3482b84d5f7c294ce3224f48d8e29887c2f256f0cd6688cfd112ccd116f2cf
+leaves_path=.tau_ledger/dchar/20251012T212513Z/sw_any_pf_S_Tc_int.leaves.txt

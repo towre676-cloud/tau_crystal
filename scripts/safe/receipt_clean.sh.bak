@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set +H
+set -euo pipefail
+IFS=$(printf '\n\t')
+
+REG_DIR=".tau_ledger/registry"
+OUT=".tau_ledger/REGISTRY_ALL.tsv"
+set +e; files=$(ls -1 "$REG_DIR"/index_*.tsv "$REG_DIR"/history_*.tsv 2>/dev/null); set -e
+[ -n "$files" ] || { printf "No registry shards found. Run receipt_index.sh and/or receipt_history.sh first.\n" >&2; exit 1; }
+
+printf 'ts\ttype\tsha256\tmerkle_root\tsize_bytes\tsource\tpath\tgit_commit\tgit_status\n' > "$OUT"
+
+awk -F"\t" -v OFS="\t" 'FNR==1 { if (NR==1) next; else next }  # skip all headers after the first
+FNR>1 {
+  gsub(/\r$/, "", $0)
+  # Fix lines where git_commit and git_status were fused (8 fields total, last endswith "committed")
+  if (NF==8 && $8 ~ /committed$/) { sub(/committed$/, "", $8); print $1,$2,$3,$4,$5,$6,$7,$8,"committed"; next }
+  # Truncate extras if ever present; pad if short
+  if (NF>9) { print $1,$2,$3,$4,$5,$6,$7,$8,$9; next }
+  if (NF==9) { print; next }
+  if (NF<9) { $9=$9; for (i=NF+1;i<=9;i++) $i=""; print; next }
+}

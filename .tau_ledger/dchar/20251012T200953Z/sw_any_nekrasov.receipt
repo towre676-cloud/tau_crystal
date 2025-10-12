@@ -1,0 +1,7 @@
+kind=sw_any
+file=nekrasov.tsv
+tag=nekrasov
+rows=0
+phase_frac=0.0
+root_sha256=34c0ef5d7f11bf960581a254f4572ef8ca0e08de21b66238f22530efbf2bf854
+leaves_path=.tau_ledger/dchar/20251012T200953Z/sw_any_nekrasov.leaves.txt

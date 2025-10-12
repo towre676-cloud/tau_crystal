@@ -1,0 +1,9 @@
+kind=sw_pf
+file=/tmp/pfA.tsv
+method=A
+rows=0
+phase_frac=0.0
+res_L1=0.0
+res_Linf=0.0
+res_u_at_max=
+root_sha256=0ead31840e810b270a17418f1a75a6857a8f06c6adece9b574e8279ac14d63a1

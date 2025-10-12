@@ -1,0 +1,7 @@
+kind=sw_any
+file=pf_scaled.tsv
+tag=pfscale
+rows=0
+phase_frac=0.0
+root_sha256=2ca80c9568ed3578f12bb8507cb77439db8a366113cae87dd93c0814b28cf93c
+leaves_path=.tau_ledger/dchar/20251012T201512Z/sw_any_pfscale.leaves.txt

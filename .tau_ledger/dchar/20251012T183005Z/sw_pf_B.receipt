@@ -1,0 +1,9 @@
+kind=sw_pf
+file=/tmp/tmp.4KYudSzTtQ
+method=B
+rows=2
+phase_frac=0.01414166608623524
+res_L1=2.0001999999999995
+res_Linf=2.0000999999999998
+res_u_at_max=2.00000
+root_sha256=f474cd029f9757c7e89b363eac6dcde66848cf517a4c8df8db732336bb777f32

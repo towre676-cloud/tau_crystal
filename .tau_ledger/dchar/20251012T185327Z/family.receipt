@@ -1,0 +1,5 @@
+kind=family
+tau_points=5
+z_points=4
+seed=family-A
+root_sha256=b6cb2e0fad4f294c52059443b9d1df015f00c0fc9938076ce79284c6c75192a9

@@ -1,0 +1,7 @@
+kind=sw_any
+file=nek_q6.tsv
+tag=A
+rows=0
+phase_frac=0.0
+root_sha256=79057ee9008454a76520e10c79a05fbbda7a24dd94efffdc196e15808d654e6d
+leaves_path=.tau_ledger/dchar/20251012T203207Z/sw_any_A.leaves.txt

@@ -1,0 +1,7 @@
+kind=sw_any
+file=picard_fuchs.tsv
+tag=pf
+rows=0
+phase_frac=0.0
+root_sha256=98b2e767f9768139f5fe4d7f78499dd2d6d4b58c851e481cfc9dd81367a83213
+leaves_path=.tau_ledger/dchar/20251012T201003Z/sw_any_pf.leaves.txt

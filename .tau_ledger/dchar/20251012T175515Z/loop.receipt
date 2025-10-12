@@ -1,0 +1,5 @@
+kind=loop
+steps=32
+seed=0
+phase_frac=0.02064556483576041
+root_sha256=79a436e14cbfd147d9ce238734f12da56863b2672d62b6d3563efeec50c72173
