@@ -15,7 +15,7 @@ mkdir -p "$OUTDIR"
 normalize_file(){
   # strip Windows CR if present
   if command -v sed >/dev/null 2>&1; then
-    sed -i "s/$//" "$1" || true
+    sed -i "s/$//" "$1" || true
   fi
 }
 
