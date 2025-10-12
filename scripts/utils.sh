@@ -5,7 +5,7 @@
 if [ -n "${TAU_UTILS_LOADED:-}" ]; then
     return 0
 fi
-export TAU_UTILS_LOADED=1
+TAU_UTILS_LOADED=1
 
 set -euo pipefail
 set +H
