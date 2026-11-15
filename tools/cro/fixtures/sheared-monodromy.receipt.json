@@ -1,0 +1,19 @@
+{
+  "kind": "tau-cro-receipt/1",
+  "input_sha256": "34878233917d6990e0597c5cc8c2c8c983777acaea0ac5d35d8a3dd846a6fadc",
+  "result": "torsion_obstruction",
+  "order": 2,
+  "correction": [
+    0,
+    1
+  ],
+  "witnesses": [
+    {
+      "modulus": 4,
+      "functional": [
+        1,
+        0
+      ]
+    }
+  ]
+}

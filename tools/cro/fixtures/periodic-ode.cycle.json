@@ -1,0 +1,8 @@
+{
+  "kind": "tau-cro-ode-cycle/1",
+  "dimension": 2,
+  "windows": [
+    {"duration":"1/2","N":[[0,4],[0,0]],"forcing":[2,0]},
+    {"duration":"1/2","N":[[0,4],[0,0]],"forcing":[2,0]}
+  ]
+}

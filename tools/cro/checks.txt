@@ -1,0 +1,26 @@
+test_bad_complex (test_cro.Certificates.test_bad_complex) ... ok
+test_empty_shapes_and_large_ints (test_cro.Certificates.test_empty_shapes_and_large_ints) ... ok
+test_fixtures (test_cro.Certificates.test_fixtures) ... ok
+test_rectangular_integer_basis_changes (test_cro.Certificates.test_rectangular_integer_basis_changes) ... ok
+test_tamper (test_cro.Certificates.test_tamper) ... ok
+test_twisted_triangle (test_cro.Certificates.test_twisted_triangle) ... ok
+test_cli_replays_and_rejects_tampering (test_transport.TransportTests.test_cli_replays_and_rejects_tampering) ... ok
+test_invalid_window (test_transport.TransportTests.test_invalid_window) ... ok
+test_noncommuting_windows (test_transport.TransportTests.test_noncommuting_windows) ... ok
+test_nonzero_second_order_forcing (test_transport.TransportTests.test_nonzero_second_order_forcing) ... ok
+test_order_two_and_subdivision (test_transport.TransportTests.test_order_two_and_subdivision) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.693s
+
+OK
+Lean (version 4.20.0, x86_64-unknown-linux-gnu, commit 77cfc4d1a4f6, Release)
+'CRO.modularObstruction' does not depend on any axioms
+'CRO.rationalObstruction' does not depend on any axioms
+'CRO.shearHasOrderTwo' depends on axioms: [propext]
+valid rational_obstruction
+valid glues
+valid torsion_obstruction
+valid not_cocycle
+valid torsion_obstruction
+valid torsion_obstruction

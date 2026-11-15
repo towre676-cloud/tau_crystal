@@ -1,0 +1,8 @@
+{
+  "kind": "tau-cro-receipt/1",
+  "input_sha256": "c7d6b6090455839f3e0313f28041140167074dd9ff805c2883f0809f61a0c84d",
+  "result": "rational_obstruction",
+  "functional": [
+    1
+  ]
+}

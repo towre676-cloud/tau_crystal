@@ -1,0 +1,7 @@
+{
+  "kind": "tau-cro-receipt/1",
+  "input_sha256": "90e43ba17503391b5ab7f57789c649b567c69d0c2d542e568784eae59910937e",
+  "result": "not_cocycle",
+  "row": 0,
+  "value": 1
+}

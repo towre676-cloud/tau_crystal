@@ -1,0 +1,9 @@
+{
+  "kind": "tau-cro-receipt/1",
+  "input_sha256": "6949fbc16c4fee57a277429d767790d3085dcecc11d99abceb939a36c65dd16f",
+  "result": "glues",
+  "correction": [
+    0,
+    2
+  ]
+}
