@@ -6,7 +6,30 @@ on:
 permissions:
   contents: write
 jobs:
+  windows-smoke:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: false
+      - name: Compile and test on actual Windows runner
+        shell: pwsh
+        run: |
+          go test ./...
+          go build -trimpath -ldflags='-H=windowsgui' -o MothCompanion.exe ./cmd/moth
+          ./tests/windows_selftest.ps1
+          Get-Content tests/Moth-Windows-QA.json
+      - name: Save Windows QA report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: moth-windows-native-qa
+          path: tests/Moth-Windows-QA.json
+          if-no-files-found: ignore
   release:
+    needs: windows-smoke
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
