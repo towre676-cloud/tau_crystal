@@ -1,2 +1,0 @@
-origin	https://github.com/leanprover-community/mathlib4 (fetch)
-origin	https://github.com/leanprover-community/mathlib4 (push)

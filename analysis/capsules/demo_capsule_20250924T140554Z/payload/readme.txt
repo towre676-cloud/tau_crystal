@@ -1,1 +1,0 @@
-Example: synthetic morphometric payload

@@ -1,6 +1,0 @@
-{
-"schema":"taucrystal/receipt/v1",
-"id":"hello",
-"payload":{"msg":"federation test"},
-"provenance":{"url":"https://example.org/hello.receipt.json"}
-}

@@ -1,1 +1,0 @@
-# Morphometric Receipt (empty run)

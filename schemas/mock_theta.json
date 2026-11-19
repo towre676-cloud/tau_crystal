@@ -1,9 +1,0 @@
-{
-  "level": 7,
-  "weight": "1/2",
-  "holomorphic_part": "f(q)",
-  "shadow_g": "g(τ)",
-  "defect_norm": "L2",
-  "threshold": 1e-6,
-  "witness_sha256": "UNSET"
-}

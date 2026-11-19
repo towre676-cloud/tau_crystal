@@ -1,3 +1,0 @@
-# Lean 4 Formalization Notes (HEO)
-
-The project root is `lean/HEO`. Build locally or in CI with `lake build`. The main library is `HEO/Core.lean`, which defines the indicator `X`, the partial sums, the Cesàro density, and the limsup operator `H`. Three theorems are stated as goals—finite implies zero, finite surgery invariance, and periodic rationality—and are currently scaffolded with `sorry` so the CI is non-blocking. The immediate next move is to replace the single combinatorial bound used inside `density_bounds` with a short auxiliary lemma that records `X ∈ {0,1}` and bounds the sum by the period or by the cardinality of the support, after which pin mathlib to a commit for reproducibility.

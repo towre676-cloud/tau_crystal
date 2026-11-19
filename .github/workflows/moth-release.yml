@@ -1,0 +1,40 @@
+name: Moth Companion Windows and Pi Release
+on:
+  push:
+    branches: [moth-companion-public]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Test companion and witness
+        run: |
+          go test -race ./...
+          go vet ./...
+          node --check ui/app.js
+          bash tests/pi_capture_fixture.sh
+      - name: Build distributables
+        run: |
+          mkdir -p dist
+          GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -trimpath -ldflags='-s -w -H=windowsgui' -o dist/MothCompanion.exe ./cmd/moth
+          GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -trimpath -ldflags='-s -w' -o dist/moth-witness-linux-arm64 ./cmd/witness
+          cp README.md dist/README.md
+          mkdir -p dist/hardware/pi dist/hardware/firmware dist/docs dist/tests
+          cp hardware/pi/capture_and_witness.sh dist/hardware/pi/
+          cp hardware/firmware/MothMotionController.ino dist/hardware/firmware/
+          cp docs/HARDWARE_AND_WINDOWS_QA.md docs/RESURRECTION_LEDGER.md dist/docs/
+          cp tests/windows_selftest.ps1 dist/tests/
+          ( cd dist && zip -q MothCompanion-Windows.zip MothCompanion.exe README.md hardware/pi/capture_and_witness.sh hardware/firmware/MothMotionController.ino docs/HARDWARE_AND_WINDOWS_QA.md docs/RESURRECTION_LEDGER.md tests/windows_selftest.ps1 )
+          ( cd dist && sha256sum MothCompanion.exe MothCompanion-Windows.zip moth-witness-linux-arm64 > SHA256SUMS.txt )
+      - name: Create or update public tagged release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view moth-companion-v0.1.1 >/dev/null 2>&1 || gh release create moth-companion-v0.1.1 --target "$GITHUB_SHA" --title 'Moth Companion 0.1.1 — Windows and Raspberry Pi' --notes 'Working local Windows companion, basic offline conversation, optional Ollama, signed witness receipts and actual media-file verification. Unsigned experimental binary. Hardware field validation outstanding.'
+          gh release upload moth-companion-v0.1.1 dist/MothCompanion.exe dist/MothCompanion-Windows.zip dist/moth-witness-linux-arm64 dist/SHA256SUMS.txt --clobber
