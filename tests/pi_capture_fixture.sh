@@ -29,7 +29,7 @@ export MOTH_CAPTURE_DIR="$TEST_DIR/captures"
 export MOTH_WITNESS_BIN="$ROOT/build/moth-witness-linux-amd64"
 export HOME="$TEST_DIR/home"
 mkdir -p "$HOME"
-"$ROOT/hardware/pi/capture_and_witness.sh" 1
+bash "$ROOT/hardware/pi/capture_and_witness.sh" 1
 DIR="$(find "$TEST_DIR/captures" -mindepth 1 -maxdepth 1 -type d | head -1)"
 [[ -n "$DIR" && -s "$DIR/camera.h264" && -s "$DIR/microphone.wav" ]]
 [[ -s "$DIR/camera.moth.json" && -s "$DIR/microphone.moth.json" ]]
